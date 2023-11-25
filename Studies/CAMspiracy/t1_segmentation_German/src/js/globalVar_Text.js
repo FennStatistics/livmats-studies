@@ -4,8 +4,7 @@ const textObj = {
    <header>
    <div class="row">
    <div class="column2">
-   <h2>Thank you for participating in a study by the Cognition, Action, and Sustainability Unit of the University of
-   Freiburg!</h2>
+   <h2>Vielen Dank für Ihre Teilnahme an einer Studie der Allgemeinen Psychologie der Universität Freiburg!</h2>
  </div>
    <div class="column">
    <img src="static/UniFreiburg_logo.png" alt="UniFreiburg_logo" style="width:70%; max-height: 150px; max-width: 150px;">
@@ -17,33 +16,31 @@ const textObj = {
  
  <main class="content-horizontal-center content-vertical-center">
    <div class="w-l text-justify">
-       <i> Important note in advance: You can always enlarge or reduce the text and images of the study so that you can
-           read them better: </i>
+       <i> Wichtiger Hinweis im Voraus: Sie können den Text und die Bilder der Studie jederzeit vergrößern oder verkleinern, damit Sie diese besser lesen können: </i>
        <ul>
            <li>
-               Windows: Hold down the <kbd>Ctrl</kbd> key and move your mouse wheel or press the <kbd>+</kbd> or
-               <kbd>-</kbd> key on your keyboard
+           Windows: Halten Sie die <kbd>Ctrl</kbd> Taste gedrückt und bewegen Sie Ihr Mausrad oder drücken Sie die <kbd>+</kbd> oder <kbd>-</kbd> Taste auf Ihrer Tastatur
            </li>
-           <li>Mac: Press and hold the <kbd>command</kbd> key and move your mouse wheel or press the <kbd>+</kbd> or
-               <kbd>-</kbd> key on your keyboard
+           <li>
+               Mac: Halten Sie die <kbd>command</kbd> Taste gedrückt und bewegen Sie Ihr Mausrad oder drücken Sie die <kbd>+</kbd> oder <kbd>-</kbd> Taste auf Ihrer Tastatur
+               </li>
        </ul>
        <br>
        <br>
        <section>
-           With our research, we aim to get a better understanding of human behavior and mental processes. For this
-           purpose, in the following study, your behavior will be measured (e.g., choices, reaction times, if you left fullscreen).
+       Mit unserer Forschung zielen wir darauf ab, ein besseres Verständnis des menschlichen Verhaltens und mentaler Prozesse zu erlangen. 
+       Zu diesem Zweck wird in der folgenden Studie Ihr Verhalten gemessen (z.B. Entscheidungen, Reaktionszeiten, ob Sie den Vollbildmodus verlassen haben).
        </section>
        <br>
        <section>
-           The duration of the study is <b>approximately 10 minutes</b>. At the bottom, you will see a progress bar,
-           progressively turning greener, symbolising your progress in the study. Please use a <strong>computer or
-               laptop with a keyboard</strong> for the study. Please ensure that you can
-           participate in the study without being disturbed.
+       Die Dauer der Studie beträgt <b>etwa 10 Minuten</b>. Unten sehen Sie eine Fortschrittsleiste, die sich zunehmend grüner färbt und Ihren Fortschritt in der Studie symbolisiert. 
+       Bitte benutzen Sie für die Studie einen <b>Computer oder Laptop mit Tastatur</b>. 
+       Bitte stellen Sie sicher, dass Sie an der Studie ungestört teilnehmen können.
        </section>
        <br>
        <section>
-           The aim of the study is to measure your attitude towards climate change. On the next pages you will find more information about the exact procedure of the study.
-           First of all, we would like to ask you to agree to the informed consent on the following page.
+       Das Ziel der Studie ist es, Ihre Einstellung zum Klimawandel zu messen. Auf den nächsten Seiten finden Sie weitere Informationen zum genauen Ablauf der Studie. 
+       Zunächst möchten wir Sie bitten, auf der folgenden Seite der informierten Einwilligung zuzustimmen.
        </section>
    </div>
  </main>
@@ -52,42 +49,42 @@ const textObj = {
  </form>
  
  <footer class="content-vertical-center content-horizontal-right">
-   To continue the study, please press &nbsp;
+   Um mit der Studie fortzufahren, drücken Sie bitte auf &nbsp;
    <button id="continue" type="submit" form="page-form">
-       Continue &rarr;
+       Weiter &rarr;
    </button>
  </footer>
    `,
    informCon: `
    <header>
-   <h2>Informed consent</h2>
+   <h2>Aufgeklärte Einwilligung</h2>
  </header>
  
  <main class="content-horizontal-center content-vertical-center">
    <div class="w-l text-justify">
        <section>
-           In the following you will receive information regarding your participation in the study. Please read it
-           carefully:
+       Im Folgenden erhalten Sie Informationen über Ihre Teilnahme an der Studie. Bitte lesen Sie diese sorgfältig durch:
        </section>
        <br>
        <section>
-       Thank you for considering participation in our online study. We want to emphasize that your involvement is completely voluntary, and you have the full freedom to withdraw 
-       your consent at any stage of the study without needing to provide any reasons.
+       Vielen Dank, dass Sie in Erwägung ziehen, an unserer Online-Studie teilzunehmen. Wir möchten betonen, dass Ihre Beteiligung vollkommen freiwillig ist und Sie 
+       jederzeit ohne Angabe von Gründen Ihre Einwilligung zurückziehen können.
        </section>
        <br>
        <section>
-       It's important for you to know that we do not collect any personal data during this study. Consequently, once the data collection phase is completed, the data becomes entirely anonymous, making it impossible to link any of the data back to you.
+       Es ist wichtig für Sie zu wissen, dass wir während dieser Studie keine persönlichen Daten erfassen. 
+       Folglich werden die Daten nach Abschluss der Datenerhebungsphase vollständig anonymisiert sein, so dass es unmöglich ist, irgendwelche Daten mit Ihnen in Verbindung zu bringen.
        </section>
        <br>
        <section>
-       Despite the anonymity, we kindly ask for your full concentration and attention while participating in the study. This will significantly contribute to the quality and reliability of our research.
+       Trotz der Anonymität bitten wir Sie freundlich um Ihre volle Konzentration und Aufmerksamkeit während der Teilnahme an der Studie. Dies trägt wesentlich zur Qualität und Zuverlässigkeit unserer Forschung bei.
        </section>
        <br>
        <section>
-       Finally, we plan to use the results and data from this study in future publications. However, be assured that all published material will be in an anonymized format. 
-       If you have any questions now or after the experiment, please contact Julius Fenn
-           (<a href="mailto:julius.fenn@psychologie.uni-freiburg.de">julius.fenn@psychologie.uni-freiburg.de</a>) or 
-           Christophe Becht (<a href="mailto:christophe.becht@students.uni-freiburg.de">christophe.becht@students.uni-freiburg.de</a>) or
+       Abschließend planen wir, die Ergebnisse und Daten aus dieser Studie in zukünftigen Veröffentlichungen zu verwenden. Seien Sie jedoch versichert, dass alle veröffentlichten Materialien in anonymisierter Form vorliegen werden. 
+       Wenn Sie jetzt oder nach dem Experiment Fragen haben, kontaktieren Sie bitte Julius Fenn 
+       (<a href="mailto:julius.fenn@psychologie.uni-freiburg.de">julius.fenn@psychologie.uni-freiburg.de</a>) oder 
+           Christophe Becht (<a href="mailto:christophe.becht@students.uni-freiburg.de">christophe.becht@students.uni-freiburg.de</a>) oder
            Prof. Andrea Kiesel
            (<a href="mailto:kiesel@psychologie.uni-freiburg.de">kiesel@psychologie.uni-freiburg.de</a>).
        </section>
@@ -98,10 +95,10 @@ const textObj = {
            <!-- BEGIN multiple choice -->
            <div class="page-item page-item-radio" id="page-item-ques_dummycam">
                <p class="text-left font-weight-bold" style="margin: 1rem 0 0.25rem">
-                   Please select one of the following options:
+               Bitte wählen Sie eine der folgenden Optionen:
                </p>
                <p class="small text-muted hide-if-empty" style="margin: 0.25rem 0">
-                   Refusal to the informed consent leads to the termination of the study.
+               Die Ablehnung der aufgeklärten Einwilligung führt zur Beendigung der Studie.
                </p>
  
                <table class="table-plain page-item-table">
@@ -118,8 +115,7 @@ const textObj = {
                            </td>
                            <td>
                                <label for="dummy_informedconsent" class="text-left">
-                                   I hereby confirm that I have understood the participant information described above
-                                   and that <strong>I agree</strong> to the above conditions of participation.
+                               Hiermit bestätige ich, dass ich die oben beschriebenen Teilnehmerinformationen verstanden habe und den oben genannten Teilnahmebedingungen <strong>zustimme</strong>.
                                </label>
                            </td>
                        </tr>
@@ -131,8 +127,7 @@ const textObj = {
                            </td>
                            <td>
                                <label for="dummy_informedconsent2" class="text-left">
-                                   I hereby confirm that I have understood the participant information described above
-                                   and that <strong>I do not agree</strong> to the above conditions of participation.
+                               Hiermit bestätige ich, dass ich die oben beschriebenen Teilnehmerinformationen verstanden habe und den oben genannten Teilnahmebedingungen <strong>nicht zustimme</strong>.
                                </label>
                            </td>
                        </tr>
@@ -159,96 +154,96 @@ const textObj = {
    <main class="content-horizontal-center content-vertical-center">
    <div class="w-l text-justify">
    <section>
-       You have not agreed to the informed consent. Unfortunately, this means that the study is over for you. You can
-       now close the screen. Press the <kbd>Esc</kbd> key to exit fullscreen mode. 
+       Sie haben der aufgeklärten Einwilligung nicht zugestimmt. Leider bedeutet das, dass die Studie für Sie beendet ist. Sie können
+       jetzt den Bildschirm schließen. Drücken Sie die <kbd>Esc</kbd>-Taste, um den Vollbildmodus zu beenden.
    </section>
- </div>
- </main>
+   </div>
+   </main>   
    `,
    exclusionCriteria: `
    <header>
-     <h2>Thank you for agreeing to the conditions of participation. </h2>
- </header>
- 
- <main class="content-horizontal-center content-vertical-center">
-     <div class="w-l text-justify">
-         <section>
-             Before we begin, we would like to draw your attention to the following rules during the online study:
-         </section>
-         <br>
-         <ul>
-             <li>Please answer the study in a focused manner.</li>
-             <li>Do not leave the browser screen of the study unless you are explicitly asked to do so. </li>
-             <li>Please read all instructions carefully and comply with them.</li>
-         </ul>
+   <h2>Vielen Dank für die Zustimmung zu den Teilnahmebedingungen.</h2>
+</header>
+
+<main class="content-horizontal-center content-vertical-center">
+   <div class="w-l text-justify">
+       <section>
+           Bevor wir beginnen, möchten wir Ihre Aufmerksamkeit auf die folgenden Regeln während der Online-Studie lenken:
+       </section>
+       <br>
+       <ul>
+           <li>Bitte beantworten Sie die Studie konzentriert.</li>
+           <li>Verlassen Sie den Browserbildschirm der Studie nicht, es sei denn, Sie werden ausdrücklich dazu aufgefordert.</li>
+           <li>Bitte lesen Sie alle Instruktionen sorgfältig durch und halten Sie sich an diese.</li>
+       </ul>
 <br>
 <br>
-We care about the quality of our survey data. For us to get the most accurate measures of your opinions, it is important that you provide thoughtful answers to each questions in this survey. 
+Uns ist die Qualität unserer Umfragedaten wichtig. Um ein möglichst genaues Bild Ihrer Meinungzu erhalten, ist es wichtig, dass Sie alle Fragen in dieser Umfrage sorgfältig beantworten.
 <br>
 <form id="page-form">
-<!-- see: https://www.qualtrics.com/blog/attention-checks-and-data-quality/ -->
-<!-- multiple choice + text field --> 
+<!-- siehe: https://www.qualtrics.com/blog/attention-checks-and-data-quality/ -->
+<!-- Mehrfachauswahl + Textfeld -->
 <div class="page-item page-item-radio" id="page-item-ques_dummycam">
- <p class="text-left font-weight-bold" style="margin: 1rem 0 0.25rem">
- Do you commit to providing thoughtful answers in this survey?
- </p>
- <p class="text-left small text-muted hide-if-empty" style="margin: 0.25rem 0">
- </p>
+<p class="text-left font-weight-bold" style="margin: 1rem 0 0.25rem">
+Verpflichten Sie sich, in dieser Umfrage wohlüberlegte Antworten zu geben?
+</p>
+<p class="text-left small text-muted hide-if-empty" style="margin: 0.25rem 0">
+</p>
 
- <table class="table-plain page-item-table">
-   <colgroup>
-     <col style="width: 7.5%">
-     <col style="width: 92.5%">
-   </colgroup>
+<table class="table-plain page-item-table">
+  <colgroup>
+    <col style="width: 7.5%">
+    <col style="width: 92.5%">
+  </colgroup>
 <tbody>
-<!--ans1--> 
+<!--ans1-->
 <tr>
- <td>
-   <input type="radio" name="commCheck" value="0" id="commCheck" required="">
- </td>
- <td>
-   <label for="commCheck" class="text-left">
-   I can't promise either way
-   </label>
- </td>
+<td>
+  <input type="radio" name="commCheck" value="0" id="commCheck" required="">
+</td>
+<td>
+  <label for="commCheck" class="text-left">
+  Ich kann weder das eine noch das andere versprechen
+  </label>
+</td>
 </tr>
-<!--ans2--> 
+<!--ans2-->
 <tr>
- <td>
-   <input type="radio" name="commCheck" value="1" id="commCheck2" required="">
- </td>
- <td>
-   <label for="commCheck2" class="text-left">
-   Yes, I will
-      </label>
- </td>
+<td>
+  <input type="radio" name="commCheck" value="1" id="commCheck2" required="">
+</td>
+<td>
+  <label for="commCheck2" class="text-left">
+  Ja, werde ich
+     </label>
+</td>
 </tr>
 <tr>
- <td>
-   <input type="radio" name="commCheck" value="2" id="commCheck3" required="">
- </td>
- <td>
-   <label for="commCheck3" class="text-left">
-   No, I will not
-      </label>
- </td>
+<td>
+  <input type="radio" name="commCheck" value="2" id="commCheck3" required="">
+</td>
+<td>
+  <label for="commCheck3" class="text-left">
+  Nein, werde ich nicht
+     </label>
+</td>
 </tr>
 </tbody>
 </table>
 </div>
-<!-- END multiple choice + text field --> 
+<!-- ENDE Mehrfachauswahl + Textfeld -->
 
 
-     </div>
- </main>
+   </div>
+</main>
 
- </form>
- 
- <footer class="content-vertical-center content-horizontal-right">
-     <button id="continue" type="submit" form="page-form">
-         Continue &rarr;
-     </button>
- </footer>
+</form>
+
+<footer class="content-vertical-center content-horizontal-right">
+   <button id="continue" type="submit" form="page-form">
+       Weiter &rarr;
+   </button>
+</footer>
    `,
    attentionCheck: `
    <header>
@@ -372,33 +367,33 @@ We care about the quality of our survey data. For us to get the most accurate me
    // Affective Imagery
   AffectiveImageryInst: `
   <header>
-  <h2>Instructions "Word Association Game" </h2>
+  <h2>Anweisungen "Wortassoziationsspiel" </h2>
 </header>
 
 <main class="content-horizontal-center content-vertical-center">
   <div class="w-l text-justify">
-      <strong>How it works...</strong>
+      <strong>Wie es funktioniert...</strong>
       <section>
-          On the top of the screen a word will be shown. Enter the first word that comes to your mind when reading that
-          word. Only if you really don't know that word, press <button
-              style="padding:2px; margin-left:0px; margin-right: 0px;" disabled="disabled">Unknown word</button>.
+          Oben auf dem Bildschirm wird ein Wort angezeigt. Geben Sie das erste Wort ein, das Ihnen in den Sinn kommt, wenn Sie dieses
+          Wort lesen. Drücken Sie nur auf <button
+              style="padding:2px; margin-left:0px; margin-right: 0px;" disabled="disabled">Unbekanntes Wort</button>, wenn Sie das Wort wirklich nicht kennen.
       </section>
       <br>
       <section>
-          Press <button style="padding:2px; margin-left:0px; margin-right: 0px;" disabled="disabled">Next
-              response</button> to add up to five words or press <button
-              style="padding:2px; margin-left:0px; margin-right: 0px;" disabled="disabled">No more
-              entries</button> if you can't think of any more.
+          Drücken Sie auf <button style="padding:2px; margin-left:0px; margin-right: 0px;" disabled="disabled">Nächste
+              Antwort</button>, um bis zu fünf Wörter hinzuzufügen, oder drücken Sie auf <button
+              style="padding:2px; margin-left:0px; margin-right: 0px;" disabled="disabled">Keine weiteren
+              Eingaben</button>, wenn Ihnen nichts mehr einfällt.
               <br>
               <br>
-              Use the <kbd>Enter</kbd> key or press the <button style="padding:2px; margin-left:0px; margin-right: 0px;" disabled="disabled">Next
-              response</button> button to add associations.
+              Verwenden Sie die <kbd>Enter</kbd> Taste oder drücken Sie auf den <button style="padding:2px; margin-left:0px; margin-right: 0px;" disabled="disabled">Nächste
+              Antwort</button>, um Assoziationen hinzuzufügen.
       </section>
       <br>
       <br>
-      <strong>  Some hints</strong>
+      <strong>Einige Hinweise</strong>
       <section>
-          Only give associations to the word on top of the screen (not to your previous responses!).
+          Geben Sie nur Assoziationen zu dem Wort am oberen Bildschirmrand an (nicht zu Ihren vorherigen Antworten!).
       </section>
   </div>
 </main>
@@ -407,9 +402,10 @@ We care about the quality of our survey data. For us to get the most accurate me
 
 <footer class="content-vertical-center content-horizontal-right">
   <button id="continue" type="submit" form="page-form">
-      Continue &rarr;
+      Weiter &rarr;
   </button>
 </footer>
+
   `,
   AffectiveImagery: `
   <main class="content-horizontal-center content-vertical-center">
@@ -477,34 +473,33 @@ We care about the quality of our survey data. For us to get the most accurate me
    // feedback question
   feedbackQues: `
   <header>
-    <h2>
-    Please answer the following last question if you wish:
-    </h2>
-  </header>
-  
-  <main class="content-horizontal-center content-vertical-center" >
+  <h2>
+    Bitte beantworten Sie die folgende letzte Frage, wenn Sie möchten:
+  </h2>
+</header>
+
+<main class="content-horizontal-center content-vertical-center">
   <div class="w-l">
     <form id="page-form" style="display: block;" autocomplete="off">
-<!-- multiline text text --> 
-<div class="page-item page-item-textarea" id="page-item-feedback_critic">
-  <p class="text-left font-weight-bold" style="margin: 1rem 0 0.25rem">
-  Do you have any feedback or criticism about the online study? 
-  </p>
-  <p class="text-left small text-muted hide-if-empty" style="margin: 0.25rem 0">
-  Any criticism or suggestions for improvement will be of great help in improving future studies. 
-  </p>
-  <textarea name="feedback_critic" class="w-100" rows="4"></textarea>
-</div>
-<!-- END multiline text --> 
-     
+      <!-- multiline text text -->
+      <div class="page-item page-item-textarea" id="page-item-feedback_critic">
+        <p class="text-left font-weight-bold" style="margin: 1rem 0 0.25rem">
+          Haben Sie irgendwelches Feedback oder Kritik zur Online-Studie?
+        </p>
+        <p class="text-left small text-muted hide-if-empty" style="margin: 0.25rem 0">
+          Jegliche Kritik oder Verbesserungsvorschläge werden uns sehr helfen, zukünftige Studien zu verbessern.
+        </p>
+        <textarea name="feedback_critic" class="w-100" rows="4"></textarea>
+      </div>
+      <!-- END multiline text -->
     </form>
-  </div> 
+  </div>
 </main>
-  
-  <footer class="content-vertical-center content-horizontal-right">
+
+<footer class="content-vertical-center content-horizontal-right">
   <button id="continue" type="submit" form="page-form">
-  Continue &rarr;
-</button>
+    Weiter &rarr;
+  </button>
 </footer>
   `,
 

@@ -9,7 +9,7 @@ function updateQueryStringParameter(uri, key, value) {
   }
 }
 
-const Required_Testing = true; // set to false for production
+const Required_Testing = false; // set to false for production !!!
 
 /* number of components / elements to set slider */
 const numElements = 14;
@@ -212,15 +212,15 @@ const Likert_GCB1_htmlForm = new lab.html.Page({
       items: items_Brotherton.slice(0, 8),
       width: "5",
       anchors: [
-        "Definitely not true",
-        "Probably not true",
-        "Not sure/cannot decide",
-        "Probably true",
-        "Definitely true"
+        "Definitiv nicht wahr",
+        "Wahrscheinlich nicht wahr",
+        "Nicht sicher/Unentschlossen",
+        "Wahrscheinlich wahr",
+        "Definitiv wahr"
       ],
       label:
-        "There is often debate about whether or not the public is told the whole truth about various important issues. This brief survey is designed to assess your beliefs about some of these subjects. Please indicate the degree to which you believe each statement is likely to be true on the following scale.",
-      help: "Please answer every statement, even if you are not completely sure of your response.",
+        "Des Öfteren wird darüber diskutiert, ob die Öffentlichkeit über diverse wichtige Themen in vollem Umfang informiert wird oder nicht. Diese kurze Umfrage wurde konzipiert, um Ihre Einstellung zu einigen dieser Themen zu erfassen. Bitte geben Sie das Ausmaß Ihrer Zustimmung, mit dem Sie die Aussagen für wahr halten, auf der folgenden Skala an.",
+      help: "Beantworten Sie bitte jede Aussage, auch wenn Sie sich nicht ganz sicher sind, was Sie antworten sollen.",
       shuffle: false,
       name: "GCB",
     },
@@ -277,15 +277,14 @@ const Likert_GCB2_htmlForm = new lab.html.Page({
       items: items_Brotherton.slice(8, 15),
       width: "5",
       anchors: [
-        "Definitely not true",
-        "Probably not true",
-        "Not sure/cannot decide",
-        "Probably true",
-        "Definitely true"
+        "Definitiv nicht wahr",
+        "Wahrscheinlich nicht wahr",
+        "Nicht sicher/Unentschlossen",
+        "Wahrscheinlich wahr",
+        "Definitiv wahr"
       ],
       label:
-        "There is often debate about whether or not the public is told the whole truth about various important issues. This brief survey is designed to assess your beliefs about some of these subjects. Please indicate the degree to which you believe each statement is likely to be true on the following scale.",
-      help: "Please answer every statement, even if you are not completely sure of your response.",
+      "Des Öfteren wird darüber diskutiert, ob die Öffentlichkeit über diverse wichtige Themen in vollem Umfang informiert wird oder nicht. Diese kurze Umfrage wurde konzipiert, um Ihre Einstellung zu einigen dieser Themen zu erfassen. Bitte geben Sie das Ausmaß Ihrer Zustimmung, mit dem Sie die Aussagen für wahr halten, auf der folgenden Skala an.",      help: "Beantworten Sie bitte jede Aussage, auch wenn Sie sich nicht ganz sicher sind, was Sie antworten sollen.",
       shuffle: false,
       name: "GCB",
     },
@@ -361,21 +360,21 @@ const Likert_CMQ_htmlForm = new lab.html.Page({
       items: items_Bruder,
       width: "11",
       anchors: [
-        "0% certainly not",
-        "10% extremely unlikely",
-        "20% very unlikely",
-        "30% unlikely",
-        "40% somewhat unlikely",
-        "50% undecided",
-        "60% somewhat likely",
-        "70% likely",
-        "80% very likely",
-        "90% extremely likely",
-        "100% certain"
+        "0% sicher nicht",
+        "10% äußerst unwahrscheinlich",
+        "20% sehr unwahrscheinlich",
+        "30% unwahrscheinlich",
+        "40% eher unwahrscheinlich",
+        "50% unentschieden",
+        "60% eher wahrscheinlich",
+        "70% wahrscheinlich",
+        "80% sehr wahrscheinlich",
+        "90% äußerst wahrscheinlich",
+        "100% sicher"
       ],
       label:
-        "I think that...",
-      help: "Please answer every statement, even if you are not completely sure of your response.",
+        "Ich denke...",
+      help: "Beantworten Sie bitte jede Aussage, auch wenn Sie sich nicht ganz sicher sind, was Sie antworten sollen.",
       shuffle: false,
       name: "CMQ",
     },
@@ -385,6 +384,8 @@ const Likert_CMQ_htmlForm = new lab.html.Page({
   width: "l",
   messageHandlers: {
     run: function anonymous() {
+      $(".sticky-top").css("font-size", "12px");
+      
       // adjust size of scale
       document.querySelectorAll("div")[0].classList = ["text-left"];
       document.querySelectorAll("main")[1].classList = ["w-xxl"];
@@ -452,16 +453,16 @@ const LikertCRKQ1_htmlForm = new lab.html.Page({
       items: items_Tobler.slice(0, 8),
       width: "6",
       anchors: [
-        "Strongly Disagree",
-        "Disagree",
-        "Somewhat Disagree",
-        "Somewhat Agree",
-        "Agree",
-        "Strongly Agree",
+        "Stimme überhaupt nicht zu",
+        "Stimme nicht zu",
+        "Stimme eher nicht zu",
+        "Stimme eher zu",
+        "Stimme zu",
+        "Stimme voll und ganz zu",
       ],
       label:
-        "Please indicate to what extent you agree with the following statements.",
-      help: "Please answer every statement, even if you are not completely sure of your response.",
+        "Bitte geben Sie an, inwieweit Sie den folgenden Aussagen zustimmen.",
+      help: "Beantworten Sie bitte jede Aussage, auch wenn Sie sich nicht ganz sicher sind, was Sie antworten sollen.",
       shuffle: false,
       name: "CRKQ",
     },
@@ -481,7 +482,7 @@ const LikertCRKQ1_htmlForm = new lab.html.Page({
      <col style=\"width: 5%\">
      <col style=\"width: 5%\">
      <col style=\"width: 5%\">
-     <col style=\"width: 5%\">
+     <col style=\"width: 10%\">
      `;
       // sticky labels to front
       $("thead").first().css("z-index", "20");
@@ -519,16 +520,15 @@ const LikertCRKQ2_htmlForm = new lab.html.Page({
       items: items_Tobler.slice(8, 16),
       width: "6",
       anchors: [
-        "Strongly Disagree",
-        "Disagree",
-        "Somewhat Disagree",
-        "Somewhat Agree",
-        "Agree",
-        "Strongly Agree",
+        "Stimme überhaupt nicht zu",
+        "Stimme nicht zu",
+        "Stimme eher nicht zu",
+        "Stimme eher zu",
+        "Stimme zu",
+        "Stimme voll und ganz zu",
       ],
-      label:
-        "Please indicate to what extent you agree with the following statements.",
-      help: "Please answer every statement, even if you are not completely sure of your response.",
+      label: "Bitte geben Sie an, inwieweit Sie den folgenden Aussagen zustimmen.",
+      help: "Beantworten Sie bitte jede Aussage, auch wenn Sie sich nicht ganz sicher sind, was Sie antworten sollen.",
       shuffle: false,
       name: "CRKQ",
     },
@@ -548,7 +548,7 @@ const LikertCRKQ2_htmlForm = new lab.html.Page({
      <col style=\"width: 5%\">
      <col style=\"width: 5%\">
      <col style=\"width: 5%\">
-     <col style=\"width: 5%\">
+     <col style=\"width: 10%\">
      `;
       // sticky labels to front
       $("thead").first().css("z-index", "20");
@@ -599,17 +599,16 @@ const LikertCCSQ1_htmlForm = new lab.html.Page({
       items: items_Graaf.slice(0, 6),
       width: "7",
       anchors: [
-        "Totally Disagree",
-        "Disagree",
-        "Somewhat Disagree",
-        "Neutral",
-        "Somewhat Agree",
-        "Agree",
-        "Totally Agree",
+        "Stimme überhaupt nicht zu",
+        "Stimme nicht zu",
+        "Stimme eher nicht zu",
+		    "Neutral",
+        "Stimme eher zu",
+        "Stimme zu",
+        "Stimme voll und ganz zu",
       ],
-      label:
-        "Please indicate to what extent you agree with the following statements.",
-      help: "Please answer every statement, even if you are not completely sure of your response.",
+      label: "Bitte geben Sie an, inwieweit Sie den folgenden Aussagen zustimmen.",
+      help: "Beantworten Sie bitte jede Aussage, auch wenn Sie sich nicht ganz sicher sind, was Sie antworten sollen.",
       shuffle: false,
       name: "CCSQ",
     },
@@ -623,14 +622,14 @@ const LikertCCSQ1_htmlForm = new lab.html.Page({
       document.querySelectorAll("div")[0].classList = ["text-left"];
       document.querySelectorAll("main")[1].classList = ["w-xl"];
       document.querySelectorAll(".page-item-table colgroup")[0].innerHTML = `
-     <col style=\"width: 65%\">
+     <col style=\"width: 60%\">
      <col style=\"width: 5%\">
      <col style=\"width: 5%\">
      <col style=\"width: 5%\">
      <col style=\"width: 5%\">
      <col style=\"width: 5%\">
      <col style=\"width: 5%\">
-     <col style=\"width: 5%\">
+     <col style=\"width: 10%\">
      `;
       // sticky labels to front
       $("thead").first().css("z-index", "20");
@@ -668,17 +667,16 @@ const LikertCCSQ2_htmlForm = new lab.html.Page({
       items: items_Graaf.slice(6, 12),
       width: "7",
       anchors: [
-        "Totally Disagree",
-        "Disagree",
-        "Somewhat Disagree",
-        "Neutral",
-        "Somewhat Agree",
-        "Agree",
-        "Totally Agree",
+        "Stimme überhaupt nicht zu",
+        "Stimme nicht zu",
+        "Stimme eher nicht zu",
+		    "Neutral",
+        "Stimme eher zu",
+        "Stimme zu",
+        "Stimme voll und ganz zu",
       ],
-      label:
-        "Please indicate to what extent you agree with the following statements.",
-      help: "Please answer every statement, even if you are not completely sure of your response.",
+      label: "Bitte geben Sie an, inwieweit Sie den folgenden Aussagen zustimmen.",
+      help: "Beantworten Sie bitte jede Aussage, auch wenn Sie sich nicht ganz sicher sind, was Sie antworten sollen.",
       shuffle: false,
       name: "CCSQ",
     },
@@ -692,14 +690,14 @@ const LikertCCSQ2_htmlForm = new lab.html.Page({
       document.querySelectorAll("div")[0].classList = ["text-left"];
       document.querySelectorAll("main")[1].classList = ["w-xl"];
       document.querySelectorAll(".page-item-table colgroup")[0].innerHTML = `
-     <col style=\"width: 65%\">
-     <col style=\"width: 5%\">
-     <col style=\"width: 5%\">
-     <col style=\"width: 5%\">
-     <col style=\"width: 5%\">
-     <col style=\"width: 5%\">
-     <col style=\"width: 5%\">
-     <col style=\"width: 5%\">
+      <col style=\"width: 60%\">
+      <col style=\"width: 5%\">
+      <col style=\"width: 5%\">
+      <col style=\"width: 5%\">
+      <col style=\"width: 5%\">
+      <col style=\"width: 5%\">
+      <col style=\"width: 5%\">
+      <col style=\"width: 10%\">
      `;
       // sticky labels to front
       $("thead").first().css("z-index", "20");
@@ -797,23 +795,19 @@ const EndingScreen_htmlScreen = new lab.html.Screen({
   tardy: true,
   content: `
   <header>
-  <h2> Thank you very much for your participation ! </h2>
+  <h2> Vielen Dank für Ihre Teilnahme! </h2>
   </header>
-
+  
   <main class="content-horizontal-center content-vertical-center">
   <div class="w-l text-justify">
   <div>
-  It is very likely that we will invite you to another study within the next two weeks.
+  <i>Das Experiment wird in wenigen Sekunden enden und Sie werden automatisch zurück zu Prolific umgeleitet.</i>
+  <br>
+  <br>
+  <br>
+  Wenn Sie Fragen haben, kontaktieren Sie bitte den Studienleiter Julius Fenn (<a href="mailto:julius.fenn@psychologie.uni-freiburg.de">julius.fenn@psychologie.uni-freiburg.de</a>).
   </div>
-  <br>
-  <div>
-  <i>The experiment will end in a few seconds and you will be automatically redirected back to Prolific.</i> 
-  <br>
-  <br>
-  <br>
-  If you have any questions, please contact the study director Julius Fenn (<a href="mailto:julius.fenn@psychologie.uni-freiburg.de">julius.fenn@psychologie.uni-freiburg.de</a>).
-  </div>
-  </main>
+  </main>  
   `,
   timeout: 10000,
   messageHandlers: {
@@ -895,10 +889,14 @@ const study = new lab.flow.Sequence({
   plugins: [
     new lab.plugins.Metadata(),
     // new lab.plugins.Fullscreen(),
-    // new lab.plugins.Debug(), // comment out finally
+    new lab.plugins.Debug(), // comment out finally
     // new lab.plugins.Download()
   ],
   content: [
+    AffectiveImagery_sequence,
+
+
+
     // >>> introduction phase
     Greetings_htmlForm,
     InformCon_htmlForm,

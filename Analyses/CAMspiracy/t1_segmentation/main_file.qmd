@@ -20,7 +20,7 @@ format:
 ########################################
 require(pacman)
 p_load('tidyverse', 'jsonlite', 'magrittr', 'xlsx',
-       'stargazer', 'psych', 'jtools', 'DT')
+       'stargazer', 'psych', 'jtools', 'DT', 'ggstatsplot')
 
 ########################################
 # load data
@@ -37,10 +37,21 @@ suppressMessages(read_file('jatos_results_data_20231125165844.txt') %>%
   map_dfr(fromJSON, flatten=TRUE)) -> dat
 
 
+## Republicans
+suppressMessages(read_file('jatos_results_data_20231125181813_Republicans.txt') %>%
+  # ... split it into lines ...
+  str_split('\n') %>% first() %>%
+  # ... filter empty rows ...
+  discard(function(x) x == '') %>%
+  # ... parse JSON into a data.frame
+  map_dfr(fromJSON, flatten=TRUE)) -> dat_Republican
+
 ##### prolific file
 #> socio-demographic data
 prolific <- read.csv(file = "prolific_export_6560bd631f35feab8a3d13c8.csv", header = TRUE)
+prolific_Republican <- read.csv(file = "prolific_export_65620efdd4432eb81c6a1206_Republican.csv", header = TRUE)
 
+prolific <- rbind(prolific, prolific_Republican)
 
 
 setwd("..")
@@ -67,13 +78,13 @@ Remark: "dat" at first is the data set of N=150 americans who have the political
 
 ```{r}
 ########################################
-# create counter variable
+# create counter variable for both data sets
 ########################################
+## for Democrats
 dat$ID <- NA
-tmp_IDcounter <- 0
-
 dat$politicalParty <- NA
 
+tmp_IDcounter <- 0
 for(i in 1:nrow(dat)){
   if(!is.na(dat$sender[i]) && dat$sender[i] == "Greetings"){
     # tmp <- dat$prolific_pid[i]
@@ -82,7 +93,29 @@ for(i in 1:nrow(dat)){
   }
   dat$ID[i] <- tmp_IDcounter
 }
+
+
+## for Republicans
+dat_Republican$ID <- NA
+dat_Republican$politicalParty <- NA
+
+# continue tmp_IDcounter
+for(i in 1:nrow(dat_Republican)){
+  if(!is.na(dat_Republican$sender[i]) && dat_Republican$sender[i] == "Greetings"){
+    # tmp <- dat$prolific_pid[i]
+    tmp_IDcounter = tmp_IDcounter + 1
+    dat_Republican$politicalParty[i] <- "Republican" ## add political affiliation
+  }
+  dat_Republican$ID[i] <- tmp_IDcounter
+}
 rm(tmp_IDcounter)
+
+##########
+# merge two data sets
+##########
+dim(dat)
+dat <- rbind(dat, dat_Republican)
+dim(dat)
 
 ########################################
 # keep only complete data sets
@@ -351,7 +384,22 @@ write.xlsx2(x = questionnaire, file = "outputs/questionnaire_final.xlsx")
 
 
 
+
+
 # analyze data 
 
 
 ## EFA
+
+
+## group comparisons
+
+
+```{r}
+ggbetweenstats(
+  data = questionnaire,
+  x = politicalParty,
+  y = mean_CMQ
+)
+```
+
