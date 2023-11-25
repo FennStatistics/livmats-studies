@@ -3,7 +3,7 @@
 
 ## list of 4 livMatS studies
 
-*The list will be ordered alphabatically, whereby for every study an identical named folder is in the "Studies" and "Analyses" folders:* 
+*The list will be ordered alphabatically. For every study there is an identical named folder in the "Studies" and "Analyses" folders:* 
 
 - [basal attributes - study files](https://github.com/FennStatistics/livmats-studies/tree/main/Analyses/basalAttributes) (C.A.M.E.L. version 2.0)
 - [basal attributes - analysis files](https://github.com/FennStatistics/livmats-studies/tree/main/Studies/basalAttributes) (CAM-App version 2.0)
@@ -19,8 +19,20 @@
 
 ## Acknowledgments
 
-Study Designs and possibilities of analyses have been discuseed with
+All studies have been programmed and analysed by [Julius Fenn](https://www.psychologie.uni-freiburg.de/Members/fenn). 
 
-* Julius Fenn
-* Florian Gouret
-* Andrea Kiesel
+
+Study Designs and possibilities of analyses have been discuseed with (ordered alphabatically)
+
+* Falk Tauber
+* Irina Monno
+* Joscha Teichmann
+* Lara Nagel
+* Lisa Reuter
+* Louisa Estadieu
+* Magdalena Moy
+* Michael Gorki
+* Oliver Müller
+* Paul Sölder
+* Philipp Höfele
+* Shelly Levy-Tzedek
