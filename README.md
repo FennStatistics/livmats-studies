@@ -14,8 +14,13 @@
 ## How to download / run these studies: 
 
 - 
-
-
+- analysis CAM data: a **CAM-App** was programmed in Shiny using the R environment (+ Python modules) to analyze Cognitive-Affective Map data:
+    + locally:
+        + download the CAM-App from the GitHub repository: https://github.com/Camel-app/DataAnalysisR (use .git or download it manutally -> green button "<>Code" -> "Download ZIP")
+        + if not already installed, download R and RStudio
+        + open the file app.R, install packages if needed, click on "Run App"
+    + online (! disadvantage: App is way slower):
+        + open the link: https://fennapps.shinyapps.io/CAMtools_CAMapp/
 
 ## Acknowledgments
 
