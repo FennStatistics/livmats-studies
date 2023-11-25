@@ -59,10 +59,12 @@ const Greetings_htmlForm = new lab.html.Form({
 
         // check if a prolific ID is provided via URL parameter PROLIFIC study
         if (typeof URLparams_global.PROLIFIC_PID === "undefined") {
+          /*
           alert(
             "Sorry, there may be a technical error! It was not possible to obtain all the necessary data from prolific. Please write to the study director that an error has occurred."
           );
           jatos.abortStudy("study aborted - no prolific ID");
+          */
         } else {
           study.options.datastore.set(
             "PROLIFIC_PID",
@@ -206,12 +208,9 @@ const EndingScreen_htmlScreen = new lab.html.Screen({
 
   <main class="content-horizontal-center content-vertical-center">
   <div class="w-l text-justify">
-  <div>
-  It is very likely that we will invite you to another study within the next two weeks.
-  </div>
   <br>
   <div>
-  <i>The experiment will end in few seconds and you will be automatically redirected back to Prolific.</i> 
+  <i>The experiment will end in few seconds and you will be automatically redirected back to the livMatS page.</i> 
   <br>
   <br>
   <br>
@@ -244,7 +243,7 @@ const EndingScreen_htmlScreen = new lab.html.Screen({
           study.options.datastore.extract("sender").includes("FeedbackScreen")
         ) {
           jatos.endStudyAndRedirect(
-            "https://app.prolific.co/submissions/complete?cc=C1I8SXIJ", // !!!
+            "https://www.livmats.uni-freiburg.de/en", // !!!
             true,
             "everything worked fine"
           );
@@ -266,7 +265,7 @@ const EndingScreen_htmlScreen = new lab.html.Screen({
 ################### rating basal attributes ###################
 */
 const template = new lab.html.Form({
-  content: '<b style="font-size: 32px; border: 1px dashed black; padding: 20px;">${ parameters.word }</b> ' + `
+  content: '<b style="font-size: 32px; border: 1px dashed black; padding: 20px;">${ parameters.English_translation }</b> ' + `
 <br>
 <br>
 <!-- Relevancy Rating -->
@@ -392,6 +391,11 @@ const template = new lab.html.Form({
 <p class="font-weight-bold" style="margin: 1rem 0 0.25rem">
 Emotional evaluation
   </p>
+
+  <span style="float: center; display: inline-block; width: 100%; font-size: 16px;">
+[strongly negative - neutral - strongly positive]
+  </span>
+
   <div class="center-valence">
 <div class="outerNodeSlider" style="margin-bottom: 25px;">
 <div class="greenColorNodeSlider">
@@ -427,6 +431,18 @@ Emotional evaluation
         $("#continue").prop("disabled", false);
         $("#continue").text("Continue →");
       });
+
+      /*
+      // this.parent.end() !!!s
+      var tmp_this = this;
+      $(document).one('keydown', function (e) {
+        if (e.keyCode == 90) {
+          console.log("clicked z");
+          tmp_this.parent.end();
+        }
+      });
+      */
+
     },
     commit: function anonymous() {
       study.options.datastore.set("ratingValence", $("#nodeSlider").val());
@@ -437,14 +453,170 @@ Emotional evaluation
 const basalAttributes = new lab.flow.Loop({
   template: template,
   templateParameters: [
-    /* ... */
-    { word: 'adaptiv' },
-    { word: 'energieautonom' },
-    { word: 'langlebig' },
-    /* ... */
-  ],
+    {
+        "Number": "1",
+        "Attribut": "adaptiv",
+        "English_translation": "adaptive"
+    },
+    {
+        "Number": "2",
+        "Attribut": "anisotropisch",
+        "English_translation": "anisotropic"
+    },
+    {
+        "Number": "3",
+        "Attribut": "autonom",
+        "English_translation": "autonomous"
+    },
+    {
+        "Number": "4",
+        "Attribut": "beweglich",
+        "English_translation": "mobile"
+    },
+    {
+        "Number": "5",
+        "Attribut": "bio-inspiriert",
+        "English_translation": "bio-inspired"
+    },
+    {
+        "Number": "6",
+        "Attribut": "bionisch",
+        "English_translation": "biologically inspired"
+    },
+    {
+        "Number": "7",
+        "Attribut": "energieautonom",
+        "English_translation": "energy autonomous"
+    },
+    {
+        "Number": "8",
+        "Attribut": "energieeffizient",
+        "English_translation": "energy-efficient"
+    },
+    {
+        "Number": "9",
+        "Attribut": "energiespeichernd",
+        "English_translation": "storing energy"
+    },
+    {
+        "Number": "10",
+        "Attribut": "Gestalt veränderbar",
+        "English_translation": "changeable shape"
+    },
+    {
+        "Number": "11",
+        "Attribut": "intelligent",
+        "English_translation": "intelligent"
+    },
+    {
+        "Number": "12",
+        "Attribut": "langlebig",
+        "English_translation": "durable"
+    },
+    {
+        "Number": "13",
+        "Attribut": "lebensähnlich",
+        "English_translation": "life-like"
+    },
+    {
+        "Number": "14",
+        "Attribut": "multifunktional",
+        "English_translation": "multifunctional"
+    },
+    {
+        "Number": "15",
+        "Attribut": "nachhaltig",
+        "English_translation": "sustainable"
+    },
+    {
+        "Number": "16",
+        "Attribut": "ökologisch",
+        "English_translation": "ecologically"
+    },
+    {
+        "Number": "17",
+        "Attribut": "reagierend",
+        "English_translation": "responsive"
+    },
+    {
+        "Number": "18",
+        "Attribut": "resilient",
+        "English_translation": "resilient"
+    },
+    {
+        "Number": "19",
+        "Attribut": "robust",
+        "English_translation": "robust"
+    },
+    {
+        "Number": "20",
+        "Attribut": "selbstheilend",
+        "English_translation": "self-healing"
+    },
+    {
+        "Number": "21",
+        "Attribut": "selbstreparierend",
+        "English_translation": "self-repairing"
+    },
+    {
+        "Number": "22",
+        "Attribut": "selbstständig",
+        "English_translation": "autonomous"
+    },
+    {
+        "Number": "23",
+        "Attribut": "soft",
+        "English_translation": "soft"
+    },
+    {
+        "Number": "24",
+        "Attribut": "technologisch",
+        "English_translation": "technological"
+    },
+    {
+        "Number": "25",
+        "Attribut": "umweltverträglich",
+        "English_translation": "environmentally friendly"
+    },
+    {
+        "Number": "26",
+        "Attribut": "veränderbar",
+        "English_translation": "changeable"
+    },
+    {
+        "Number": "27",
+        "Attribut": "verlässlich",
+        "English_translation": "reliable"
+    },
+    {
+        "Number": "28",
+        "Attribut": "vielseitig",
+        "English_translation": "versatile"
+    },
+    {
+        "Number": "29",
+        "Attribut": "wartungsfrei",
+        "English_translation": "maintenance-free"
+    },
+    {
+        "Number": "30",
+        "Attribut": "pneumatisch",
+        "English_translation": "pneumatic"
+    },
+    {
+        "Number": "31",
+        "Attribut": "elektronikfrei",
+        "English_translation": "electronic-free"
+    },
+    {
+        "Number": "32",
+        "Attribut": "reaktiv",
+        "English_translation": "reactive"
+    }
+],
   sample: {
-    mode: "draw-shuffle"
+    mode: "draw-shuffle",
+    n: "2",
   },
 })
 
@@ -811,11 +983,6 @@ const study = new lab.flow.Sequence({
     // new lab.plugins.Download()
   ],
   content: [
-    basalAttributesRating,
-    // risk benefits soft robot
-    InfosSoftRobot_htmlForm,
-    SAIpreKnowledge_htmlForm,
-
     // >>> introduction phase
     Greetings_htmlForm,
     InformCon_htmlForm,

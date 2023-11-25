@@ -226,7 +226,7 @@ We are planning to publish a study called "<i>Using basal attributes to identify
  <section>
  📝your task:
  <br>
-On the following page please rate the importance of a list of basal attributes for livMatS.
+On the following page please rate the importance and your inital emotional evaluation of a list of basal attributes for livMatS.
  </section>
    </div>
  </main>
