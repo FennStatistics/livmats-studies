@@ -1,0 +1,53 @@
+---
+title: "01 data preperation"
+author: "Julius Fenn, Christophe Becht"
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    html-math-method: katex
+---
+
+# Main Header
+
+## Quarto
+
+Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
+
+## Running Code
+
+When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
+
+```{r}
+1 + 2 * 3 * 55 - 500 * 500
+```
+
+You can add options to executable code like this
+
+```{r}
+#| echo: false
+2 * 2 * 3 * 55 
+```
+
+The `echo: false` option disables the printing of code (only output is displayed).
+
+
+```{r}
+# Step 1: Define the likelihood function
+likelihood <- function(k, n, p) {
+  return(p^k * (1-p)^(n-k))
+}
+
+# Step 2: Generate example data
+k <- 5  # number of successes
+n <- 10  # number of trials
+
+# Step 3: Define a range of possible probabilities
+p <- seq(0, 1, by = 0.01)
+
+# Step 4: Calculate the likelihood for each possible probability
+L <- likelihood(k, n, p)
+
+# Step 5: Plot the likelihood against the possible probabilities
+plot(p, L, type = "l", xlab = "Probability of Success", ylab = "Likelihood", main = "Likelihood of Binomial Distribution")
+```
