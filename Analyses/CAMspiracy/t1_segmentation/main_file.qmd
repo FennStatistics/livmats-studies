@@ -138,10 +138,12 @@ vec_ques <- c("PROLIFIC_PID",
                 "commCheck",
                 tmp_notNumeric,
                 tmp_numeric,
+                "feedback_critic",
                 "politicalParty")
 
 vec_notNumeric = c("PROLIFIC_PID",
                    tmp_notNumeric,
+                   "feedback_critic",
                    "politicalParty")
 
 questionnaire <- questionnairetype(dataset = dat, 
@@ -281,8 +283,18 @@ ggplot(questionnaire, aes(x = socio_age)) +
   theme(plot.title = element_text(hjust = 0.5))
 
 summary(questionnaire$socio_age)
+
+## political party
+table(questionnaire$politicalParty)
 ```
 
+
+### get feedback
+
+```{r}
+tmp_dat <- questionnaire[questionnaire$feedback_critic != "" & !is.na(questionnaire$feedback_critic), c("politicalParty", "feedback_critic")]
+DT::datatable(tmp_dat, options = list(pageLength = 5)) 
+```
 
 ## Affective Imagery
 
