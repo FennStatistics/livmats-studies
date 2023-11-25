@@ -1,5 +1,5 @@
 ---
-title: "01 data preperation"
+title: "Main File for t1 Segementation Study (USA sample)"
 author: "Julius Fenn, Christophe Becht"
 format:
   html:
@@ -20,18 +20,14 @@ format:
 ########################################
 require(pacman)
 p_load('tidyverse', 'jsonlite', 'magrittr', 'xlsx',
-       'stargazer', 'psych')
-
-########################################
-# load functions
-########################################
-
+       'stargazer', 'psych', 'jtools', 'DT')
 
 ########################################
 # load data
 ########################################
+##### JATOS file
 setwd("data")
-dir()
+# dir()
 suppressMessages(read_file('jatos_results_data_20231124170612.txt') %>%
   # ... split it into lines ...
   str_split('\n') %>% first() %>%
@@ -39,53 +35,306 @@ suppressMessages(read_file('jatos_results_data_20231124170612.txt') %>%
   discard(function(x) x == '') %>%
   # ... parse JSON into a data.frame
   map_dfr(fromJSON, flatten=TRUE)) -> dat
+
+
+
+##### prolific file
+#> socio-demographic data
+prolific <- read.csv(file = "prolific_export_6560bd631f35feab8a3d13c8.csv", header = TRUE)
+
+
+
 setwd("..")
 
+########################################
+# load functions
+########################################
+setwd("../../functions")
+for(i in 1:length(dir())){
+  # print(dir()[i])
+  source(dir()[i], encoding = "utf-8")
+}
+rm(i)
+```
+
+# prepare data
+
+## set up data.frame
+
+```{r}
+########################################
+# create counter variable
+########################################
+dat$ID <- NA
+tmp_IDcounter <- 0
+for(i in 1:nrow(dat)){
+  if(!is.na(dat$sender[i]) && dat$sender[i] == "Greetings"){
+    # tmp <- dat$prolific_pid[i]
+    tmp_IDcounter = tmp_IDcounter + 1
+  }
+  dat$ID[i] <- tmp_IDcounter
+}
+rm(tmp_IDcounter)
+
+########################################
+# keep only complete data sets
+########################################
+sum(table(dat$ID) != max(table(dat$ID)))
+sum(table(dat$ID) == max(table(dat$ID)))
+dat <- dat[dat$ID %in% names(table(dat$ID))[table(dat$ID) == max(table(dat$ID))],]
+
+########################################
+# json (from JATOS) to 2D data.frame
+########################################
+tmp_notNumeric <- str_subset(string = colnames(dat), pattern = "^meta|^R")
+tmp_notNumeric <- str_subset(string = tmp_notNumeric, pattern = "labjs|location", negate = TRUE)
+
+tmp_numeric <- str_subset(string = colnames(dat), pattern = "^affImgAffect|^CRKQ|^CCSQ|^CMQ|^GCB")
+
+
+vec_ques <- c("PROLIFIC_PID",
+                "dummy_informedconsent",
+                "commCheck",
+                tmp_notNumeric,
+                tmp_numeric)
+
+vec_notNumeric = c("PROLIFIC_PID",
+                   tmp_notNumeric)
+
+questionnaire <- questionnairetype(dataset = dat, 
+                                        listvars = vec_ques, 
+                                        notNumeric = vec_notNumeric)
 ```
 
 
+## get reaction times for single components
+
+Plot time taken (in minutes) by participants for single components of experiment:
+
+```{r prepare_data3, message = FALSE}
+dat_duration <- data.frame(duration = NA, sender = NA, ID = NA, PROLIFIC_PID = NA)
+
+for(i in 1:length(unique(dat$ID))){
+
+  tmp_PID <- dat$PROLIFIC_PID[dat$ID ==  unique(dat$ID)[i] & !is.na(dat$PROLIFIC_PID)]
+  tmp <- data.frame(duration = dat$duration[dat$ID == unique(dat$ID)[i]] / 1000,
+                    sender = dat$sender[dat$ID == unique(dat$ID)[i]])
+
+  tmp <- tmp[str_detect(string = tmp$sender, pattern = "Sequence", negate = TRUE),]
+  tmp <- tmp[!is.na(tmp$sender),]
+  # tmp <- tmp[!is.na(tmp$duration),]
+
+  sub_tmp <- tmp[13:46,]
+  tmp[13:46,] <- sub_tmp[order(sub_tmp$sender),]
+
+  if(all(is.na(dat_duration))){
+    dat_duration <- data.frame(duration = tmp$duration,
+                              sender = tmp$sender,
+                              ID = rep(i, times=nrow(tmp)),
+                              PROLIFIC_PID = rep(tmp_PID, times=nrow(tmp)))
 
 
-# Main Header
-
-## Quarto
-
-Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
-
-## Running Code
-
-When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
-
-```{r}
-1 + 2 * 3 * 55 - 500 * 500
-```
-
-You can add options to executable code like this
-
-```{r}
-#| echo: false
-2 * 2 * 3 * 55 
-```
-
-The `echo: false` option disables the printing of code (only output is displayed).
-
-
-```{r}
-# Step 1: Define the likelihood function
-likelihood <- function(k, n, p) {
-  return(p^k * (1-p)^(n-k))
+  }else{
+    dat_duration <- rbind(dat_duration,  data.frame(duration = tmp$duration,
+                                                    sender = tmp$sender,
+                                                    ID = rep(i, times=nrow(tmp)),
+                                                    PROLIFIC_PID = rep(tmp_PID, times=nrow(tmp))))
+  }
 }
 
-# Step 2: Generate example data
-k <- 5  # number of successes
-n <- 10  # number of trials
+## remove empty sender 
+dat_duration <- dat_duration[!is.na(dat_duration$sender), ]
 
-# Step 3: Define a range of possible probabilities
-p <- seq(0, 1, by = 0.01)
+## save as .xlsx
+write.xlsx2(x = dat_duration, file = "outputs/para_duration_singleComponents.xlsx")
 
-# Step 4: Calculate the likelihood for each possible probability
-L <- likelihood(k, n, p)
+#### plot
+dat_duration$ID <- factor(dat_duration$ID)
+p <- dat_duration %>%
+  ggplot(aes(x=sender, y=duration, color=PROLIFIC_PID)) +
+  geom_point() +
+  geom_jitter(width=0.15)+
+  theme(axis.text.x = element_text(angle = 90)) + theme(legend.position="none")
+p
 
-# Step 5: Plot the likelihood against the possible probabilities
-plot(p, L, type = "l", xlab = "Probability of Success", ylab = "Likelihood", main = "Likelihood of Binomial Distribution")
+## save ggplot as PDF
+ggsave(filename = "outputs/durations_components.pdf", p)
+
+
+# Calculate the mean duration in seconds for each sender and sort by mean duration
+dat_duration %>%
+  group_by(sender) %>%
+  summarise(N = n(), mean_duration = mean(duration, na.rm = TRUE)) %>%
+  arrange(mean_duration)
 ```
+
+
+
+### add prolific data to questionnaire
+
+Add duration in minutes
+
+```{r}
+questionnaire$total_min <- NA
+for(p in unique(questionnaire$PROLIFIC_PID)){
+  tmp <- dat_duration$duration[dat_duration$PROLIFIC_PID == p]
+  questionnaire$total_min[questionnaire$PROLIFIC_PID == p] <-   sum(tmp, na.rm = TRUE) / 60
+}
+```
+
+
+Add Prolific data to data set:
+
+```{r}
+prolific <- prolific[prolific$Participant.id %in% questionnaire$PROLIFIC_PID,]
+prolific <- prolific %>%
+  arrange(sapply(Participant.id, function(y) which(y == questionnaire$PROLIFIC_PID)))
+
+
+if(nrow(prolific) == nrow(questionnaire)){
+  print("prolific data sucessfully added")
+  
+  questionnaire$socio_age <- prolific$Age
+  questionnaire$socio_sex <- prolific$Sex
+  questionnaire$socio_ethnicity <- prolific$Ethnicity.simplified
+  questionnaire$socio_student <- prolific$Student.status
+  questionnaire$socio_employment <- prolific$Employment.status
+  questionnaire$total_min_prolific <- prolific$Time.taken / 60
+  ## all time outs to NA
+  questionnaire$total_min_prolific[questionnaire$total_min_prolific > 3000] <- NA
+
+  questionnaire[questionnaire == "DATA_EXPIRED"] <- NA
+  questionnaire[questionnaire == ""] <- NA
+  
+  questionnaire$socio_age <- as.numeric(questionnaire$socio_age)
+}
+
+
+## save raw questionnaire
+write.xlsx2(x = questionnaire, file = "outputs/questionnaire_raw.xlsx")
+```
+
+
+## clean data (if needed)
+
+*add code here if needed*
+
+# describe data 
+
+## sample description
+
+```{r}
+## socio demographics (nominal variables)
+table(questionnaire$socio_sex)
+table(questionnaire$socio_ethnicity)
+table(questionnaire$socio_student)
+table(questionnaire$socio_employment)
+
+## socio demographics (numeric variables)
+ggplot(questionnaire, aes(x = socio_age)) +
+  geom_histogram(binwidth = 1, fill = "dodgerblue3", color = "white") +
+  labs(x = "Age", y = "Frequency") +
+  theme_apa() +
+  theme(plot.title = element_text(hjust = 0.5))
+
+summary(questionnaire$socio_age)
+```
+
+
+## Affective Imagery
+
+In the following, the associations to "Climate Change" are listed, whereby a person can state a maximum of 5 associations (*cognitive component*), these are evaluated afterwards regarding their affect (*affective component*). 
+
+```{r}
+DT::datatable(questionnaire[str_subset(string = colnames(questionnaire), pattern = "^R")], options = list(pageLength = 5))    
+```
+
+The respective ratings:
+
+```{r}
+DT::datatable(questionnaire[str_subset(string = colnames(questionnaire), pattern = "^affImgAffect")], options = list(pageLength = 5))    
+```
+
+In the histogram I have shown the average value of this affect of the mentioned associations, thereby *the scale ranges from 1-7, has a mean value of 4*:
+
+```{r}
+#| warning: false
+questionnaire$mean_affImg  <- questionnaire %>%
+  select(matches("^affImgAffect")) %>%
+  rowMeans(na.rm = TRUE)
+
+# Calculate mean and standard deviation
+mu <- mean(questionnaire$mean_affImg, na.rm = TRUE)
+sigma <- sd(questionnaire$mean_affImg, na.rm = TRUE)
+
+# Create the histogram with normal distribution overlay
+ggplot(questionnaire, aes(x = mean_affImg)) +
+  geom_histogram(aes(y = ..density..), binwidth = 1, fill = "dodgerblue3", color = "white") +
+  stat_function(fun = dnorm, args = list(mean = mu, sd = sigma), color = "red") +
+  labs(x = "Mean Affection Imagery", y = "Density") +
+  theme_apa() +
+  theme(plot.title = element_text(hjust = 0.5))
+```
+
+
+## Scales
+
+```{r}
+########################################
+# number of items for each scale
+########################################
+sum(str_detect(string = colnames(questionnaire), pattern = "^GCB"))
+sum(str_detect(string = colnames(questionnaire), pattern = "^CMQ"))
+sum(str_detect(string = colnames(questionnaire), pattern = "^CRKQ"))
+sum(str_detect(string = colnames(questionnaire), pattern = "^CCSQ"))
+
+########################################
+# reverse code all items
+########################################
+#> see negative correlation between single items
+psych::cor.plot(r = cor(questionnaire[, str_detect(string = colnames(questionnaire),
+                                                   pattern = "^GCB")], 
+                                                   use = "pairwise.complete.obs"),
+                                                   upper = FALSE, xlas = 2, main = "GCB scale")
+
+psych::cor.plot(r = cor(questionnaire[, str_detect(string = colnames(questionnaire),
+                                                   pattern = "^CMQ")], 
+                                                   use = "pairwise.complete.obs"),
+                                                   upper = FALSE, xlas = 2, main = "CMQ scale")
+
+psych::cor.plot(r = cor(questionnaire[, str_detect(string = colnames(questionnaire),
+                                                   pattern = "^CRKQ")], 
+                                                   use = "pairwise.complete.obs"),
+                                                   upper = FALSE, xlas = 2, main = "CRKQ scale")
+
+psych::cor.plot(r = cor(questionnaire[, str_detect(string = colnames(questionnaire),
+                                                   pattern = "^CCSQ")], 
+                                                   use = "pairwise.complete.obs"),
+                                                   upper = FALSE, xlas = 2, main = "CCSQ scale")
+########################################
+# compute mean variables
+########################################
+### overall mean variables
+questionnaire$mean_GCB  <- questionnaire %>%
+  select(matches("^GCB")) %>%
+  rowMeans(na.rm = TRUE)
+
+questionnaire$mean_CMQ  <- questionnaire %>%
+  select(matches("^CMQ")) %>%
+  rowMeans(na.rm = TRUE)
+
+questionnaire$mean_CRKQ  <- questionnaire %>%
+  select(matches("^CRKQ")) %>%
+  rowMeans(na.rm = TRUE)
+
+questionnaire$mean_CCSQ  <- questionnaire %>%
+  select(matches("^CCSQ")) %>%
+  rowMeans(na.rm = TRUE)
+```
+
+
+
+# analyze data 
+
+
+## EFA
