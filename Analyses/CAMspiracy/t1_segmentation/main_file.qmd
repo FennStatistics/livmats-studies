@@ -330,6 +330,12 @@ questionnaire$mean_CRKQ  <- questionnaire %>%
 questionnaire$mean_CCSQ  <- questionnaire %>%
   select(matches("^CCSQ")) %>%
   rowMeans(na.rm = TRUE)
+
+
+
+
+## save final questionnaire
+write.xlsx2(x = questionnaire, file = "outputs/questionnaire_final.xlsx")
 ```
 
 
