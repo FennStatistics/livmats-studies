@@ -380,8 +380,8 @@ White
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>DT<span class="sc">::</span><span class="fu">datatable</span>(questionnaire[<span class="fu">str_subset</span>(<span class="at">string =</span> <span class="fu">colnames</span>(questionnaire), <span class="at">pattern =</span> <span class="st">"^R"</span>)], <span class="at">options =</span> <span class="fu">list</span>(<span class="at">pageLength =</span> <span class="dv">5</span>))    </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 
-<div class="datatables html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-c46259821728e671b737" style="width:100%;height:auto;"></div>
-<script type="application/json" data-for="htmlwidget-c46259821728e671b737">{"x":{"filter":"none","vertical":false,"data":[["1","2","3"],["carbon dioxide","tornado","Scary"],["melting ice","eathquake","Violent "],["natural catastrophes","heat","divisive "],["destruction","laval","Face"],[null,"sadness","Scientifically proven"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>R1<\/th>\n      <th>R2<\/th>\n      <th>R3<\/th>\n      <th>R4<\/th>\n      <th>R5<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":5,"columnDefs":[{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[5,10,25,50,100]}},"evals":[],"jsHooks":[]}</script>
+<div class="datatables html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-de90e7ee3c44926b717f" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-de90e7ee3c44926b717f">{"x":{"filter":"none","vertical":false,"data":[["1","2","3"],["carbon dioxide","tornado","Scary"],["melting ice","eathquake","Violent "],["natural catastrophes","heat","divisive "],["destruction","laval","Face"],[null,"sadness","Scientifically proven"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>R1<\/th>\n      <th>R2<\/th>\n      <th>R3<\/th>\n      <th>R4<\/th>\n      <th>R5<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":5,"columnDefs":[{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[5,10,25,50,100]}},"evals":[],"jsHooks":[]}</script>
 </div>
 </div>
 <p>The respective ratings:</p>
@@ -389,8 +389,8 @@ White
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>DT<span class="sc">::</span><span class="fu">datatable</span>(questionnaire[<span class="fu">str_subset</span>(<span class="at">string =</span> <span class="fu">colnames</span>(questionnaire), <span class="at">pattern =</span> <span class="st">"^affImgAffect"</span>)], <span class="at">options =</span> <span class="fu">list</span>(<span class="at">pageLength =</span> <span class="dv">5</span>))    </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 
-<div class="datatables html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-7876f4b2763ee8f6174c" style="width:100%;height:auto;"></div>
-<script type="application/json" data-for="htmlwidget-7876f4b2763ee8f6174c">{"x":{"filter":"none","vertical":false,"data":[["1","2","3"],[1,2,3],[2,2,2],[3,2,2],[1,2,2],[null,2,7]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>affImgAffect-R4<\/th>\n      <th>affImgAffect-R2<\/th>\n      <th>affImgAffect-R1<\/th>\n      <th>affImgAffect-R3<\/th>\n      <th>affImgAffect-R5<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":5,"columnDefs":[{"className":"dt-right","targets":[1,2,3,4,5]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[5,10,25,50,100]}},"evals":[],"jsHooks":[]}</script>
+<div class="datatables html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-c45e78bb678ba2cf4132" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-c45e78bb678ba2cf4132">{"x":{"filter":"none","vertical":false,"data":[["1","2","3"],[1,2,3],[2,2,2],[3,2,2],[1,2,2],[null,2,7]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>affImgAffect-R4<\/th>\n      <th>affImgAffect-R2<\/th>\n      <th>affImgAffect-R1<\/th>\n      <th>affImgAffect-R3<\/th>\n      <th>affImgAffect-R5<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":5,"columnDefs":[{"className":"dt-right","targets":[1,2,3,4,5]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[5,10,25,50,100]}},"evals":[],"jsHooks":[]}</script>
 </div>
 </div>
 <p>In the histogram I have shown the average value of this affect of the mentioned associations, thereby <em>the scale ranges from 1-7, has a mean value of 4</em>:</p>
@@ -419,13 +419,32 @@ White
 <h2 class="anchored" data-anchor-id="scales">Scales</h2>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="do">########################################</span></span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="co"># reverse code all items</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="co"># number of items for each scale</span></span>
 <span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="do">########################################</span></span>
-<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; see negative correlation between single items</span></span>
-<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>psych<span class="sc">::</span><span class="fu">cor.plot</span>(<span class="at">r =</span> <span class="fu">cor</span>(questionnaire[, <span class="fu">str_detect</span>(<span class="at">string =</span> <span class="fu">colnames</span>(questionnaire),</span>
-<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>                                                   <span class="at">pattern =</span> <span class="st">"^GCB"</span>)], </span>
-<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>                                                   <span class="at">use =</span> <span class="st">"pairwise.complete.obs"</span>),</span>
-<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>                                                   <span class="at">upper =</span> <span class="cn">FALSE</span>, <span class="at">xlas =</span> <span class="dv">2</span>, <span class="at">main =</span> <span class="st">"GCB scale"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">str_detect</span>(<span class="at">string =</span> <span class="fu">colnames</span>(questionnaire), <span class="at">pattern =</span> <span class="st">"^GCB"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 15</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">str_detect</span>(<span class="at">string =</span> <span class="fu">colnames</span>(questionnaire), <span class="at">pattern =</span> <span class="st">"^CMQ"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 5</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">str_detect</span>(<span class="at">string =</span> <span class="fu">colnames</span>(questionnaire), <span class="at">pattern =</span> <span class="st">"^CRKQ"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 16</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">str_detect</span>(<span class="at">string =</span> <span class="fu">colnames</span>(questionnaire), <span class="at">pattern =</span> <span class="st">"^CCSQ"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 12</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="do">########################################</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="co"># reverse code all items</span></span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a><span class="do">########################################</span></span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; see negative correlation between single items</span></span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>psych<span class="sc">::</span><span class="fu">cor.plot</span>(<span class="at">r =</span> <span class="fu">cor</span>(questionnaire[, <span class="fu">str_detect</span>(<span class="at">string =</span> <span class="fu">colnames</span>(questionnaire),</span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>                                                   <span class="at">pattern =</span> <span class="st">"^GCB"</span>)], </span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>                                                   <span class="at">use =</span> <span class="st">"pairwise.complete.obs"</span>),</span>
+<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a>                                                   <span class="at">upper =</span> <span class="cn">FALSE</span>, <span class="at">xlas =</span> <span class="dv">2</span>, <span class="at">main =</span> <span class="st">"GCB scale"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning in cor(questionnaire[, str_detect(string = colnames(questionnaire), :
 the standard deviation is zero</code></pre>
@@ -433,10 +452,10 @@ the standard deviation is zero</code></pre>
 <div class="cell-output-display">
 <p><img src="main_file_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="672"></p>
 </div>
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>psych<span class="sc">::</span><span class="fu">cor.plot</span>(<span class="at">r =</span> <span class="fu">cor</span>(questionnaire[, <span class="fu">str_detect</span>(<span class="at">string =</span> <span class="fu">colnames</span>(questionnaire),</span>
-<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>                                                   <span class="at">pattern =</span> <span class="st">"^CMQ"</span>)], </span>
-<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>                                                   <span class="at">use =</span> <span class="st">"pairwise.complete.obs"</span>),</span>
-<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>                                                   <span class="at">upper =</span> <span class="cn">FALSE</span>, <span class="at">xlas =</span> <span class="dv">2</span>, <span class="at">main =</span> <span class="st">"CMQ scale"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>psych<span class="sc">::</span><span class="fu">cor.plot</span>(<span class="at">r =</span> <span class="fu">cor</span>(questionnaire[, <span class="fu">str_detect</span>(<span class="at">string =</span> <span class="fu">colnames</span>(questionnaire),</span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>                                                   <span class="at">pattern =</span> <span class="st">"^CMQ"</span>)], </span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>                                                   <span class="at">use =</span> <span class="st">"pairwise.complete.obs"</span>),</span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>                                                   <span class="at">upper =</span> <span class="cn">FALSE</span>, <span class="at">xlas =</span> <span class="dv">2</span>, <span class="at">main =</span> <span class="st">"CMQ scale"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning in cor(questionnaire[, str_detect(string = colnames(questionnaire), :
 the standard deviation is zero</code></pre>
@@ -444,10 +463,10 @@ the standard deviation is zero</code></pre>
 <div class="cell-output-display">
 <p><img src="main_file_files/figure-html/unnamed-chunk-9-2.png" class="img-fluid" width="672"></p>
 </div>
-<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>psych<span class="sc">::</span><span class="fu">cor.plot</span>(<span class="at">r =</span> <span class="fu">cor</span>(questionnaire[, <span class="fu">str_detect</span>(<span class="at">string =</span> <span class="fu">colnames</span>(questionnaire),</span>
-<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>                                                   <span class="at">pattern =</span> <span class="st">"^CRKQ"</span>)], </span>
-<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>                                                   <span class="at">use =</span> <span class="st">"pairwise.complete.obs"</span>),</span>
-<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>                                                   <span class="at">upper =</span> <span class="cn">FALSE</span>, <span class="at">xlas =</span> <span class="dv">2</span>, <span class="at">main =</span> <span class="st">"CRKQ scale"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>psych<span class="sc">::</span><span class="fu">cor.plot</span>(<span class="at">r =</span> <span class="fu">cor</span>(questionnaire[, <span class="fu">str_detect</span>(<span class="at">string =</span> <span class="fu">colnames</span>(questionnaire),</span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>                                                   <span class="at">pattern =</span> <span class="st">"^CRKQ"</span>)], </span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>                                                   <span class="at">use =</span> <span class="st">"pairwise.complete.obs"</span>),</span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>                                                   <span class="at">upper =</span> <span class="cn">FALSE</span>, <span class="at">xlas =</span> <span class="dv">2</span>, <span class="at">main =</span> <span class="st">"CRKQ scale"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning in cor(questionnaire[, str_detect(string = colnames(questionnaire), :
 the standard deviation is zero</code></pre>
@@ -455,10 +474,10 @@ the standard deviation is zero</code></pre>
 <div class="cell-output-display">
 <p><img src="main_file_files/figure-html/unnamed-chunk-9-3.png" class="img-fluid" width="672"></p>
 </div>
-<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>psych<span class="sc">::</span><span class="fu">cor.plot</span>(<span class="at">r =</span> <span class="fu">cor</span>(questionnaire[, <span class="fu">str_detect</span>(<span class="at">string =</span> <span class="fu">colnames</span>(questionnaire),</span>
-<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>                                                   <span class="at">pattern =</span> <span class="st">"^CCSQ"</span>)], </span>
-<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>                                                   <span class="at">use =</span> <span class="st">"pairwise.complete.obs"</span>),</span>
-<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>                                                   <span class="at">upper =</span> <span class="cn">FALSE</span>, <span class="at">xlas =</span> <span class="dv">2</span>, <span class="at">main =</span> <span class="st">"CCSQ scale"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>psych<span class="sc">::</span><span class="fu">cor.plot</span>(<span class="at">r =</span> <span class="fu">cor</span>(questionnaire[, <span class="fu">str_detect</span>(<span class="at">string =</span> <span class="fu">colnames</span>(questionnaire),</span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>                                                   <span class="at">pattern =</span> <span class="st">"^CCSQ"</span>)], </span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>                                                   <span class="at">use =</span> <span class="st">"pairwise.complete.obs"</span>),</span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a>                                                   <span class="at">upper =</span> <span class="cn">FALSE</span>, <span class="at">xlas =</span> <span class="dv">2</span>, <span class="at">main =</span> <span class="st">"CCSQ scale"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning in cor(questionnaire[, str_detect(string = colnames(questionnaire), :
 the standard deviation is zero</code></pre>
@@ -466,28 +485,25 @@ the standard deviation is zero</code></pre>
 <div class="cell-output-display">
 <p><img src="main_file_files/figure-html/unnamed-chunk-9-4.png" class="img-fluid" width="672"></p>
 </div>
-<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="do">## reverse code</span></span>
-<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a><span class="do">########################################</span></span>
-<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a><span class="co"># compute mean variables</span></span>
-<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a><span class="do">########################################</span></span>
-<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a><span class="do">### overall mean variables</span></span>
-<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a>questionnaire<span class="sc">$</span>mean_GCB  <span class="ot">&lt;-</span> questionnaire <span class="sc">%&gt;%</span></span>
-<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">matches</span>(<span class="st">"^GCB"</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rowMeans</span>(<span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb38-11"><a href="#cb38-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-12"><a href="#cb38-12" aria-hidden="true" tabindex="-1"></a>questionnaire<span class="sc">$</span>mean_CMQ  <span class="ot">&lt;-</span> questionnaire <span class="sc">%&gt;%</span></span>
-<span id="cb38-13"><a href="#cb38-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">matches</span>(<span class="st">"^CMQ"</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb38-14"><a href="#cb38-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rowMeans</span>(<span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb38-15"><a href="#cb38-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-16"><a href="#cb38-16" aria-hidden="true" tabindex="-1"></a>questionnaire<span class="sc">$</span>mean_CRKQ  <span class="ot">&lt;-</span> questionnaire <span class="sc">%&gt;%</span></span>
-<span id="cb38-17"><a href="#cb38-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">matches</span>(<span class="st">"^CRKQ"</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb38-18"><a href="#cb38-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rowMeans</span>(<span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb38-19"><a href="#cb38-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-20"><a href="#cb38-20" aria-hidden="true" tabindex="-1"></a>questionnaire<span class="sc">$</span>mean_CCSQ  <span class="ot">&lt;-</span> questionnaire <span class="sc">%&gt;%</span></span>
-<span id="cb38-21"><a href="#cb38-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">matches</span>(<span class="st">"^CCSQ"</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb38-22"><a href="#cb38-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rowMeans</span>(<span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="do">########################################</span></span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a><span class="co"># compute mean variables</span></span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a><span class="do">########################################</span></span>
+<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a><span class="do">### overall mean variables</span></span>
+<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a>questionnaire<span class="sc">$</span>mean_GCB  <span class="ot">&lt;-</span> questionnaire <span class="sc">%&gt;%</span></span>
+<span id="cb46-6"><a href="#cb46-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">matches</span>(<span class="st">"^GCB"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb46-7"><a href="#cb46-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rowMeans</span>(<span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb46-8"><a href="#cb46-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-9"><a href="#cb46-9" aria-hidden="true" tabindex="-1"></a>questionnaire<span class="sc">$</span>mean_CMQ  <span class="ot">&lt;-</span> questionnaire <span class="sc">%&gt;%</span></span>
+<span id="cb46-10"><a href="#cb46-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">matches</span>(<span class="st">"^CMQ"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb46-11"><a href="#cb46-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rowMeans</span>(<span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb46-12"><a href="#cb46-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-13"><a href="#cb46-13" aria-hidden="true" tabindex="-1"></a>questionnaire<span class="sc">$</span>mean_CRKQ  <span class="ot">&lt;-</span> questionnaire <span class="sc">%&gt;%</span></span>
+<span id="cb46-14"><a href="#cb46-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">matches</span>(<span class="st">"^CRKQ"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb46-15"><a href="#cb46-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rowMeans</span>(<span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb46-16"><a href="#cb46-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-17"><a href="#cb46-17" aria-hidden="true" tabindex="-1"></a>questionnaire<span class="sc">$</span>mean_CCSQ  <span class="ot">&lt;-</span> questionnaire <span class="sc">%&gt;%</span></span>
+<span id="cb46-18"><a href="#cb46-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">matches</span>(<span class="st">"^CCSQ"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb46-19"><a href="#cb46-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rowMeans</span>(<span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 </section>
