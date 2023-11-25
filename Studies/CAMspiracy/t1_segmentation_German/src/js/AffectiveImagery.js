@@ -1,7 +1,7 @@
 /* 
 Affective Imagery: 
 */
-const AffectiveImageryTechnology = "Climate Change";
+const AffectiveImageryTechnology = "Klimawandel";
 var boolSkipAffectImg = undefined;
 
 const AffectiveImageryInst_htmlForm = new lab.html.Form({
@@ -23,7 +23,7 @@ const AffectiveImagery_htmlForm = new lab.html.Form({
   messageHandlers: {
     run: () => {
       var timesClicked = 1;
-      const placeholderLabel = ["second", "third", "fourth", "fifth"];
+      const placeholderLabel = ["zweite", "dritte", "vierte", "fünfte"];
 
       $(function () {
         $("#skipResponse").hide();
@@ -66,9 +66,9 @@ const AffectiveImagery_htmlForm = new lab.html.Form({
 
             // change placeholder
             document.querySelector(nextElement).placeholder =
-              "Enter your " +
+              "Geben Sie Ihre " +
               placeholderLabel[timesClicked - 1] +
-              " association";
+              " Assoziation ein";
             // set disabled to true or false
             document.querySelector(currentElement).disabled = true;
             document.querySelector(nextElement).disabled = false;
@@ -89,8 +89,8 @@ const AffectiveImagery_htmlForm = new lab.html.Form({
           } else {
             document.querySelector(currentElement).value = "";
             toastr.warning(
-              "Click on next response or Enter if you have entered a word (use letters).",
-              "Please enter at least one word or unknow if you do not know the word.",
+              "Klicken Sie auf die nächste Antwort oder auf Enter, wenn Sie ein Wort eingegeben haben (verwenden Sie Buchstaben)",
+              "Bitte geben Sie mindestens ein Wort ein oder klicken Sie auf Unbekannt, wenn Sie das Wort nicht kennen",
               {
                 closeButton: true,
                 timeOut: 3000,
@@ -143,16 +143,16 @@ const AffectiveImageryAffect_htmlForm = new lab.html.Page({
       ],
       width: "7",
       anchors: [
-        "very negative",
-        "negative",
-        "somewhat negative",
+        "sehr negativ",
+        "negativ",
+        "etwas negativ",
         "neutral",
-        "somewhat positive",
-        "positive",
-        "very positive",
-      ],
-      label: `Please indicate to what extent you perceive your mentioned thoughts or images about <strong>${AffectiveImageryTechnology}</strong> as positive or negative:`,
-      help: "Read each of your thoughts or images and then mark the answer option that most applies.",
+        "etwas positiv",
+        "positiv",
+        "sehr positiv",
+      ],      
+      label: `Bitte geben Sie an, inwieweit Sie die von Ihnen genannten Überlegungen oder Eindrücke zu <strong>${AffectiveImageryTechnology}</strong> als positiv oder negativ empfinden:`,
+      help: "Lesen Sie jeden Ihrer Überlegungen oder Eindrücke und markieren Sie dann die Antwortoption, die am ehesten zutrifft.",
       shuffle: true,
       name: "affImgAffect",
     },

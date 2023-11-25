@@ -9,7 +9,7 @@ function updateQueryStringParameter(uri, key, value) {
   }
 }
 
-const Required_Testing = false; // set to false for production !!!
+const Required_Testing = true; // set to false for production !!!
 
 /* number of components / elements to set slider */
 const numElements = 14;
@@ -225,7 +225,7 @@ const Likert_GCB1_htmlForm = new lab.html.Page({
       name: "GCB",
     },
   ],
-  submitButtonText: "Continue →",
+  submitButtonText: "Weiter →",
   submitButtonPosition: "right",
   width: "l",
   messageHandlers: {
@@ -289,7 +289,7 @@ const Likert_GCB2_htmlForm = new lab.html.Page({
       name: "GCB",
     },
   ],
-  submitButtonText: "Continue →",
+  submitButtonText: "Weiter →",
   submitButtonPosition: "right",
   width: "l",
   messageHandlers: {
@@ -379,7 +379,7 @@ const Likert_CMQ_htmlForm = new lab.html.Page({
       name: "CMQ",
     },
   ],
-  submitButtonText: "Continue →",
+  submitButtonText: "Weiter →",
   submitButtonPosition: "right",
   width: "l",
   messageHandlers: {
@@ -467,7 +467,7 @@ const LikertCRKQ1_htmlForm = new lab.html.Page({
       name: "CRKQ",
     },
   ],
-  submitButtonText: "Continue →",
+  submitButtonText: "Weiter →",
   submitButtonPosition: "right",
   width: "l",
   messageHandlers: {
@@ -533,7 +533,7 @@ const LikertCRKQ2_htmlForm = new lab.html.Page({
       name: "CRKQ",
     },
   ],
-  submitButtonText: "Continue →",
+  submitButtonText: "Weiter →",
   submitButtonPosition: "right",
   width: "l",
   messageHandlers: {
@@ -613,7 +613,7 @@ const LikertCCSQ1_htmlForm = new lab.html.Page({
       name: "CCSQ",
     },
   ],
-  submitButtonText: "Continue →",
+  submitButtonText: "Weiter →",
   submitButtonPosition: "right",
   width: "l",
   messageHandlers: {
@@ -681,7 +681,7 @@ const LikertCCSQ2_htmlForm = new lab.html.Page({
       name: "CCSQ",
     },
   ],
-  submitButtonText: "Continue →",
+  submitButtonText: "Weiter →",
   submitButtonPosition: "right",
   width: "l",
   messageHandlers: {
@@ -889,14 +889,10 @@ const study = new lab.flow.Sequence({
   plugins: [
     new lab.plugins.Metadata(),
     // new lab.plugins.Fullscreen(),
-    new lab.plugins.Debug(), // comment out finally
+    // new lab.plugins.Debug(), // comment out finally
     // new lab.plugins.Download()
   ],
   content: [
-    AffectiveImagery_sequence,
-
-
-
     // >>> introduction phase
     Greetings_htmlForm,
     InformCon_htmlForm,

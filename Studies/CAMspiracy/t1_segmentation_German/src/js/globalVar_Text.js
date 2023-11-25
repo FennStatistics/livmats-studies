@@ -145,7 +145,7 @@ const textObj = {
  
  <footer class="content-vertical-center content-horizontal-right">
    <button id="continue" type="submit" form="page-form">
-       Continue &rarr;
+       Weiter &rarr;
    </button>
  </footer>
    `,
@@ -410,7 +410,7 @@ Verpflichten Sie sich, in dieser Umfrage wohlüberlegte Antworten zu geben?
   AffectiveImagery: `
   <main class="content-horizontal-center content-vertical-center">
   <div>
-      What are the first thoughts or images that come to your mind when you think of: 
+  Welche ersten Gedanken oder Bilder kommen Ihnen in den Sinn, wenn Sie an Folgendes denken: 
       <br>
       <br>
 <div style="align-items: display: flex;"> <strong style="font-size: 22px;">` +
@@ -422,7 +422,7 @@ Verpflichten Sie sich, in dieser Umfrage wohlüberlegte Antworten zu geben?
     <form id="affectiveImageryForm">
       <div class="affectiveImagery">
           <div class="form-group">
-              <input id="R1" name="R1" class="form-control" placeholder="Enter your first association" type="text"
+              <input id="R1" name="R1" class="form-control" placeholder="Geben Sie Ihre erste Assoziation ein" type="text"
                   autocorrect="off" autocapitalize="none" autofocus autocomplete="off" tabindex="1">
           </div>
           <div class="form-group">
@@ -442,7 +442,7 @@ Verpflichten Sie sich, in dieser Umfrage wohlüberlegte Antworten zu geben?
                   autocapitalize="none" autofocus="" autocomplete="off" tabindex="5" disabled="">
           </div>
 
-          <small class="text-muted" id="progressLabel">Progress</small>
+          <small class="text-muted" id="progressLabel">Fortschritt</small>
         
           <div class="progress" style="background: white;">
             <div class="progress-bar-AffectiveImg" style="background: #229954;"> 
@@ -455,13 +455,13 @@ Verpflichten Sie sich, in dieser Umfrage wohlüberlegte Antworten zu geben?
         <button type="submit" disabled style="display: none" aria-hidden="true"></button>
       
               <button type="button" class="btn btn-default" tabindex="-1" id="submitAssoButton"><span
-                      class="glyphicon glyphicon-plus"></span>&nbsp;Next response</button>
+                      class="glyphicon glyphicon-plus"></span>&nbsp;Nächste Antwort</button>
               <button type="submit" class="btn btn-default" tabindex="-1" id="finalResponse"><span
-                      class="glyphicon glyphicon-ok" form="affectiveImageryForm"></span>&nbsp;End the input</button>
+                      class="glyphicon glyphicon-ok" form="affectiveImageryForm"></span>&nbsp;Eingabe beenden</button>
               <button type="submit" class="btn btn-default" tabindex="-1" id="skipResponse"><span
-                      class="glyphicon glyphicon-minus" form="affectiveImageryForm"></span>&nbsp;No more entries</button>
+                      class="glyphicon glyphicon-minus" form="affectiveImageryForm"></span>&nbsp;Keine weiteren Eingaben</button>
               <button type="submit" class="btn btn-default" tabindex="-1" id="unknownResponse"><span
-                      class="glyphicon glyphicon-remove" form="affectiveImageryForm"></span>&nbsp;Unknown word</button>
+                      class="glyphicon glyphicon-remove" form="affectiveImageryForm"></span>&nbsp;Unbekanntes Wort</button>
           </div>
       </div>
   </form>
@@ -536,7 +536,7 @@ Please answer the questions that follow from the perspective of each theory
 Do not press "Continue" until you have read the text carefully. The "Continue" button is locked for 10 seconds.
 </div>
 &nbsp; <button id="continue" type="submit" form="page-form">
-Continue &rarr;
+Weiter &rarr;
 </button>
 </footer>
   `,
@@ -567,7 +567,7 @@ Continue &rarr;
   <div class="w-l text-justify">
   </div>
   <button id="continue" type="submit" form="feedback">
-  Continue &rarr;
+  Weiter &rarr;
 </button>
 
 </footer>
