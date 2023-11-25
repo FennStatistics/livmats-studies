@@ -8,12 +8,21 @@
 - [basal attributes - study files](https://github.com/FennStatistics/livmats-studies/tree/main/Analyses/basalAttributes) (C.A.M.E.L. version 2.0)
 - [basal attributes - analysis files](https://github.com/FennStatistics/livmats-studies/tree/main/Studies/basalAttributes) (CAM-App version 2.0)
     + for a publication (working title): <i>Using basal attributes to identify key properties to increase the acceptance of new material systems</i>
+- [CAMspiracy - study files](https://github.com/FennStatistics/livmats-studies/tree/main/Analyses/CAMspiracy) (C.A.M.E.L. version 2.0)
+- [CAMspiracy - analysis files](https://github.com/FennStatistics/livmats-studies/tree/main/Studies/CAMspiracy) (CAM-App version 2.0)
+- [S1_SRW - study files](https://github.com/FennStatistics/livmats-studies/tree/main/Analyses/S1_SRW)
+- [S1_SRW - analysis files](https://github.com/FennStatistics/livmats-studies/tree/main/Studies/S1_SRW)
+- [S2_softRobots - study files](https://github.com/FennStatistics/livmats-studies/tree/main/Analyses/S2_softRobots) (C.A.M.E.L. version 2.0)
+- [S2_softRobots - analysis files](https://github.com/FennStatistics/livmats-studies/tree/main/Studies/S2_softRobots) (CAM-App version 2.0)
 
+to motivate the "basal attributes" and "S1 SRW" studies we conducted a World Café:
 
+- [World Café - study files](https://github.com/FennStatistics/livmats-studies/tree/main/Studies/world%20cafe)
+- [World Café - analysis files](https://github.com/FennStatistics/livmats-studies/tree/main/Analyses/world%20cafe)
 
 ## How to download / run these studies: 
 
-- online-studies were set up "on scratch" using partly [lab.js](https://lab.js.org/) functions and other .js libraries like [jatos.js](https://www.jatos.org/jatos.js-Reference.html) or [jQuery.js](https://jquery.com/), and set up online using local JATOS server (https://www.jatos.org/)
+- online-studies were set up "on scratch" using partly [lab.js](https://lab.js.org/) functions and other .js libraries like [jatos.js](https://www.jatos.org/jatos.js-Reference.html) or [jQuery.js](https://jquery.com/), and set up online using local [JATOS server](https://www.jatos.org/)
 - all the single studies folders contain "exportJatos" file, which can be uploaded to any public accessible JATOS Server (e.g. https://mindprobe.eu/)
 - if you want to change / run the study locally just open the respective study folders with [Visual Studio Code](https://code.visualstudio.com/) (it is recommended to install the "Live Server" extension)
 
