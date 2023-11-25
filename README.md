@@ -48,6 +48,8 @@ All studies have been programmed and analysed by [Julius Fenn](https://www.psych
 
 Study Designs and possibilities of analyses have been discuseed with (ordered alphabatically)
 
+* Andrea Kiesel
+* Edoardo Milana
 * Falk Tauber
 * Irina Monno
 * Joscha Teichmann
