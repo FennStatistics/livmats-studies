@@ -5,15 +5,16 @@
 
 *The list will be ordered alphabatically. For every study there is an identical named folder in the "Studies" and "Analyses" folders:* 
 
-- [basal attributes - study files](https://github.com/FennStatistics/livmats-studies/tree/main/Analyses/basalAttributes) (C.A.M.E.L. version 2.0)
-- [basal attributes - analysis files](https://github.com/FennStatistics/livmats-studies/tree/main/Studies/basalAttributes) (CAM-App version 2.0)
+- [basal attributes - study files](https://github.com/FennStatistics/livmats-studies/tree/main/Studies/basalAttributes) (CAM-App version 2.0)
+- [basal attributes - analysis files](https://github.com/FennStatistics/livmats-studies/tree/main/Analyses/basalAttributes) (C.A.M.E.L. version 2.0)
     + for a publication (working title): <i>Using basal attributes to identify key properties to increase the acceptance of new material systems</i>
-- [CAMspiracy - study files](https://github.com/FennStatistics/livmats-studies/tree/main/Analyses/CAMspiracy) (C.A.M.E.L. version 2.0)
-- [CAMspiracy - analysis files](https://github.com/FennStatistics/livmats-studies/tree/main/Studies/CAMspiracy) (CAM-App version 2.0)
-- [S1_SRW - study files](https://github.com/FennStatistics/livmats-studies/tree/main/Analyses/S1_SRW)
-- [S1_SRW - analysis files](https://github.com/FennStatistics/livmats-studies/tree/main/Studies/S1_SRW)
-- [S2_softRobots - study files](https://github.com/FennStatistics/livmats-studies/tree/main/Analyses/S2_softRobots) (C.A.M.E.L. version 2.0)
-- [S2_softRobots - analysis files](https://github.com/FennStatistics/livmats-studies/tree/main/Studies/S2_softRobots) (CAM-App version 2.0)
+- [CAMspiracy - study files](https://github.com/FennStatistics/livmats-studies/tree/main/Studies/CAMspiracy) (CAM-App version 2.0)
+- [CAMspiracy - analysis files](https://github.com/FennStatistics/livmats-studies/tree/main/Analyses/CAMspiracy) (C.A.M.E.L. version 2.0)
+- [S1_SRW - study files](https://github.com/FennStatistics/livmats-studies/tree/main/Studies/S1_SRW)
+- [S1_SRW - analysis files](https://github.com/FennStatistics/livmats-studies/tree/main/Analyses/S1_SRW)
+    + for a publication (working title): <i>A layperson's perspective on the acceptability of a soft robot - highlighting the importance of science communication and possible framing effects</i>
+- [S2_softRobots - study files](https://github.com/FennStatistics/livmats-studies/tree/main/Studies/S2_softRobots) (CAM-App version 2.0)
+- [S2_softRobots - analysis files](https://github.com/FennStatistics/livmats-studies/tree/main/Analyses/S2_softRobots) (C.A.M.E.L. version 2.0)
 
 to motivate the "basal attributes" and "S1 SRW" studies we conducted a World Café:
 
