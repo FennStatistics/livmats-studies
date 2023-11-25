@@ -28,7 +28,7 @@ p_load('tidyverse', 'jsonlite', 'magrittr', 'xlsx',
 ##### JATOS file
 setwd("data")
 # dir()
-suppressMessages(read_file('jatos_results_data_20231124170612.txt') %>%
+suppressMessages(read_file('jatos_results_data_20231125160137.txt') %>%
   # ... split it into lines ...
   str_split('\n') %>% first() %>%
   # ... filter empty rows ...
