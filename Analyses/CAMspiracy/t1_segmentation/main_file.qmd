@@ -37,7 +37,6 @@ suppressMessages(read_file('jatos_results_data_20231125160137.txt') %>%
   map_dfr(fromJSON, flatten=TRUE)) -> dat
 
 
-
 ##### prolific file
 #> socio-demographic data
 prolific <- read.csv(file = "prolific_export_6560bd631f35feab8a3d13c8.csv", header = TRUE)
@@ -57,6 +56,11 @@ for(i in 1:length(dir())){
 rm(i)
 ```
 
+# Notes
+
+Remark: "dat" at first is the data set of N=150 americans who have the political affilication "Democrat"; in opposition to "dat_Republican"
+
+
 # prepare data
 
 ## set up data.frame
@@ -67,10 +71,14 @@ rm(i)
 ########################################
 dat$ID <- NA
 tmp_IDcounter <- 0
+
+dat$politicalParty <- NA
+
 for(i in 1:nrow(dat)){
   if(!is.na(dat$sender[i]) && dat$sender[i] == "Greetings"){
     # tmp <- dat$prolific_pid[i]
     tmp_IDcounter = tmp_IDcounter + 1
+    dat$politicalParty[i] <- "Democrat" ## add political affiliation
   }
   dat$ID[i] <- tmp_IDcounter
 }
@@ -96,10 +104,12 @@ vec_ques <- c("PROLIFIC_PID",
                 "dummy_informedconsent",
                 "commCheck",
                 tmp_notNumeric,
-                tmp_numeric)
+                tmp_numeric,
+                "politicalParty")
 
 vec_notNumeric = c("PROLIFIC_PID",
-                   tmp_notNumeric)
+                   tmp_notNumeric,
+                   "politicalParty")
 
 questionnaire <- questionnairetype(dataset = dat, 
                                         listvars = vec_ques, 
@@ -335,6 +345,7 @@ questionnaire$mean_CCSQ  <- questionnaire %>%
 
 
 ## save final questionnaire
+dim(questionnaire)
 write.xlsx2(x = questionnaire, file = "outputs/questionnaire_final.xlsx")
 ```
 
