@@ -1,7 +1,7 @@
 /* default values */
 var config = {
     CAMproject: "Covid19_perception", // "proj_" + uuid.v4(), // necessary for server (see ERM)
-    ConNumNodes: 10, // number of nodes necessary to draw
+    ConNumNodes: 3, // number of nodes necessary to draw
     
     hideArrows: true, // if false = possible to draw arrows
     BidirectionalDefault: false, // if true the default connection is bidirectional
@@ -16,9 +16,9 @@ var config = {
     ShowResearcherButtons: false, // if true = show researcher functionalities
     cameraFeature: false, // include camera / splotlight feature to move screen
 
-    setLanguage: "English", // set language of your CAM study, e.g. French 
+    setLanguage: "German", // set language of your CAM study, e.g. French 
 
-    fullScreen: true, // if true = study in fullscreen mode + paradata
+    fullScreen: false, // if true = study in fullscreen mode + paradata
     showNotPopupStart: false, // true = no pop up shown; only working if fullScreen is set to true
 
     AdaptiveStudy: false, // run as adaptive study 

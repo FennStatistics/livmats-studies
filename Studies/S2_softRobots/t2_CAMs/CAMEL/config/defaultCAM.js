@@ -1,4 +1,4 @@
-/* default CAM which will be redrawn if CAM is deleted */
+/* default CAM which will be redrawn if CAM is deleted
 function shuffle(queslist) {
     let array_emp = [];
     for (var i = 0; i < queslist.length; i++) {
@@ -16,10 +16,9 @@ function shuffle(queslist) {
   }
 
 const ConceptsCAM = ["positive aspects", "negative aspects"];
-
 const index_ConceptsCAM = shuffle(ConceptsCAM);
 console.log("index_ConceptsCAM:", index_ConceptsCAM);
-
+*/
 
 function defaultCAM() {
   /* */
@@ -29,13 +28,13 @@ function defaultCAM() {
     }, false, false, false));
 
         
-    CAM.addElement(new NodeCAM(0, ConceptsCAM[index_ConceptsCAM[0]], {
+    CAM.addElement(new NodeCAM(3, "positive aspects", {
       x: 450,
       y: 400
   }, false, false, false));
 
 
-  CAM.addElement(new NodeCAM(0, ConceptsCAM[index_ConceptsCAM[1]], {
+  CAM.addElement(new NodeCAM(-2, "negative aspects", {
     x: 850,
     y: 400
 }, false, false, false));
