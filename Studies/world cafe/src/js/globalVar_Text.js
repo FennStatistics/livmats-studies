@@ -239,7 +239,74 @@ On the following page please rate the importance and your inital emotional evalu
      </button>
    </footer>
    `,
-   SAIpreKnowledge: `
+   SR_applications: `
+  <header>
+    <h2>
+    Please answer the following question:
+    </h2>
+  </header>
+  
+  <main class="content-horizontal-center content-vertical-center">
+  <div class="w-l text-justify" style="display: block">
+    
+    
+    <form id="demography">
+      <table>
+
+        
+        <!-- Knowledge SRM -->
+        <tr style="height: 100px">
+          <td class="text-left">
+          Can you identify <strong>distinct application scenarios</strong> where soft robots offer advantages over their rigid counterparts?
+          </td>
+          <td>
+            <select id="applicationsSR" name="applicationsSR" required class="w-100">
+              <option value="" selected>
+              -- Please select --
+              </option>
+              <option value="0">No.</option>
+              <option value="1">Yes.</option>
+            </select>
+          </td>
+        </tr>
+      
+
+        <!-- Definition   -->
+        <tr id="hideapplicationsSRRdefinition" style="height: 100px">
+          <td class="text-left">
+          What are the <strong>most promising applications</strong> of soft robots over their rigid counterparts within your field of expertise?
+          <br>
+          <p class="text-left small text-muted hide-if-empty" style="margin: 0.25rem 0">
+          Please write a short answer.
+          </p>
+          </td>
+          <td>
+          <textarea id="applicationsSRdefinition" name="applicationsSRdefinition" class="w-100" rows="8"></textarea>
+          </td>
+        </tr>
+
+ 
+        <!-- Column balance -->
+        <colgroup>
+          <col style="width: 40%">
+          <col style="width: 60%">
+        </colgroup>
+      </table>
+      </form>
+  </div>
+</main>
+
+  
+  <footer class="content-vertical-center content-horizontal-right">
+  <div class="w-l text-justify">
+  </div>
+  <button id="continue" type="submit" form="demography">
+  Continue &rarr;
+</button>
+
+</footer>
+  `,
+  SR_benefitsRisks: `
   <header>
     <h2>
     Please answer the following questions:
@@ -256,50 +323,50 @@ On the following page please rate the importance and your inital emotional evalu
         
         <!-- Knowledge SRM -->
         <tr style="height: 100px">
-          <td class="font-weight-bold text-left">
-          Do you see any benefits for soft robots compared to rigid robots?
+          <td class="text-left">
+          Do you see any <strong>benefits</strong> for soft robots compared to rigid robots?
           </td>
           <td>
-            <select id="knowSRM" name="knowSRM" required class="w-100">
+            <select id="benefitsSR" name="benefitsSR" required class="w-100">
               <option value="" selected>
               -- Please select --
               </option>
-              <option value="knowSRMno">No, I do not see any benefits</option>
-              <option value="knowSRMlittle">Yes, I see benefits.</option>
-              <option value="knowSRMlot">Yes, I see great benefits.</option>
+              <option value="0">No, I do not see any benefits</option>
+              <option value="1">Yes, I see benefits.</option>
+              <option value="2">Yes, I see great benefits.</option>
             </select>
           </td>
         </tr>
       
 
         <!-- Definition SRM   -->
-        <tr id="hideKnowSRMdefinition" style="height: 100px">
-          <td class="font-weight-bold text-left">
-          In your expert opinion, what are the main benefits of soft robots compared to rigid robots?
+        <tr id="hidebenefitsSRdefinition" style="height: 100px">
+          <td class="text-left">
+          In your expert opinion, what are the main <strong>benefits</strong> of soft robots compared to rigid robots?
           <br>
           <p class="text-left small text-muted hide-if-empty" style="margin: 0.25rem 0">
           Please write a short answer.
           </p>
           </td>
           <td>
-          <textarea id="knowSRMdefinition" name="knowSRMdefinition" class="w-100" rows="8"></textarea>
+          <textarea id="benefitsSRdefinition" name="benefitsSRdefinition" class="w-100" rows="8"></textarea>
           </td>
         </tr>
 
 
         <!-- Knowledge SRM -->
         <tr style="height: 100px">
-          <td class="font-weight-bold text-left">
-          Do you see any risks for soft robots compared to rigid robots?
+          <td class="text-left">
+          Do you see any <strong>risks</strong> for soft robots compared to rigid robots?
           </td>
           <td>
             <select id="risksSR" name="risksSR" required class="w-100">
               <option value="" selected>
               -- Please select --
               </option>
-              <option value="risksSRno">No, I do not see any risks</option>
-              <option value="risksSRlittle">Yes, I see risks.</option>
-              <option value="risksSRlot">Yes, I see great risks.</option>
+              <option value="0">No, I do not see any risks</option>
+              <option value="1">Yes, I see risks.</option>
+              <option value="2">Yes, I see great risks.</option>
             </select>
           </td>
         </tr>
@@ -307,8 +374,8 @@ On the following page please rate the importance and your inital emotional evalu
 
         <!-- Definition SRM   -->
         <tr id="hideRisksSRfinition" style="height: 100px">
-          <td class="font-weight-bold text-left">
-          In your expert opinion, what are the main risks of soft robots compared to rigid robots?
+          <td class="text-left">
+          In your expert opinion, what are the main <strong>risks</strong> of soft robots compared to rigid robots?
           <br>
           <p class="text-left small text-muted hide-if-empty" style="margin: 0.25rem 0">
           Please write a short answer.
@@ -316,6 +383,174 @@ On the following page please rate the importance and your inital emotional evalu
           </td>
           <td>
           <textarea id="risksSRdefinition" name="risksSRdefinition" class="w-100" rows="8"></textarea>
+          </td>
+        </tr>
+
+ 
+        <!-- Column balance -->
+        <colgroup>
+          <col style="width: 40%">
+          <col style="width: 60%">
+        </colgroup>
+      </table>
+      </form>
+  </div>
+</main>
+
+  
+  <footer class="content-vertical-center content-horizontal-right">
+  <div class="w-l text-justify">
+  </div>
+  <button id="continue" type="submit" form="demography">
+  Continue &rarr;
+</button>
+
+</footer>
+  `,
+  SR_socialBenefitsRisks: `
+  <header>
+    <h2>
+    Please answer the following questions:
+    </h2>
+  </header>
+  
+  <main class="content-horizontal-center content-vertical-center">
+  <div class="w-l text-justify" style="display: block">
+    
+    
+    <form id="demography">
+      <table>
+
+        
+        <!-- Knowledge SRM -->
+        <tr style="height: 100px">
+          <td class="text-left">
+          Do you see any distinct <strong>social benefits</strong> for soft robots compared to rigid robots?
+          </td>
+          <td>
+            <select id="socialBenefitsSR" name="socialBenefitsSR" required class="w-100">
+              <option value="" selected>
+              -- Please select --
+              </option>
+              <option value="0">No, I do not see any social benefits</option>
+              <option value="1">Yes, I see social benefits.</option>
+              <option value="2">Yes, I see great social benefits.</option>
+            </select>
+          </td>
+        </tr>
+      
+
+        <!-- Definition SRM   -->
+        <tr id="hidesocialBenefitsSRdefinition" style="height: 100px">
+          <td class="text-left">
+          From your expert perspective, what do you identify as the <strong>primary social benefits</strong> of soft robots compared to rigid robots?
+          <br>
+          <p class="text-left small text-muted hide-if-empty" style="margin: 0.25rem 0">
+          Please write a short answer.
+          </p>
+          </td>
+          <td>
+          <textarea id="socialBenefitsSRdefinition" name="socialBenefitsSRdefinition" class="w-100" rows="8"></textarea>
+          </td>
+        </tr>
+
+
+        <!-- Knowledge SRM -->
+        <tr style="height: 100px">
+          <td class="text-left">
+          Do you see any distinct <strong>social risks</strong> for soft robots compared to rigid robots?
+          </td>
+          <td>
+            <select id="socialRisksSR" name="socialRisksSR" required class="w-100">
+              <option value="" selected>
+              -- Please select --
+              </option>
+              <option value="0">No, I do not see any risks</option>
+              <option value="1">Yes, I see risks.</option>
+              <option value="2">Yes, I see great risks.</option>
+            </select>
+          </td>
+        </tr>
+      
+
+        <!-- Definition SRM   -->
+        <tr id="hidesocialRisksSRdefinition" style="height: 100px">
+          <td class="text-left">
+          From your expert perspective, what do you identify as the <strong>primary social risks</strong> of soft robots compared to rigid robots?
+          <br>
+          <p class="text-left small text-muted hide-if-empty" style="margin: 0.25rem 0">
+          Please write a short answer.
+          </p>
+          </td>
+          <td>
+          <textarea id="socialRisksSRdefinition" name="socialRisksSRdefinition" class="w-100" rows="8"></textarea>
+          </td>
+        </tr>
+
+ 
+        <!-- Column balance -->
+        <colgroup>
+          <col style="width: 40%">
+          <col style="width: 60%">
+        </colgroup>
+      </table>
+      </form>
+  </div>
+</main>
+
+  
+  <footer class="content-vertical-center content-horizontal-right">
+  <div class="w-l text-justify">
+  </div>
+  <button id="continue" type="submit" form="demography">
+  Continue &rarr;
+</button>
+
+</footer>
+  `,
+  SR_sustainable: `
+  <header>
+    <h2>
+    Please answer the following question:
+    </h2>
+  </header>
+  
+  <main class="content-horizontal-center content-vertical-center">
+  <div class="w-l text-justify" style="display: block">
+    
+    
+    <form id="demography">
+      <table>
+
+        
+        <!-- Knowledge SRM -->
+        <tr style="height: 100px">
+          <td class="text-left">
+          Do you think soft robots are more <strong>sustainable</strong> than rigid robots? 
+          </td>
+          <td>
+            <select id="sustainableSR" name="sustainableSR" required class="w-100">
+              <option value="" selected>
+              -- Please select --
+              </option>
+              <option value="0">No.</option>
+              <option value="1">Yes.</option>
+            </select>
+          </td>
+        </tr>
+      
+
+        <!-- Definition   -->
+        <tr id="hidesustainableSRdefinition" style="height: 100px">
+          <td class="text-left">
+          From your expert point of view, could you elaborate on the <strong>potential environmental impacts</strong> of soft robots, considering aspects like energy efficiency, and end-of-life disposal, particularly in comparison to rigid robots?
+          <br>
+          <p class="text-left small text-muted hide-if-empty" style="margin: 0.25rem 0">
+          Please write a short answer.
+          </p>
+          </td>
+          <td>
+          <textarea id="sustainableSRdefinition" name="sustainableSRdefinition" class="w-100" rows="8"></textarea>
           </td>
         </tr>
 
@@ -348,21 +583,23 @@ On the following page please rate the importance and your inital emotional evalu
    <main class="content-horizontal-center content-vertical-center">
    <div class="w-l text-justify">
  <section>
-We are planning to publish a study called "<i>XXX</i>". Here we want to find out ZZZ.
+ We are planning to publish a study called "<i>Soft vs. Rigid Robots: Identifying Risks and Benefits in Social Assistance and Search and Rescue Robotics</i>". 
+ Here we want to find out which are the most significant risks & benefits of soft robots compared to rigid robots. 
+ The study focuses on two distinct case studies: (a) socially assistive robots and (b) search and rescue robots.
  </section>
  <br>
  <br>
  <section>
- ❓ What are XXX ❓
+ ❓ Why Ethics (Risks & Benefits) ❓
  <br>
-ZZZ
+ Ethics and Soft Robots are intrinsically linked as the integration of ethical considerations ensures responsible development and deployment, addressing crucial aspects such as user safety, privacy, and societal impact in the ever-expanding role of soft robots in various domains.
  </section>
  <br>
  <br>
  <section>
  📝your task:
  <br>
-ZZZ
+ On the following pages, we will ask you to answer 6 questions on risks and benefits of soft robots. Your task is to provide brief responses to these questions from your expert point of view.
  </section>
    </div>
  </main>

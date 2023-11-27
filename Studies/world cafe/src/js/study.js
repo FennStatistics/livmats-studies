@@ -12,7 +12,7 @@ function updateQueryStringParameter(uri, key, value) {
 const Required_Testing = false; // set to false for production
 
 /* number of components / elements to set slider */
-const numElements = 14;
+const numElements = 11;
 var numElementsCounter = 0;
 /* general global variables */
 var URLparams_global;
@@ -916,32 +916,23 @@ const QuesTools_htmlForm = new lab.html.Form({
 /* 
 ################### open questions soft robot ###################
 */
-const SAIpreKnowledge_htmlForm = new lab.html.Form({
-  title: "SAIpreKnowledge",
-  content: textObj.SAIpreKnowledge,
+
+// application cases
+const SRapplication_htmlForm = new lab.html.Form({
+  title: "SR applications",
+  content: textObj.SR_applications,
   messageHandlers: {
     run: function anonymous() {
-      $("#hideKnowSRMdefinition").hide();
-      $("#hideRisksSRfinition").hide();
+      $("#hideapplicationsSRRdefinition").hide();
 
 
-      $("#knowSRM").on("input", () => {
-        var tmpValue = $("#knowSRM option:selected")[0].value;
+      $("#applicationsSR").on("input", () => {
+        var tmpValue = $("#applicationsSR option:selected")[0].value;
 
-        if (tmpValue != "knowSRMno") {
-          $("#hideKnowSRMdefinition").show();
+        if (tmpValue != "0") {
+          $("#hideapplicationsSRRdefinition").show();
         } else {
-          $("#hideKnowSRMdefinition").hide();
-        }
-      });
-
-      $("#risksSR").on("input", () => {
-        var tmpValue = $("#risksSR option:selected")[0].value;
-
-        if (tmpValue != "risksSRno") {
-          $("#hideRisksSRfinition").show();
-        } else {
-          $("#hideRisksSRfinition").hide();
+          $("#hideapplicationsSRRdefinition").hide();
         }
       });
     },
@@ -963,6 +954,131 @@ const SAIpreKnowledge_htmlForm = new lab.html.Form({
   },
 });
 
+
+// benefits, risks
+const SRbenefitsRisks_htmlForm = new lab.html.Form({
+  title: "SR benefits risks",
+  content: textObj.SR_benefitsRisks,
+  messageHandlers: {
+    run: function anonymous() {
+      $("#hidebenefitsSRdefinition").hide();
+      $("#hideRisksSRfinition").hide();
+
+
+      $("#benefitsSR").on("input", () => {
+        var tmpValue = $("#benefitsSR option:selected")[0].value;
+
+        if (tmpValue != "0") {
+          $("#hidebenefitsSRdefinition").show();
+        } else {
+          $("#hidebenefitsSRdefinition").hide();
+        }
+      });
+
+      $("#risksSR").on("input", () => {
+        var tmpValue = $("#risksSR option:selected")[0].value;
+
+        if (tmpValue != "0") {
+          $("#hideRisksSRfinition").show();
+        } else {
+          $("#hideRisksSRfinition").hide();
+        }
+      });
+    },
+    commit: function anonymous() {
+      // progress bar
+      numElementsCounter++;
+      document.querySelector(".progress-bar").style.width =
+        (numElementsCounter / numElements) * 100 + "%";
+    },
+  },
+});
+
+// social benefits, risks
+const SRsocialBenefitsRisks_htmlForm = new lab.html.Form({
+  title: "SR social benefits risks",
+  content: textObj.SR_socialBenefitsRisks,
+  messageHandlers: {
+    run: function anonymous() {
+      $("#hidesocialBenefitsSRdefinition").hide();
+      $("#hidesocialRisksSRdefinition").hide();
+
+
+      $("#socialBenefitsSR").on("input", () => {
+        var tmpValue = $("#socialBenefitsSR option:selected")[0].value;
+
+        if (tmpValue != "0") {
+          $("#hidesocialBenefitsSRdefinition").show();
+        } else {
+          $("#hidesocialBenefitsSRdefinition").hide();
+        }
+      });
+
+      $("#socialRisksSR").on("input", () => {
+        var tmpValue = $("#socialRisksSR option:selected")[0].value;
+
+        if (tmpValue != "0") {
+          $("#hidesocialRisksSRdefinition").show();
+        } else {
+          $("#hidesocialRisksSRdefinition").hide();
+        }
+      });
+    },
+    commit: function anonymous() {
+      // progress bar
+      numElementsCounter++;
+      document.querySelector(".progress-bar").style.width =
+        (numElementsCounter / numElements) * 100 + "%";
+
+      if (typeof jatos.jQuery === "function") {
+        // If JATOS is available, send data there
+        var resultJson = study.options.datastore.exportJson();
+        jatos
+          .submitResultData(resultJson)
+          .then(() => console.log("success"))
+          .catch(() => console.log("error"));
+      }
+    },
+  },
+});
+
+
+// application cases
+const SRsustainable_htmlForm = new lab.html.Form({
+  title: "SR sustainable",
+  content: textObj.SR_sustainable,
+  messageHandlers: {
+    run: function anonymous() {
+      $("#hidesustainableSRdefinition").hide();
+
+
+      $("#sustainableSR").on("input", () => {
+        var tmpValue = $("#sustainableSR option:selected")[0].value;
+
+        if (tmpValue != "0") {
+          $("#hidesustainableSRdefinition").show();
+        } else {
+          $("#hidesustainableSRdefinition").hide();
+        }
+      });
+    },
+    commit: function anonymous() {
+      // progress bar
+      numElementsCounter++;
+      document.querySelector(".progress-bar").style.width =
+        (numElementsCounter / numElements) * 100 + "%";
+
+      if (typeof jatos.jQuery === "function") {
+        // If JATOS is available, send data there
+        var resultJson = study.options.datastore.exportJson();
+        jatos
+          .submitResultData(resultJson)
+          .then(() => console.log("success"))
+          .catch(() => console.log("error"));
+      }
+    },
+  },
+});
 
 
 
@@ -998,8 +1114,10 @@ const study = new lab.flow.Sequence({
 
     // risk benefits soft robot
     InfosSoftRobot_htmlForm,
-    SAIpreKnowledge_htmlForm,
-
+    SRapplication_htmlForm,
+    SRbenefitsRisks_htmlForm,
+    SRsocialBenefitsRisks_htmlForm,
+    SRsustainable_htmlForm,
 
     // >>> ending phase
     //QuesSocioDemo_htmlForm,
