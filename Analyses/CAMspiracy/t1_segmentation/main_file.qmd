@@ -59,11 +59,12 @@ suppressMessages(read_file('jatos_results_data_20231127131018_Germany.txt') %>%
 ##### prolific file
 #> socio-demographic data
 prolific <- read.csv(file = "prolific_export_6560bd631f35feab8a3d13c8.csv", header = TRUE)
+prolific$U.s..political.affiliation <- NULL
 prolific_Republican <- read.csv(file = "prolific_export_65620efdd4432eb81c6a1206_Republicans.csv", header = TRUE)
+prolific_Republican$U.s..political.affiliation <- NULL
 prolific_Germany <- read.csv(file = "prolific_export_656235b32d4f1e21cfc7e892_Germany.csv", header = TRUE)
 
 prolific <- rbind(prolific, prolific_Republican, prolific_Germany)
-
 
 setwd("..")
 
@@ -94,7 +95,7 @@ Remark: "dat" at first is the data set of N=150 americans who have the political
 ## for Democrats
 dat$ID <- NA
 dat$politicalParty <- NA
-dat_Germany$country <- NA
+dat$country <- NA
 
 
 tmp_IDcounter <- 0
@@ -112,7 +113,7 @@ for(i in 1:nrow(dat)){
 ## for Republicans
 dat_Republican$ID <- NA
 dat_Republican$politicalParty <- NA
-dat_Germany$country <- NA
+dat_Republican$country <- NA
 
 
 # continue tmp_IDcounter
@@ -145,6 +146,10 @@ for(i in 1:nrow(dat_Germany)){
 rm(tmp_IDcounter)
 
 
+
+dat <- dat[, str_subset(string = colnames(dat), pattern = "^\\.\\.", negate = TRUE)]
+dat_Republican <- dat_Republican[, str_subset(string = colnames(dat_Republican), pattern = "^\\.\\.", negate = TRUE)]
+dat_Germany <- dat_Germany[, str_subset(string = colnames(dat_Germany), pattern = "^\\.\\.", negate = TRUE)]
 
 ##########
 # merge two data sets
