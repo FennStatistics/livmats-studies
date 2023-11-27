@@ -137,7 +137,7 @@ const textObjInstCAM = {
   CAMinst_multipage: `
   <header>
   <h2 id="head0">
-  Please read the following instructions carefully so that you can start drawing your <i>Cognitive-Affective Map</i> later:
+  Bitte lesen Sie die folgende Anleitung aufmerksam durch, damit Sie später mit der Erstellung Ihrer <i>Cognitive-Affective Map</i> später beginnen können:
   </h2>
   <h2 id="head1" class="hidden"></h2>
   <h2 id="head2" class="hidden"></h2>
@@ -164,17 +164,23 @@ const textObjInstCAM = {
   <h2 id="head23" class="hidden"></h2>
   <h2 id="head24" class="hidden"></h2>
   <h2 id="head25" class="hidden"></h2>
+  <h2 id="head26" class="hidden"></h2>
 </header>
 
 <main class="content-horizontal-center content-vertical-center">
   <section id="page0" class="w-l text-justify">
-  The following instructions explain how you can create a <i>Cognitive-Affective Map</i>. To explain the software, we have constructed an <strong>unrelated example</strong> for you, namely shopping at a farmers' market.    <br>
+  <span style="background-color: yellow; color: red;">adjust instructions (with / without arrows); adjust blue text depending on respective study</span>
   <br>
-  <i>Use the <kbd>&rarr;</kbd> arrow key to read all the instructions. At any time you can re-read the instructions by pressing the <kbd>&rarr;</kbd> arrow key.</i>
+  <br>  
+	Die folgende Anleitung erklärt, wie Sie eine kognitiv-affektive Karte erstellen können. Um die Software zu erklären, haben wir für Sie ein Beispiel erstellt, das in keinem direkten Zusammenhang 
+  zu dem Thema der Studie steht, nämlich den Einkauf auf einem Wochenmarkt.
+  <br>
+  <br>
+  Verwenden Sie die <kbd>&rarr;</kbd> Pfeiltaste, um alle Anweisungen zu lesen. Sie können jederzeit die Anweisungen erneut lesen, indem Sie die <kbd>&larr;</kbd> Pfeiltaste drücken.
   <br>
   <br>
   <br>
-  Press the right arrow key <kbd>&rarr;</kbd> to start reading. 
+  Drücken Sie die rechte Pfeiltaste <kbd>&rarr;</kbd>, um mit dem Lesen zu beginnen.
   </section>
   <section id="page1" class="hidden" >
   <img alt="ERROR - picture is not shown. Please write an e-mail to the study director that an error has occurred." src="pre_CAM/static/CAMinst/Folie1.JPG" class="centerIMG">
@@ -251,20 +257,23 @@ const textObjInstCAM = {
 <section id="page25" class=" hidden">
 <img alt="ERROR - picture is not shown. Please write an e-mail to the study director that an error has occurred." src="pre_CAM/static/CAMinst/Folie25.JPG" class="centerIMG">
 </section>
+<section id="page26" class=" hidden">
+<img alt="ERROR - picture is not shown. Please write an e-mail to the study director that an error has occurred." src="pre_CAM/static/CAMinst/Folie26.JPG" class="centerIMG">
+</section>
 </main>
 
 <footer>
   <table class="table-plain">
     <tr>
-      <td id="bck" style="visibility: hidden">
-      Press the left arrow key <kbd>&larr;</kbd> to go to the previous screen 
-      </td>
-      <td id="done" style="visibility: hidden">
-      Press <kbd>space-bar</kbd> to continue with the study. 
-      </td>
-      <td id="fwd">
-      Press the right arrow key <kbd>&rarr;</kbd> for the next screen 
-      </td>
+    <td id="bck" style="visibility: hidden">
+    Drücken Sie die linke Pfeiltaste <kbd>&larr;</kbd>, um zur vorherigen Seite zu gelangen
+  </td>
+  <td id="done" style="visibility: hidden">
+    Drücken Sie die <kbd>Leertaste</kbd>, um mit der Studie fortzufahren.
+  </td>
+  <td id="fwd">
+    Drücken Sie die rechte Pfeiltaste <kbd>&rarr;</kbd>, um zur nächsten Seite zu gelangen
+  </td>
     </tr>
   </table>
 </footer>`

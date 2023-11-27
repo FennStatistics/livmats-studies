@@ -212,9 +212,6 @@ const EndingScreen_htmlScreen = new lab.html.Screen({
 
 <main class="content-horizontal-center content-vertical-center">
   <div class="w-l text-justify">
-  <span style="background-color: yellow; color: red;">here you will be redirected to another CAMEL interface preseting your previously drawn CAM</span>
-  <br>
-  <br>
 
     <br>
     <div>
@@ -248,17 +245,13 @@ const EndingScreen_htmlScreen = new lab.html.Screen({
 
         // then redirect
         if (
-          true // study.options.datastore.extract("sender").includes("FeedbackScreen")
+          study.options.datastore.extract("sender").includes("FeedbackScreen")
         ) {
-                  // then redirect
-        jatos.startNextComponent();
-        /*
           jatos.endStudyAndRedirect(
-            "https://app.prolific.co/submissions/complete?cc=C8FL71OE", // !!!
+            "https://drawyourminds.de/",  // !!! "https://app.prolific.co/submissions/complete?cc=C8FL71OE"
             true,
             "everything worked fine"
           );
-          */
         } else {
           alert(
             "It seems that you did not go through the entire study because you did not see the previous feedback screen."
@@ -287,12 +280,13 @@ const study = new lab.flow.Sequence({
     //new lab.plugins.Download()
   ],
   content: [
+    /*
     break500,
     CAMfeedbackGeneral_htmlForm,
     htmlForm,
     htmlForm3,
-
-    //FeedbackScreen_htmlScreen,
+*/
+    FeedbackScreen_htmlScreen,
     EndingScreen_htmlScreen,
   ],
 })

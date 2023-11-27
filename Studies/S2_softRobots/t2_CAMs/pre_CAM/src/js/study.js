@@ -8,7 +8,7 @@ var paracountclicks = 0;
 
 
 /* 
-introduction phase 
+################### introduction phase ###################
 */
 const Greetings_htmlForm = new lab.html.Form({
   title: "Greetings",
@@ -22,11 +22,11 @@ const Greetings_htmlForm = new lab.html.Form({
         ) {
           alert(
             "It seems that your screen size you are using is smaller than 1200x700 pixels (height x width):\n" +
-              "> your screen width: " +
-              study.state.meta.screen_width +
-              " your screen height: " +
-              study.state.meta.screen_height +
-              "\nStudy is aborted!"
+            "> your screen width: " +
+            study.state.meta.screen_width +
+            " your screen height: " +
+            study.state.meta.screen_height +
+            "\nStudy is aborted!"
           );
           jatos.abortStudy("study aborted - screen to small");
         }
@@ -59,6 +59,7 @@ const Greetings_htmlForm = new lab.html.Form({
     },
   },
 });
+
 
 const InformCon_htmlForm = new lab.html.Form({
   title: "InformedConsent",
@@ -246,13 +247,9 @@ const study = new lab.flow.Sequence({
     //AttentionCheck_htmlForm,
     SetupStudy_htmlForm,
 
-    AffectiveImageryInst_htmlForm,
-    AffectiveImagery_htmlForm,
-    AffectiveImageryAffect_htmlForm,
-
     CAMinst_multipage_htmlScreen,
-    explanationCAM_htmlForm     // -> next session
 
+    explanationCAM_htmlForm     // -> next session
   ],
 });
 

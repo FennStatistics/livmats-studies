@@ -161,6 +161,7 @@ function saveCAMsuccess(){
               );
               jatos.endStudyAndRedirect(newUrl, true, "everything worked fine");
             } else if(config.MultiComponentStudy){
+              /*
               // > as multi component study
               var tmpActiveNodes = getActiveListNodes();
               var tmp_valence = getMeanValenceNodes(tmpActiveNodes);
@@ -178,6 +179,7 @@ function saveCAMsuccess(){
               };
               jatos.setStudySessionData(studySessionData);
               console.log(studySessionData);
+              */
 
               jatos.startNextComponent();
         } else {

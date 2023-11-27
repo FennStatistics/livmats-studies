@@ -539,7 +539,7 @@
         "X_identifier": "popSave_01savedData",
         "X_location": "popup save button (popSave)",
         "english": "Your CAM data has been sent to the sever. Thank you for participating! You will be forwarded to the end or the final part of the study.",
-        "german": "Ihre CAM-Daten wurden an den Sever gesendet. Wir danken Ihnen für Ihre Teilnahme! Sie werden zum Ende oder zum letzten Teil der Studie weitergeleitet.",
+        "german": "Ihre CAM-Daten wurden an den Sever gesendet. Wir danken Ihnen für Ihre Teilnahme! Sie werden zum nächsten Teil der Studie weitergeleitet.",
         "french": "Vos données de la CAM ont été envoyées au serveur. Nous vous remercions de votre participation ! Vous allez être redirigé vers la fin ou la dernière partie de l'étude.",
         "spanish": "Los datos de su Cognitive-Affective Map se han mandado al servidor. Gracias por participación! Usted será llevado al final de la sesión o a su última parte."
     },
