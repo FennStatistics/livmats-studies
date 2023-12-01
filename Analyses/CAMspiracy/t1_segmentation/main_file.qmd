@@ -20,7 +20,7 @@ format:
 ########################################
 require(pacman)
 p_load('tidyverse', 'jsonlite', 'magrittr', 'xlsx',
-       'stargazer', 'psych', 'jtools', 'DT', 'ggstatsplot')
+       'stargazer', 'psych', 'jtools', 'DT', 'ggstatsplot', 'lavaan')
 
 ########################################
 # load data
@@ -413,9 +413,39 @@ psych::cor.plot(r = cor(questionnaire[, str_detect(string = colnames(questionnai
                                                    upper = FALSE, xlas = 2, main = "CCSQ scale")
 
 
+#########
+# reverse code > CRKQ
+#########
+summary(questionnaire[, str_detect(string = colnames(questionnaire),
+                                                   pattern = "^CRKQ.*r$")])
+tmp_vars <- str_subset(string = colnames(questionnaire), pattern = "^CRKQ.*r$")
+
+for(v in tmp_vars){
+  questionnaire[[v]] <- 7 - questionnaire[[v]]
+}
+
+psych::cor.plot(r = cor(questionnaire[, str_detect(string = colnames(questionnaire),
+                                                   pattern = "^CRKQ")], 
+                                                   use = "pairwise.complete.obs"),
+                                                   upper = FALSE, xlas = 2, main = "CRKQ scale")
+#########
+# reverse code > CCSQ
+#########
+summary(questionnaire[, str_detect(string = colnames(questionnaire),
+                                                   pattern = "^CCSQ.*r$")])
+tmp_vars <- str_subset(string = colnames(questionnaire), pattern = "^CCSQ.*r$")
+
+for(v in tmp_vars){
+  questionnaire[[v]] <- 7 - questionnaire[[v]]
+}
+
+psych::cor.plot(r = cor(questionnaire[, str_detect(string = colnames(questionnaire),
+                                                   pattern = "^CCSQ")], 
+                                                   use = "pairwise.complete.obs"),
+                                                   upper = FALSE, xlas = 2, main = "CCSQ scale")
 
 ########################################
-# compute mean variables
+# compute mean variables OVERALL (!)
 ########################################
 ### overall mean variables
 questionnaire$mean_GCB  <- questionnaire %>%
@@ -428,13 +458,12 @@ questionnaire$mean_CMQ  <- questionnaire %>%
 
 questionnaire$mean_CRKQ  <- questionnaire %>%
   select(matches("^CRKQ")) %>%
+  select(ends_with(c("s", "fop", "fopr"))) %>%
   rowMeans(na.rm = TRUE)
 
 questionnaire$mean_CCSQ  <- questionnaire %>%
   select(matches("^CCSQ")) %>%
   rowMeans(na.rm = TRUE)
-
-
 
 
 ## save final questionnaire
@@ -458,6 +487,35 @@ psych::cor.plot(r = cor(questionnaire[, str_detect(string = colnames(questionnai
 
 ## EFA
 
+
+### overall
+
+```{r}
+parallelAnalysis_overall <- dimensionalityTest(label = "Overall", regEx = "^GCB|^CMQ|^CRKQ|^CCSQ", dataset = questionnaire)
+
+EFA_overall <- explorativeFactorAnalysis(label = "Overall", regEx = "^GCB|^CMQ|^CRKQ|^CCSQ", dataset = questionnaire, nfac = 3, showCronbach = TRUE)
+
+EFA_overall[[1]]
+EFA_overall[[1]]$loadings
+```
+
+## CFA
+
+the self-written function "CFAstats" has the following functionalities: 
+* showPlots = get correlation plot and run self-written function "getDescriptives"
+* computeEFA = compute parallel analysis and EFA (apply two self-written functions, see section EFA)
+* computeCFA = apply lavaan package using "MLR" estimator to compute CFA (no residual correlations are specified)
+* computeCFAMplus = apply package using "MLR" estimator to compute CFA (no residual correlations are specified), possible here to compute CI for McDonald's Omega
+
+
+### CMQ
+
+```{r}
+CFA_CMQ <- CFAstats(dataset = questionnaire,
+                           regularExp = "^CMQ",
+                           labelLatent = "CMQ",
+                           showPlots = TRUE, computeEFA = FALSE, computeCFA = TRUE, computeCFAMplus = FALSE)
+```
 
 ## group comparisons
 
