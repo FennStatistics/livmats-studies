@@ -444,7 +444,7 @@ Emotional evaluation
       */
 
     },
-    commit: function anonymous() {
+    end: function anonymous() {
       study.options.datastore.set("ratingValence", $("#nodeSlider").val());
     },
   },
@@ -616,7 +616,7 @@ const basalAttributes = new lab.flow.Loop({
 ],
   sample: {
     mode: "draw-shuffle",
-    n: "2",
+    n: "32",
   },
 })
 
@@ -624,7 +624,7 @@ const basalAttributesRating = new lab.html.Frame({
   context: `
     <header>
       <h3>Please rate the relevance and the valence of the following adjectives for livMatS</h3>
-      <h5>Remark: Particular important adjectives for material systems in livmats should be rated 8-10.</h5>
+      <h5>Remark: Particular important adjectives for material systems in livmats should be rated 8-10, and for the emotional evaluation focus on your initial emotional feeling.</h5>
     </header>
     <br>
     <main style="width: 100%;">
@@ -1087,15 +1087,15 @@ const SRsustainable_htmlForm = new lab.html.Form({
 // Define the sequence of components that define the study
 const study = new lab.flow.Sequence({
   metadata: {
-    title: "t1_CAMspiracy",
-    description: "t1 - climate change scepticism",
+    title: "world cafe",
+    description: "world cafe study",
     repository: "",
-    contributors: "Julius Fenn, Christophe Becht",
+    contributors: "Julius Fenn, Louisa Estadieu",
   },
   plugins: [
     new lab.plugins.Metadata(),
-    //new lab.plugins.Fullscreen(),
-    new lab.plugins.Debug(), // comment out finally
+    // new lab.plugins.Fullscreen(),
+    // new lab.plugins.Debug(), // comment out finally
     // new lab.plugins.Download()
   ],
   content: [

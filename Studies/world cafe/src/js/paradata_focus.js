@@ -28,7 +28,6 @@ if(false){ // turn on and off focus event listener for debugging
         lastBlurTimestamp = e.timeStamp;
     });
     
-    
     window.addEventListener('focus', (e) => {
         var durDefocus = e.timeStamp - lastBlurTimestamp;
         //console.log('duration:', duration)

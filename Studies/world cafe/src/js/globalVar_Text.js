@@ -77,11 +77,13 @@ const textObj = {
        </section>
        <br>
        <section>
-       Thank you for considering participation in our World-Café online study. We want to emphasize that your involvement is completely voluntary, and you have the full freedom to withdraw your consent at any stage of the study without needing to provide any reasons. Furthermore, if you choose to withdraw, you can do so without incurring any disadvantages.
+       Thank you for considering to participate in our World-Café online study. We want to emphasize that your involvement is completely voluntary 
+       and that you have the full freedom to withdraw your consent at any stage of the study without needing to provide any reasons. Furthermore, if you choose to withdraw, you can do so without incurring any disadvantages.
        </section>
        <br>
        <section>
-       It's important for you to know that we do not collect any personal data during this study. Consequently, once the data collection phase is completed, the data becomes entirely anonymous, making it impossible to link any of the data back to you.
+       It's important for you to know that we do not collect any personal data during this study. Consequently, once the data collection phase is completed, 
+       the data becomes entirely anonymous making it impossible to link any of the data back to you.
        </section>
        <br>
        <br>
@@ -127,11 +129,11 @@ const textObj = {
                        <!--ans2-->
                        <tr>
                            <td>
-                               <input type="radio" name="dummy_informedconsent" value="0" id="dummy_informedconsent"
+                               <input type="radio" name="dummy_informedconsent" value="0" id="dummy_informedconsent2"
                                    required>
                            </td>
                            <td>
-                               <label for="dummy_informedconsent" class="text-left">
+                               <label for="dummy_informedconsent2" class="text-left">
                                    I hereby confirm that I have understood the participant information described above
                                    and that <strong>I do not agree</strong> to the above conditions of participation.
                                </label>
@@ -174,7 +176,7 @@ const textObj = {
    <main class="content-horizontal-center content-vertical-center">
    <div class="w-l text-justify">
  <section>
- The study is divided into three parts: 
+ The study is divided into two parts: 
  </section>
  <br>
  <br>
@@ -183,7 +185,7 @@ const textObj = {
    <td>1) Rate the importance of different adjectives for livMatS. </td>
    </tr>
    <tr>
-     <td>2) Evaluate the risk and benefits of social robots.</td>
+     <td>2) Evaluate the risks and benefits of social robots.</td>
    </tr>
    <tr>
  </table>
@@ -210,7 +212,7 @@ const textObj = {
    <main class="content-horizontal-center content-vertical-center">
    <div class="w-l text-justify">
  <section>
-We are planning to publish a study called "<i>Using basal attributes to identify key properties to increase the acceptance of new material systems</i>". Here we want to find out which 
+We are planning to publish a study called "<i>Using basal attributes to identify key properties to increase the acceptance of new material systems</i>". Here, we want to find out which 
 (systematic combination of) basal attributes are overall negatively or positively evaluated (measuring valence) regarding the acceptance of new material systems.
  </section>
  <br>
@@ -224,9 +226,11 @@ We are planning to publish a study called "<i>Using basal attributes to identify
  <br>
  <br>
  <section>
- 📝your task:
+ 📝Your task:
  <br>
-On the following page please rate the importance and your inital emotional evaluation of a list of basal attributes for livMatS.
+On the following page please rate the importance and your inital emotional evaluation of a list of basal attributes for livMatS. 
+To give a rating of your initial emotion evaluation, please indicate if you perceive the respective basal attribute as positive, negative, or neutral 
+with the scale ranging from [-3,3].
  </section>
    </div>
  </main>
@@ -577,14 +581,14 @@ On the following page please rate the importance and your inital emotional evalu
   `,
    infoBenefitRiskSoftRobot: `
    <header>
-     <h2>Evaluate the risk and benefits of social robots.</h2>
+     <h2>Evaluate the risks and benefits of social robots.</h2>
    </header>
    
    <main class="content-horizontal-center content-vertical-center">
    <div class="w-l text-justify">
  <section>
  We are planning to publish a study called "<i>Soft vs. Rigid Robots: Identifying Risks and Benefits in Social Assistance and Search and Rescue Robotics</i>". 
- Here we want to find out which are the most significant risks & benefits of soft robots compared to rigid robots. 
+ Here, we want to find out which are the most significant risks & benefits of soft robots compared to rigid robots. 
  The study focuses on two distinct case studies: (a) socially assistive robots and (b) search and rescue robots.
  </section>
  <br>
@@ -597,9 +601,9 @@ On the following page please rate the importance and your inital emotional evalu
  <br>
  <br>
  <section>
- 📝your task:
+ 📝Your task:
  <br>
- On the following pages, we will ask you to answer 6 questions on risks and benefits of soft robots. Your task is to provide brief responses to these questions from your expert point of view.
+ On the following pages, we will ask you 6 questions on risks and benefits of soft robots. Your task is to provide brief responses to these questions from your expert point of view.
  </section>
    </div>
  </main>
@@ -649,17 +653,21 @@ On the following page please rate the importance and your inital emotional evalu
   livmatsAreas: `
   <header>
     <h2>
-    We would like to ask you about possible relevant basal attributes for the different livMatS areas.
+      We would like to ask you about possible relevant basal attributes for the different livMatS areas that we have overlooked.
     </h2>
   </header>
   
   <main class="content-horizontal-center content-vertical-center">
   <div class="w-xl text-justify" style="display: block">
     
-    <p class="text-left"><i>Remark: By clicking on select or remove you can add or remove elements. By writing, for example a new basal attributes, which is important in your perspective, 
-    you can add new elements to the respective list.</i></p>
-  
-   
+    <p class="text-left">
+    <i>
+      Remark: By clicking on the white field you can select already considered basal attributes from a list or add new ones by writing. 
+      Confirm you selection by clicking on "select". By clicking on "remove" you can remove wrongly selected basal attributes.
+      <br>
+      Feel free to add as many basal attributes as you want for your or other livMatS areas.
+    </i>
+    </p>   
     <div class="container">
 
     <div class="box">

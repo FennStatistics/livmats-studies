@@ -92,12 +92,21 @@
 
 
 <script>
-  $(document).on("mousemove", (event) => {
-    $("#toprightdiv_pagenumber").text("#page " + numElementsCounter) 
-  })
+  var productionPhase = false;
 
-  $(document).ready(function() { 
-    $("#toprightdiv_pagenumber").text("#page " + numElementsCounter) 
+if(productionPhase){
+  $(document).on("mousemove", (event) => {
+  $("#toprightdiv_pagenumber").text("#page " + numElementsCounter) 
+})
+
+$(document).ready(function() { 
+  $("#toprightdiv_pagenumber").text("#page " + numElementsCounter) 
 });
+}else{
+  $(document).ready(function() { 
+ $("#toprightdiv").hide(); 
+  $("#toprightdiv_pagenumber").hide(); 
+});
+}
 </script>
 </html>

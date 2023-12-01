@@ -373,7 +373,7 @@ ggplot(questionnaire, aes(x = mean_affImg)) +
   stat_function(fun = dnorm, args = list(mean = mu, sd = sigma), color = "red") +
   labs(x = "Mean Affection Imagery", y = "Density") +
   theme_apa() +
-  theme(plot.title = element_text(hjust = 0.5))
+  theme(plot.title = element_text(hjust = 0.5)) + geom_vline(xintercept = mean(questionnaire$mean_affImg, na.rm = TRUE), col = "red")
 ```
 
 
@@ -411,6 +411,9 @@ psych::cor.plot(r = cor(questionnaire[, str_detect(string = colnames(questionnai
                                                    pattern = "^CCSQ")], 
                                                    use = "pairwise.complete.obs"),
                                                    upper = FALSE, xlas = 2, main = "CCSQ scale")
+
+
+
 ########################################
 # compute mean variables
 ########################################
@@ -437,6 +440,13 @@ questionnaire$mean_CCSQ  <- questionnaire %>%
 ## save final questionnaire
 dim(questionnaire)
 write.xlsx2(x = questionnaire, file = "outputs/questionnaire_final.xlsx")
+
+
+
+psych::cor.plot(r = cor(questionnaire[, str_detect(string = colnames(questionnaire),
+                                                   pattern = "^mean")], 
+                                                   use = "pairwise.complete.obs"),
+                                                   upper = FALSE, xlas = 2, main = "mean scales")
 ```
 
 
@@ -464,5 +474,20 @@ ggbetweenstats(
   x = country,
   y = mean_CMQ
 )
+
+
+boxplot(questionnaire$mean_CMQ ~ questionnaire$socio_sex)
+
+# Calculate mean and standard deviation
+mu <- mean(questionnaire$mean_CMQ, na.rm = TRUE)
+sigma <- sd(questionnaire$mean_CMQ, na.rm = TRUE)
+
+# Create the histogram with normal distribution overlay
+ggplot(questionnaire, aes(x = mean_CMQ)) +
+  geom_histogram(aes(y = ..density..), binwidth = 1, fill = "dodgerblue3", color = "white") +
+  stat_function(fun = dnorm, args = list(mean = mu, sd = sigma), color = "red") +
+  labs(x = "Mean Affection Imagery", y = "Density") +
+  theme_apa() +
+  theme(plot.title = element_text(hjust = 0.5)) + geom_vline(xintercept = mean(questionnaire$mean_affImg, na.rm = TRUE), col = "red")
 ```
 

@@ -71,7 +71,7 @@ const textObj = {
        </section>
        <br>
        <section>
-       Thank you for considering participation in our online study. We want to emphasize that your involvement is completely voluntary, and you have the full freedom to withdraw 
+       Thank you for considering to participate in our online study. We want to emphasize that your involvement is completely voluntary, and you have the full freedom to withdraw 
        your consent at any stage of the study without needing to provide any reasons.
        </section>
        <br>
