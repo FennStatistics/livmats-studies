@@ -958,7 +958,7 @@ Continue &rarr;
         </tr>
      
 
-        <!-- Occupation
+        <!-- Occupation      -->
         <tr style="height: 100px">
           <td>
             What is your occupation, or if you still study, your field?
@@ -967,7 +967,7 @@ Continue &rarr;
             <input name="occupation" class="w-100">
           </td>
         </tr>
-        -->
+  
 
         <!-- Column balance -->
         <colgroup>
