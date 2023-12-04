@@ -1,7 +1,7 @@
 TITLE:
 Latent Class Analysis c=6
 DATA:
-FILE = "lca_2_6ef5eea01f434d464ee251ae03e67c04.dat";
+FILE = "lca_2_4ad31f235f6d7fe22415ea8403398921.dat";
  
 VARIABLE:
 NAMES = fc_CMQ fc_GCBci fc_GCBet fc_GCBgm fc_GCBmg fc_GCBpw fc_CRKQs fc_CCSQ; 
