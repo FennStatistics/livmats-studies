@@ -20,7 +20,9 @@ format:
 ########################################
 require(pacman)
 p_load('tidyverse', 'jsonlite', 'magrittr', 'xlsx',
-       'stargazer', 'psych', 'jtools', 'DT', 'ggstatsplot', 'lavaan')
+       'stargazer', 'psych', 'jtools', 'DT', 'ggstatsplot', 
+       'lavaan', 
+       'regsem', 'MplusAutomation')
 
 ########################################
 # load data
@@ -499,6 +501,46 @@ EFA_overall[[1]]
 EFA_overall[[1]]$loadings
 ```
 
+
+### overall seperated by countries
+
+seperated by Germany and USA
+
+```{r}
+########################################
+# build subsets
+########################################
+questionnaire_Germany <- questionnaire %>%
+  filter(country == "Germany")
+
+questionnaire_USA <- questionnaire %>%
+  filter(country == "USA")
+
+
+########################################
+# Germany
+########################################
+parallelAnalysis_overall_Germany <- dimensionalityTest(label = "Overall", regEx = "^GCB|^CMQ|^CRKQ|^CCSQ", dataset = questionnaire_Germany)
+
+EFA_overall_Germany <- explorativeFactorAnalysis(label = "Overall", regEx = "^GCB|^CMQ|^CRKQ|^CCSQ", dataset = questionnaire, nfac = 3, showCronbach = TRUE)
+
+EFA_overall_Germany[[1]]
+EFA_overall_Germany[[1]]$loadings
+
+########################################
+# USA
+########################################
+parallelAnalysis_overall_USA <- dimensionalityTest(label = "Overall", regEx = "^GCB|^CMQ|^CRKQ|^CCSQ", dataset = questionnaire_USA)
+
+EFA_overall_USA <- explorativeFactorAnalysis(label = "Overall", regEx = "^GCB|^CMQ|^CRKQ|^CCSQ", dataset = questionnaire, nfac = 3, showCronbach = TRUE)
+
+EFA_overall_USA[[1]]
+EFA_overall_USA[[1]]$loadings
+```
+
+
+**USA**
+
 ## CFA
 
 the self-written function "CFAstats" has the following functionalities: 
@@ -516,6 +558,424 @@ CFA_CMQ <- CFAstats(dataset = questionnaire,
                            labelLatent = "CMQ",
                            showPlots = TRUE, computeEFA = FALSE, computeCFA = TRUE, computeCFAMplus = FALSE)
 ```
+#### correlated residuals
+
+```{r}
+questionnaire_changedNames <- questionnaire
+
+########################################
+# test for correlated residuals between single items
+########################################
+regEx <- "^CMQ"
+tmp_vars <- str_subset(string = colnames(questionnaire_changedNames), pattern = regEx)
+names(questionnaire_changedNames)[names(questionnaire_changedNames) %in% tmp_vars] <- str_remove_all(string = tmp_vars, pattern = "-")
+tmp_vars <- str_subset(string = colnames(questionnaire_changedNames), pattern = regEx); tmp_vars
+
+
+out_SyntaxCorrelatedResiduals <- getCorrelatedResidualsSyntax(vec_variables = tmp_vars,
+                                                             labelLatentLabel = "CMQ", verbose = FALSE)
+
+fit <- sem(out_SyntaxCorrelatedResiduals, questionnaire_changedNames, fixed.x=FALSE)
+semPlot::semPaths(object = fit, what = "std", edge.label.cex = 0.5)
+
+fit_regsem <- cv_regsem(model = fit, n.lambda = 40, jump=0.02,
+                        pars_pen = 
+                          paste0("v", 1:sum(parameterEstimates(fit)$label != "")),
+                        type = "enet", verbose = FALSE)
+summary(fit_regsem)
+plot(fit_regsem)
+# head(fit_regsem$fits,10)
+fit_regsem$final_pars
+
+########################################
+# fit adjusted model
+########################################
+model_lavaan(vars = tmp_vars, labelLatentVar = "CMQ", verbose = FALSE)
+
+mod_lavaan <- "
+CMQ =~ CMQ02 + CMQ03 + CMQ01 + CMQ04 + CMQ05
+
+#correlated residuls:
+CMQ02 ~~ CMQ01
+"
+
+### MLR estimator
+fit <- cfa(mod_lavaan, data = questionnaire_changedNames, estimator = "MLR")
+# summary(fit, standardized = TRUE)
+# semPlot::semPaths(object = fit, what = "std", edge.label.cex = 0.5)
+round(fitmeasures(fit,
+                  fit.measures =c("aic", "bic", "logl", "pvalue",
+                                  "rmsea", "rmsea.ci.lower", "rmsea.ci.upper",
+                                  "srmr", "cfi", "tli")), digits = 3)
+# head(modificationindices(fit, sort=T)) ## also possible to check out modification indices
+
+### get factor scores
+tmp_fc <- lavPredict(fit, method = "Bartlett")
+questionnaire$fc_CMQ <- tmp_fc
+```
+
+
+#### compare factor scores and mean scores
+
+normally they are highly correlated if items are relatively similar in their loading coefficients
+
+```{r}
+plot(questionnaire$fc_CMQ, questionnaire$mean_CMQ)
+cor(questionnaire$fc_CMQ, questionnaire$mean_CMQ)
+```
+
+
+
+### GCB
+
+no one factor solution -> theoretically driven split according to single sub-dimensions
+
+```{r}
+table(str_remove(string = str_subset(string = colnames(questionnaire), pattern = "^GCB"), pattern = "^GCB-[:digit:]*"))
+
+CFA_GCB <- CFAstats(dataset = questionnaire,
+                           regularExp = "^GCB",
+                           labelLatent = "GCB",
+                           showPlots = TRUE, computeEFA = FALSE, computeCFA = TRUE, computeCFAMplus = FALSE)
+# head(modificationindices(CFA_GCB[[3]], sort=T)) ## also possible to check out modification indices
+
+########################################
+# CFA first order
+########################################
+### get syntax
+regEx <- "^GCB.*ci$"
+tmp_vars <- str_subset(string = colnames(questionnaire_changedNames), pattern = regEx)
+names(questionnaire_changedNames)[names(questionnaire_changedNames) %in% tmp_vars] <- str_remove_all(string = tmp_vars, pattern = "-")
+tmp_vars <- str_subset(string = colnames(questionnaire_changedNames), pattern = regEx)
+model_lavaan(vars = tmp_vars, labelLatentVar = "GCBci", verbose = FALSE)
+
+regEx <- "^GCB.*et$"
+tmp_vars <- str_subset(string = colnames(questionnaire_changedNames), pattern = regEx)
+names(questionnaire_changedNames)[names(questionnaire_changedNames) %in% tmp_vars] <- str_remove_all(string = tmp_vars, pattern = "-")
+tmp_vars <- str_subset(string = colnames(questionnaire_changedNames), pattern = regEx)
+model_lavaan(vars = tmp_vars, labelLatentVar = "GCBet", verbose = FALSE)
+
+regEx <- "^GCB.*gm$"
+tmp_vars <- str_subset(string = colnames(questionnaire_changedNames), pattern = regEx)
+names(questionnaire_changedNames)[names(questionnaire_changedNames) %in% tmp_vars] <- str_remove_all(string = tmp_vars, pattern = "-")
+tmp_vars <- str_subset(string = colnames(questionnaire_changedNames), pattern = regEx)
+model_lavaan(vars = tmp_vars, labelLatentVar = "GCBgm", verbose = FALSE)
+
+regEx <- "^GCB.*mg$"
+tmp_vars <- str_subset(string = colnames(questionnaire_changedNames), pattern = regEx)
+names(questionnaire_changedNames)[names(questionnaire_changedNames) %in% tmp_vars] <- str_remove_all(string = tmp_vars, pattern = "-")
+tmp_vars <- str_subset(string = colnames(questionnaire_changedNames), pattern = regEx)
+model_lavaan(vars = tmp_vars, labelLatentVar = "GCBmg", verbose = FALSE)
+
+regEx <- "^GCB.*pw$"
+tmp_vars <- str_subset(string = colnames(questionnaire_changedNames), pattern = regEx)
+names(questionnaire_changedNames)[names(questionnaire_changedNames) %in% tmp_vars] <- str_remove_all(string = tmp_vars, pattern = "-")
+tmp_vars <- str_subset(string = colnames(questionnaire_changedNames), pattern = regEx)
+model_lavaan(vars = tmp_vars, labelLatentVar = "CMQpw", verbose = FALSE)
+
+
+### fit model
+mod_lavaan <- "
+GCBci =~ GCB03ci + GCB02ci + GCB01ci
+GCBet =~ GCB03et + GCB01et + GCB02et
+GCBgm =~ GCB03gm + GCB01gm + GCB02gm
+GCBmg =~ GCB03mg + GCB02mg + GCB01mg
+GCBpw =~ GCB03pw + GCB01pw + GCB02pw
+
+#correlated residuls:
+"
+
+### MLR estimator
+fit <- cfa(mod_lavaan, data = questionnaire_changedNames, estimator = "MLR")
+# summary(fit, standardized = TRUE)
+semPlot::semPaths(object = fit, what = "std", edge.label.cex = 0.5)
+round(fitmeasures(fit,
+                  fit.measures =c("aic", "bic", "logl", "pvalue",
+                                  "rmsea", "rmsea.ci.lower", "rmsea.ci.upper",
+                                  "srmr", "cfi", "tli")), digits = 3)
+
+### get factor scores
+tmp_fc <- lavPredict(fit, method = "Bartlett")
+questionnaire$fc_GCBci <- tmp_fc[,1]
+questionnaire$fc_GCBet <- tmp_fc[,2]
+questionnaire$fc_GCBgm <- tmp_fc[,3]
+questionnaire$fc_GCBmg <- tmp_fc[,4]
+questionnaire$fc_GCBpw <- tmp_fc[,5]
+```
+
+
+
+
+### CRKQ
+
+no one factor solution -> theoretically driven split according to single sub-dimensions
+
+```{r}
+table(str_remove(string = str_subset(string = colnames(questionnaire), pattern = "^CRKQ"), pattern = "^CRKQ-[:digit:]*"))
+
+CFA_CRKQ <- CFAstats(dataset = questionnaire,
+                           regularExp = "^CRKQ",
+                           labelLatent = "CRKQ",
+                           showPlots = TRUE, computeEFA = FALSE, computeCFA = TRUE, computeCFAMplus = FALSE)
+# head(modificationindices(CFA_GCB[[3]], sort=T)) ## also possible to check out modification indices
+
+
+
+
+########################################
+# CFA first order
+########################################
+### get syntax
+regEx <- "^CRKQ.*ccc$"
+tmp_vars <- str_subset(string = colnames(questionnaire_changedNames), pattern = regEx)
+names(questionnaire_changedNames)[names(questionnaire_changedNames) %in% tmp_vars] <- str_remove_all(string = tmp_vars, pattern = "-")
+tmp_vars <- str_subset(string = colnames(questionnaire_changedNames), pattern = regEx)
+model_lavaan(vars = tmp_vars, labelLatentVar = "CRKQccc", verbose = FALSE)
+
+regEx <- "^CRKQ.*fop$|^CRKQ.*fopr$"
+tmp_vars <- str_subset(string = colnames(questionnaire_changedNames), pattern = regEx)
+names(questionnaire_changedNames)[names(questionnaire_changedNames) %in% tmp_vars] <- str_remove_all(string = tmp_vars, pattern = "-")
+tmp_vars <- str_subset(string = colnames(questionnaire_changedNames), pattern = regEx)
+model_lavaan(vars = tmp_vars, labelLatentVar = "CRKQfop", verbose = FALSE)
+
+regEx <- "^CRKQ.*s$"
+tmp_vars <- str_subset(string = colnames(questionnaire_changedNames), pattern = regEx)
+names(questionnaire_changedNames)[names(questionnaire_changedNames) %in% tmp_vars] <- str_remove_all(string = tmp_vars, pattern = "-")
+tmp_vars <- str_subset(string = colnames(questionnaire_changedNames), pattern = regEx)
+model_lavaan(vars = tmp_vars, labelLatentVar = "CRKQs", verbose = FALSE)
+
+
+
+### fit model
+mod_lavaan <- "
+CRKQccc =~ CRKQ03ccc + CRKQ02ccc + CRKQ04ccc + CRKQ01ccc
+CRKQfop =~ CRKQ05fopr + CRKQ02fop + CRKQ03fopr + CRKQ04fopr + CRKQ01fop
+CRKQs =~ CRKQ05s + CRKQ04s + CRKQ03s + CRKQ02s + CRKQ01s + CRKQ07s + CRKQ06s
+
+#correlated residuls:
+CRKQ02fop ~~ CRKQ01fop
+"
+
+### MLR estimator
+fit <- cfa(mod_lavaan, data = questionnaire_changedNames, estimator = "MLR")
+# summary(fit, standardized = TRUE)
+semPlot::semPaths(object = fit, what = "std", edge.label.cex = 0.5)
+round(fitmeasures(fit,
+                  fit.measures =c("aic", "bic", "logl", "pvalue",
+                                  "rmsea", "rmsea.ci.lower", "rmsea.ci.upper",
+                                  "srmr", "cfi", "tli")), digits = 3)
+# head(modificationindices(fit, sort=T)) ## also possible to check out modification indices
+
+### get factor scores
+tmp_fc <- lavPredict(fit, method = "Bartlett")
+questionnaire$fc_CRKQccc <- tmp_fc[,1]
+questionnaire$fc_CRKQfop <- tmp_fc[,2]
+questionnaire$fc_CRKQs <- tmp_fc[,3]
+```
+
+
+
+### CCSQ
+
+no one factor solution -> theoretically driven split according to single sub-dimensions (only slight misfit)
+
+a first order factor model indicates that factors are strongly correlated - extracting only factor scores for an overall factor (see below)
+
+```{r}
+table(str_remove(string = str_subset(string = colnames(questionnaire), pattern = "^CCSQ"), pattern = "^CCSQ-[:digit:]*"))
+
+CFA_CRKQ <- CFAstats(dataset = questionnaire,
+                           regularExp = "^CCSQ",
+                           labelLatent = "CCSQ",
+                           showPlots = TRUE, computeEFA = FALSE, computeCFA = TRUE, computeCFAMplus = FALSE)
+head(modificationindices(CFA_CRKQ[[3]], sort=T)) ## also possible to check out modification indices
+
+
+########################################
+# CFA first order
+########################################
+### get syntax
+regEx <- "^CCSQ.*as$|^CCSQ.*asr$"
+tmp_vars <- str_subset(string = colnames(questionnaire_changedNames), pattern = regEx)
+names(questionnaire_changedNames)[names(questionnaire_changedNames) %in% tmp_vars] <- str_remove_all(string = tmp_vars, pattern = "-")
+tmp_vars <- str_subset(string = colnames(questionnaire_changedNames), pattern = regEx)
+model_lavaan(vars = tmp_vars, labelLatentVar = "CCSQas", verbose = FALSE)
+
+regEx <- "^CCSQ.*is$|^CCSQ.*isr$"
+tmp_vars <- str_subset(string = colnames(questionnaire_changedNames), pattern = regEx)
+names(questionnaire_changedNames)[names(questionnaire_changedNames) %in% tmp_vars] <- str_remove_all(string = tmp_vars, pattern = "-")
+tmp_vars <- str_subset(string = colnames(questionnaire_changedNames), pattern = regEx)
+model_lavaan(vars = tmp_vars, labelLatentVar = "CCSQis", verbose = FALSE)
+
+regEx <- "^CCSQ.*rs"
+tmp_vars <- str_subset(string = colnames(questionnaire_changedNames), pattern = regEx)
+names(questionnaire_changedNames)[names(questionnaire_changedNames) %in% tmp_vars] <- str_remove_all(string = tmp_vars, pattern = "-")
+tmp_vars <- str_subset(string = colnames(questionnaire_changedNames), pattern = regEx)
+model_lavaan(vars = tmp_vars, labelLatentVar = "CCSQrs", verbose = FALSE)
+
+regEx <- "^CCSQ.*ts$|^CCSQ.*tsr$"
+tmp_vars <- str_subset(string = colnames(questionnaire_changedNames), pattern = regEx)
+names(questionnaire_changedNames)[names(questionnaire_changedNames) %in% tmp_vars] <- str_remove_all(string = tmp_vars, pattern = "-")
+tmp_vars <- str_subset(string = colnames(questionnaire_changedNames), pattern = regEx)
+model_lavaan(vars = tmp_vars, labelLatentVar = "CCSQts", verbose = FALSE)
+
+
+
+### fit model
+mod_lavaan <- "
+CCSQas =~ CCSQ02asr + CCSQ01as + CCSQ03as
+CCSQis =~ CCSQ01isr + CCSQ03isr + CCSQ02is
+CCSQrs =~ CCSQ03rs + CCSQ02rs + CCSQ01rs
+CCSQts =~ CCSQ03ts + CCSQ01ts + CCSQ02tsr
+
+
+#correlated residuls:
+"
+
+### MLR estimator
+fit <- cfa(mod_lavaan, data = questionnaire_changedNames, estimator = "MLR")
+# summary(fit, standardized = TRUE)
+semPlot::semPaths(object = fit, what = "std", edge.label.cex = 0.5)
+round(fitmeasures(fit,
+                  fit.measures =c("aic", "bic", "logl", "pvalue",
+                                  "rmsea", "rmsea.ci.lower", "rmsea.ci.upper",
+                                  "srmr", "cfi", "tli")), digits = 3)
+# head(modificationindices(fit, sort=T)) ## also possible to check out modification indices
+
+########################################
+# CFA one factor solution
+########################################
+### fit model
+mod_lavaan <- "
+CCSQ =~ CCSQ02asr + CCSQ01as + CCSQ03as + CCSQ01isr + CCSQ03isr + CCSQ02is + CCSQ03rs + CCSQ02rs + CCSQ01rs + CCSQ03ts + CCSQ01ts + CCSQ02tsr
+
+
+#correlated residuls:
+CCSQ01isr ~~ CCSQ03isr
+CCSQ03as ~~  CCSQ03ts
+CCSQ02rs ~~  CCSQ01rs
+"
+
+### MLR estimator
+fit <- cfa(mod_lavaan, data = questionnaire_changedNames, estimator = "MLR")
+semPlot::semPaths(object = fit, what = "std", edge.label.cex = 0.5)
+round(fitmeasures(fit,
+                  fit.measures =c("aic", "bic", "logl", "pvalue",
+                                  "rmsea", "rmsea.ci.lower", "rmsea.ci.upper",
+                                  "srmr", "cfi", "tli")), digits = 3)
+# head(modificationindices(fit, sort=T)) ## also possible to check out modification indices
+
+
+### get factor scores
+tmp_fc <- lavPredict(fit, method = "Bartlett")
+questionnaire$fc_CCSQ <- tmp_fc[,1]
+```
+
+
+
+## measurment invariance
+
+*in the future*
+
+
+
+## latent class analysis
+
+Compute an LCA over computed factor scores of single scales, except "fc_CRKQccc" and "fc_CRKQfop"
+
+```{r}
+psych::cor.plot(r = cor(questionnaire[, str_detect(string = colnames(questionnaire),
+                                                   pattern = "^fc")], 
+                                                   use = "pairwise.complete.obs"),
+                                                   upper = FALSE, xlas = 2, main = "factor scores of scales")
+```
+
+**run LCA**
+
+```{r}
+runMplus = FALSE # define !
+
+if(runMplus){
+  LCArunsDef = 6 # define !
+  setwd("outputs/LCA")
+
+  tmp_vars <- str_subset(string = colnames(questionnaire), pattern = "fc_")
+  tmp_vars <- tmp_vars[!tmp_vars %in% c("fc_CRKQccc", "fc_CRKQfop")]
+  
+  LCA_dat <- questionnaire[, c("PROLIFIC_PID", tmp_vars)]
+  LCA_dat <- as.data.frame(as.matrix(LCA_dat))
+  
+  LCA_dat[,2:9] <- lapply(LCA_dat[,2:9],as.numeric)
+  # prepareMplusData(df = LCA_dat, filename = "test.dat")
+
+
+  l = 1
+  list_LCA <- list()
+  for(i in 2:LCArunsDef){
+    print(i)
+
+    numClasses <- i
+
+    LCA_conspiracy  <- mplusObject(
+
+      TITLE = paste0("Latent Class Analysis", " c=", numClasses),
+
+      VARIABLE =paste0("
+  usevariables = fc_CMQ fc_GCBci fc_GCBet fc_GCBgm fc_GCBmg fc_GCBpw fc_CRKQs fc_CCSQ;
+
+  classes      = c(", numClasses, ")"),
+
+  ANALYSIS =
+    "
+    Type=mixture; ! LCA analysis
+    STARTS= 500 100;
+    !LRTstarts=0 0 300 20;
+  ",
+
+  PLOT =
+    "
+    type = plot3;
+    series is fc_CMQ (1) fc_GCBci (2) fc_GCBet (3) fc_GCBgm (4) 
+              fc_GCBmg (5) fc_GCBpw (6) fc_CRKQs (7) fc_CCSQ (8);
+  ",
+
+  SAVEDATA = paste0("file = lca_", numClasses, ".txt ;
+    save = cprob;
+    format = free;
+  "),
+
+  OUTPUT = "tech11 tech14;", rdata = LCA_dat)
+
+
+    list_LCA[[l]] <- mplusModeler(LCA_conspiracy,
+                                         modelout = paste0("lca_", numClasses, ".inp"),
+                                         run = 1L)
+
+    l = l + 1
+  }
+
+  setwd("..")
+  # comment out to avoid overwriting LCA outputs
+  # saveRDS(list_LCA, file="list_LCA.RData")
+
+  saveRDS(list_LCA, file="outputs/list_LCA.RData")
+
+}else{
+  list_LCA <- readRDS("outputs/list_LCA.RData" )
+}
+```
+
+
+**get fit statistics of LCA**
+
+```{r}
+getLCAfitstatistics(listMplusOutput = list_LCA)
+```
+
+
+
+
+
 
 ## group comparisons
 

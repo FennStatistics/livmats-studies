@@ -185,7 +185,7 @@ The study is divided into two parts:
   <td>1) Rate the importance of different adjectives for livMatS. </td>
   </tr>
   <tr>
-    <td>2) Evaluate the risks and benefits of social robots.</td>
+    <td>2) Evaluate the risks and benefits of soft robots.</td>
   </tr>
   <tr>
 </table>
