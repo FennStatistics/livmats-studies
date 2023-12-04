@@ -42,6 +42,9 @@ const textObj = {
        </section>
        <br>
        <section>
+       REIN: ihre Einstellung und Gefühlen gegenüber einem neuartigen Roboter zu erheben.
+       <br>
+       <br>
       Ziel der Studie ist es, YYY. Dafür setzen wir eine Methode ein, die "Cognitive-Affective Mapping" (CAM-Methode) heißt und bei der Sie eine Art Mind-Map zeichnen werden. Darüber hinaus werden wir Ihnen Fragen zu 
        ZZZ1 und zu ZZZ2 stellen. Auf den nächsten Seiten, erhalten Sie weitere Informationen über den genauen Ablauf der Studie. Zunächst möchten wir Sie bitten, auf der folgenden Seite der informierten Einwilligung zuzustimmen.
        </section>
@@ -342,7 +345,6 @@ Verpflichten Sie sich, in dieser Umfrage wohlüberlegte Antworten zu geben?
    </footer>
    `,
       // !!! adjust if using END
-
    setupStudy: `
    <header>
    <h2>Übersicht der Studie:</h2>
@@ -363,10 +365,10 @@ Verpflichten Sie sich, in dieser Umfrage wohlüberlegte Antworten zu geben?
        <td>1) Lesen Sie die Anweisungen zum Zeichnen einer <i>Mind-Map</i>.</td>
        </tr>
        <tr>
-         <td>2) Lesen Sie einen Szenario-Text über eine neue Technologie.</td>
+         <td>2) Lesen Sie einen Szenario-Text über einen <span id="placeholderRobot">XXX</span>.</td>
        </tr>
        <tr>
-         <td>3) Zeichnen Sie Ihre <i>Mind-Map</i> zu Ihrern Einstellung und Gefühlen gegenüber der neuen Technologie.</td>
+         <td>3) Zeichnen Sie Ihre <i>Mind-Map</i> zu Ihrern Einstellung und Gefühlen gegenüber dem <span id="placeholderRobot2">XXX</span>.</td>
        </tr>
        <tr>
        <td>4) Beantworten Sie weitere Fragen.</td>

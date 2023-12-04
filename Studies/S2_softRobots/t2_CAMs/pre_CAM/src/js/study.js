@@ -6,6 +6,41 @@ var URLparams_global;
 
 var paracountclicks = 0;
 
+/* 
+################### randomly choose type of robot ###################
+*/
+
+function shuffleArray(array) {
+  let array_emp = []
+  for (var i = 0; i < array.length; i++) {
+    array_emp.push(i)
+  }
+
+  let j, x;
+  for (i = array_emp.length - 1; i > 0; i--) {
+    j = Math.floor(Math.random() * (i + 1));
+    x = array_emp[i];
+    array_emp[i] = array_emp[j];
+    array_emp[j] = x;
+  }
+  return array_emp;
+}
+
+
+
+const typeRobot = ["Rettungsroboter", " soziale Assistenzroboter"]; // ["rescue robots", "Socially assistive robots"];
+const indexTypeRobot = shuffleArray(typeRobot);
+var choosenRobot = typeRobot[indexTypeRobot[0]];
+
+/*
+var firstIndex = [];
+for (i = 0; i < 10000; i++) {
+  firstIndex.push(shuffleArray(typeRobot)[0]);
+}
+let sum = firstIndex.reduce((a, b) => a + b, 0);
+let mean = sum / firstIndex.length;
+console.log(mean);
+*/
 
 /* 
 ################### introduction phase ###################
@@ -43,6 +78,11 @@ const Greetings_htmlForm = new lab.html.Form({
         URLparams_global = jatos.urlQueryParameters;
         console.log("URLparams_global:", URLparams_global);
 
+        // check if a robot is provided via URL parameter
+        if (typeof URLparams_global.fixRobot !== "undefined") {
+          choosenRobot = URLparams_global.fixRobot;
+        }
+
         // check if a prolific ID is provided via URL parameter PROLIFIC study
         if (typeof URLparams_global.PROLIFIC_PID === "undefined") {
           alert(
@@ -50,9 +90,15 @@ const Greetings_htmlForm = new lab.html.Form({
           );
           jatos.abortStudy("study aborted - no prolific ID");
         } else {
+          // save prolific ID
           study.options.datastore.set(
             "PROLIFIC_PID",
             URLparams_global.PROLIFIC_PID
+          );
+          // save random choosen robot
+          study.options.datastore.set(
+            "choosen_Robot",
+            choosenRobot
           );
         }
       }
@@ -155,6 +201,10 @@ const SetupStudy_htmlForm = new lab.html.Form({
   title: "SetupStudy",
   content: textObj.setupStudy,
   messageHandlers: {
+    run: () => {
+      $("#placeholderRobot").text(choosenRobot);
+      $("#placeholderRobot2").text(choosenRobot);
+    },
     commit: () => {
       // progress bar
       numElementsCounter++;
@@ -177,7 +227,7 @@ const SetupStudy_htmlForm = new lab.html.Form({
 
 
 
-
+// 
 
 /* 
 PRE CAM
