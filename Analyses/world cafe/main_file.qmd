@@ -1,0 +1,316 @@
+---
+title: "world-cafe study (informing basal attributes, S2)"
+author: "Julius Fenn, Louisa Estadieu"
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    html-math-method: katex
+---
+
+```{r}
+#| echo: false
+#| warning: false
+
+# sets the directory of location of this script as the current directory
+# setwd(dirname(rstudioapi::getSourceEditorContext()$path))
+
+########################################
+# load packages
+########################################
+require(pacman)
+p_load('tidyverse', 'jsonlite', 'magrittr', 'xlsx',
+       'stargazer', 'psych', 'jtools', 'DT', 'ggstatsplot', 
+       'lavaan', 
+       'regsem', 'MplusAutomation')
+
+########################################
+# load data
+########################################
+##### JATOS file
+setwd("data")
+# dir()
+suppressMessages(read_file('jatos_results_data_20231205131702.txt') %>%
+  # ... split it into lines ...
+  str_split('\n') %>% first() %>%
+  # ... filter empty rows ...
+  discard(function(x) x == '') %>%
+  # ... parse JSON into a data.frame
+  map_dfr(fromJSON, flatten=TRUE)) -> dat
+setwd("..")
+
+########################################
+# load functions
+########################################
+setwd("../functions")
+for(i in 1:length(dir())){
+  # print(dir()[i])
+  source(dir()[i], encoding = "utf-8")
+}
+rm(i)
+```
+
+# Notes
+
+Remark: ...
+
+# prepare data
+
+## set up data.frame
+
+```{r}
+########################################
+# create counter variable for data set
+########################################
+dat$ID <- NA
+
+tmp_IDcounter <- 0
+for(i in 1:nrow(dat)){
+  if(!is.na(dat$sender[i]) && dat$sender[i] == "Greetings"){
+    # tmp <- dat$prolific_pid[i]
+    tmp_IDcounter = tmp_IDcounter + 1
+  }
+  dat$ID[i] <- tmp_IDcounter
+}
+
+
+########################################
+# keep only complete data sets
+########################################
+sum(table(dat$ID) != max(table(dat$ID)))
+sum(table(dat$ID) == max(table(dat$ID)))
+dat <- dat[dat$ID %in% names(table(dat$ID))[table(dat$ID) == max(table(dat$ID))],]
+
+########################################
+# json (from JATOS) to 2D data.frame
+########################################
+tmp_notNumeric <- str_subset(string = colnames(dat), pattern = "^meta")
+tmp_notNumeric <- str_subset(string = tmp_notNumeric, pattern = "labjs|location", negate = TRUE)
+
+# tmp_numeric <- str_subset(string = colnames(dat), pattern = "^affImgAffect|^CRKQ|^CCSQ|^CMQ|^GCB")
+
+
+vec_ques <- c("dummy_informedconsent",
+              tmp_notNumeric,
+              
+              "applicationsSR", "applicationsSRdefinition",
+              
+              "benefitsSR", "benefitsSRdefinition",
+              "risksSR", "risksSRdefinition",
+              
+              "socialBenefitsSR", "socialBenefitsSRdefinition", 
+              "socialRisksSR", "socialRisksSRdefinition",
+              
+              "sustainableSR", "sustainableSRdefinition",
+              
+              "feedback_critic")
+
+vec_notNumeric = c("dummy_informedconsent",
+              tmp_notNumeric,
+              
+              "applicationsSR", "applicationsSRdefinition",
+              
+              "benefitsSR", "benefitsSRdefinition",
+              "risksSR", "risksSRdefinition",
+              
+              "socialBenefitsSR", "socialBenefitsSRdefinition", 
+              "socialRisksSR", "socialRisksSRdefinition",
+              
+              "sustainableSR", "sustainableSRdefinition",
+              
+              "feedback_critic")
+
+questionnaire <- questionnairetype(dataset = dat, 
+                                        listvars = vec_ques, 
+                                        notNumeric = vec_notNumeric)
+```
+
+
+## get reaction times for single components
+
+*not needed*
+
+## clean data (if needed)
+
+*not needed*
+
+# describe data 
+
+## sample description
+
+```{r}
+## number of participants
+nrow(questionnaire)
+```
+
+# open questions
+
+## applications of soft robots
+
+**open question:**  What are the most promising applications of soft robots over their rigid counterparts within your field of expertise?
+
+```{r}
+DT::datatable(questionnaire[, c("applicationsSR","applicationsSRdefinition")], options = list(pageLength = 5)) 
+```
+
+## main benefits and risks of soft robots
+
+**open questions:** 
+
+* In your expert opinion, what are the main benefits of soft robots compared to rigid robots?
+* In your expert opinion, what are the main risks of soft robots compared to rigid robots?
+
+```{r}
+DT::datatable(questionnaire[, c("benefitsSR","benefitsSRdefinition",
+                                "risksSR","risksSRdefinition")], options = list(pageLength = 5)) 
+```
+
+## social benefits and risks of soft robots
+
+**open questions:** 
+
+*  From your expert perspective, what do you identify as the primary social benefits of soft robots compared to rigid robots? 
+*  From your expert perspective, what do you identify as the primary social risks of soft robots compared to rigid robots?
+
+```{r}
+DT::datatable(questionnaire[, c("socialBenefitsSR","socialBenefitsSRdefinition",
+                                "socialRisksSR","socialRisksSRdefinition")], options = list(pageLength = 5)) 
+```
+
+
+## environmental impacts of soft robots
+
+**open question:**  From your expert point of view, could you elaborate on the potential environmental impacts of soft robots, considering aspects like energy efficiency, and end-of-life disposal, particularly in comparison to rigid robots?
+
+```{r}
+DT::datatable(questionnaire[, c("sustainableSR","sustainableSRdefinition")], options = list(pageLength = 5)) 
+```
+### save as Excel
+
+as .xlsx file
+
+```{r}
+tmp_dat <- questionnaire[, c("ID",
+"applicationsSR","applicationsSRdefinition",
+"benefitsSR","benefitsSRdefinition",
+"risksSR","risksSRdefinition",
+"socialBenefitsSR","socialBenefitsSRdefinition",
+"socialRisksSR","socialRisksSRdefinition",
+"sustainableSR","sustainableSRdefinition",
+"feedback_critic")]
+xlsx::write.xlsx2(x = tmp_dat, file = "outputs/openQuestions.xlsx")
+```
+
+
+## general feedback, critic
+
+```{r}
+tmp_dat <- questionnaire[questionnaire$feedback_critic != "" & !is.na(questionnaire$feedback_critic), c("ID","feedback_critic")]
+DT::datatable(tmp_dat, options = list(pageLength = 5)) 
+```
+
+
+
+# basal attributes
+
+## relevancy and valence ratings
+
+
+
+```{r}
+#| warning: false
+########################################
+# get data set with all ratings
+########################################
+dat_ratings <- na.omit(dat[, c("ID", "Attribut", "English_translation", "ratingLivmats", "ratingValence")])
+dat_ratings$ratingLivmats <- as.numeric(dat_ratings$ratingLivmats)
+dat_ratings$ratingValence <- as.numeric(dat_ratings$ratingValence)
+
+if(nrow(dat_ratings) / 32 == nrow(questionnaire)){
+  print("Everything worked fine")
+}
+
+########################################
+# summary of all ratings
+########################################
+summary_ratings <- dat_ratings %>%
+  group_by(English_translation) %>%
+  summarize(N = n(), 
+            mean_ratingLivmats = mean(ratingLivmats), SD_ratingLivmats = sd(ratingLivmats),
+            mean_ratingValence = mean(ratingValence), SD_ratingValence = sd(ratingValence)) %>%
+  mutate(across(3:6, round, 2))
+DT::datatable(summary_ratings, options = list(pageLength = 5)) 
+
+## save
+xlsx::write.xlsx2(x = summary_ratings, file = "outputs/summary_ratings.xlsx")
+
+########################################
+# get words of basal attributes => 6
+########################################
+summary_ratings$English_translation[summary_ratings$mean_ratingLivmats >= 6]
+```
+Plot relevancy ratings: 
+
+```{r}
+#| warning: false
+# Calculate mean and standard deviation
+mu <- mean(dat_ratings$ratingLivmats, na.rm = TRUE)
+sigma <- sd(dat_ratings$ratingLivmats, na.rm = TRUE)
+
+# Create the histogram with normal distribution overlay
+ggplot(dat_ratings, aes(x = ratingLivmats)) +
+  geom_histogram(aes(y = ..density..), binwidth = 1, fill = "dodgerblue3", color = "white") +
+  stat_function(fun = dnorm, args = list(mean = mu, sd = sigma), color = "red") +
+  labs(x = "Mean Relevancy Ratings", y = "Density") +
+  theme_apa() +
+  theme(plot.title = element_text(hjust = 0.5)) + geom_vline(xintercept = mean(dat_ratings$ratingLivmats, na.rm = TRUE), col = "red")
+```
+
+
+Plot valence ratings: 
+
+```{r}
+#| warning: false
+# Calculate mean and standard deviation
+mu <- mean(dat_ratings$ratingValence, na.rm = TRUE)
+sigma <- sd(dat_ratings$ratingValence, na.rm = TRUE)
+
+# Create the histogram with normal distribution overlay
+ggplot(dat_ratings, aes(x = ratingValence)) +
+  geom_histogram(aes(y = ..density..), binwidth = 1, fill = "dodgerblue3", color = "white") +
+  stat_function(fun = dnorm, args = list(mean = mu, sd = sigma), color = "red") +
+  labs(x = "Mean Valence Ratings", y = "Density") +
+  theme_apa() +
+  theme(plot.title = element_text(hjust = 0.5)) + geom_vline(xintercept = mean(dat_ratings$ratingValence, na.rm = TRUE), col = "red")
+```
+
+**both are medium-strongly slightly related**
+
+```{r}
+cor(dat_ratings$ratingLivmats, dat_ratings$ratingValence)
+```
+
+
+## missing basal attributes for single research areas
+
+for **Research Area A (Energy Autonomy):**
+```{r}
+table(unlist(dat$toolsStatistics))
+```
+
+for **Research Area B (Adaptivity):**
+```{r}
+table(unlist(dat$toolsSoftwares))
+```
+
+for **Research Area C (Longevity):**
+```{r}
+table(unlist(dat$toolsTopics))
+```
+
+for **Research Area D (Societal challenges and Sustainability):**
+```{r}
+table(unlist(dat$toolsData))
+```
+
+

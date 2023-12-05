@@ -1099,6 +1099,9 @@ const study = new lab.flow.Sequence({
     // new lab.plugins.Download()
   ],
   content: [
+    QuesTools_htmlForm,
+
+
     // >>> introduction phase
     Greetings_htmlForm,
     InformCon_htmlForm,
