@@ -829,10 +829,10 @@ const SCALES_sequence = new lab.flow.Sequence({
 // Define the sequence of components that define the study
 const study = new lab.flow.Sequence({
   metadata: {
-    title: "Covid-19 perception post study",
-    description: "applying CAMEL Software",
+    title: "S2 risk and benefits of soft robots",
+    description: "S2 study",
     repository: "",
-    contributors: "Julius Fenn",
+    contributors: "Julius Fenn, Louisa Estadieu",
   },
   plugins: [
     //new lab.plugins.Metadata(),
