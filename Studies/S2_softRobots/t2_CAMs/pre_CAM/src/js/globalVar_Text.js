@@ -368,7 +368,7 @@ Verpflichten Sie sich, in dieser Umfrage wohlüberlegte Antworten zu geben?
          <td>2) Lesen Sie einen Szenario-Text über einen <span id="placeholderRobot">XXX</span>.</td>
        </tr>
        <tr>
-         <td>3) Zeichnen Sie Ihre <i>Mind-Map</i> zu Ihrern Einstellung und Gefühlen gegenüber dem <span id="placeholderRobot2">XXX</span>.</td>
+         <td>3) Zeichnen Sie eine <i>Mind-Map</i> zu Ihrern Einstellung und Gefühlen gegenüber dem <span id="placeholderRobot2">XXX</span>.</td>
        </tr>
        <tr>
        <td>4) Beantworten Sie weitere Fragen.</td>
@@ -376,7 +376,7 @@ Verpflichten Sie sich, in dieser Umfrage wohlüberlegte Antworten zu geben?
      </table>
      <br>
      <section>
-       Die einzelnen Abschnitte werden unten erklärt und begründet. Wir danken Ihnen nochmals für Ihre Teilnahme an der Studie. Wir ermutigen Sie, alle folgenden Fragen ehrlich zu beantworten.
+     Die einzelnen Abschnitte werden nachfolgend erklärt und begründet. Wir danken Ihnen nochmals für Ihre Teilnahme an der Studie. Wir ermutigen Sie, alle folgenden Fragen ehrlich zu beantworten.
      </section>
    </div>
  </main>
