@@ -137,7 +137,7 @@ const textObjInstCAM = {
   CAMinst_multipage: `
   <header>
   <h2 id="head0">
-  Bitte lesen Sie die folgende Anleitung aufmerksam durch, damit Sie später mit der Erstellung Ihrer <i>Cognitive-Affective Map</i> später beginnen können:
+  Bitte lesen Sie die folgende Anleitung aufmerksam durch, damit Sie später mit der Erstellung Ihrer <i>Mind-Map</i> beginnen können:
   </h2>
   <h2 id="head1" class="hidden"></h2>
   <h2 id="head2" class="hidden"></h2>
@@ -168,10 +168,7 @@ const textObjInstCAM = {
 
 <main class="content-horizontal-center content-vertical-center">
   <section id="page0" class="w-l text-justify">
-  <span style="background-color: yellow; color: red;">adjust instructions (with / without arrows); adjust blue text depending on respective study</span>
-  <br>
-  <br>  
-	Die folgende Anleitung erklärt, wie Sie eine kognitiv-affektive Karte erstellen können. Um die Software zu erklären, haben wir für Sie ein Beispiel erstellt, das in keinem direkten Zusammenhang 
+	Die folgende Anleitung erklärt, wie Sie eine <i>Mind-Map</i> erstellen können. Um die Software zu erklären, haben wir für Sie ein Beispiel erstellt, das in keinem direkten Zusammenhang 
   zu dem Thema der Studie steht, nämlich den Einkauf auf einem Wochenmarkt.
   <br>
   <br>
