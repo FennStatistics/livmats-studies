@@ -215,7 +215,7 @@ DT::datatable(tmp_dat, options = list(pageLength = 5))
 
 ## relevancy and valence ratings
 
-
+error: two times I surved "autonomous" (German: selbstständig, autonom)
 
 ```{r}
 #| warning: false
@@ -289,6 +289,7 @@ ggplot(dat_ratings, aes(x = ratingValence)) +
 ```{r}
 cor(dat_ratings$ratingLivmats, dat_ratings$ratingValence)
 ```
+
 
 
 ## missing basal attributes for single research areas
