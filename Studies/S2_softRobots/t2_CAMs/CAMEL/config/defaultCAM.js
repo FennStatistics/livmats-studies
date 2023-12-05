@@ -21,34 +21,44 @@ console.log("index_ConceptsCAM:", index_ConceptsCAM);
 */
 
 function defaultCAM() {
-  /* */
-    CAM.addElement(new NodeCAM(0, "Covid-19", {
-        x: 650,
-        y: 400
-    }, false, false, false));
-
-        
-    CAM.addElement(new NodeCAM(3, "positive aspects", {
-      x: 450,
+  // if existent add ID to CAM.creator
+  if (Object.keys(jatos.studySessionData).includes("choosen_Robot")) {
+    CAM.addElement(new NodeCAM(0, jatos.studySessionData.choosen_Robot, {
+      x: 650,
       y: 400
+    }, false, false, false));
+  }else{
+    CAM.addElement(new NodeCAM(0, "Roboter", {
+      x: 650,
+      y: 400
+    }, false, false, false));
+  }
+
+
+
+
+/*
+  CAM.addElement(new NodeCAM(3, "positive aspects", {
+    x: 450,
+    y: 400
   }, false, false, false));
 
 
   CAM.addElement(new NodeCAM(-2, "negative aspects", {
     x: 850,
     y: 400
-}, false, false, false));
- 
+  }, false, false, false));
 
-    var connector = new ConnectorCAM();
-    connector.establishConnection(CAM.nodes[0], CAM.nodes[1], IncreaseSliderIntensity, true);
-    CAM.addElement(connector);
-    CAM.connectors[0].isDeletable = false;
 
-    var connector = new ConnectorCAM();
-    connector.establishConnection(CAM.nodes[0], CAM.nodes[2], IncreaseSliderIntensity, true);
-    CAM.addElement(connector);
-    CAM.connectors[0].isDeletable = false;
+  var connector = new ConnectorCAM();
+  connector.establishConnection(CAM.nodes[0], CAM.nodes[1], IncreaseSliderIntensity, true);
+  CAM.addElement(connector);
+  CAM.connectors[0].isDeletable = false;
 
-CAM.draw();
+  var connector = new ConnectorCAM();
+  connector.establishConnection(CAM.nodes[0], CAM.nodes[2], IncreaseSliderIntensity, true);
+  CAM.addElement(connector);
+  CAM.connectors[0].isDeletable = false;
+*/
+  CAM.draw();
 }

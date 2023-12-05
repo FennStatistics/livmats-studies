@@ -84,9 +84,9 @@ function saveCam() {
     if (ResbfsAl !== 1) {
       toastr.warning(
         languageFileOut.popSave_01unconnectedB,
-        languageFileOut.popSave_02unconnectedB + " " + 
-          ResbfsAl +
-          languageFileOut.popSave_03unconnectedB,
+        languageFileOut.popSave_02unconnectedB + " " +
+        ResbfsAl +
+        languageFileOut.popSave_03unconnectedB,
         {
           closeButton: true,
           timeOut: 2000,
@@ -106,7 +106,7 @@ function saveCam() {
 
 
 
-function saveCAMsuccess(){
+function saveCAMsuccess() {
   toastr.success(
     languageFileOut.popSave_01savedData,
     {
@@ -137,12 +137,12 @@ function saveCAMsuccess(){
     console.log("usingJATOS: ", usingJATOS);
     if (usingJATOS) {
       if (typeof jatos.jQuery === "function") {
-     // if an ID was sent via URL param overwrite CAM creator
-     if (Object.keys(jatos.urlQueryParameters).indexOf("participantID") >= 0) {
-      CAM.creator = jatos.urlQueryParameters.participantID;
-    }else{
-      CAM.creator = "noID";
-    }
+        // if an ID was sent via URL param overwrite CAM creator
+        if (Object.keys(jatos.urlQueryParameters).indexOf("participantID") >= 0) {
+          CAM.creator = jatos.urlQueryParameters.participantID;
+        } else {
+          CAM.creator = "noID";
+        }
 
         // If JATOS is available, send data there
         var resultJson = CAM;
@@ -152,36 +152,43 @@ function saveCAMsuccess(){
           .then(() => console.log("success"))
           .catch(() => console.log("error"));
 
-            // > with adaptive design
-            if (config.AdaptiveStudy) {
-              var newUrl = updateQueryStringParameter(
-                config.ADAPTIVESTUDYurl,
-                "participantID",
-                CAM.creator
-              );
-              jatos.endStudyAndRedirect(newUrl, true, "everything worked fine");
-            } else if(config.MultiComponentStudy){
-              /*
-              // > as multi component study
-              var tmpActiveNodes = getActiveListNodes();
-              var tmp_valence = getMeanValenceNodes(tmpActiveNodes);
-              var tmp_negNodes = getAllNodesOfValence(tmpActiveNodes, "negative");
-              var tmp_posNodes = getAllNodesOfValence(tmpActiveNodes, "positive")
-              // var tmp_highestDegree = getHighestDegree(tmpActiveNodes);
+        // > with adaptive design
+        if (config.AdaptiveStudy) {
+          var newUrl = updateQueryStringParameter(
+            config.ADAPTIVESTUDYurl,
+            "participantID",
+            CAM.creator
+          );
+          jatos.endStudyAndRedirect(newUrl, true, "everything worked fine");
+        } else if (config.MultiComponentStudy) {
 
+          // if existent add ID to CAM.creator
+          if (Object.keys(jatos.studySessionData).includes("PROLIFIC_PID")) {
+            CAM.creator = jatos.studySessionData.PROLIFIC_PID;
+          }
+             // > as multi component study
+             var tmpActiveNodes = getActiveListNodes();
+             var tmp_valence = getMeanValenceNodes(tmpActiveNodes);
+             var tmp_negNodes = getAllNodesOfValence(tmpActiveNodes, "negative");
+             var tmp_posNodes = getAllNodesOfValence(tmpActiveNodes, "positive")
+   
+             // consider created session data from part 1, 2
+             var studySessionData = {
+               "PROLIFIC_PID": jatos.studySessionData.PROLIFIC_PID,
+               "choosen_Robot": jatos.studySessionData.choosen_Robot,
+               "meanvalence": jatos.studySessionData.meanvalence,
+               "negativenodes": jatos.studySessionData.negativenodes,
+               "positivenodes": jatos.studySessionData.positivenodes,
+               "CAM": CAM,
+               "meanvalence2": tmp_valence,
+               "negativenodes2": tmp_negNodes,
+               "positivenodes2": tmp_posNodes
+             };
+   
+             jatos.setStudySessionData(studySessionData);
+             console.log(studySessionData);
 
-
-              var studySessionData = {
-                  "meanvalence": tmp_valence,
-                  "negativenodes": tmp_negNodes,
-                  "positivenodes": tmp_posNodes,
-                  "CAM": CAM
-              };
-              jatos.setStudySessionData(studySessionData);
-              console.log(studySessionData);
-              */
-
-              jatos.startNextComponent();
+          jatos.startNextComponent();
         } else {
           jatos.endStudy(true, "everything worked fine");
         }
@@ -205,7 +212,7 @@ function saveCAMsuccess(){
         };
 
         const res = await fetch(
-          webAddress +  "/participants/addExperience",
+          webAddress + "/participants/addExperience",
           info
         );
 
@@ -219,10 +226,10 @@ function saveCAMsuccess(){
         }
       }
       pushData();
-    } 
-    
+    }
+
     /* if NO server >>> <<< */
-    if(!usingJATOS &&  !usingMangoDB){
+    if (!usingJATOS && !usingMangoDB) {
       toastr.success(
         languageFileOut.popSave_01notSavedData,
         {

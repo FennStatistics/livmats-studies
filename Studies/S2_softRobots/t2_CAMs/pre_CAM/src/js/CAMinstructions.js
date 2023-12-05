@@ -164,7 +164,6 @@ const textObjInstCAM = {
   <h2 id="head23" class="hidden"></h2>
   <h2 id="head24" class="hidden"></h2>
   <h2 id="head25" class="hidden"></h2>
-  <h2 id="head26" class="hidden"></h2>
 </header>
 
 <main class="content-horizontal-center content-vertical-center">
@@ -256,9 +255,6 @@ const textObjInstCAM = {
 </section>
 <section id="page25" class=" hidden">
 <img alt="ERROR - picture is not shown. Please write an e-mail to the study director that an error has occurred." src="pre_CAM/static/CAMinst/Folie25.JPG" class="centerIMG">
-</section>
-<section id="page26" class=" hidden">
-<img alt="ERROR - picture is not shown. Please write an e-mail to the study director that an error has occurred." src="pre_CAM/static/CAMinst/Folie26.JPG" class="centerIMG">
 </section>
 </main>
 

@@ -390,30 +390,106 @@ Verpflichten Sie sich, in dieser Umfrage wohlüberlegte Antworten zu geben?
  </footer>
  
    `,
-   explanationCAM: `
+   explanationSR1: `
    <header>
-     <h2 >
-     Bitte lesen Sie den folgenden Text sorgfältig durch. Anschließend werden wir Sie bitten, eine <i>Mind-Map</i> zu zeichnen:
+     <h2>
+     Bitte lesen Sie den folgenden Text sorgfältig durch. Anschließend bitten wir Sie, eine <i>Mind-Map</i> zu folgender Frage zu zeichnen:
+     <br>
+     <br>
+     <span id="placeholderText1">XXX</span>
      </h2>
    </header>
    
    <main class="content-horizontal-center content-vertical-center">
    <div class="w-l text-justify">
-   <span style="background-color: yellow; color: red;">adjust instructions depending on respective study; adjust page counter Fortschrittsleiste</span>
+   <span style="background-color: yellow; color: red;">PLACEHOLDER scenario texts</span>
    <br>
    <br> 
-    <i>Anmerkung: Sie müssen wahrscheinlich nach unten scrollen, um alle Anweisungen zu lesen.</i>
+    <i>Anmerkung: eventuell müssen Sie nach unten scrollen, um den kompletten Text zu lesen.</i>
    <br>
    <br>
    <section>
-
-   Wir möchten Ihre Einstellungen und Gefühle während der Covid-19-Pandemie herausfinden. Zu diesem Zweck haben wir Ihnen zentrale Konzepte im
-   Zentrum Ihrer <i>Mind-Map</i> vordefiniert: "negative Aspekte", "positive Aspekte" und "Covid-19" im Zentrum.
-     </section>
+   <span id="placeholderText2">XXX</span>
+      </section>
+ <br>
+ <section>
+ <span id="placeholderText3">XXX</span>
+    </section>
+   </div>
+ </main>
+ 
+   <form id="page-form"> 
+   </form>
+   
+   <footer class="content-vertical-center content-horizontal-right">
+   <div class="w-l text-justify">
+   Drücken Sie nicht auf "Weiter", bevor Sie den Text sorgfältig gelesen haben. Der "Weiter"-Knopf ist für 5 Sekunden gesperrt.
+   </div>
+   &nbsp; <button id="continue" type="submit" form="page-form">
+   Weiter &rarr;
+ </button>
+ </footer>
+   `,
+   explanationSR2: `
+   <header>
+     <h2>
+     Bitte lesen Sie den folgenden Text sorgfältig durch. Anschließend bitten wir Sie, eine <i>Mind-Map</i> zu folgender Frage zu zeichnen:
+     <br>
+     <br>
+     <span id="placeholderText1">XXX</span>
+     </h2>
+   </header>
+   
+   <main class="content-horizontal-center content-vertical-center">
+   <div class="w-l text-justify">
+   <span style="background-color: yellow; color: red;">PLACEHOLDER scenario texts</span>
+   <br>
+   <br> 
+    <b><span id="placeholderText2">XXX</span></b>
+   <br>
+   <br>
    <section>
-   Diese vordefinierten Konzepte sind potenzielle Vorschläge, sollen Sie jedoch in keiner Weise einschränken. Von den gegebenen Konzepten kann nur die emotionale Bewertung geändert 
-   und nicht der Text. Sie <strong>sind ermutigt, zusätzliche Konzepte zu zeichnen</strong>.
-   Die anfängliche <i>Mind-Map</i> sieht so aus: 
+   <span id="placeholderText3">XXX benefits / risks</span>
+      </section>
+ <br>
+ <section>
+ <span id="placeholderText4">XXX benefits / risks</span>
+    </section>
+   </div>
+ </main>
+ 
+   <form id="page-form"> 
+   </form>
+   
+   <footer class="content-vertical-center content-horizontal-right">
+   <div class="w-l text-justify">
+   Drücken Sie nicht auf "Weiter", bevor Sie den Text sorgfältig gelesen haben. Der "Weiter"-Knopf ist für 10 Sekunden gesperrt.
+   </div>
+   &nbsp; <button id="continue" type="submit" form="page-form">
+   Weiter &rarr;
+ </button>
+ </footer>
+   `,
+   explanationSR3: `
+   <header>
+     <h2>
+     Bitte lesen Sie den folgenden Text sorgfältig durch. Anschließend bitten wir Sie, eine <i>Mind-Map</i> zu folgender Frage zu zeichnen:
+     <br>
+     <br>
+     <span id="placeholderText1">XXX</span>
+     </h2>
+   </header>
+   
+   <main class="content-horizontal-center content-vertical-center">
+   <div class="w-l text-justify">
+   <span style="background-color: yellow; color: red;">PLACEHOLDER scenario texts</span>
+   <br>
+   <br> 
+    <i>Anmerkung: eventuell müssen Sie nach unten scrollen, um den kompletten Text zu lesen.</i>
+   <br>
+   <br>
+   <section>
+   <span id="placeholderText2">XXX</span>
       </section>
  <br>
       <img alt="ERROR - picture is not shown. Please write an e-mail to the study director that an error has occurred." class="centerIMG"

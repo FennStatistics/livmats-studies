@@ -230,14 +230,57 @@ const SetupStudy_htmlForm = new lab.html.Form({
 // 
 
 /* 
-PRE CAM
+explenations soft robot
 */
-// CAMinst_multipage_htmlScreen
+const explanationSR1_htmlForm = new lab.html.Form({
+  title: "explanationSR1",
+  content: textObj.explanationSR1,
+  messageHandlers: {
+    run: function anonymous() {
+      document.querySelector("button").style.visibility = "hidden";
+      setTimeout(
+        () => (document.querySelector("button").style.visibility = "visible"),
+        5000 // 10000 (10 seconds)
+      );
+    },
+    commit: () => {
+      // progress bar
+        numElementsCounter++;
+        document.querySelector(".progress-bar").style.width =
+          (numElementsCounter / numElements) * 100 + "%";
+
+          // alert(numElementsCounter)
+    }
+  },
+});
+
+const explanationSR2_htmlForm = new lab.html.Form({
+  title: "explanationSR2",
+  content: textObj.explanationSR2,
+  messageHandlers: {
+    run: function anonymous() {
+      document.querySelector("button").style.visibility = "hidden";
+      setTimeout(
+        () => (document.querySelector("button").style.visibility = "visible"),
+        10000 // 10000 (10 seconds)
+      );
+    },
+    commit: () => {
+      // progress bar
+        numElementsCounter++;
+        document.querySelector(".progress-bar").style.width =
+          (numElementsCounter / numElements) * 100 + "%";
+
+          // alert(numElementsCounter)
+    }
+  },
+});
 
 
-const explanationCAM_htmlForm = new lab.html.Form({
-  title: "explanationCAM",
-  content: textObj.explanationCAM,
+
+const explanationSR3_htmlForm = new lab.html.Form({
+  title: "explanationSR3",
+  content: textObj.explanationSR3,
   messageHandlers: {
     run: function anonymous() {
       document.querySelector("button").style.visibility = "hidden";
@@ -263,6 +306,14 @@ const explanationCAM_htmlForm = new lab.html.Form({
           .submitResultData(resultJson)
           .then(() => console.log("success"))
           .catch(() => console.log("error"));
+
+        // save PROLIFIC_PID and choosen robot for next session
+        var studySessionData = {
+          "choosen_Robot": study.options.datastore.get("choosen_Robot"),
+          "PROLIFIC_PID": study.options.datastore.get("PROLIFIC_PID")
+      };
+      jatos.setStudySessionData(studySessionData);
+      console.log(studySessionData);
         // then redirect
         jatos.startNextComponent();
       }
@@ -285,12 +336,13 @@ const study = new lab.flow.Sequence({
   plugins: [
     new lab.plugins.Metadata(),
     //new lab.plugins.Fullscreen(),
-    // new lab.plugins.Debug(), // comment out finally
+    new lab.plugins.Debug(), // comment out finally
     // new lab.plugins.Download()
   ],
   content: [ 
     // >>> PRE
     Greetings_htmlForm,
+
     InformCon_htmlForm,
     InformConsentNO_htmlForm,
     ExclusionCriteria_htmlForm,
@@ -298,8 +350,10 @@ const study = new lab.flow.Sequence({
     SetupStudy_htmlForm,
 
     CAMinst_multipage_htmlScreen,
-
-    explanationCAM_htmlForm     // -> next session
+    /**/
+    explanationSR1_htmlForm,
+    explanationSR2_htmlForm,
+    explanationSR3_htmlForm     // -> next session
   ],
 });
 

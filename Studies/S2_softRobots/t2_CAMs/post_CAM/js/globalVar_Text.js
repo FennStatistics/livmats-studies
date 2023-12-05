@@ -133,6 +133,81 @@ const textObj = {
 </button>
 </footer>
   `,
+  explanationSR1: `
+  <header>
+    <h2>
+    Bitte lesen Sie die folgenden Informationen über softe Roboter sorgfältig durch. Anschließend werden wir Sie bitten, Ihr <i>Mind-Map</i> anzupassen:
+    </h2>
+  </header>
+  
+  <main class="content-horizontal-center content-vertical-center">
+  <div class="w-l text-justify">
+  <span style="background-color: yellow; color: red;">PLACEHOLDER scenario texts</span>
+  <br>
+  <br> 
+   <i>Anmerkung: eventuell müssen Sie nach unten scrollen, um den kompletten Text zu lesen.</i>
+  <br>
+  <br>
+  <section>
+  <span id="placeholderText1">XXX</span>
+     </section>
+<br>
+<section>
+<span id="placeholderText2">XXX</span>
+   </section>
+  </div>
+</main>
+
+  <form id="page-form"> 
+  </form>
+  
+  <footer class="content-vertical-center content-horizontal-right">
+  <div class="w-l text-justify">
+  Drücken Sie nicht auf "Weiter", bevor Sie den Text sorgfältig gelesen haben. Der "Weiter"-Knopf ist für 5 Sekunden gesperrt.
+  </div>
+  &nbsp; <button id="continue" type="submit" form="page-form">
+  Weiter &rarr;
+</button>
+</footer>
+  `,
+  explanationSR2: `
+  <header>
+    <h2>
+    Bitte lesen Sie die folgenden Informationen über softe Roboter sorgfältig durch. Anschließend werden wir Sie bitten, Ihr <i>Mind-Map</i> anzupassen:
+    </h2>
+  </header>
+
+
+  <main class="content-horizontal-center content-vertical-center">
+  <div class="w-l text-justify">
+  <span style="background-color: yellow; color: red;">PLACEHOLDER scenario texts</span>
+  <br>
+  <br> 
+   <b><span id="placeholderText2">XXX</span></b>
+  <br>
+  <br>
+  <section>
+  <span id="placeholderText3">XXX benefits / risks soft</span>
+     </section>
+<br>
+<section>
+<span id="placeholderText4">XXX benefits / risks soft</span>
+   </section>
+  </div>
+</main>
+
+  <form id="page-form"> 
+  </form>
+  
+  <footer class="content-vertical-center content-horizontal-right">
+  <div class="w-l text-justify">
+  Drücken Sie nicht auf "Weiter", bevor Sie den Text sorgfältig gelesen haben. Der "Weiter"-Knopf ist für 10 Sekunden gesperrt.
+  </div>
+  &nbsp; <button id="continue" type="submit" form="page-form">
+  Weiter &rarr;
+</button>
+</footer>
+  `,
 }
 
 

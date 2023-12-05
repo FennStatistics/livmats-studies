@@ -1,7 +1,7 @@
 /* default values */
 var config = {
-    CAMproject: "Covid19_perception", // "proj_" + uuid.v4(), // necessary for server (see ERM)
-    ConNumNodes: 3, // number of nodes necessary to draw
+    CAMproject: "S2_CAM part 1", // "proj_" + uuid.v4(), // necessary for server (see ERM)
+    ConNumNodes: 1, // number of nodes necessary to draw
     
     hideArrows: true, // if false = possible to draw arrows
     BidirectionalDefault: false, // if true the default connection is bidirectional
@@ -24,7 +24,7 @@ var config = {
     AdaptiveStudy: false, // run as adaptive study 
     ADAPTIVESTUDYurl: "http://example.org/", // URL the CAM data should be append to
 
-    setReminder: true, // if true = after X ms 2 reminder pop up
+    setReminder: false, // if true = after X ms 2 reminder pop up
 
     surpressSaveCAMpopup: false,  // if set to true no popup is shown when downloading a vector graphic of the CAM (for automation via the CAM2Image tool)
 

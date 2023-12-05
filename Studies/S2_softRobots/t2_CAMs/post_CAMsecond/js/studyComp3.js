@@ -1,3 +1,5 @@
+const Required_Testing = false; // set to false for production
+
 /* number of components / elements to set slider */
 const numElements = 13; // 8+5
 var numElementsCounter = 5;
@@ -9,6 +11,9 @@ const htmlForm = new lab.html.Form({
   <main class="content-horizontal-center content-vertical-center">
   <div class="w-l text-justify">
   <form id="page-form">
+  <span style="background-color: yellow; color: red;">ADJUST TEXT and compute mean difference CAMs</span>
+  <br>
+  <br>
     Ihre gezeichnete <i>Mind-Map</i> hatte die Gesamtvalenz von
     <span id="placeholder" style="font-weight: bold;">XXX</span>, bitte erklären Sie, warum Ihre insgesamt gezeichnete <i>Mind-Map</i> 
     <span id="placeholder2" style="font-weight: bold;">XXX</span> war
@@ -178,6 +183,161 @@ const break500 = new lab.html.Screen({
 })
 
 
+/* 
+################### survey scales ###################
+*/
+// >>>  climate change skepticism questionnaire  (CCSQ)
+const LikertCCSQ1_htmlForm = new lab.html.Page({
+  title: "CCSQ 1",
+  items: [
+    {
+      required: Required_Testing,
+      type: "likert",
+      items: items_Graaf.slice(0, 6),
+      width: "7",
+      anchors: [
+        "Totally Disagree",
+        "Disagree",
+        "Somewhat Disagree",
+        "Neutral",
+        "Somewhat Agree",
+        "Agree",
+        "Totally Agree",
+      ],
+      label:
+        "Please indicate to what extent you agree with the following statements.",
+      help: "Please answer every statement, even if you are not completely sure of your response.",
+      shuffle: false,
+      name: "CCSQ",
+    },
+  ],
+  submitButtonText: "Continue →",
+  submitButtonPosition: "right",
+  width: "l",
+  messageHandlers: {
+    run: function anonymous() {
+      // adjust size of scale
+      document.querySelectorAll("div")[0].classList = ["text-left"];
+      document.querySelectorAll("main")[1].classList = ["w-xl"];
+      document.querySelectorAll(".page-item-table colgroup")[0].innerHTML = `
+     <col style=\"width: 65%\">
+     <col style=\"width: 5%\">
+     <col style=\"width: 5%\">
+     <col style=\"width: 5%\">
+     <col style=\"width: 5%\">
+     <col style=\"width: 5%\">
+     <col style=\"width: 5%\">
+     <col style=\"width: 5%\">
+     `;
+      // sticky labels to front
+      $("thead").first().css("z-index", "20");
+      // collect paradata
+      paracountclicks = 0;
+      document.querySelectorAll("input").forEach((item) => {
+        item.addEventListener("click", (event) => {
+          paracountclicks++;
+          console.log("input clicked", paracountclicks);
+        });
+      });
+    },
+    end: function anonymous() {
+      // collect paradata
+      let numberitems = document.querySelectorAll("tbody tr").length;
+      paracountclicks -= numberitems;
+      study.options.datastore.set("para_countclicks", paracountclicks);
+    },
+    commit: function anonymous() {
+      // progress bar
+      numElementsCounter++;
+      document.querySelector(".progress-bar").style.width =
+        (numElementsCounter / numElements) * 100 + "%";
+    },
+  },
+});
+
+
+const LikertCCSQ2_htmlForm = new lab.html.Page({
+  title: "CCSQ 2",
+  items: [
+    {
+      required: Required_Testing,
+      type: "likert",
+      items: items_Graaf.slice(6, 12),
+      width: "7",
+      anchors: [
+        "Totally Disagree",
+        "Disagree",
+        "Somewhat Disagree",
+        "Neutral",
+        "Somewhat Agree",
+        "Agree",
+        "Totally Agree",
+      ],
+      label:
+        "Please indicate to what extent you agree with the following statements.",
+      help: "Please answer every statement, even if you are not completely sure of your response.",
+      shuffle: false,
+      name: "CCSQ",
+    },
+  ],
+  submitButtonText: "Continue →",
+  submitButtonPosition: "right",
+  width: "l",
+  messageHandlers: {
+    run: function anonymous() {
+      // adjust size of scale
+      document.querySelectorAll("div")[0].classList = ["text-left"];
+      document.querySelectorAll("main")[1].classList = ["w-xl"];
+      document.querySelectorAll(".page-item-table colgroup")[0].innerHTML = `
+     <col style=\"width: 65%\">
+     <col style=\"width: 5%\">
+     <col style=\"width: 5%\">
+     <col style=\"width: 5%\">
+     <col style=\"width: 5%\">
+     <col style=\"width: 5%\">
+     <col style=\"width: 5%\">
+     <col style=\"width: 5%\">
+     `;
+      // sticky labels to front
+      $("thead").first().css("z-index", "20");
+      // collect paradata
+      paracountclicks = 0;
+      document.querySelectorAll("input").forEach((item) => {
+        item.addEventListener("click", (event) => {
+          paracountclicks++;
+          console.log("input clicked", paracountclicks);
+        });
+      });
+    },
+    end: function anonymous() {
+      // collect paradata
+      let numberitems = document.querySelectorAll("tbody tr").length;
+      paracountclicks -= numberitems;
+      study.options.datastore.set("para_countclicks", paracountclicks);
+    },
+    commit: function anonymous() {
+      // progress bar
+      numElementsCounter++;
+      document.querySelector(".progress-bar").style.width =
+        (numElementsCounter / numElements) * 100 + "%";
+    },
+  },
+});
+
+
+const CCSQ_sequence = new lab.flow.Sequence({
+  title: "CCSQ Sequence",
+  shuffle: false,
+  content: [
+    LikertCCSQ1_htmlForm,
+    LikertCCSQ2_htmlForm,
+  ],
+});
+
+
+
+
+
 
 /* 
 ################### ending phase ###################
@@ -280,12 +440,14 @@ const study = new lab.flow.Sequence({
     //new lab.plugins.Download()
   ],
   content: [
+    htmlForm,
     /*
     break500,
     CAMfeedbackGeneral_htmlForm,
     htmlForm,
     htmlForm3,
 */
+CCSQ_sequence,
     FeedbackScreen_htmlScreen,
     EndingScreen_htmlScreen,
   ],

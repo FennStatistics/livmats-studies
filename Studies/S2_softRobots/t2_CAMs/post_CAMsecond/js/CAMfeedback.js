@@ -160,55 +160,6 @@ Bevor Sie mit der Studie fortfahren, bitten wir Sie, die folgenden Fragen zu bea
 <!-- multiple choice + text field --> 
 <div class="page-item page-item-radio" id="page-item-ques_dummycam">
  <p class="text-left font-weight-bold" style="margin: 1rem 0 0.25rem">
- Haben Sie das Zeichnen Ihrer <i>Mind-Map</i> aus technischen Gründen gestoppt?
- </p>
- <p class="text-left small text-muted hide-if-empty" style="margin: 0.25rem 0">
- Beispielsweise, weil Sie nicht mehr zeichnen konnten.
- </p>
-
- <table class="table-plain page-item-table">
-   <colgroup>
-     <col style="width: 7.5%">
-     <col style="width: 92.5%">
-   </colgroup>
-<tbody>
-<!--ans1--> 
-<tr>
- <td>
-   <input type="radio" name="feedCAM_stopdrawing" value="0" id="feedCAM_stopdrawing" required="">
- </td>
- <td>
-   <label for="feedCAM_stopdrawing" class="text-left">
-   Nein, ich habe das Zeichnen der <i>Mind-Map</i> abgeschlossen.
-   </label>
- </td>
-</tr>
-<!--ans2--> 
-<tr>
- <td>
-   <input type="radio" name="feedCAM_stopdrawing" value="1" id="feedCAM_stopdrawing2" required="">
- </td>
- <td>
-   <label for="feedCAM_stopdrawing2" class="text-left">
-   Ja, ich musste das Zeichnen der <i>Mind-Map</i> stoppen, weil:
-   </label>
-<!-- single text --> 
-<div class="page-item page-item-input" id="page-item-feedback_mail">
-<textarea name="feedCAM_stopdrawingText" class="w-100" type="text" rows="1"></textarea>
-</div>
-<!-- END single text --> 
- </td>
-</tr>
-</tbody>
-</table>
-</div>
-<!-- END multiple choice + text field --> 
-
-<br>
-
-<!-- multiple choice + text field --> 
-<div class="page-item page-item-radio" id="page-item-ques_dummycam">
- <p class="text-left font-weight-bold" style="margin: 1rem 0 0.25rem">
  Haben Sie schon einmal eine <i>Mind-Map</i> mit den gleichen oder ähnlichen Regeln erstellt?
   </p>
  <p class="text-left small text-muted hide-if-empty" style="margin: 0.25rem 0">

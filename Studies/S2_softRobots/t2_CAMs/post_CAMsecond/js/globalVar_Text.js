@@ -104,24 +104,20 @@ const textObj = {
   feedbackQues: `
   <header>
     <h2>
-    Please answer the following last question if you like to:
+    Wenn Sie möchten, beantworten Sie bitte diese letzte Frage:
     </h2>
   </header>
   
   <main class="content-horizontal-center content-vertical-center" >
   <div class="w-l">
-  <span style="background-color: yellow; color: red;">here we could ask questions like the valence mean differences of the drawn and later adjusted CAM</span>
-  <br>
-  <br>
-
     <form id="page-form" style="display: block;" autocomplete="off">
 <!-- multiline text text --> 
 <div class="page-item page-item-textarea" id="page-item-feedback_critic">
   <p class="text-left font-weight-bold" style="margin: 1rem 0 0.25rem">
-  Do you have any feedback or criticism about the online study?
+  Haben Sie Feedback oder Kritik an der Online-Studie?
   </p>
   <p class="text-left small text-muted hide-if-empty" style="margin: 0.25rem 0">
-  Any criticism or suggestions for improvement will greatly help us to improve future studies.
+  Jegliche Kritik oder Verbesserungsvorschläge helfen uns sehr, zukünftige Studien zu verbessern.
   </p>
   <textarea name="feedback_critic" class="w-100" rows="4"></textarea>
 </div>
