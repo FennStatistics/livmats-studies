@@ -26,7 +26,7 @@ p_load('xlsx', 'jsonlite', 'stringr')
 # data
 ################
 dir()
-items <- read.xlsx2(file = "items Bruder 2013.xlsx", sheetIndex = 1)
+items <- read.xlsx2(file = "items Heerink 2010.xlsx", sheetIndex = 1)
 
 
 ############################################################################

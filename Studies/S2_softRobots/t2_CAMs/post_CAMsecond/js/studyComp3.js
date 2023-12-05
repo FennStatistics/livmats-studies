@@ -47,7 +47,7 @@ Weiter &rarr;
 
   },
 })
-// ${jatos.studySessionData.answer}
+
 const htmlForm2 = new lab.html.Form({
   content:     `
   <main class="content-horizontal-center content-vertical-center">
@@ -186,29 +186,32 @@ const break500 = new lab.html.Screen({
 /* 
 ################### survey scales ###################
 */
-// >>>  climate change skepticism questionnaire  (CCSQ)
-const LikertCCSQ1_htmlForm = new lab.html.Page({
-  title: "CCSQ 1",
+
+
+
+// >>>  General Attitudes Towards Robots Scale (GAToRS)
+const LikertGAToRS1_htmlForm = new lab.html.Page({
+  title: "GAToRS 1",
   items: [
     {
       required: Required_Testing,
       type: "likert",
-      items: items_Graaf.slice(0, 6),
+      items: items_Koverola.slice(0, 7),
       width: "7",
       anchors: [
-        "Totally Disagree",
-        "Disagree",
-        "Somewhat Disagree",
+        "Stimme überhaupt nicht zu",
+        "Stimme nicht zu",
+        "Stimme eher nicht zu",
         "Neutral",
-        "Somewhat Agree",
-        "Agree",
-        "Totally Agree",
+        "Stimme eher zu",
+        "Stimme zu",
+        "Stimme voll und ganz zu"
       ],
       label:
-        "Please indicate to what extent you agree with the following statements.",
-      help: "Please answer every statement, even if you are not completely sure of your response.",
+        "Bitte lesen Sie die folgenden Aussagen und geben Sie basierend darauf an, inwieweit Sie jeder Aussage zustimmen.",
+      help: "Beantworten Sie bitte jede Aussage, auch wenn Sie sich nicht ganz sicher sind, was Sie antworten sollen.",
       shuffle: false,
-      name: "CCSQ",
+      name: "GAToRS",
     },
   ],
   submitButtonText: "Continue →",
@@ -220,14 +223,14 @@ const LikertCCSQ1_htmlForm = new lab.html.Page({
       document.querySelectorAll("div")[0].classList = ["text-left"];
       document.querySelectorAll("main")[1].classList = ["w-xl"];
       document.querySelectorAll(".page-item-table colgroup")[0].innerHTML = `
-     <col style=\"width: 65%\">
+     <col style=\"width: 55%\">
+     <col style=\"width: 5%\">
+     <col style=\"width: 5%\">
+     <col style=\"width: 10%\">
      <col style=\"width: 5%\">
      <col style=\"width: 5%\">
      <col style=\"width: 5%\">
-     <col style=\"width: 5%\">
-     <col style=\"width: 5%\">
-     <col style=\"width: 5%\">
-     <col style=\"width: 5%\">
+     <col style=\"width: 15%\">
      `;
       // sticky labels to front
       $("thead").first().css("z-index", "20");
@@ -256,28 +259,29 @@ const LikertCCSQ1_htmlForm = new lab.html.Page({
 });
 
 
-const LikertCCSQ2_htmlForm = new lab.html.Page({
-  title: "CCSQ 2",
+
+const LikertGAToRS2_htmlForm = new lab.html.Page({
+  title: "GAToRS 2",
   items: [
     {
       required: Required_Testing,
       type: "likert",
-      items: items_Graaf.slice(6, 12),
+      items: items_Koverola.slice(7, 14),
       width: "7",
       anchors: [
-        "Totally Disagree",
-        "Disagree",
-        "Somewhat Disagree",
+        "Stimme überhaupt nicht zu",
+        "Stimme nicht zu",
+        "Stimme eher nicht zu",
         "Neutral",
-        "Somewhat Agree",
-        "Agree",
-        "Totally Agree",
+        "Stimme eher zu",
+        "Stimme zu",
+        "Stimme voll und ganz zu"
       ],
       label:
-        "Please indicate to what extent you agree with the following statements.",
-      help: "Please answer every statement, even if you are not completely sure of your response.",
+        "Bitte lesen Sie die folgenden Aussagen und geben Sie basierend darauf an, inwieweit Sie jeder Aussage zustimmen.",
+      help: "Beantworten Sie bitte jede Aussage, auch wenn Sie sich nicht ganz sicher sind, was Sie antworten sollen.",
       shuffle: false,
-      name: "CCSQ",
+      name: "GAToRS",
     },
   ],
   submitButtonText: "Continue →",
@@ -289,14 +293,14 @@ const LikertCCSQ2_htmlForm = new lab.html.Page({
       document.querySelectorAll("div")[0].classList = ["text-left"];
       document.querySelectorAll("main")[1].classList = ["w-xl"];
       document.querySelectorAll(".page-item-table colgroup")[0].innerHTML = `
-     <col style=\"width: 65%\">
+     <col style=\"width: 55%\">
+     <col style=\"width: 5%\">
+     <col style=\"width: 5%\">
+     <col style=\"width: 10%\">
      <col style=\"width: 5%\">
      <col style=\"width: 5%\">
      <col style=\"width: 5%\">
-     <col style=\"width: 5%\">
-     <col style=\"width: 5%\">
-     <col style=\"width: 5%\">
-     <col style=\"width: 5%\">
+     <col style=\"width: 15%\">
      `;
       // sticky labels to front
       $("thead").first().css("z-index", "20");
@@ -325,17 +329,400 @@ const LikertCCSQ2_htmlForm = new lab.html.Page({
 });
 
 
-const CCSQ_sequence = new lab.flow.Sequence({
-  title: "CCSQ Sequence",
+const LikertGAToRS3_htmlForm = new lab.html.Page({
+  title: "GAToRS 3",
+  items: [
+    {
+      required: Required_Testing,
+      type: "likert",
+      items: items_Koverola.slice(14, 20),
+      width: "7",
+      anchors: [
+        "Stimme überhaupt nicht zu",
+        "Stimme nicht zu",
+        "Stimme eher nicht zu",
+        "Neutral",
+        "Stimme eher zu",
+        "Stimme zu",
+        "Stimme voll und ganz zu"
+      ],
+      label:
+        "Bitte lesen Sie die folgenden Aussagen und geben Sie basierend darauf an, inwieweit Sie jeder Aussage zustimmen.",
+      help: "Beantworten Sie bitte jede Aussage, auch wenn Sie sich nicht ganz sicher sind, was Sie antworten sollen.",
+      shuffle: false,
+      name: "GAToRS",
+    },
+  ],
+  submitButtonText: "Continue →",
+  submitButtonPosition: "right",
+  width: "l",
+  messageHandlers: {
+    run: function anonymous() {
+      // adjust size of scale
+      document.querySelectorAll("div")[0].classList = ["text-left"];
+      document.querySelectorAll("main")[1].classList = ["w-xl"];
+      document.querySelectorAll(".page-item-table colgroup")[0].innerHTML = `
+     <col style=\"width: 55%\">
+     <col style=\"width: 5%\">
+     <col style=\"width: 5%\">
+     <col style=\"width: 10%\">
+     <col style=\"width: 5%\">
+     <col style=\"width: 5%\">
+     <col style=\"width: 5%\">
+     <col style=\"width: 15%\">
+     `;
+      // sticky labels to front
+      $("thead").first().css("z-index", "20");
+      // collect paradata
+      paracountclicks = 0;
+      document.querySelectorAll("input").forEach((item) => {
+        item.addEventListener("click", (event) => {
+          paracountclicks++;
+          console.log("input clicked", paracountclicks);
+        });
+      });
+    },
+    end: function anonymous() {
+      // collect paradata
+      let numberitems = document.querySelectorAll("tbody tr").length;
+      paracountclicks -= numberitems;
+      study.options.datastore.set("para_countclicks", paracountclicks);
+    },
+    commit: function anonymous() {
+      // progress bar
+      numElementsCounter++;
+      document.querySelector(".progress-bar").style.width =
+        (numElementsCounter / numElements) * 100 + "%";
+    },
+  },
+});
+
+
+
+const GAToRS_sequence = new lab.flow.Sequence({
+  title: "GAToRS Sequence",
   shuffle: false,
   content: [
-    LikertCCSQ1_htmlForm,
-    LikertCCSQ2_htmlForm,
+    LikertGAToRS1_htmlForm,
+    LikertGAToRS2_htmlForm,
+    LikertGAToRS3_htmlForm
   ],
 });
 
 
+// >>> Almere Model
+const LikertAlmere_htmlForm = new lab.html.Page({
+  title: "Almere",
+  items: [
+    {
+      required: Required_Testing,
+      type: "likert",
+      items: items_Heerink,
+      width: "5",
+      anchors: [
+        "Stimme überhaupt nicht zu",
+        "Stimme nicht zu",
+        "Weiß nicht",
+        "Stimme zu",
+        "Stimme voll und ganz zu"
+      ],
+      label:
+        "Bitte lesen Sie die folgenden Aussagen und geben Sie basierend darauf an, inwieweit Sie jeder Aussage zustimmen.",
+      help: "Beantworten Sie bitte jede Aussage, auch wenn Sie sich nicht ganz sicher sind, was Sie antworten sollen.",
+      shuffle: false,
+      name: "Almere",
+    },
+  ],
+  submitButtonText: "Continue →",
+  submitButtonPosition: "right",
+  width: "l",
+  messageHandlers: {
+    run: function anonymous() {
+      // adjust size of scale
+      document.querySelectorAll("div")[0].classList = ["text-left"];
+      document.querySelectorAll("main")[1].classList = ["w-xl"];
+      document.querySelectorAll(".page-item-table colgroup")[0].innerHTML = `
+     <col style=\"width: 50%\">
+     <col style=\"width: 10%\">
+     <col style=\"width: 10%\">
+     <col style=\"width: 10%\">
+     <col style=\"width: 10%\">
+     <col style=\"width: 10%\">
+     `;
+      // sticky labels to front
+      $("thead").first().css("z-index", "20");
+      // collect paradata
+      paracountclicks = 0;
+      document.querySelectorAll("input").forEach((item) => {
+        item.addEventListener("click", (event) => {
+          paracountclicks++;
+          console.log("input clicked", paracountclicks);
+        });
+      });
+    },
+    end: function anonymous() {
+      // collect paradata
+      let numberitems = document.querySelectorAll("tbody tr").length;
+      paracountclicks -= numberitems;
+      study.options.datastore.set("para_countclicks", paracountclicks);
+    },
+    commit: function anonymous() {
+      // progress bar
+      numElementsCounter++;
+      document.querySelector(".progress-bar").style.width =
+        (numElementsCounter / numElements) * 100 + "%";
+    },
+  },
+});
 
+
+
+
+// >>> Li and Wang
+const LikertLiWang_htmlForm = new lab.html.Page({
+  title: "LiWang",
+  items: [
+    {
+      required: Required_Testing,
+      type: "likert",
+      items: items_LiWang,
+      width: "7",
+      anchors: [
+        "Stimme überhaupt nicht zu",
+        "Stimme nicht zu",
+        "Stimme eher nicht zu",
+        "Neutral",
+        "Stimme eher zu",
+        "Stimme zu",
+        "Stimme voll und ganz zu"
+      ],
+      label:
+        "Bitte lesen Sie die folgenden Aussagen und geben Sie basierend darauf an, inwieweit Sie jeder Aussage zustimmen.",
+      help: "Beantworten Sie bitte jede Aussage, auch wenn Sie sich nicht ganz sicher sind, was Sie antworten sollen.",
+      shuffle: false,
+      name: "LiWang",
+    },
+  ],
+  submitButtonText: "Continue →",
+  submitButtonPosition: "right",
+  width: "l",
+  messageHandlers: {
+    run: function anonymous() {
+      // adjust size of scale
+      document.querySelectorAll("div")[0].classList = ["text-left"];
+      document.querySelectorAll("main")[1].classList = ["w-xl"];
+      document.querySelectorAll(".page-item-table colgroup")[0].innerHTML = `
+     <col style=\"width: 55%\">
+     <col style=\"width: 5%\">
+     <col style=\"width: 5%\">
+     <col style=\"width: 10%\">
+     <col style=\"width: 5%\">
+     <col style=\"width: 5%\">
+     <col style=\"width: 5%\">
+     <col style=\"width: 15%\">
+     `;
+      // sticky labels to front
+      $("thead").first().css("z-index", "20");
+      // collect paradata
+      paracountclicks = 0;
+      document.querySelectorAll("input").forEach((item) => {
+        item.addEventListener("click", (event) => {
+          paracountclicks++;
+          console.log("input clicked", paracountclicks);
+        });
+      });
+    },
+    end: function anonymous() {
+      // collect paradata
+      let numberitems = document.querySelectorAll("tbody tr").length;
+      paracountclicks -= numberitems;
+      study.options.datastore.set("para_countclicks", paracountclicks);
+    },
+    commit: function anonymous() {
+      // progress bar
+      numElementsCounter++;
+      document.querySelector(".progress-bar").style.width =
+        (numElementsCounter / numElements) * 100 + "%";
+    },
+  },
+});
+
+
+// >>> MDMT
+const Likert_MDMT1_htmlForm = new lab.html.Page({
+  title: "MDMT 1",
+  items: [
+    {
+      required: Required_Testing,
+      type: "likert",
+      items: items_MDMT.slice(0,8),
+      width: "9",
+      anchors: [
+        "Überhaupt nicht 0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "Sehr 7",
+        "Passt nicht"
+      ],
+      label: 'Bitte bewerten Sie den Roboter auf einer Skala von 0 (Überhaupt nicht) bis 7 (Sehr). Falls eine bestimmte Frage nicht zum Roboter zu passen scheint, wählen Sie bitte die Option, die aussagt "Passt nicht".',
+      help: "Beantworten Sie bitte jede Aussage, auch wenn Sie sich nicht ganz sicher sind, was Sie antworten sollen.",
+      shuffle: false,
+      name: "MDMT",
+    },
+  ],
+  submitButtonText: "Continue →",
+  submitButtonPosition: "right",
+  width: "l",
+  messageHandlers: {
+    run: function anonymous() {
+      // adjust size of scale
+      document.querySelectorAll("div")[0].classList = ["text-left"];
+      document.querySelectorAll("main")[1].classList = ["w-xl"];
+      document.querySelectorAll(".page-item-table colgroup")[0].innerHTML = `
+      <col style=\"width: 20%\">
+      <col style=\"width: 7%\">
+      <col style=\"width: 7%\">
+      <col style=\"width: 7%\">
+      <col style=\"width: 7%\">
+      <col style=\"width: 7%\">
+      <col style=\"width: 7%\">
+      <col style=\"width: 7%\">
+      <col style=\"width: 7%\">
+      <col style=\"width: 7%\">
+      `;
+      // sticky labels to front
+      $("thead").first().css("z-index", "20");
+      // collect paradata
+      paracountclicks = 0;
+      document.querySelectorAll("input").forEach((item) => {
+        item.addEventListener("click", (event) => {
+          paracountclicks++;
+          console.log("input clicked", paracountclicks);
+        });
+      });
+    },
+    end: function anonymous() {
+      // collect paradata
+      let numberitems = document.querySelectorAll("tbody tr").length;
+      paracountclicks -= numberitems;
+      study.options.datastore.set("para_countclicks", paracountclicks);
+    },
+    commit: function anonymous() {
+      // progress bar
+      numElementsCounter++;
+      document.querySelector(".progress-bar").style.width =
+        (numElementsCounter / numElements) * 100 + "%";
+
+
+      if (typeof jatos.jQuery === "function") {
+        // If JATOS is available, send data there
+        var resultJson = study.options.datastore.exportJson();
+        console.log("result data sent to JATOS first time");
+        jatos
+          .submitResultData(resultJson)
+          .then(() => console.log("success"))
+          .catch(() => console.log("error"));
+      }
+    },
+  },
+});
+
+
+const Likert_MDMT2_htmlForm = new lab.html.Page({
+  title: "MDMT 2",
+  items: [
+    {
+      required: Required_Testing,
+      type: "likert",
+      items: items_MDMT.slice(8,16),
+      width: "9",
+      anchors: [
+        "Überhaupt nicht 0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "Sehr 7",
+        "Passt nicht"
+      ],
+      label: 'Bitte bewerten Sie den Roboter auf einer Skala von 0 (Überhaupt nicht) bis 7 (Sehr). Falls eine bestimmte Frage nicht zum Roboter zu passen scheint, wählen Sie bitte die Option, die aussagt "Passt nicht".',
+      help: "Beantworten Sie bitte jede Aussage, auch wenn Sie sich nicht ganz sicher sind, was Sie antworten sollen.",
+      shuffle: false,
+      name: "MDMT",
+    },
+  ],
+  submitButtonText: "Continue →",
+  submitButtonPosition: "right",
+  width: "l",
+  messageHandlers: {
+    run: function anonymous() {
+      // adjust size of scale
+      document.querySelectorAll("div")[0].classList = ["text-left"];
+      document.querySelectorAll("main")[1].classList = ["w-xl"];
+      document.querySelectorAll(".page-item-table colgroup")[0].innerHTML = `
+      <col style=\"width: 20%\">
+      <col style=\"width: 7%\">
+      <col style=\"width: 7%\">
+      <col style=\"width: 7%\">
+      <col style=\"width: 7%\">
+      <col style=\"width: 7%\">
+      <col style=\"width: 7%\">
+      <col style=\"width: 7%\">
+      <col style=\"width: 7%\">
+      <col style=\"width: 7%\">
+      `;
+      // sticky labels to front
+      $("thead").first().css("z-index", "20");
+      // collect paradata
+      paracountclicks = 0;
+      document.querySelectorAll("input").forEach((item) => {
+        item.addEventListener("click", (event) => {
+          paracountclicks++;
+          console.log("input clicked", paracountclicks);
+        });
+      });
+    },
+    end: function anonymous() {
+      // collect paradata
+      let numberitems = document.querySelectorAll("tbody tr").length;
+      paracountclicks -= numberitems;
+      study.options.datastore.set("para_countclicks", paracountclicks);
+    },
+    commit: function anonymous() {
+      // progress bar
+      numElementsCounter++;
+      document.querySelector(".progress-bar").style.width =
+        (numElementsCounter / numElements) * 100 + "%";
+
+
+      if (typeof jatos.jQuery === "function") {
+        // If JATOS is available, send data there
+        var resultJson = study.options.datastore.exportJson();
+        console.log("result data sent to JATOS first time");
+        jatos
+          .submitResultData(resultJson)
+          .then(() => console.log("success"))
+          .catch(() => console.log("error"));
+      }
+    },
+  },
+});
+
+
+const MDMT_sequence = new lab.flow.Sequence({
+  title: "MDMT Sequence",
+  shuffle: false,
+  content: [
+    Likert_MDMT1_htmlForm,
+    Likert_MDMT2_htmlForm
+  ],
+});
 
 
 
@@ -425,6 +812,19 @@ const EndingScreen_htmlScreen = new lab.html.Screen({
 
 
 
+// >>>> ALL SCALES
+const SCALES_sequence = new lab.flow.Sequence({
+  title: "SCALES Sequence",
+  shuffle: true,
+  content: [
+    MDMT_sequence,
+    GAToRS_sequence,
+    LikertLiWang_htmlForm,
+    LikertAlmere_htmlForm, 
+  ],
+});
+
+
 
 // Define the sequence of components that define the study
 const study = new lab.flow.Sequence({
@@ -447,7 +847,7 @@ const study = new lab.flow.Sequence({
     htmlForm,
     htmlForm3,
 */
-CCSQ_sequence,
+    SCALES_sequence,
     FeedbackScreen_htmlScreen,
     EndingScreen_htmlScreen,
   ],
