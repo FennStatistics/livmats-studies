@@ -179,7 +179,7 @@ Wie oft machen Sie sich Sorgen über die potenziell negativen Folgen des Klimawa
   <div class="w-l text-justify">
   </div>
   <button id="continue" type="submit" form="demography">
-  Fortfahren &rarr;
+  Weiter &rarr;
 </button>
 
 </footer>
@@ -364,7 +364,7 @@ Für wie wahrscheinlich halten Sie es, dass der Klimawandel sehr schädliche, la
   <div class="w-l text-justify">
   </div>
   <button id="continue" type="submit" form="demography">
-  Fortfahren &rarr;
+  Weiter &rarr;
 </button>
 
 </footer>
@@ -686,7 +686,7 @@ Sehr religiös(10)
   <div class="w-l text-justify">
   </div>
   <button id="continue" type="submit" form="demography">
-  Fortfahren &rarr;
+  Weiter &rarr;
 </button>
 
 </footer>
@@ -719,10 +719,206 @@ Sehr religiös(10)
   
   <footer class="content-vertical-center content-horizontal-right">
   <button id="continue" type="submit" form="page-form">
-  Continue &rarr;
+  Weiter &rarr;
 </button>
 </footer>
   `,
-}
+  CETinfo: `
+  <header>
+    <h2>
+Informationen zur nachfolgenden Aufgabe
+    </h2>
+  </header>
+  
+    <form id="page-form" style="display: block;" autocomplete="off">
+    </form>
 
+
+    <main class="content-horizontal-center content-vertical-center">
+    <div class="w-l text-justify">
+    <i>Anmerkung: eventuell müssen Sie nach unten scrollen, um den kompletten Text zu lesen.</i>
+        <br>
+        <br>
+        <section>
+        In der folgenden Aufgabe werden Sie gebeten 25 Entscheidungen zu treffen (1 pro Durchgang) die eine Bonuszahlung beeinflussen kann. In jedem der 25 Durchgänge, werden Sie gebeten sich zwischen 2 generellen Optionen zu entscheiden. 
+        </section>
+        <br>
+        <section>
+        <b>Option A</b> wird immer eine Möglichkeit beinhalten einem finanziellen Bonus für Sie zu erhalten, aber es hat eine reale Konsequenz für die Umwelt. Option A zu wählen, gibt Ihnen eine finanzielle Belohnung (mit variierenden Beträgen zwischen 20 Cent und 1 Euro), aber es wird üblicherweise zu Emissionen von C02 (Kohlenstoffdioxid) Emissionen führen (C02, zwischen 0kg und 9kg). C02 Emissionen werden als ein hauptverursachender Faktor des Klimawandels angesehen und Wissenschaftler rund um die Welt sind sich einig, dass der Klimawandel nur abgeschwächt werden kann, wenn CO2 Emissionen drastisch reduziert werden. Damit Sie die Folgen besser verstehen, wird bei jeder Entscheidung die Menge an Kohlendioxid, die durch Ihre Entscheidung entsteht, in die Emissionen eines durchschnittlichen deutschen Fahrzeugs "übersetzt".
+        </section>
+        <br>
+        <section>
+        Wählen Sie hingegen <b>Option B</b>, erhalten Sie keine Bonuszahlung, verursachen aber auch keine Kohlendioxidemissionen.
+        </section>
+        <br>
+        <section>
+        In jedem der 25 Durchgänge, haben Sie <b>15 Sekunden Zeit, um Ihre Entscheidung zu treffen</b>. Falls Sie in den 15 Sekunden keine Entscheidung treffen, wird der Bildschirm <b>automatisch zum nächsten Durchgang weiterlaufen</b>, und Sie erhalten für den Versuch, bei dem Sie keine Entscheidung getroffen haben, keine Bonuszahlung. 
+        </section>
+        <br>
+        <section>
+        Im Allgemeinen sieht jeder Versuch wie folgt aus:
+        </section>
+        <ul>
+        <li>
+        <b>Option A: Sie erhalten eine Bonuszahlung von 40 Cent und verursachen CO2 Emissionen von 2kg (was einer Autofahrt von 11,65km entspricht).</b> 
+        </li>
+        <li>
+        <b>Option B: Sie erhalten keine Prämie, und es wird kein CO2 ausgestoßen.</b>
+         </li>
+    </ul>
+    <br>
+    <section>
+    Wichtig ist, dass alle Emissionen <b>real sind und sich tatsächlich auf den Planeten auswirken</b> werden. Dies wird durch das folgende Instrument ermöglicht: Die Forscher sind im Besitz von CO2-Zertifikaten, die den Ausstoß von Kohlendioxid erlauben. Wählt man die Option, auf den Bonus zu verzichten (Option B in jedem Versuch), wird das Zertifikat im Gegenwert der mit Option A verbundenen Emissionen dem Markt entzogen und vernichtet. Ermöglicht wird dies durch professionelle Dienstleister, von denen die Forscher diese Zertifikate kaufen. <b>Ihre Entscheidung wird also eine tatsächliche und reale Auswirkung auf die Umwelt haben.</b> Es handelt sich <u><b>NICHT</b></u> um eine hypothetische Entscheidung.
+    </section>
+    <br>
+    <section>
+    Ihre tatsächliche Bonuszahlung sowie die tatsächlichen Emissionen basieren auf einer Ihrer Entscheidungen, die nach dem Zufallsprinzip aus Ihren 25 Versuchen ausgewählt wird. Ihr tatsächlicher Bonus wird daher zwischen 0 Cent und 1 Euro variieren.
+    </section>
+    <br>
+    <section>
+    Bevor Sie Ihre erste Entscheidung treffen, haben Sie die Möglichkeit, einen <b>Übungsversuch zu absolvieren und eine Verständnisfrage zu beantworten</b>, damit Sie sich mit dem Entscheidungsbildschirm vertraut machen können. Anders als bei den 25 Versuchen gibt es beim Übungsversuch keinen Bonus und keine Emissionsfolgen, und die Zeit ist nicht begrenzt.
+    </section>
+    </div>
+  </main>
+  
+
+
+  <footer class="content-vertical-center content-horizontal-right">
+  <div class="w-l text-justify">
+  Drücken Sie nicht auf "Weiter", bevor Sie den Text sorgfältig gelesen haben. Der "Weiter"-Knopf ist für 15 Sekunden gesperrt.
+  </div>
+  &nbsp; <button id="continue" type="submit" form="page-form">
+  Weiter &rarr;
+  </button>
+  </footer>
+  `,
+  CETpractice: `
+  <header>
+  <h3>Übungsversuch - Bitte wählen Sie zwischen Option A und Option B:</h3>
+</header>
+<br>
+  <!-- CET -->
+  <div class="page-item page-item-likert" style="margin-left:40%; margin-right: 40%">
+  <form id="ratingBasalAttributes">
+      <div style="display: flex; justify-content: space-around">
+      <!-- Option A -->
+      <label>
+      <table align="center" border="1" cellpadding="1" cellspacing="1" style="width:400px; margin-right:50px;">
+   <tbody>
+    <tr>
+     <td colspan="2" style="text-align: center;"><strong>Option A</strong></td>
+    </tr>
+    <tr>
+     <td>&nbsp;CO2 Emissionen<br/>`
+     + '&nbsp;<strong> 2 kg CO2 <br/>(~11.65km mit dem Auto)</strong></td>' + `
+     <td>&nbsp;Bonuszahlung<br/>
+     `
+     + '   &nbsp;<strong>40 Cent<br/><br/></strong></td>' + `
+    </tr>
+    <tr>
+     </tbody>
+  </table>
+  <input type="radio" name="choosenOption_test" value="optionA" id="optionA" style="transform: scale(2); margin-top: 10px;">
+  </label>
+  
+  <br>
+  
+  <!-- Option B -->
+  <label>
+  <table align="center" border="1" cellpadding="1" cellspacing="1" style="width:400px;">
+  <tbody>
+  <tr>
+  <td colspan="2" style="text-align: center;"><strong>Option B</strong></td>
+  </tr>
+  <tr>
+  <td>&nbsp;CO2 Emissionen<br/>`
+  + '&nbsp;<strong> 0 kg CO2 <br/>(~0km mit dem Auto)</strong></td>' + `
+  <td>&nbsp;Bonuszahlung<br/>
+  `
+  + '   &nbsp;<strong>0 Cent<br/><br/></strong></td>' + `
+  </tr>
+  <tr>
+  </tbody>
+  </table>
+  <input type="radio" name="choosenOption_test" value="optionB" id="optionB" style="transform: scale(2); margin-top: 10px;">
+  </label>
+  </div>
+      </div>
+    </form>
+  <br>
+      <button id="continue" type="submit" form="ratingBasalAttributes">
+      Bitte klicken Sie auf eine der Optionen, um fortzufahren
+    </button>
+  `,
+  CETcontrolQUestion: `
+  <header>
+  <h3>Rückfrage:</h3>
+</header>
+<br>
+  <!-- CET -->
+  <main class="content-horizontal-center content-vertical-center">
+  <div class="w-l text-justify">
+
+      <form id="page-form" style="display: block;" autocomplete="off">
+          <!-- BEGIN multiple choice -->
+          <div class="page-item page-item-radio" id="page-item-ques_dummycam">
+              <p class="text-left font-weight-bold" style="margin: 1rem 0 0.25rem">
+              Kontrollfrage:  Hat die Entscheidung, von der Ihr Bonus abhängt, eine echte Auswirkung auf die Umwelt?
+              </p>
+              <p class="small text-muted hide-if-empty" style="margin: 0.25rem 0">
+             Bitte wählen Sie eine der folgenden Optionen.
+              </p>
+
+              <table class="table-plain page-item-table">
+                  <colgroup>
+                      <col style="width: 7.5%">
+                      <col style="width: 92.5%">
+                  </colgroup>
+                  <tbody>
+                      <!--ans1-->
+                      <tr>
+                          <td>
+                              <input type="radio" name="CET_control" value="1" id="CET_control"
+                                  required>
+                          </td>
+                          <td>
+                              <label for="CET_control" class="text-left">
+                             Ja
+                              </label>
+                          </td>
+                      </tr>
+                      <!--ans2-->
+                      <tr>
+                          <td>
+                              <input type="radio" name="CET_control" value="0" id="CET_control2"
+                                  required>
+                          </td>
+                          <td>
+                              <label for="CET_control2" class="text-left">
+                             Nein
+                              </label>
+                          </td>
+                      </tr>
+
+                  </tbody>
+              </table>
+          </div>
+          <!-- END multiple choice -->
+      </form>
+      <br>
+<br>
+      Bitte setzen Sie die Umfrage fort, sobald Sie für die erste Entscheidung bereit sind. Denken Sie daran, dass Sie bei jedem Durchgang 15 Sekunden Zeit haben, um Ihre Entscheidung zu treffen.
+  </div>
+</main>
+
+  <footer class="content-vertical-center content-horizontal-right">
+    <button id="continue" type="submit" form="page-form">
+        Weiter &rarr;
+    </button>
+  </footer>
+  `,
+
+
+  
+}
 

@@ -42,14 +42,14 @@ Weiter &rarr;
 </footer>
   `,
   messageHandlers: {
-    run: function anonymous(){
+    run: function anonymous() {
       $("#placeholder").text(jatos.studySessionData.meanvalence);
 
-      if(jatos.studySessionData.meanvalence < 0){
+      if (jatos.studySessionData.meanvalence < 0) {
         $("#placeholder2").text("negativ");
-      }else if(jatos.studySessionData.meanvalence > 0){
+      } else if (jatos.studySessionData.meanvalence > 0) {
         $("#placeholder2").text("positiv");
-      }else if(jatos.studySessionData.meanvalence = 0){
+      } else if (jatos.studySessionData.meanvalence = 0) {
         $("#placeholder3").text("neutral");
       }
     },
@@ -58,18 +58,18 @@ Weiter &rarr;
       numElementsCounter++;
       document.querySelector(".progress-bar").style.width = (numElementsCounter / numElements) * 100 + "%";
 
-      
+
       if (typeof jatos.jQuery === "function") {
         // If JATOS is available, send data there
         var resultJson2 = study.options.datastore.exportJson();
         if (typeof jatos.jQuery === "function") {
           console.log("my result data sent to JATOS first time: ", resultJson2);
           jatos.submitResultData(resultJson2)
-          .then(() => console.log('success'))
-          .catch(() => console.log('error'));
+            .then(() => console.log('success'))
+            .catch(() => console.log('error'));
         }
       }
-      }
+    }
 
   },
 })
@@ -115,13 +115,13 @@ const LikertPolicyItems_htmlForm = new lab.html.Page({
       items: items_policyItems,
       width: "7",
       anchors: [
-        "Starke Ablehnung",
-        "?",
-        "?",
-        "Neutral",
-        "?",
-        "?",
-        "Starke Unterstützung"
+        "1 (starke Ablehnung)",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7 (starke Unterstützung)"
       ],
       label:
         "Wir werden Sie nach Ihrer Sicht auf verschiedene öffentliche Maßnahmen fragen. Bitte beantworten Sie die Fragen so wahrheitsgemäß wie möglich. Viele Länder haben neue politische Maßnahmen eingeführt, um das Risiko des Klimawandels zu verringern. Dazu gehören Maßnahmen, die Anreize für die Reduzierung von Treibhausgasemissionen in verschiedenen Bereichen und von verschiedenen Akteuren schaffen oder vorschreiben. Bitte geben Sie an, inwieweit Sie diese Maßnahmen ablehnen oder unterstützen.",
@@ -139,14 +139,14 @@ const LikertPolicyItems_htmlForm = new lab.html.Page({
       document.querySelectorAll("div")[0].classList = ["text-left"];
       document.querySelectorAll("main")[1].classList = ["w-xl"];
       document.querySelectorAll(".page-item-table colgroup")[0].innerHTML = `
-     <col style=\"width: 55%\">
-     <col style=\"width: 5%\">
-     <col style=\"width: 5%\">
+     <col style=\"width: 35%\">
      <col style=\"width: 10%\">
-     <col style=\"width: 5%\">
-     <col style=\"width: 5%\">
-     <col style=\"width: 5%\">
-     <col style=\"width: 15%\">
+     <col style=\"width: 10%\">
+     <col style=\"width: 10%\">
+     <col style=\"width: 10%\">
+     <col style=\"width: 10%\">
+     <col style=\"width: 10%\">
+     <col style=\"width: 10%\">
      `;
       // sticky labels to front
       $("thead").first().css("z-index", "20");
@@ -330,6 +330,187 @@ const Likert_Risk_htmlForm = new lab.html.Page({
 });
 
 
+
+/* 
+################### Carbon Emission Task ###################
+*/
+// >>> CET info screen
+const CETinfo_htmlScreen = new lab.html.Form({
+  title: "CETinfo",
+  content: textObj.CETinfo,
+  messageHandlers: {
+    run: function anonymous() {
+      document.querySelector("button").style.visibility = "hidden";
+      setTimeout(
+        () => (document.querySelector("button").style.visibility = "visible"),
+        15000 // 10000 (10 seconds)
+      );
+    },
+    commit: () => {
+      // progress bar
+      numElementsCounter++;
+      document.querySelector(".progress-bar").style.width =
+        (numElementsCounter / numElements) * 100 + "%";
+    },
+  },
+});
+
+
+// >>> CET practice screen
+const CETpractice_htmlScreen = new lab.html.Form({
+  title: "CETpractice",
+  content: textObj.CETpractice,
+  messageHandlers: {
+    run: function anonymous() {
+      $("#continue").prop("disabled", true);
+      $("#optionA, #optionB").on("change click", function () {
+        $("#continue").prop("disabled", false);
+        $("#continue").text("Weiter →");
+      });
+    },
+    commit: () => {
+      // progress bar
+      numElementsCounter++;
+      document.querySelector(".progress-bar").style.width =
+        (numElementsCounter / numElements) * 100 + "%";
+    },
+  },
+});
+
+// >>> CET control question
+const CETcontrolQUestion_htmlScreen = new lab.html.Form({
+  title: "CETcontrolQUestion",
+  content: textObj.CETcontrolQUestion,
+  messageHandlers: {
+    commit: () => {
+      // progress bar
+      numElementsCounter++;
+      document.querySelector(".progress-bar").style.width =
+        (numElementsCounter / numElements) * 100 + "%";
+    },
+  },
+});
+
+
+const template = new lab.html.Form({
+  content: `
+<!-- CET -->
+<div class="page-item page-item-likert" style="margin-left:40%; margin-right: 40%">
+<form id="ratingBasalAttributes">
+    <div style="display: flex; justify-content: space-around">
+    <!-- Option A -->
+    <label>
+    <table align="center" border="1" cellpadding="1" cellspacing="1" style="width:400px; margin-right:50px;">
+ <tbody>
+  <tr>
+   <td colspan="2" style="text-align: center;"><strong>Option A</strong></td>
+  </tr>
+  <tr>
+   <td>&nbsp;CO2 Emissionen<br/>`
+   + '&nbsp;<strong> ${ parameters.CE_A } kg CO2 <br/>(~${ parameters.CM_A }km mit dem Auto)</strong></td>' + `
+   <td>&nbsp;Bonuszahlung<br/>
+   `
+   + '   &nbsp;<strong>${ parameters.BP_A } Cent<br/><br/></strong></td>' + `
+  </tr>
+  <tr>
+   </tbody>
+</table>
+<input type="radio" name="choosenOption" value="optionA" id="optionA" style="transform: scale(2); margin-top: 10px;">
+</label>
+
+<br>
+
+<!-- Option B -->
+<label>
+<table align="center" border="1" cellpadding="1" cellspacing="1" style="width:400px;">
+<tbody>
+<tr>
+<td colspan="2" style="text-align: center;"><strong>Option B</strong></td>
+</tr>
+<tr>
+<td>&nbsp;CO2 Emissionen<br/>`
++ '&nbsp;<strong> ${ parameters.CE_B } kg CO2 <br/>(~${ parameters.CM_B }km mit dem Auto)</strong></td>' + `
+<td>&nbsp;Bonuszahlung<br/>
+`
++ '   &nbsp;<strong>${ parameters.BP_B } Cent<br/><br/></strong></td>' + `
+</tr>
+<tr>
+</tbody>
+</table>
+<input type="radio" name="choosenOption" value="optionB" id="optionB" style="transform: scale(2); margin-top: 10px;">
+</label>
+</div>
+    </div>
+  </form>
+<br>
+    <button id="continue" type="submit" form="ratingBasalAttributes">
+    Bitte klicken Sie auf eine der Optionen, um fortzufahren
+  </button>
+`,
+  tardy: true,
+  timeout: 15000,
+  messageHandlers: {
+    run: function anonymous() {
+      $("#continue").prop("disabled", true);
+      $("#optionA, #optionB").on("change click", function () {
+        $("#continue").prop("disabled", false);
+        $("#continue").text("Weiter →");
+      });
+
+      /*
+      // this.parent.end() !!!s
+      var tmp_this = this;
+      $(document).one('keydown', function (e) {
+        if (e.keyCode == 90) {
+          console.log("clicked z");
+          tmp_this.parent.end();
+        }
+      });
+      */
+
+    },
+    end: function anonymous() {
+     
+    },
+  },
+})
+
+const CETparams = new lab.flow.Loop({
+  template: template,
+  templateParameters: [{"CE_A":"0","CE_B":"0","CM_A":"0","CM_B":"0","BP_A":"20","BP_B":"0"},{"CE_A":"0.1","CE_B":"0","CM_A":"0.58","CM_B":"0","BP_A":"20","BP_B":"0"},{"CE_A":"0.46","CE_B":"0","CM_A":"2.66","CM_B":"0","BP_A":"20","BP_B":"0"},{"CE_A":"2","CE_B":"0","CM_A":"11.65","CM_B":"0","BP_A":"20","BP_B":"0"},{"CE_A":"9","CE_B":"0","CM_A":"51.86","CM_B":"0","BP_A":"20","BP_B":"0"},{"CE_A":"0","CE_B":"0","CM_A":"0","CM_B":"0","BP_A":"40","BP_B":"0"},{"CE_A":"0.1","CE_B":"0","CM_A":"0.58","CM_B":"0","BP_A":"20","BP_B":"0"},{"CE_A":"0.46","CE_B":"0","CM_A":"2.66","CM_B":"0","BP_A":"40","BP_B":"0"},{"CE_A":"2","CE_B":"0","CM_A":"11.65","CM_B":"0","BP_A":"40","BP_B":"0"},{"CE_A":"9","CE_B":"0","CM_A":"51.86","CM_B":"0","BP_A":"40","BP_B":"0"},{"CE_A":"0","CE_B":"0","CM_A":"0","CM_B":"0","BP_A":"60","BP_B":"0"},{"CE_A":"0.1","CE_B":"0","CM_A":"0.58","CM_B":"0","BP_A":"60","BP_B":"0"},{"CE_A":"0.46","CE_B":"0","CM_A":"2.66","CM_B":"0","BP_A":"60","BP_B":"0"},{"CE_A":"2","CE_B":"0","CM_A":"11.65","CM_B":"0","BP_A":"60","BP_B":"0"},{"CE_A":"9","CE_B":"0","CM_A":"51.86","CM_B":"0","BP_A":"60","BP_B":"0"},{"CE_A":"0","CE_B":"0","CM_A":"0","CM_B":"0","BP_A":"80","BP_B":"0"},{"CE_A":"0.1","CE_B":"0","CM_A":"0.58","CM_B":"0","BP_A":"80","BP_B":"0"},{"CE_A":"0.46","CE_B":"0","CM_A":"2.66","CM_B":"0","BP_A":"80","BP_B":"0"},{"CE_A":"2","CE_B":"0","CM_A":"11.65","CM_B":"0","BP_A":"80","BP_B":"0"},{"CE_A":"9","CE_B":"0","CM_A":"51.86","CM_B":"0","BP_A":"80","BP_B":"0"},{"CE_A":"0","CE_B":"0","CM_A":"0","CM_B":"0","BP_A":"100","BP_B":"0"},{"CE_A":"0.1","CE_B":"0","CM_A":"0.58","CM_B":"0","BP_A":"100","BP_B":"0"},{"CE_A":"0.46","CE_B":"0","CM_A":"2.66","CM_B":"0","BP_A":"100","BP_B":"0"},{"CE_A":"2","CE_B":"0","CM_A":"11.65","CM_B":"0","BP_A":"100","BP_B":"0"},{"CE_A":"9","CE_B":"0","CM_A":"51.86","CM_B":"0","BP_A":"100","BP_B":"0"}],
+  sample: {
+    mode: "draw-shuffle",
+    n: "2",
+  },
+})
+
+const CETRating = new lab.html.Frame({
+  context: `
+    <header>
+      <h3>Bitte wählen Sie zwischen Option A und Option B:</h3>
+    </header>
+    <br>
+    <main style="width: 100%;">
+      <!-- this is where stimuli will be inserted -->
+    </main>
+  `,
+  contextSelector: 'main',
+  content: CETparams,
+})
+
+
+// >>>> ALL SCALES
+const SCALES_CET = new lab.flow.Sequence({
+  title: "SCALES CET",
+  shuffle: false,
+  content: [
+    CETinfo_htmlScreen,
+    CETpractice_htmlScreen,
+    CETcontrolQUestion_htmlScreen,
+    CETRating,
+  ],
+});
+
 /* 
 ################### ending phase ###################
 */
@@ -349,11 +530,40 @@ const SocioDemo_htmlScreen = new lab.html.Form({
 
 
 // >>> feedback screen
+// to get random bonus payment
+function shuffleArray(array) {
+  let array_emp = []
+  for (var i = 0; i < array.length; i++) {
+    array_emp.push(i)
+  }
+
+  let j, x;
+  for (i = array_emp.length - 1; i > 0; i--) {
+    j = Math.floor(Math.random() * (i + 1));
+    x = array_emp[i];
+    array_emp[i] = array_emp[j];
+    array_emp[j] = x;
+  }
+  return array_emp;
+}
+
+
 const FeedbackScreen_htmlScreen = new lab.html.Form({
   title: "FeedbackScreen",
   content: textObj.feedbackQues,
   messageHandlers: {
     commit: () => {
+      // save bonus payment
+      let bonuspayment = study.options.datastore.extract("BP_A");
+      let choosenA = study.options.datastore.extract("choosenOption");
+      
+      let result = bonuspayment.filter((value, index) => choosenA[index] === "optionA");
+      
+      study.options.datastore.set(
+        "CETbonuspayment",
+        shuffleArray(result)[0]
+      );
+
       // progress bar
       numElementsCounter++;
       document.querySelector(".progress-bar").style.width =
@@ -439,6 +649,9 @@ const SCALES_sequence = new lab.flow.Sequence({
 
     // own items
     LikertPolicyItems_htmlForm,
+
+    // CET
+    SCALES_CET
   ],
 });
 
