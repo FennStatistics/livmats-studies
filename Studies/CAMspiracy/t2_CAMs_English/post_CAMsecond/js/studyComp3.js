@@ -21,16 +21,16 @@ const adaptive_meanValenece = new lab.html.Form({
     `
     <header>
     <h2>
-    Bitte beantworten Sie die folgenden Frage zu Ihrer gezeichneten <i>Mind-Map</i>:
+    Please answer the following question about your drawn <i>Mind-Map</i>:
     </h2>
   </header>
   <main class="content-horizontal-center content-vertical-center">
   <div class="w-l text-justify">
   <form id="page-form">
-    Ihre gezeichnete <i>Mind-Map</i> hatte eine durchschnittliche emotionale Bewertung von 
-    <span id="placeholder" style="font-weight: bold;">XXX</span>, bitte erklären Sie, warum Ihre insgesamt gezeichnete <i>Mind-Map</i> 
-    <span id="placeholder2" style="font-weight: bold;">XXX</span> war
-      <textarea rows="10" name="ans1" style="width: 100%;" placeholder="Schreiben Sie hier Ihre Antwort..." required></textarea>
+  Your drawn <i>Mind-Map</i> had an average emotional rating of 
+  <span id="placeholder" style="font-weight: bold;">XXX</span>, please explain why your overall drawn <i>Mind-Map</i> was 
+  <span id="placeholder2" style="font-weight: bold;">XXX</span>.
+      <textarea rows="10" name="ans1" style="width: 100%;" placeholder="Please write your answer here..." required></textarea>
     </div>
 </main>
 </form>
@@ -115,22 +115,22 @@ const LikertPolicyItems_htmlForm = new lab.html.Page({
       items: items_policyItems,
       width: "7",
       anchors: [
-        "1 (starke Ablehnung)",
+        "1 (strongly oppose)",
         "2",
         "3",
         "4",
         "5",
         "6",
-        "7 (starke Unterstützung)"
+        "7 (stronly support)"
       ],
       label:
-        "Wir werden Sie nach Ihrer Sicht auf verschiedene öffentliche Maßnahmen fragen. Bitte beantworten Sie die Fragen so wahrheitsgemäß wie möglich. Viele Länder haben neue politische Maßnahmen eingeführt, um das Risiko des Klimawandels zu verringern. Dazu gehören Maßnahmen, die Anreize für die Reduzierung von Treibhausgasemissionen in verschiedenen Bereichen und von verschiedenen Akteuren schaffen oder vorschreiben. Bitte geben Sie an, inwieweit Sie diese Maßnahmen ablehnen oder unterstützen.",
-      help: "Beantworten Sie bitte jede Aussage, auch wenn Sie sich nicht ganz sicher sind, was Sie antworten sollen.",
+        "We will ask for your views on different public policies. Please answer them as truthfully as possible. Many countries have introduced new policies to reduce the risk of climate change. This includes policies that require or create incentives for reductions in greenhouse gas emissions across domains and actors. Please report the extent to which you oppose or support these policies.",
+        help: "Please answer every statement, even if you are not completely sure of your response.",
       shuffle: false,
       name: "policyItems",
     },
   ],
-  submitButtonText: "Weiter →",
+  submitButtonText: "Continue →",
   submitButtonPosition: "right",
   width: "l",
   messageHandlers: {
@@ -185,23 +185,23 @@ const Likert_Biospheric_htmlForm = new lab.html.Page({
       items: items_vanLindenBiospheric,
       width: "9",
       anchors: [
-        "-1 (Gegensätzlich zu meinen Werten)",
-        "0 (nicht wichtig)",
+        "-1 (opposed to my values)",
+        "0 (not important)",
         "1",
         "2",
         "3",
         "4",
         "5",
         "6",
-        "7 (von höchster Wichtigkeit)"
+        "7 (of supreme importance)"
       ],
-      label: 'Bitte bewerten Sie die Bedeutung dieser Werte als Leitprinzipien in Ihrem Leben.',
-      help: "Beantworten Sie bitte jede Aussage, auch wenn Sie sich nicht ganz sicher sind, was Sie antworten sollen.",
+      label: 'Please rate the importance of these values as guiding principles in your life.',
+      help: "Please answer every statement, even if you are not completely sure of your response.",
       shuffle: false,
       name: "Biospheric",
     },
   ],
-  submitButtonText: "Weiter →",
+  submitButtonText: "Continue →",
   submitButtonPosition: "right",
   width: "l",
   messageHandlers: {
@@ -270,22 +270,22 @@ const Likert_Risk_htmlForm = new lab.html.Page({
       items: items_vanLindenRisk,
       width: "7",
       anchors: [
-        "1 (überhaupt nicht schlimm)",
+        "1 (not serious at all)",
         "2",
         "3",
         "4 (neutral)",
         "5",
         "6",
-        "7 (sehr schlimm)"
+        "7 (very serious)"
       ],
       label:
-        "Bitte geben Sie an, wie schwerwiegend sie die Aussagen einschätzen.",
-      help: "Beantworten Sie bitte jede Aussage, auch wenn Sie sich nicht ganz sicher sind, was Sie antworten sollen.",
+        "Please indicate your evaluation of the seriousness of the statements.",
+        help: "Please answer every statement, even if you are not completely sure of your response.",
       shuffle: false,
       name: "Risk",
     },
   ],
-  submitButtonText: "Weiter →",
+  submitButtonText: "Continue →",
   submitButtonPosition: "right",
   width: "l",
   messageHandlers: {
@@ -365,7 +365,7 @@ const CETpractice_htmlScreen = new lab.html.Form({
       $("#continue").prop("disabled", true);
       $("#optionA, #optionB").on("change click", function () {
         $("#continue").prop("disabled", false);
-        $("#continue").text("Weiter →");
+        $("#continue").text("Continue →");
       });
     },
     commit: () => {
@@ -406,9 +406,9 @@ const template = new lab.html.Form({
    <td colspan="2" style="text-align: center;"><strong>Option A</strong></td>
   </tr>
   <tr>
-   <td>&nbsp;CO2 Emissionen<br/>`
-   + '&nbsp;<strong> ${ parameters.CE_A } kg CO2 <br/>(~${ parameters.CM_A }km mit dem Auto)</strong></td>' + `
-   <td>&nbsp;Bonuszahlung<br/>
+   <td>&nbsp;CO2 Emissions<br/>`
+   + '&nbsp;<strong> ${ parameters.CE_A } lbs. CO2 <br/>(~${ parameters.CM_A } car miles)</strong></td>' + `
+   <td>&nbsp;Bonus payment<br/>
    `
    + '   &nbsp;<strong>${ parameters.BP_A } Cent<br/><br/></strong></td>' + `
   </tr>
@@ -428,9 +428,9 @@ const template = new lab.html.Form({
 <td colspan="2" style="text-align: center;"><strong>Option B</strong></td>
 </tr>
 <tr>
-<td>&nbsp;CO2 Emissionen<br/>`
-+ '&nbsp;<strong> ${ parameters.CE_B } kg CO2 <br/>(~${ parameters.CM_B }km mit dem Auto)</strong></td>' + `
-<td>&nbsp;Bonuszahlung<br/>
+<td>&nbsp;CO2 Emissions<br/>`
++ '&nbsp;<strong> ${ parameters.CE_B } lbs. CO2 <br/>(~${ parameters.CM_B } car miles)</strong></td>' + `
+<td>&nbsp;Bonus payment<br/>
 `
 + '   &nbsp;<strong>${ parameters.BP_B } Cent<br/><br/></strong></td>' + `
 </tr>
@@ -444,7 +444,7 @@ const template = new lab.html.Form({
   </form>
 <br>
     <button id="continue" type="submit" form="ratingBasalAttributes">
-    Bitte klicken Sie auf eine der Optionen, um fortzufahren
+    Please click on one of the options to continue
   </button>
 `,
   tardy: true,
@@ -454,7 +454,7 @@ const template = new lab.html.Form({
       $("#continue").prop("disabled", true);
       $("#optionA, #optionB").on("change click", function () {
         $("#continue").prop("disabled", false);
-        $("#continue").text("Weiter →");
+        $("#continue").text("Continue →");
       });
 
       /*
@@ -487,7 +487,7 @@ const CETparams = new lab.flow.Loop({
 const CETRating = new lab.html.Frame({
   context: `
     <header>
-      <h3>Bitte wählen Sie zwischen Option A und Option B:</h3>
+      <h3>Please chooce between Option A and Option B:</h3>
     </header>
     <br>
     <main style="width: 100%;">
@@ -578,7 +578,7 @@ const EndingScreen_htmlScreen = new lab.html.Screen({
   tardy: true,
   content: `
   <header>
-  <h2> Vielen Dank für Ihre Teilnahme! </h2>
+  <h2> Thank you very much for your participation ! </h2>
 </header>
 
 <main class="content-horizontal-center content-vertical-center">
@@ -586,11 +586,11 @@ const EndingScreen_htmlScreen = new lab.html.Screen({
 
     <br>
     <div>
-      <i>Das Experiment wird in wenigen Sekunden enden und Sie werden automatisch zurück zu Prolific umgeleitet.</i> 
+    <i>The experiment will end in few seconds and you will be automatically redirected back to Prolific.</i> 
       <br>
       <br>
       <br>
-      Wenn Sie Fragen haben, kontaktieren Sie bitte den Studienleiter Julius Fenn (<a href="mailto:julius.fenn@psychologie.uni-freiburg.de">julius.fenn@psychologie.uni-freiburg.de</a>).
+      If you have any questions, please contact the study director Julius Fenn (<a href="mailto:julius.fenn@psychologie.uni-freiburg.de">julius.fenn@psychologie.uni-freiburg.de</a>).
     </div>
   </main>
 
