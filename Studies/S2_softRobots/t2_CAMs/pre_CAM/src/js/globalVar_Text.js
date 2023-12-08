@@ -33,20 +33,17 @@ const textObj = {
        </section>
        <br>
        <section>
-       <span style="background-color: yellow; color: red;">adjust XXX, YYY, ZZZ1, ZZZ2</span>
        <br>
        <br>
-       Die Dauer der Studie beträgt <b>etwa XXX Minuten</b>. Unten sehen Sie eine Fortschrittsleiste, die sich zunehmend grüner färbt und Ihren Fortschritt in der Studie symbolisiert. 
+       Die Dauer der Studie beträgt <b>etwa <span style="background-color: yellow; color: red;">XXX</span> Minuten</b>. Unten sehen Sie eine Fortschrittsleiste, die sich zunehmend grüner färbt und Ihren Fortschritt in der Studie symbolisiert. 
        Bitte benutzen Sie für die Studie einen <b>Computer oder Laptop mit Tastatur</b>. 
        Bitte stellen Sie sicher, dass Sie an der Studie ungestört teilnehmen können.
        </section>
        <br>
        <section>
-       REIN: ihre Einstellung und Gefühlen gegenüber einem neuartigen Roboter zu erheben.
-       <br>
-       <br>
-      Ziel der Studie ist es, YYY. Dafür setzen wir eine Methode ein, die "Cognitive-Affective Mapping" (CAM-Methode) heißt und bei der Sie eine Art Mind-Map zeichnen werden. Darüber hinaus werden wir Ihnen Fragen zu 
-       ZZZ1 und zu ZZZ2 stellen. Auf den nächsten Seiten, erhalten Sie weitere Informationen über den genauen Ablauf der Studie. Zunächst möchten wir Sie bitten, auf der folgenden Seite der informierten Einwilligung zuzustimmen.
+       Das Ziel der Studie ist es, Einstellungen und Gefühle gegenüber Robotern, die sich in der Entwicklung befinden, zu erheben. Dafür setzen wir eine Methode ein, die "Cognitive-Affective Mapping" (CAM-Methode) heißt und bei der Sie eine Art Mind-Map 
+       zeichnen werden. Zusätzlich werden wir Ihnen allgemeine Fragen zu den Robotern stellen. Dabei werden wir Sie insbesondere fragen, wie diese designt sein sollten, um als sicher zu gelten. Auf den nächsten Seiten, erhalten Sie weitere Informationen 
+       über den genauen Ablauf der Studie. Zunächst möchten wir Sie bitten, auf der folgenden Seite der informierten Einwilligung zuzustimmen.
        </section>
    </div>
  </main>
@@ -90,18 +87,7 @@ const textObj = {
        Abschließend planen wir, die Ergebnisse und Daten aus dieser Studie in zukünftigen Veröffentlichungen zu verwenden. Seien Sie jedoch versichert, dass alle veröffentlichten Materialien in anonymisierter Form vorliegen werden. 
        Wenn Sie jetzt oder nach dem Experiment Fragen haben, kontaktieren Sie bitte Julius Fenn 
        (<a href="mailto:julius.fenn@psychologie.uni-freiburg.de">julius.fenn@psychologie.uni-freiburg.de</a>) oder 
-       <!-- CHANGE -->
-       <br>
-       <br>
-       <span style="background-color: yellow; color: red;">names depending on respective study</span>
-       <ol>
-  <li>Christophe Becht (<a href="mailto:christophe.becht@students.uni-freiburg.de">christophe.becht@students.uni-freiburg.de</a>)</li>
-  <li>Nina Frings (<a href="mailto:nina.frings@unibas.ch">nina.frings@unibas.ch</a>)</li>
-  <li>Louisa Estadieu (<a href="mailto:louisa.estadieu@philosophie.uni-freiburg.de">louisa.estadieu@philosophie.uni-freiburg.de</a>)</li>
-</ol>
-<br>
-<br>
- oder Prof. Andrea Kiesel
+       Louisa Estadieu (<a href="mailto:louisa.estadieu@philosophie.uni-freiburg.de">louisa.estadieu@philosophie.uni-freiburg.de</a>) oder Prof. Andrea Kiesel
            (<a href="mailto:kiesel@psychologie.uni-freiburg.de">kiesel@psychologie.uni-freiburg.de</a>).
        </section>
        <br>
@@ -353,25 +339,24 @@ Verpflichten Sie sich, in dieser Umfrage wohlüberlegte Antworten zu geben?
  <main class="content-horizontal-center content-vertical-center">
    <div class="w-l text-justify">
      <section>
-     <span style="background-color: yellow; color: red;">adjust study overview for respective study</span>
-     <br>
-     <br>
-       Die Studie ist in XXX Teile gegliedert:
+       Die Studie ist in 5 Teile gegliedert:
      </section>
-     <br>
      <br>
      <table>
        <tr>
        <td>1) Lesen Sie die Anweisungen zum Zeichnen einer <i>Mind-Map</i>.</td>
        </tr>
        <tr>
-         <td>2) Lesen Sie einen Szenario-Text über einen <span id="placeholderRobot">XXX</span>.</td>
+         <td>2) Lesen Sie einen Szenario-Text über einem <span id="placeholderRobot">XXX</span>.</td>
        </tr>
        <tr>
-         <td>3) Zeichnen Sie eine <i>Mind-Map</i> zu Ihrern Einstellung und Gefühlen gegenüber dem <span id="placeholderRobot2">XXX</span>.</td>
+         <td>3) Zeichnen Sie eine <i>Mind-Map</i> zu Ihrern Einstellung und Gefühlen gegenüber einem <span id="placeholderRobot2">XXX</span>.</td>
        </tr>
        <tr>
-       <td>4) Beantworten Sie weitere Fragen.</td>
+       <td>4) Passen Sie Ihre <i>Mind-Map</i> an.</td>
+       </tr>
+       <tr>
+       <td>5) Beantworten Sie weitere Fragen.</td>
      </tr>
      </table>
      <br>
@@ -394,17 +379,15 @@ Verpflichten Sie sich, in dieser Umfrage wohlüberlegte Antworten zu geben?
    <header>
      <h2>
      Bitte lesen Sie den folgenden Text sorgfältig durch. Anschließend bitten wir Sie, eine <i>Mind-Map</i> zu folgender Frage zu zeichnen:
-     <br>
-     <br>
-     <span id="placeholderText1">XXX</span>
      </h2>
+     <br>
+     <h3>
+     <span id="placeholderText1">XXX</span>
+    </h3>
    </header>
    
    <main class="content-horizontal-center content-vertical-center">
    <div class="w-l text-justify">
-   <span style="background-color: yellow; color: red;">PLACEHOLDER scenario texts</span>
-   <br>
-   <br> 
     <i>Anmerkung: eventuell müssen Sie nach unten scrollen, um den kompletten Text zu lesen.</i>
    <br>
    <br>
@@ -432,29 +415,23 @@ Verpflichten Sie sich, in dieser Umfrage wohlüberlegte Antworten zu geben?
    `,
    explanationSR2: `
    <header>
-     <h2>
-     Bitte lesen Sie den folgenden Text sorgfältig durch. Anschließend bitten wir Sie, eine <i>Mind-Map</i> zu folgender Frage zu zeichnen:
-     <br>
-     <br>
-     <span id="placeholderText1">XXX</span>
-     </h2>
+   <h2>
+   Bitte lesen Sie den folgenden Text sorgfältig durch. Anschließend bitten wir Sie, eine <i>Mind-Map</i> zu folgender Frage zu zeichnen:
+   </h2>
+   <br>
+   <h3>
+   <span id="placeholderText1">XXX</span>
+  </h3>
    </header>
    
    <main class="content-horizontal-center content-vertical-center">
    <div class="w-l text-justify">
-   <span style="background-color: yellow; color: red;">PLACEHOLDER scenario texts</span>
-   <br>
-   <br> 
-    <b><span id="placeholderText2">XXX</span></b>
+    <span id="placeholderText2">XXX benefits</span>
    <br>
    <br>
    <section>
-   <span id="placeholderText3">XXX benefits / risks</span>
+   <span id="placeholderText3">XXX risks / risks</span>
       </section>
- <br>
- <section>
- <span id="placeholderText4">XXX benefits / risks</span>
-    </section>
    </div>
  </main>
  
@@ -472,34 +449,27 @@ Verpflichten Sie sich, in dieser Umfrage wohlüberlegte Antworten zu geben?
    `,
    explanationSR3: `
    <header>
-     <h2>
-     Bitte lesen Sie den folgenden Text sorgfältig durch. Anschließend bitten wir Sie, eine <i>Mind-Map</i> zu folgender Frage zu zeichnen:
-     <br>
-     <br>
-     <span id="placeholderText1">XXX</span>
-     </h2>
+   <h2>
+   Bitte lesen Sie den folgenden Text sorgfältig durch. Anschließend bitten wir Sie, eine <i>Mind-Map</i> zu folgender Frage zu zeichnen:
+   </h2>
+   <br>
+   <h3>
+   <span id="placeholderText1">XXX</span>
+  </h3>
    </header>
    
    <main class="content-horizontal-center content-vertical-center">
    <div class="w-l text-justify">
-   <span style="background-color: yellow; color: red;">PLACEHOLDER scenario texts</span>
-   <br>
-   <br> 
-    <i>Anmerkung: eventuell müssen Sie nach unten scrollen, um den kompletten Text zu lesen.</i>
-   <br>
-   <br>
    <section>
    <span id="placeholderText2">XXX</span>
-      </section>
+    </section>
  <br>
       <img alt="ERROR - picture is not shown. Please write an e-mail to the study director that an error has occurred." class="centerIMG"
- src="pre_CAM/static/CAMscenariotext/defaultCAM.JPG">
+ src="pre_CAM/static/CAMscenariotext/defaultCAM.JPG" id="changePic1">
 
  <br>
  <br>
- <b>Wichtig:</b> Durch <i>Ändern der emotionalen Bewertung des zentralen Konzepts</i> "Covid-19" können Sie angeben, ob Sie die 
- Covid-19-Pandemie insgesamt als negativ, neutral oder positiv wahrgenommen haben.
- Sie können <i>das Kommentarfeld verwenden</i>, um weitere Erläuterungen zu Ihren gezeichneten Konzepten zu schreiben.
+ <span id="placeholderText3">XXX</span>
    </div>
  </main>
  

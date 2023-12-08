@@ -136,15 +136,12 @@ const textObj = {
   explanationSR1: `
   <header>
     <h2>
-    Bitte lesen Sie die folgenden Informationen über softe Roboter sorgfältig durch. Anschließend werden wir Sie bitten, Ihr <i>Mind-Map</i> anzupassen:
+    Bitte lesen Sie die folgenden Informationen über <u>softe</u> Roboter sorgfältig durch. Anschließend werden wir Sie bitten, Ihre <i>Mind-Map</i> anzupassen:
     </h2>
   </header>
   
   <main class="content-horizontal-center content-vertical-center">
   <div class="w-l text-justify">
-  <span style="background-color: yellow; color: red;">PLACEHOLDER scenario texts</span>
-  <br>
-  <br> 
    <i>Anmerkung: eventuell müssen Sie nach unten scrollen, um den kompletten Text zu lesen.</i>
   <br>
   <br>
@@ -173,25 +170,19 @@ const textObj = {
   explanationSR2: `
   <header>
     <h2>
-    Bitte lesen Sie die folgenden Informationen über softe Roboter sorgfältig durch. Anschließend werden wir Sie bitten, Ihr <i>Mind-Map</i> anzupassen:
+    Bitte lesen Sie die folgenden Informationen über <u>softe</u> Roboter sorgfältig durch. Anschließend werden wir Sie bitten, Ihre <i>Mind-Map</i> anzupassen:
     </h2>
   </header>
 
 
   <main class="content-horizontal-center content-vertical-center">
   <div class="w-l text-justify">
-  <span style="background-color: yellow; color: red;">PLACEHOLDER scenario texts</span>
-  <br>
-  <br> 
-   <b><span id="placeholderText2">XXX</span></b>
-  <br>
-  <br>
   <section>
-  <span id="placeholderText3">XXX benefits / risks soft</span>
+  <span id="placeholderText1">XXX benefits / risks soft</span>
      </section>
 <br>
 <section>
-<span id="placeholderText4">XXX benefits / risks soft</span>
+<span id="placeholderText2">XXX benefits / risks soft</span>
    </section>
   </div>
 </main>

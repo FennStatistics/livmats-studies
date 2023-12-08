@@ -361,18 +361,13 @@ Please zoom out so you can see the entire drawing area of the CAM. You can now c
         document.head.appendChild(script);
       })();
 
-      // default CAM + initialisation CAM data
-      delay(function () {
+
+            // default CAM + initialisation CAM data
+    delay(function () {
       (function () {
         const script = document.createElement("script");
         script.src = "./CAMEL/config/defaultCAM.js";
         script.async = false;
-        document.head.appendChild(script);
-      })();
-      (function () {
-        const script = document.createElement("script");
-        script.src = "./CAMEL/src/js/backend/initialisation.js";
-        script.async = true;
         document.head.appendChild(script);
       })();
 
@@ -382,11 +377,17 @@ Please zoom out so you can see the entire drawing area of the CAM. You can now c
         script.async = true;
         document.head.appendChild(script);
       })();
-    }, 1000); // end delay
-    }, 600); // end delay
 
-
-    
+      delay(function () {
+        (function () {
+        const script = document.createElement("script");
+        script.src = "./CAMEL/src/js/backend/initialisation.js";
+        script.async = true;
+        document.head.appendChild(script);
+      })();
+      }, 200); // end delay
+    }, 700); // end delay
+    }, 300); // end delay
   </script>
   
 </html>

@@ -1,7 +1,7 @@
 /* default values */
 var config = {
     CAMproject: "S2_CAM part 2", // "proj_" + uuid.v4(), // necessary for server (see ERM)
-    ConNumNodes: 1, // number of nodes necessary to draw
+    ConNumNodes: 10, // number of nodes necessary to draw
     
     hideArrows: true, // if false = possible to draw arrows
     BidirectionalDefault: false, // if true the default connection is bidirectional
@@ -18,8 +18,8 @@ var config = {
 
     setLanguage: "German", // set language of your CAM study, e.g. French 
 
-    fullScreen: false, // if true = study in fullscreen mode + paradata
-    showNotPopupStart: false, // true = no pop up shown; only working if fullScreen is set to true
+    fullScreen: true, // if true = study in fullscreen mode + paradata
+    showNotPopupStart: true, // true = no pop up shown; only working if fullScreen is set to true
 
     AdaptiveStudy: false, // run as adaptive study 
     ADAPTIVESTUDYurl: "http://example.org/", // URL the CAM data should be append to

@@ -8,13 +8,19 @@ var numElementsCounter = 5;
 const htmlForm = new lab.html.Form({
   content:
     `
+    <header>
+    <h2>
+    Abschließend möchten wir Sie noch bitten, ein paar allgemeine Fragen zu beantworten.
+    </h2>
+    <br>
+    <h3>
+    Bitte beantworten Sie zuerst folgende Frage zu Ihrer gezeichneten <i>Mind-Map</i>:
+    </h3>
+  </header>
   <main class="content-horizontal-center content-vertical-center">
   <div class="w-l text-justify">
   <form id="page-form">
-  <span style="background-color: yellow; color: red;">ADJUST TEXT and compute mean difference CAMs</span>
-  <br>
-  <br>
-    Ihre gezeichnete <i>Mind-Map</i> hatte die Gesamtvalenz von
+    Ihre gezeichnete <i>Mind-Map</i> hatte eine durchschnittliche emotionale Bewertung von 
     <span id="placeholder" style="font-weight: bold;">XXX</span>, bitte erklären Sie, warum Ihre insgesamt gezeichnete <i>Mind-Map</i> 
     <span id="placeholder2" style="font-weight: bold;">XXX</span> war
       <textarea rows="10" name="ans1" style="width: 100%;" placeholder="Schreiben Sie hier Ihre Antwort..." required></textarea>
@@ -30,7 +36,7 @@ Weiter &rarr;
   `,
   messageHandlers: {
     run: function anonymous(){
-      $("#placeholder").text(jatos.studySessionData.meanvalence);
+      $("#placeholder").text(Number(jatos.studySessionData.meanvalence.toFixed(2)));
       if(jatos.studySessionData.meanvalence < 0){
         $("#placeholder2").text("negativ");
       }else if(jatos.studySessionData.meanvalence > 0){
@@ -766,10 +772,9 @@ const EndingScreen_htmlScreen = new lab.html.Screen({
       <br>
       <br>
       <br>
-      Wenn Sie Fragen haben, kontaktieren Sie bitte den Studienleiter Julius Fenn (<a href="mailto:julius.fenn@psychologie.uni-freiburg.de">julius.fenn@psychologie.uni-freiburg.de</a>).
+      Wenn Sie Fragen haben, kontaktieren Sie bitte die Studienleiterin Louisa Estadieu (<a href="mailto:louisa.estadieu@livmats.uni-freiburg.de">louisa.estadieu@livmats.uni-freiburg.de</a>).
     </div>
   </main>
-
   `,
   timeout: 6000,
   messageHandlers: {
@@ -795,7 +800,7 @@ const EndingScreen_htmlScreen = new lab.html.Screen({
           study.options.datastore.extract("sender").includes("FeedbackScreen")
         ) {
           jatos.endStudyAndRedirect(
-            "https://drawyourminds.de/",  // !!! "https://app.prolific.co/submissions/complete?cc=C8FL71OE"
+            "https://app.prolific.co/submissions/complete?cc=C8FL71OE",  // !!! https://drawyourminds.de/
             true,
             "everything worked fine"
           );
@@ -817,7 +822,7 @@ const SCALES_sequence = new lab.flow.Sequence({
   title: "SCALES Sequence",
   shuffle: true,
   content: [
-    MDMT_sequence,
+    //MDMT_sequence,
     GAToRS_sequence,
     LikertLiWang_htmlForm,
     LikertAlmere_htmlForm, 

@@ -178,8 +178,8 @@ const textObjInstCAM = {
   <br>
   Drücken Sie die rechte Pfeiltaste <kbd>&rarr;</kbd>, um mit dem Lesen zu beginnen.
   </section>
-  <section id="page1" class="hidden" >
-  <img alt="ERROR - picture is not shown. Please write an e-mail to the study director that an error has occurred." src="pre_CAM/static/CAMinst/Folie1.JPG" class="centerIMG">
+  <section id="page1" class="hidden" > 
+  <img id="changePic1" alt="ERROR - picture is not shown. Please write an e-mail to the study director that an error has occurred." src="pre_CAM/static/CAMinst/Folie1.JPG" class="centerIMG">
   </section>
   <section id="page2" class="hidden" >
   <img alt="ERROR - picture is not shown. Please write an e-mail to the study director that an error has occurred." src="pre_CAM/static/CAMinst/Folie2.JPG" class="centerIMG">
@@ -270,7 +270,7 @@ const textObjInstCAM = {
     </tr>
   </table>
 </footer>`
-  }
+}
 
 
 /* CAM Instruktionen on multiple pages */
@@ -278,6 +278,11 @@ const CAMinst_multipage_htmlScreen = new lab.html.Screen({
   title: "done",
   content: textObjInstCAM.CAMinst_multipage,
   messageHandlers: {
+    run: function anonymous() {
+      if (choosenRobot === "Rettungsroboter") {
+        $('#changePic1').attr('src', 'pre_CAM/static/CAMinst/Folie26.JPG');
+      }
+    },
     "before:prepare": function anonymous() {
       let done = false // is it the last screen?
       let doneOnce = true // is it the last screen?
@@ -357,4 +362,4 @@ const CAMinst_htmlForm = new lab.html.Form({
     }
   },
 })
-  /* CAM Instruktionen on one page */
+/* CAM Instruktionen on one page */

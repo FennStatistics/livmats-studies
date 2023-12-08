@@ -28,7 +28,7 @@ function shuffleArray(array) {
 
 
 
-const typeRobot = ["Rettungsroboter", " soziale Assistenzroboter"]; // ["rescue robots", "Socially assistive robots"];
+const typeRobot = ["Rettungsroboter", "sozialen Assistenzroboter"]; // ["rescue robots", "Socially assistive robots"];
 const indexTypeRobot = shuffleArray(typeRobot);
 var choosenRobot = typeRobot[indexTypeRobot[0]];
 
@@ -242,6 +242,17 @@ const explanationSR1_htmlForm = new lab.html.Form({
         () => (document.querySelector("button").style.visibility = "visible"),
         5000 // 10000 (10 seconds)
       );
+
+      // change text
+      if (choosenRobot === "Rettungsroboter") {
+        $("#placeholderText1").text("Welche Vorteile und Nachteile fallen Ihnen bezüglich des Einsatzes von Rettungsrobotern bei Such- und Rettungseinsätzen ein?");
+        $("#placeholderText2").text("Rettungsroboter sind eine neue Art von Robotern, die entwickelt wurde, um Menschen in Katastrophensituationen (Erdbeben, eingestürzte Gebäude, kontaminierte Gebiete, etc.) zu suchen und zu retten. Rettungsroboter, wie Drohnen und Bodenroboter, können in gefährlichen und kontaminierten Bereichen operieren, die für menschliche Rettungskräfte anderweitig unzugänglich wären. Indem sie Aufgaben wie die visuelle Inspektion beschädigter Strukturen, die Suche nach Opfern, das Erstellen von Karten des betroffenen Gebiets, das Räumen von Trümmern, die Bereitstellung lebenswichtiger Versorgungsgüter und die autonome Unterstützung bei der Rettung von Opfern übernehmen, können diese Roboter die Effizienz und Wirksamkeit von Rettungseinsätzen verbessern.");
+        $("#placeholderText3").text("Da Rettungsroboter noch in der Entwicklungsphase sind, ist es wichtig, ethische Aspekte (= Vorteile und Nachteile) von Rettungsrobotern zu berücksichtigen.");
+      } else {
+        $("#placeholderText1").text("Welche Vorteile und Risiken fallen Ihnen bezüglich des Einsatzes von sozialen Assistenzrobotern in Therapie, Altenpflege, Bildung oder als soziale Begleiter ein?");
+        $("#placeholderText2").text("Soziale Assistenzroboter werden zunehmend in sozialen Kontexten, wie Therapie, Altenpflege, Bildung oder als soziale Begleiter eingesetzt. Sie sind darauf ausgerichtet, menschlichen Benutzern durch soziale Interaktion Unterstützung zu bieten. Das Ziel von sozialen Assistenzrobotern besteht darin, enge und effektive Verbindungen sowie Interaktionen mit menschlichen Benutzern zu schaffen, um Rehabilitation und Lernen zu fördern sowie Gesellschaft für diejenigen zu bieten, die isoliert sind.");
+        $("#placeholderText3").text("Da sich soziale Assistenzroboter noch in der Entwicklungsphase befinden, ist es wichtig, ethischen Aspekte (= Vorteile und Nachteile) von sozialen Assistenzrobotern zu berücksichtigen.");
+      }
     },
     commit: () => {
       // progress bar
@@ -264,6 +275,49 @@ const explanationSR2_htmlForm = new lab.html.Form({
         () => (document.querySelector("button").style.visibility = "visible"),
         10000 // 10000 (10 seconds)
       );
+
+            // change text
+            if (choosenRobot === "Rettungsroboter") {
+              $("#placeholderText1").text("Welche Vorteile und Nachteile fallen Ihnen bezüglich des Einsatzes von Rettungsrobotern bei Such- und Rettungseinsätzen ein?");
+              $("#placeholderText2").html(`
+              Mögliche <b>Vorteile</b> von Rettungsrobotern könnten sein:
+              <br>
+              <ul>
+  <li>Zugang zu Bereichen, die für menschliche Rettungskräfte unerreichbar oder zu gefährlich sind</li>
+  <li>Zuverlässige Leistung, insbesondere für Aufgaben, die Präzision und Genauigkeit erfordern</li>
+  <li>Autonome Rettungsfähigkeiten, die es Robotern ermöglichen, Opfer zu bergen und in Sicherheit zu bringen</li>
+</ul>
+              `);
+              $("#placeholderText3").html(`
+              Mögliche <b>Nachteile</b> von Rettungsrobotern könnten sein:
+              <br>
+              <ul>
+              <li>Algorithmen, die die Rettungsroboter leiten, könnten voreingenommen sein und zu ungerechten oder diskriminierenden Ergebnissen führen, insbesondere in Bezug darauf, wo Rettungsbemühungen konzentriert werden sollen und wen man zuerst suchen und bergen sollte</li>
+              <li>Das Maß an Autonomie von Rettungsrobotern in Such- und Rettungsaktionen könnte die Frage aufwerfen, ob die Fernsteuerung von Roboteroperationen in prekären Situationen der vollständigen Autonomie vorzuziehen ist</li>
+              <li>Rettungsroboter könnten missbraucht werden, insbesondere im Krieg</li>
+            </ul>
+              `);
+            } else {
+              $("#placeholderText1").text("Welche Vorteile und Risiken fallen Ihnen bezüglich des Einsatzes von sozialen Assistenzrobotern in Therapie, Altenpflege, Bildung oder als soziale Begleiter ein?");
+              $("#placeholderText2").html(`
+              Mögliche <b>Vorteile</b> von sozialen Assistenzrobotern könnten sein:
+              <br>
+              <ul>
+              <li>Interaktion mit sozial isolierten oder wenig sozial vernetzten Personen, wie beispielsweise ältere Menschen</li>
+              <li>Förderung sozialer Interaktion im therapeutischen Setting, beispielsweise als Begleiter für Menschen mit Autismus, um die Emotionserkennung und zwischenmenschlichen Kommunikationsfähigkeiten zu verbessern</li>
+              <li>Unterstützung bei Bildungsaktivitäten und Lernen, insbesondere für Kinder mit besonderen Bedürfnissen oder Lernschwierigkeiten</li>
+            </ul>
+              `);
+              $("#placeholderText3").html(`
+              Mögliche <b>Nachteile</b> von sozialen Assistenzrobotern könnten sein:
+              <br>
+              <ul>
+              <li>Benutzer*innen könnten eine Abhängigkeit von sozialen Assistenzrobotern entwickeln</li>
+              <li>Die Verwendung von sozialen Assistenzrobotern könnte zu Arbeitslosigkeit führen, da Roboter möglicherweise Menschen am Arbeitsplatz ersetzen (zum Beispiel als Therapeut*innen)</li>
+              <li>Mensch-Roboter-Interaktionen könnten menschliche Interaktionen beeinflussen, da der Umgang mit Robotern unsere Erwartungen, Verhaltensweisen und Wahrnehmungen in sozialen Umgebungen formen können</li>
+            </ul>
+              `);
+            }
     },
     commit: () => {
       // progress bar
@@ -288,6 +342,42 @@ const explanationSR3_htmlForm = new lab.html.Form({
         () => (document.querySelector("button").style.visibility = "visible"),
         10000 // 10000 (10 seconds)
       );
+            // change text
+            if (choosenRobot === "Rettungsroboter") {
+              $("#placeholderText1").text("Welche Vorteile und Nachteile fallen Ihnen bezüglich des Einsatzes von Rettungsrobotern bei Such- und Rettungseinsätzen ein?");
+              $("#placeholderText2").html(`
+              Die Entwicklung von Rettungsrobotern befindet sich derzeit noch in den Anfängen. Sie können zur Entwicklung ethisch sicherer Roboter für Such- und Rettungsmissionen beitragen. 
+              Dafür möchten wir Ihre Einstellungen und Gefühle zu Rettungsrobotern herausfinden. Zu diesem Zweck haben wir Ihnen das zentrale Konzept "Rettungsroboter" im Zentrum Ihrer Mind-Map vordefiniert. 
+              Von diesen vorgegebenen Konzepten kann nur die emotionale Bewertung und nicht der Text geändert werden. 
+              Im Folgenden bitten wir Sie, ihre Gedanken und Gefühle hinsichtlich der Frage 
+              <b>Welche Vorteile und Nachteile fallen Ihnen bezüglich des Einsatzes von Rettungsrobotern bei Such- und Rettungseinsätzen ein?</b> in Ihrer Mind-Map zu zeichnen. 
+              Dafür sollen Sie alle Vorteile und Nachteile, die Ihnen bezüglich Rettungsrobotern einfallen, um vorgegebenen Konzepte "Rettungsroboter", "Vorteile" und "Nachteile" herumzeichnen. Die anfängliche Mind-Map sieht so aus:               
+              `);
+              $("#placeholderText3").html(`
+              <b>Wichtig:</b> Durch Ändern der emotionalen Bewertung des zentralen Konzepts "Rettungsroboter" können Sie angeben, ob Sie Rettungsroboter insgesamt als negativ, neutral oder positiv wahrnehmen. 
+              Sie können das Kommentarfeld verwenden, um weitere Erläuterungen zu Ihren gezeichneten Konzepten zu schreiben.
+              `);
+              // change picture
+              $('#changePic1').attr('src', 'pre_CAM/static/CAMscenariotext/default_Rettungsroboter.JPG');
+            } else {
+              $("#placeholderText1").text("Welche Vorteile und Risiken fallen Ihnen bezüglich des Einsatzes von sozialen Assistenzrobotern in Therapie, Altenpflege, Bildung oder als soziale Begleiter ein?");
+              $("#placeholderText2").html(`
+              Die Entwicklung von sozialen Assistenzrobotern befindet sich derzeit noch in den Anfängen. Sie können zur Entwicklung ethisch sicherer sozialer Assistenzroboter beitragen. 
+              Dafür möchten wir Ihre Einstellungen und Gefühle zu sozialen Assistenzrobotern herausfinden. Zu diesem Zweck haben wir Ihnen das zentrale Konzept "sozialen Assistenzroboter" im Zentrum Ihrer Mind-Map vordefiniert. 
+              Von diesen vorgegebenen Konzepten kann nur die emotionale Bewertung und nicht der Text geändert werden. 
+              Im Folgenden bitten wir Sie, ihre Gedanken und Gefühle hinsichtlich der Frage 
+              <b>Welche Vorteile und Risiken fallen Ihnen bezüglich des Einsatzes von sozialen Assistenzrobotern in Therapie, Altenpflege, Bildung oder als soziale Begleiter ein?</b> in Ihrer Mind-Map zu zeichnen. 
+              Dafür sollen Sie alle Vorteile und Nachteile, die Ihnen bezüglich sozialer Assistenzroboter einfallen, um die vorgegebenen Konzepte "sozialen Assistenzroboter", "Vorteile" und "Nachteile" herumzeichnen. Die anfängliche Mind-Map sieht so aus: 
+              `);
+              $("#placeholderText3").html(`
+              <b>Wichtig:</b> Durch Ändern der emotionalen Bewertung des zentralen Konzepts "sozialen Assistenzroboter" können Sie angeben, ob Sie soziale Assistenzroboter insgesamt als negativ, neutral oder positiv wahrnehmen. 
+              Sie können das Kommentarfeld verwenden, um weitere Erläuterungen zu Ihren gezeichneten Konzepten zu schreiben.
+              `);
+              // change picture
+              $('#changePic1').attr('src', 'pre_CAM/static/CAMscenariotext/default_sozialenAssistenzroboter.JPG');
+            }
+
+
     },
     commit: () => {
       // progress bar

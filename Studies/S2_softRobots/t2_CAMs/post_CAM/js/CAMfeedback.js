@@ -14,7 +14,7 @@ Bevor Sie mit der Studie fortfahren, bitten wir Sie, die folgenden Fragen zu bea
 
    <div>
      <p class="text-left font-weight-bold" style="margin: 1rem 0 0.25rem">
-     Inwieweit denken Sie, dass die von Ihnen soeben gezeichnete <i>Mind-Map</i> Ihre Einstellungen und Gefühle <span style="background-color: yellow; color: red;">während der Covid-19-Pandemie</span>widerspiegelt?
+     Inwieweit denken Sie, dass die von Ihnen soeben gezeichnete <i>Mind-Map</i> Ihre Einstellungen und Gefühle gegenüber <span id="placeholderText1">XXX</span> widerspiegelt?
      </p>
      
      <p class="text-left small text-muted hide-if-empty" style="margin: 0.25rem 0">
@@ -270,6 +270,15 @@ What was your most central / your most important node (term) in the Cognitive-Af
       run: function anonymous(){
          // progress bar
          document.querySelector(".progress-bar").style.width = (numElementsCounter / numElements) * 100 + "%";
+
+         // change text by choosen_Robot
+         if (jatos.studySessionData.choosen_Robot === "Rettungsroboter") { // !!! jatos.studySessionData.choosen_Robot
+          $("#placeholderText1").text("Rettungsroboter");
+        } else {
+          $("#placeholderText1").text("sozialen Assistenzrobotern");
+        }
+        
+
       },
          commit: function anonymous() {
          // progress bar

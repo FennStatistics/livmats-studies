@@ -28,7 +28,7 @@ function defaultCAM() {
       y: 400
     }, false, false, false));
   }else{
-    CAM.addElement(new NodeCAM(0, "Roboter", {
+    CAM.addElement(new NodeCAM(0, "Rettungsroboter", {
       x: 650,
       y: 400
     }, false, false, false));
@@ -37,17 +37,18 @@ function defaultCAM() {
 
 
 
-/*
-  CAM.addElement(new NodeCAM(3, "positive aspects", {
+
+  CAM.addElement(new NodeCAM(0, "Nachteile", {
     x: 450,
     y: 400
   }, false, false, false));
 
 
-  CAM.addElement(new NodeCAM(-2, "negative aspects", {
+  CAM.addElement(new NodeCAM(0, "Vorteile", {
     x: 850,
     y: 400
   }, false, false, false));
+
 
 
   var connector = new ConnectorCAM();
@@ -59,6 +60,6 @@ function defaultCAM() {
   connector.establishConnection(CAM.nodes[0], CAM.nodes[2], IncreaseSliderIntensity, true);
   CAM.addElement(connector);
   CAM.connectors[0].isDeletable = false;
-*/
+/**/
   CAM.draw();
 }

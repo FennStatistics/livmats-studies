@@ -65,7 +65,7 @@ console.log(items_Koverola.slice(0, 4));
 
 /* items Heerink 2010 */
 let HeerinkList = {
-  ques: ["Wenn ich den Roboter benutzen sollte, hätte ich Angst, Fehler damit zu machen.", "Wenn ich einen Roboter beutzen sollte, hätte ich Ansgt etwas kaputt zu machen.", "Ich finde den Roboter gruselig.", "Ich finde den Roboter einschüchternd.", "Ich denke es ist eine gute Idee den Roboter zu verwenden.", "Der Roboter würde das Leben Interessanter machen.", "Es ist gut, einen Nutzen aus dem Roboter zu ziehen."],
+  ques: ["Wenn ich den Roboter benutzen sollte, hätte ich Angst, Fehler damit zu machen.", "Wenn ich einen Roboter beutzen sollte, hätte ich Angst etwas kaputt zu machen.", "Ich finde den Roboter gruselig.", "Ich finde den Roboter einschüchternd.", "Ich denke es ist eine gute Idee den Roboter zu verwenden.", "Der Roboter würde das Leben Interessanter machen.", "Es ist gut, einen Nutzen aus dem Roboter zu ziehen."],
   scale: ["1anx", "2anx", "3anx", "4anx", "1att", "2att", "3att"]
 };
 
@@ -80,11 +80,14 @@ console.log(items_Heerink.slice(0, 4));
 
 /* items Li and Wang 2022 */
 let LiWangList = {
-  ques: ["Der Roboter kann automatisch Veränderungen in der Umgebung wahrnehmen.","Der Roboter kann automatisch Entscheidungen treffen.",
-  "Der Roboter kann automatisch Aufgaben erledigen.","Der Roboter scheint  einen eigenen Willen zu haben.",
-  "Der Roboter scheint Absichten zu haben.","Der Roboter hat einen freien Willen.",
-  "Der Roboter scheint ein Bewusstsein zu haben.",
-  "Der Roboter scheint die Fähigkeit zu besitzen Emotionen zu erleben."]
+  ques: ["Der Roboter sollte automatisch Veränderungen in der Umgebung wahrnehmen.",
+  "Der Roboter sollte automatisch Entscheidungen treffen.",
+  "Der Roboter sollte automatisch Aufgaben erledigen.",
+  "Der Roboter sollte einen eigenen Willen haben.",
+  "Der Roboter sollte Absichten haben.",
+  "Der Roboter sollte einen freien Willen haben.",
+  "Der Roboter sollte ein Bewusstsein haben.",
+  "Der Roboter sollte die Fähigkeit zu besitzen Emotionen zu erleben."]
   ,
   scale: ["1autonomy","2autonomy","3autonomy","1anthropomorphism","2anthropomorphism","3anthropomorphism","4anthropomorphism","5anthropomorphism"]
 };
