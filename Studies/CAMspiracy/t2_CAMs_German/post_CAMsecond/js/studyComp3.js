@@ -43,7 +43,7 @@ Weiter &rarr;
   `,
   messageHandlers: {
     run: function anonymous() {
-      $("#placeholder").text(jatos.studySessionData.meanvalence);
+      $("#placeholder").text(Number(jatos.studySessionData.meanvalence.toFixed(2)));
 
       if (jatos.studySessionData.meanvalence < 0) {
         $("#placeholder2").text("negativ");
@@ -667,7 +667,7 @@ const study = new lab.flow.Sequence({
   },
   plugins: [
     //new lab.plugins.Metadata(),
-    new lab.plugins.Debug(), // comment out finally
+    //new lab.plugins.Debug(), // comment out finally
     //new lab.plugins.Download()
   ],
   content: [

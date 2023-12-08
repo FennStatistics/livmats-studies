@@ -1,30 +1,31 @@
 
 const contentFirstReminder =  `
-You have only <b>3 minutes</b> left to draw your <i>Cognitive-Affective Map</i> (CAM). Please slowly come to an end, and keep in mind the following:
+Sie haben nur noch <b>3 Minuten</b>, um Ihre <i>Mind-Map</i> zu zeichnen. Bitte kommen Sie langsam zum Abschluss und beachten Sie Folgendes:
 <ul style="font-size: 14px;">
-  <li>Use no more than three words per concept and do not leave any drawn concept empty.</li>
-  <li>Connect all drawn concepts with each other.</li>
+  <li>Verwenden Sie pro Konzept nicht mehr als drei Wörter und lassen Sie kein gezeichnetes Konzept leer.</li>
+  <li>Verbinden Sie alle gezeichneten Konzepte miteinander.</li>
 </ul>
 <br>
-Please click on the background to continue.
+Bitte klicken Sie auf den Hintergrund, um fortzufahren.
 `;
 
 
+
 const contentFinalReminder =  `
-Please complete the drawing of the <i>Cognitive-Affective Map</i> (CAM) now and respect the following rules:
+Bitte vervollständigen Sie jetzt die Zeichnung der <i>Mind-Map</i> und beachten Sie dabei die folgenden Regeln:
 <ul style="font-size: 14px;">
-  <li>Do not leave any drawn concept empty.</li>
-  <li>Connect all drawn concepts with each other.</li>
+  <li>Lassen Sie kein gezeichnetes Konzept leer.</li>
+  <li>Verbinden Sie alle gezeichneten Konzepte miteinander.</li>
 </ul>
 <br>
-Please click on the background to continue, and click on the disk icon in the upper right corner to save your CAM. Thank you!
+Bitte klicken Sie auf den Hintergrund, um fortzufahren, und klicken Sie auf das Diskettensymbol in der oberen rechten Ecke, um Ihre CAM zu speichern. Danke!
 `;
 
 
 
 var startTimeMS = 0;  // EPOCH Time of event count started
-var timerStepFirst = 540000;   // Time first reminder
-var timerStepFinal = 720000;   // Time final reminder
+var timerStepFirst = 720000;   // Time first reminder > 720000 / 1000 / 60 = 12 minutes
+var timerStepFinal = 900000;   // Time final reminder > 900000 / 1000 / 60 = 15 minutes
 
 
 function firstReminder() {

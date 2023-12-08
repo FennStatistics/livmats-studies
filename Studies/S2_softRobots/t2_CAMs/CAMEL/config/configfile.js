@@ -19,12 +19,12 @@ var config = {
     setLanguage: "German", // set language of your CAM study, e.g. French 
 
     fullScreen: true, // if true = study in fullscreen mode + paradata
-    showNotPopupStart: true, // true = no pop up shown; only working if fullScreen is set to true
+    showNotPopupStart: false, // true = no pop up shown; only working if fullScreen is set to true
 
     AdaptiveStudy: false, // run as adaptive study 
     ADAPTIVESTUDYurl: "http://example.org/", // URL the CAM data should be append to
 
-    setReminder: false, // if true = after X ms 2 reminder pop up
+    setReminder: true, // if true = after X ms 2 reminder pop up
 
     surpressSaveCAMpopup: false,  // if set to true no popup is shown when downloading a vector graphic of the CAM (for automation via the CAM2Image tool)
 

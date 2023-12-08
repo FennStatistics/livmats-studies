@@ -158,7 +158,7 @@ const study = new lab.flow.Sequence({
   },
   plugins: [
     //new lab.plugins.Metadata(),
-    new lab.plugins.Debug(), // comment out finally
+    //new lab.plugins.Debug(), // comment out finally
     //new lab.plugins.Download()
   ],
   content: [

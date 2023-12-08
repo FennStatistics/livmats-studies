@@ -80,18 +80,17 @@
 
 <div id="alert" style="background: white; visibility: hidden;" class="defocus">
   <div id="alert-text" style="text-align: center;">
-      <strong>Please do not change or minimize the browser window while the study is running. Only if there is a break
-          in the course of the study.</strong>
-      <br>
-      <button id="alert-button-text" type="button" onclick="document.getElementById('alert').style.visibility = 'hidden'; 
-   document.getElementById('hideall').style.visibility = 'visible'; enterFullscreen()">
-          click to continue
-      </button>
+    <strong>Bitte wechseln oder minimieren Sie das Browserfenster während der Studie nicht. Nur wenn es eine Pause im Verlauf der Studie gibt.</strong>
+    <br>
+    <button id="alert-button-text" type="button" onclick="document.getElementById('alert').style.visibility = 'hidden'; 
+    document.getElementById('hideall').style.visibility = 'visible'; enterFullscreen()">
+        klicken, um fortzufahren
+    </button>
   </div>
 </div>
 
 <script>
-  var productionPhase = true;
+  var productionPhase = false;
 
   if(productionPhase){
     $(document).on("mousemove", (event) => {

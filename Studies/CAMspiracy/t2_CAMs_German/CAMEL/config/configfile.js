@@ -1,7 +1,7 @@
 /* default values */
 var config = {
     CAMproject: "CAMspiracy t2 Germany CAM", // "proj_" + uuid.v4(), // necessary for server (see ERM)
-    ConNumNodes: 1, // number of nodes necessary to draw
+    ConNumNodes: 12, // number of nodes necessary to draw
     
     hideArrows: true, // if false = possible to draw arrows
     BidirectionalDefault: false, // if true the default connection is bidirectional
@@ -18,13 +18,13 @@ var config = {
 
     setLanguage: "German", // set language of your CAM study, e.g. French 
 
-    fullScreen: false, // if true = study in fullscreen mode + paradata
+    fullScreen: true, // if true = study in fullscreen mode + paradata
     showNotPopupStart: false, // true = no pop up shown; only working if fullScreen is set to true
 
     AdaptiveStudy: false, // run as adaptive study 
     ADAPTIVESTUDYurl: "http://example.org/", // URL the CAM data should be append to
 
-    setReminder: false, // if true = after X ms 2 reminder pop up
+    setReminder: true, // if true = after X ms 2 reminder pop up
 
     surpressSaveCAMpopup: false,  // if set to true no popup is shown when downloading a vector graphic of the CAM (for automation via the CAM2Image tool)
 

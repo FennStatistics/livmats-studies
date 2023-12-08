@@ -35,7 +35,7 @@ const textObj = {
        <section>
        <br>
        <br>
-       Die Dauer der Studie beträgt <b>etwa <span style="background-color: yellow; color: red;">XXX</span> Minuten</b>. Unten sehen Sie eine Fortschrittsleiste, die sich zunehmend grüner färbt und Ihren Fortschritt in der Studie symbolisiert. 
+       Die Dauer der Studie beträgt <b>etwa 45 Minuten</b>. Unten sehen Sie eine Fortschrittsleiste, die sich zunehmend grüner färbt und Ihren Fortschritt in der Studie symbolisiert. 
        Bitte benutzen Sie für die Studie einen <b>Computer oder Laptop mit Tastatur</b>. 
        Bitte stellen Sie sicher, dass Sie an der Studie ungestört teilnehmen können.
        </section>
@@ -80,18 +80,18 @@ const textObj = {
        </section>
        <br>
        <section>
-       Trotz der Anonymität bitten wir Sie freundlich um Ihre volle Konzentration und Aufmerksamkeit während der Teilnahme an der Studie. Dies trägt wesentlich zur Qualität und Zuverlässigkeit unserer Forschung bei.
+       Trotz der Anonymität bitten wir Sie freundlichst um Ihre volle Konzentration und Aufmerksamkeit während der Teilnahme an der Studie. Dies trägt wesentlich zur Qualität und Zuverlässigkeit unserer Forschung bei.
        </section>
        <br>
        <section>
        Abschließend planen wir, die Ergebnisse und Daten aus dieser Studie in zukünftigen Veröffentlichungen zu verwenden. Seien Sie jedoch versichert, dass alle veröffentlichten Materialien in anonymisierter Form vorliegen werden. 
        Wenn Sie jetzt oder nach dem Experiment Fragen haben, kontaktieren Sie bitte Julius Fenn 
        (<a href="mailto:julius.fenn@psychologie.uni-freiburg.de">julius.fenn@psychologie.uni-freiburg.de</a>) oder 
-       Louisa Estadieu (<a href="mailto:louisa.estadieu@philosophie.uni-freiburg.de">louisa.estadieu@philosophie.uni-freiburg.de</a>) oder Prof. Andrea Kiesel
+       Louisa Estadieu (<a href="mailto:louisa.estadieu@livmats.uni-freiburg.de">louisa.estadieu@livmats.uni-freiburg.de</a>) oder Prof. Andrea Kiesel
            (<a href="mailto:kiesel@psychologie.uni-freiburg.de">kiesel@psychologie.uni-freiburg.de</a>).
        </section>
        <br>
-       <br>
+       <br> 
        <br>
        <form id="page-form" style="display: block;" autocomplete="off">
            <!-- BEGIN multiple choice -->
@@ -180,7 +180,7 @@ const textObj = {
        </ul>
 <br>
 <br>
-Uns ist die Qualität unserer Umfragedaten wichtig. Um ein möglichst genaues Bild Ihrer Meinungzu erhalten, ist es wichtig, dass Sie alle Fragen in dieser Umfrage sorgfältig beantworten.
+Uns ist die Qualität unserer Umfragedaten wichtig. Um ein möglichst genaues Bild Ihrer Meinung zu erhalten, ist es wichtig, dass Sie alle Fragen in dieser Umfrage sorgfältig beantworten.
 <br>
 <form id="page-form">
 <!-- siehe: https://www.qualtrics.com/blog/attention-checks-and-data-quality/ -->
@@ -347,10 +347,10 @@ Verpflichten Sie sich, in dieser Umfrage wohlüberlegte Antworten zu geben?
        <td>1) Lesen Sie die Anweisungen zum Zeichnen einer <i>Mind-Map</i>.</td>
        </tr>
        <tr>
-         <td>2) Lesen Sie einen Szenario-Text über einem <span id="placeholderRobot">XXX</span>.</td>
+         <td>2) Lesen Sie einen Szenario-Text über einen <span id="placeholderRobot">XXX</span>.</td>
        </tr>
        <tr>
-         <td>3) Zeichnen Sie eine <i>Mind-Map</i> zu Ihrern Einstellung und Gefühlen gegenüber einem <span id="placeholderRobot2">XXX</span>.</td>
+         <td>3) Zeichnen Sie eine <i>Mind-Map</i> zu Ihrern Einstellung und Gefühlen gegenüber einen <span id="placeholderRobot2">XXX</span>.</td>
        </tr>
        <tr>
        <td>4) Passen Sie Ihre <i>Mind-Map</i> an.</td>

@@ -33,7 +33,7 @@ const textObj = {
        </section>
        <br>
        <section>
-       Die Dauer der Studie beträgt <b>etwa XXX Minuten</b>. Unten sehen Sie eine Fortschrittsleiste, die sich zunehmend grüner färbt und Ihren Fortschritt in der Studie symbolisiert. 
+       Die Dauer der Studie beträgt <b>etwa 40 Minuten</b>. Unten sehen Sie eine Fortschrittsleiste, die sich zunehmend grüner färbt und Ihren Fortschritt in der Studie symbolisiert. 
        Bitte benutzen Sie für die Studie einen <b>Computer oder Laptop mit Tastatur</b>. 
        Bitte stellen Sie sicher, dass Sie an der Studie ungestört teilnehmen können.
        </section>
@@ -77,7 +77,7 @@ const textObj = {
        </section>
        <br>
        <section>
-       Trotz der Anonymität bitten wir Sie freundlich um Ihre volle Konzentration und Aufmerksamkeit während der Teilnahme an der Studie. Dies trägt wesentlich zur Qualität und Zuverlässigkeit unserer Forschung bei.
+       Trotz der Anonymität bitten wir Sie freundlichst um Ihre volle Konzentration und Aufmerksamkeit während der Teilnahme an der Studie. Dies trägt wesentlich zur Qualität und Zuverlässigkeit unserer Forschung bei.
        </section>
        <br>
        <section>
@@ -177,7 +177,7 @@ const textObj = {
        </ul>
 <br>
 <br>
-Uns ist die Qualität unserer Umfragedaten wichtig. Um ein möglichst genaues Bild Ihrer Meinungzu erhalten, ist es wichtig, dass Sie alle Fragen in dieser Umfrage sorgfältig beantworten.
+Uns ist die Qualität unserer Umfragedaten wichtig. Um ein möglichst genaues Bild Ihrer Meinung zu erhalten, ist es wichtig, dass Sie alle Fragen in dieser Umfrage sorgfältig beantworten.
 <br>
 <form id="page-form">
 <!-- siehe: https://www.qualtrics.com/blog/attention-checks-and-data-quality/ -->
@@ -344,7 +344,7 @@ Verpflichten Sie sich, in dieser Umfrage wohlüberlegte Antworten zu geben?
        <td>1) Lesen Sie die Anweisungen zum Zeichnen einer <i>Mind-Map</i>.</td>
        </tr>
        <tr>
-       <td>2) Zeichnen Sie eine <i>Mind-Map</i> zu Ihrern Einstellung und Gefühlen gegenüber Klimawandel.</td>
+       <td>2) Zeichnen Sie eine <i>Mind-Map</i> zu Ihren Einstellung und Gefühlen gegenüber Klimawandel.</td>
        </tr>
        <tr>
          <td>3) Beantworten Sie abschließend mehrere Fragen.</td>
@@ -379,8 +379,8 @@ Verpflichten Sie sich, in dieser Umfrage wohlüberlegte Antworten zu geben?
    <br>
    <br>
    <section>
-   Wir möchten Ihre Einstellungen und Gefühlen zu Klimawandel herausfinden. Zu diesem Zweck haben wir Ihnen in der <i>Mind-Map</i> den zentrale Begriff "Klimawandel" vorgegeben. 
-   Von den vorgegebenen Begriff kann nur die emotionale Bewertung geändert werden, nicht aber der Text. Sie sind aufgefordert zusätzliche Konzepte zu zeichnen. Der ursprüngliche <i>Mind-Map</i> sieht so aus:
+   Wir möchten Ihre Einstellungen und Gefühlen zu Klimawandel herausfinden. Zu diesem Zweck haben wir Ihnen in der <i>Mind-Map</i> den zentralen Begriff "Klimawandel" vorgegeben. 
+   Von dem vorgegebenen Begriff kann nur die emotionale Bewertung geändert werden, nicht aber der Text. Sie sind aufgefordert zusätzliche Konzepte zu zeichnen. Die ursprüngliche <i>Mind-Map</i> sieht so aus:
 
       </section>
  <br>
@@ -389,8 +389,7 @@ Verpflichten Sie sich, in dieser Umfrage wohlüberlegte Antworten zu geben?
 
  <br>
  <br>
- <b>Wichtig:</b> Durch <i>Ändern der emotionalen Bewertung des zentralen Konzepts</i> "Klimawandel" können Sie angeben, ob Sie die 
- Klimawandel insgesamt als negativ, neutral, ambivalent oder positiv wahrnehmen.
+ <b>Wichtig:</b> Durch <i>Ändern der emotionalen Bewertung des zentralen Konzepts</i> "Klimawandel" können Sie angeben, ob Sie Klimawandel insgesamt als negativ, neutral, ambivalent oder positiv wahrnehmen.
  Sie können <i>das Kommentarfeld verwenden</i>, um weitere Erläuterungen zu Ihren gezeichneten Konzepten zu schreiben.
    </div>
  </main>
