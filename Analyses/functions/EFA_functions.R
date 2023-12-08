@@ -42,10 +42,6 @@ explorativeFactorAnalysis <- function(label, regEx, dataset, nfac = 1, showCronb
     tmp_cor <- cor(tmp_dat)
 
     tmp_fa_out <- fa(r = tmp_dat, nfactors = nfac, rotate = "promax", cor ="cor")
-  }else if(label == "Trust"){
-    tmp_cor <- cor(tmp_dat)
-
-    tmp_fa_out <- fa(r = tmp_dat, nfactors = nfac, rotate = "promax", cor ="cor")
   }else{
     tmp_cor <- polychoric(tmp_dat)
     tmp_cor <- tmp_cor$rho
