@@ -972,9 +972,17 @@ add to questionnaire
 ```{r}
 questionnaire$classes_conspiracy <- read.table(file = "outputs/lca_3.txt")$V12
 
+
+## save final questionnaire
+dim(questionnaire)
+write.xlsx2(x = questionnaire, file = "outputs/questionnaire_final.xlsx")
+
+
+
+
+### some descriptives
 table(questionnaire$classes_conspiracy, questionnaire$country)
 table(questionnaire$classes_conspiracy, questionnaire$politicalParty)
-
 
 
 ggbetweenstats(
@@ -983,15 +991,38 @@ ggbetweenstats(
   y = mean_CMQ
 )
 ```
-
+draw randomly 35 Persons for each country with high low conspiracy beliefs, assuming a drop-out of about 16.6%
 
 ```{r}
+table(questionnaire$classes_conspiracy, questionnaire$country)
 
 
+set.seed(12345)
+## low and Germany
+tmp_ids <- questionnaire$PROLIFIC_PID[questionnaire$country == "Germany" & questionnaire$classes_conspiracy == 1]
+tmp_dat <- data.frame(country = "Germany", classes_conspiracy = 1, ID = sample(x = tmp_ids, size = 35, replace = FALSE))
+## high and Germany
+tmp_ids <- questionnaire$PROLIFIC_PID[questionnaire$country == "Germany" & questionnaire$classes_conspiracy == 3]
+tmp_dat_out <- rbind(tmp_dat,
+                     data.frame(country = "Germany", classes_conspiracy = 3, ID = sample(x = tmp_ids, size = 35, replace = FALSE)))
 
-## save final questionnaire
-dim(questionnaire)
-write.xlsx2(x = questionnaire, file = "outputs/questionnaire_final.xlsx")
+## low and USA
+tmp_ids <- questionnaire$PROLIFIC_PID[questionnaire$country == "USA" & questionnaire$classes_conspiracy == 1]
+tmp_dat_out <- rbind(tmp_dat_out,
+                     data.frame(country = "USA", classes_conspiracy = 1, ID = sample(x = tmp_ids, size = 35, replace = FALSE)))
+## high and USA
+tmp_ids <- questionnaire$PROLIFIC_PID[questionnaire$country == "USA" & questionnaire$classes_conspiracy == 3]
+tmp_dat_out <- rbind(tmp_dat_out,
+                     data.frame(country = "USA", classes_conspiracy = 3, ID = sample(x = tmp_ids, size = 35, replace = FALSE)))
+
+
+table(tmp_dat_out$classes_conspiracy, tmp_dat_out$country)
+length(unique(tmp_dat_out$ID)) == nrow(tmp_dat_out)
+
+
+## save final IDs for t2
+write.xlsx2(x = tmp_dat_out, file = "outputs/IDs_t2.xlsx")
+
 ```
 
 
