@@ -231,7 +231,7 @@ const explanationCAM_htmlForm = new lab.html.Form({
 // Define the sequence of components that define the study
 const study = new lab.flow.Sequence({
   metadata: {
-    title: "CAMspiracy t2 Germany CAM",
+    title: "CAMspiracy t2 USA CAM",
     description: "CAMspiracy t2",
     repository: "",
     contributors: "Julius Fenn, Christophe Becht",

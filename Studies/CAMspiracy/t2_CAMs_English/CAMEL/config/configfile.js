@@ -1,6 +1,6 @@
 /* default values */
 var config = {
-    CAMproject: "CAMspiracy t2 Germany CAM", // "proj_" + uuid.v4(), // necessary for server (see ERM)
+    CAMproject: "CAMspiracy t2 USA CAM", // "proj_" + uuid.v4(), // necessary for server (see ERM)
     ConNumNodes: 12, // number of nodes necessary to draw
     
     hideArrows: true, // if false = possible to draw arrows

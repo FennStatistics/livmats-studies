@@ -1,4 +1,4 @@
-const Required_Testing = false; // set to false for production
+const Required_Testing = true; // set to false for production
 
 /* number of components / elements to set slider */
 const numElements = 13; // 8+5
@@ -37,7 +37,7 @@ const adaptive_meanValenece = new lab.html.Form({
 
 <footer class="content-vertical-center content-horizontal-right">
 <button id="continue" type="submit" form="page-form">
-Weiter &rarr;
+Continue &rarr;
 </button>
 </footer>
   `,
@@ -49,8 +49,8 @@ Weiter &rarr;
         $("#placeholder2").text("negativ");
       } else if (jatos.studySessionData.meanvalence > 0) {
         $("#placeholder2").text("positiv");
-      } else if (jatos.studySessionData.meanvalence = 0) {
-        $("#placeholder3").text("neutral");
+      } else if (jatos.studySessionData.meanvalence == 0) {
+        $("#placeholder2").text("neutral");
       }
     },
     commit: function anonymous() {
@@ -619,7 +619,7 @@ const EndingScreen_htmlScreen = new lab.html.Screen({
           study.options.datastore.extract("sender").includes("FeedbackScreen")
         ) {
           jatos.endStudyAndRedirect(
-            "https://drawyourminds.de/",  // !!! "https://app.prolific.co/submissions/complete?cc=C8FL71OE"
+            "https://app.prolific.co/submissions/complete?cc=C8FL71OE",  // !!! "https://app.prolific.co/submissions/complete?cc=C8FL71OE"
             true,
             "everything worked fine"
           );
@@ -660,7 +660,7 @@ const SCALES_sequence = new lab.flow.Sequence({
 // Define the sequence of components that define the study
 const study = new lab.flow.Sequence({
   metadata: {
-    title: "CAMspiracy t2 Germany CAM",
+    title: "CAMspiracy t2 USA CAM",
     description: "CAMspiracy t2",
     repository: "",
     contributors: "Julius Fenn, Christophe Becht",

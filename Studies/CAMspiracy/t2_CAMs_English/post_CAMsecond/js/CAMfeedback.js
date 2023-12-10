@@ -142,10 +142,10 @@ const textObjCAMfeedback = {
   <!--ans2--> 
   <tr>
    <td>
-     <input type="radio" name="feedCAM_technicalprobs" value="1" id="feedCAM_technicalprobs" required="">
+     <input type="radio" name="feedCAM_technicalprobs" value="1" id="feedCAM_technicalprobs2" required="">
    </td>
    <td>
-     <label for="feedCAM_technicalprobs" class="text-left">
+     <label for="feedCAM_technicalprobs2" class="text-left">
      Yes, there were technical problems, and these were the following:
      </label>
   <!-- single text --> 
@@ -191,10 +191,10 @@ const textObjCAMfeedback = {
   <!--ans2--> 
   <tr>
    <td>
-     <input type="radio" name="feedCAM_already" value="1" id="feedCAM_already" required="">
+     <input type="radio" name="feedCAM_already" value="1" id="feedCAM_already2" required="">
    </td>
    <td>
-     <label for="feedCAM_already" class="text-left">
+     <label for="feedCAM_already2" class="text-left">
      Not sure
      </label>
    </td>
@@ -202,10 +202,10 @@ const textObjCAMfeedback = {
   <!--ans3--> 
   <tr>
    <td>
-     <input type="radio" name="feedCAM_already" value="2" id="feedCAM_already" required="">
+     <input type="radio" name="feedCAM_already" value="2" id="feedCAM_already3" required="">
    </td>
    <td>
-     <label for="feedCAM_already" class="text-left">
+     <label for="feedCAM_already3" class="text-left">
      Yes, in the following context:
      </label>
   <!-- single text --> 

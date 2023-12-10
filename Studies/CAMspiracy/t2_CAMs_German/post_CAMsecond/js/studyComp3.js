@@ -1,4 +1,4 @@
-const Required_Testing = false; // set to false for production
+const Required_Testing = true; // set to false for production
 
 /* number of components / elements to set slider */
 const numElements = 13; // 8+5
@@ -49,8 +49,8 @@ Weiter &rarr;
         $("#placeholder2").text("negativ");
       } else if (jatos.studySessionData.meanvalence > 0) {
         $("#placeholder2").text("positiv");
-      } else if (jatos.studySessionData.meanvalence = 0) {
-        $("#placeholder3").text("neutral");
+      } else if (jatos.studySessionData.meanvalence == 0) {
+        $("#placeholder2").text("neutral");
       }
     },
     commit: function anonymous() {
@@ -619,7 +619,7 @@ const EndingScreen_htmlScreen = new lab.html.Screen({
           study.options.datastore.extract("sender").includes("FeedbackScreen")
         ) {
           jatos.endStudyAndRedirect(
-            "https://drawyourminds.de/",  // !!! "https://app.prolific.co/submissions/complete?cc=C8FL71OE"
+            "https://app.prolific.co/submissions/complete?cc=C8FL71OE",  // !!! ""
             true,
             "everything worked fine"
           );

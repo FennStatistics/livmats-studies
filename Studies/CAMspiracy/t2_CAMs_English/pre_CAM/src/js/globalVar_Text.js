@@ -185,7 +185,7 @@ const textObj = {
          </ul>
 <br>
 <br>
-We care about the quality of our survey data. For us to get the most accurate measures of your opinions, it is important that you provide thoughtful answers to each questions in this survey. 
+We care about the quality of our survey data. For us to get the most accurate measures of your opinions, it is important that you provide thoughtful answers to each question in this survey. 
 <br>
 <form id="page-form">
 <!-- see: https://www.qualtrics.com/blog/attention-checks-and-data-quality/ -->
@@ -367,7 +367,7 @@ We care about the quality of our survey data. For us to get the most accurate me
  
  <footer class="content-vertical-center content-horizontal-right">
    <button id="continue" type="submit" form="page-form">
-     Weiter &rarr;
+   Continue &rarr;
    </button>
  </footer>
  

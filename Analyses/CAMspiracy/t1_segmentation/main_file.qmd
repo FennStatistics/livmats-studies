@@ -468,11 +468,6 @@ questionnaire$mean_CCSQ  <- questionnaire %>%
   rowMeans(na.rm = TRUE)
 
 
-## save final questionnaire
-dim(questionnaire)
-write.xlsx2(x = questionnaire, file = "outputs/questionnaire_final.xlsx")
-
-
 
 psych::cor.plot(r = cor(questionnaire[, str_detect(string = colnames(questionnaire),
                                                    pattern = "^mean")], 
@@ -990,6 +985,14 @@ ggbetweenstats(
 ```
 
 
+```{r}
+
+
+
+## save final questionnaire
+dim(questionnaire)
+write.xlsx2(x = questionnaire, file = "outputs/questionnaire_final.xlsx")
+```
 
 
 

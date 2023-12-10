@@ -179,7 +179,7 @@ How often do you worry about the potentially negative consequences of climate ch
   <div class="w-l text-justify">
   </div>
   <button id="continue" type="submit" form="demography">
-  Weiter &rarr;
+  Continue &rarr;
 </button>
 
 </footer>
@@ -364,7 +364,7 @@ In your judgment, how likely do you think it is that climate change will have ve
   <div class="w-l text-justify">
   </div>
   <button id="continue" type="submit" form="demography">
-  Weiter &rarr;
+  Continue &rarr;
 </button>
 
 </footer>
@@ -921,7 +921,7 @@ Very religious(10)
 
   <footer class="content-vertical-center content-horizontal-right">
     <button id="continue" type="submit" form="page-form">
-        Weiter &rarr;
+    Continue &rarr;
     </button>
   </footer>
   `,
