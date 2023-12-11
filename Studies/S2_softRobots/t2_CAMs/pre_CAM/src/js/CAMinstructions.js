@@ -296,6 +296,7 @@ const CAMinst_multipage_htmlScreen = new lab.html.Screen({
 
       const moveForth = (selector) => {
         const target = study.options.el.querySelector(selector)
+        if(target !== null){
         if (target.nextElementSibling) {
           target.classList.add("hidden"); // hide current screen
           target.nextElementSibling.classList.remove("hidden"); //show next screen
@@ -308,10 +309,12 @@ const CAMinst_multipage_htmlScreen = new lab.html.Screen({
             done = true
           }
         }
+        }
       }
 
       const moveBack = (selector) => {
         target = study.options.el.querySelector(selector);
+        if(target !== null){
         if (target.previousElementSibling) { //.innerHTML !== undefined
           target.classList.add("hidden"); // hide current screen
           target.previousElementSibling.classList.remove("hidden"); // show previous screen
@@ -323,6 +326,7 @@ const CAMinst_multipage_htmlScreen = new lab.html.Screen({
           if (!target.previousElementSibling.previousElementSibling) { // if the beginning is reached
             setVisibility('#bck', false) // hide the back button
           }
+        }
         }
       }
 
@@ -344,6 +348,9 @@ const CAMinst_multipage_htmlScreen = new lab.html.Screen({
           doneOnce = false;
         }
       }
+    },
+    commit: function anonymous() {
+
     }
   },
 })

@@ -1,4 +1,4 @@
-const Required_Testing = false; // set to false for production
+const Required_Testing = true; // set to false for production
 
 /* number of components / elements to set slider */
 const numElements = 13; // 8+5
@@ -14,15 +14,17 @@ const htmlForm = new lab.html.Form({
     </h2>
     <br>
     <h3>
-    Bitte beantworten Sie zuerst folgende Frage zu Ihrer gezeichneten <i>Mind-Map</i>:
+    Bitte beantworten Sie zuerst folgende Frage zu Ihrer angepassten <i>Mind-Map</i>:
     </h3>
   </header>
   <main class="content-horizontal-center content-vertical-center">
   <div class="w-l text-justify">
   <form id="page-form">
-    Ihre gezeichnete <i>Mind-Map</i> hatte eine durchschnittliche emotionale Bewertung von 
-    <span id="placeholder" style="font-weight: bold;">XXX</span>, bitte erklären Sie, warum Ihre insgesamt gezeichnete <i>Mind-Map</i> 
-    <span id="placeholder2" style="font-weight: bold;">XXX</span> war
+    Ihre angepasste <i>Mind-Map</i> hatte eine durchschnittliche emotionale Bewertung von 
+    <span id="placeholder" style="font-weight: bold;">XXX</span>, diese war im Vergleich zu ihrer anfangs gezeichneten <i>Mind-Map</i> 
+    (durchschnittliche emotionale Bewertung von <span id="placeholder_b" style="font-weight: bold;">XXX</span>) 
+    <span id="placeholder2" style="font-weight: bold;">XXX</span>. Bitte erklären Sie, warum Sie diese 
+    <span id="placeholder2_b" style="font-weight: bold;">XXX</span> wahrgenommen haben:
       <textarea rows="10" name="ans1" style="width: 100%;" placeholder="Schreiben Sie hier Ihre Antwort..." required></textarea>
     </div>
 </main>
@@ -36,13 +38,21 @@ Weiter &rarr;
   `,
   messageHandlers: {
     run: function anonymous(){
-      $("#placeholder").text(Number(jatos.studySessionData.meanvalence.toFixed(2)));
-      if(jatos.studySessionData.meanvalence < 0){
-        $("#placeholder2").text("negativ");
-      }else if(jatos.studySessionData.meanvalence > 0){
-        $("#placeholder2").text("positiv");
-      }else if(jatos.studySessionData.meanvalence = 0){
-        $("#placeholder3").text("neutral");
+      var meanDifference = jatos.studySessionData.meanvalence2 - jatos.studySessionData.meanvalence;
+
+      // show mean values
+      $("#placeholder").text(Number(jatos.studySessionData.meanvalence2.toFixed(2))); // post
+      $("#placeholder_b").text(Number(jatos.studySessionData.meanvalence.toFixed(2))); // pre
+      
+      if(meanDifference < 0){
+        $("#placeholder2").text("negativer");
+        $("#placeholder2_b").text("negativer");
+      }else if(meanDifference > 0){
+        $("#placeholder2").text("positiver");
+        $("#placeholder2_b").text("positiver");
+      }else if(meanDifference == 0){
+        $("#placeholder2").text("unverändert");
+        $("#placeholder2_b").text("unverändert");
       }
     },
     commit: function anonymous() {
@@ -800,7 +810,7 @@ const EndingScreen_htmlScreen = new lab.html.Screen({
           study.options.datastore.extract("sender").includes("FeedbackScreen")
         ) {
           jatos.endStudyAndRedirect(
-            "https://app.prolific.co/submissions/complete?cc=C8FL71OE",  // !!! https://drawyourminds.de/
+            "https://app.prolific.com/submissions/complete?cc=C1O1B8DE",  // !!! https://drawyourminds.de/
             true,
             "everything worked fine"
           );
@@ -841,11 +851,13 @@ const study = new lab.flow.Sequence({
   },
   plugins: [
     //new lab.plugins.Metadata(),
-    new lab.plugins.Debug(), // comment out finally
+    //new lab.plugins.Debug(), // comment out finally
     //new lab.plugins.Download()
   ],
   content: [
+    break500,
     htmlForm,
+
     /*
     break500,
     CAMfeedbackGeneral_htmlForm,
@@ -854,7 +866,7 @@ const study = new lab.flow.Sequence({
 */
     SCALES_sequence,
     FeedbackScreen_htmlScreen,
-    EndingScreen_htmlScreen,
+    EndingScreen_htmlScreen
   ],
 })
 

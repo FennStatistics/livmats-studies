@@ -35,15 +35,15 @@ const textObj = {
        <section>
        <br>
        <br>
-       Die Dauer der Studie beträgt <b>etwa 45 Minuten</b>. Unten sehen Sie eine Fortschrittsleiste, die sich zunehmend grüner färbt und Ihren Fortschritt in der Studie symbolisiert. 
+       Die Dauer der Studie beträgt <b>etwa 40 Minuten</b>. Unten sehen Sie eine Fortschrittsleiste, die sich zunehmend grüner färbt und Ihren Fortschritt in der Studie symbolisiert. 
        Bitte benutzen Sie für die Studie einen <b>Computer oder Laptop mit Tastatur</b>. 
        Bitte stellen Sie sicher, dass Sie an der Studie ungestört teilnehmen können.
        </section>
        <br>
        <section>
        Das Ziel der Studie ist es, Einstellungen und Gefühle gegenüber Robotern, die sich in der Entwicklung befinden, zu erheben. Dafür setzen wir eine Methode ein, die "Cognitive-Affective Mapping" (CAM-Methode) heißt und bei der Sie eine Art Mind-Map 
-       zeichnen werden. Zusätzlich werden wir Ihnen allgemeine Fragen zu den Robotern stellen. Dabei werden wir Sie insbesondere fragen, wie diese designt sein sollten, um als sicher zu gelten. Auf den nächsten Seiten, erhalten Sie weitere Informationen 
-       über den genauen Ablauf der Studie. Zunächst möchten wir Sie bitten, auf der folgenden Seite der informierten Einwilligung zuzustimmen.
+       zeichnen werden. Zusätzlich werden wir Ihnen allgemeine Fragen zu den Robotern stellen. Dabei werden wir Sie insbesondere fragen, wie diese designt sein sollten, um als sicher zu gelten. Auf den nächsten Seiten erhalten Sie weitere Informationen 
+       über den genauen Ablauf der Studie. Zunächst möchten wir Sie bitten, auf der folgenden Seite der aufgeklärten Einwilligung zuzustimmen.
        </section>
    </div>
  </main>
@@ -350,7 +350,7 @@ Verpflichten Sie sich, in dieser Umfrage wohlüberlegte Antworten zu geben?
          <td>2) Lesen Sie einen Szenario-Text über einen <span id="placeholderRobot">XXX</span>.</td>
        </tr>
        <tr>
-         <td>3) Zeichnen Sie eine <i>Mind-Map</i> zu Ihrern Einstellung und Gefühlen gegenüber einen <span id="placeholderRobot2">XXX</span>.</td>
+         <td>3) Zeichnen Sie eine <i>Mind-Map</i> zu Ihren Einstellung und Ihren Gefühlen gegenüber einem <span id="placeholderRobot2">XXX</span>.</td>
        </tr>
        <tr>
        <td>4) Passen Sie Ihre <i>Mind-Map</i> an.</td>

@@ -319,7 +319,7 @@ const explanationSR2_htmlForm = new lab.html.Form({
               <ul>
               <li>Benutzer*innen könnten eine Abhängigkeit von sozialen Assistenzrobotern entwickeln</li>
               <li>Die Verwendung von sozialen Assistenzrobotern könnte zu Arbeitslosigkeit führen, da Roboter möglicherweise Menschen am Arbeitsplatz ersetzen (zum Beispiel als Therapeut*innen)</li>
-              <li>Mensch-Roboter-Interaktionen könnten menschliche Interaktionen beeinflussen, da der Umgang mit Robotern unsere Erwartungen, Verhaltensweisen und Wahrnehmungen in sozialen Umgebungen formen können</li>
+              <li>Mensch-Roboter-Interaktionen könnten menschliche Interaktionen beeinflussen, da der Umgang mit Robotern unsere Erwartungen, Verhaltensweisen und Wahrnehmungen in sozialen Umgebungen formen könnten</li>
             </ul>
               `);
             }
@@ -354,7 +354,7 @@ const explanationSR3_htmlForm = new lab.html.Form({
               Die Entwicklung von Rettungsrobotern befindet sich derzeit noch in den Anfängen. Sie können zur Entwicklung ethisch sicherer Roboter für Such- und Rettungsmissionen beitragen. 
               Dafür möchten wir Ihre Einstellungen und Gefühle zu Rettungsrobotern herausfinden. Zu diesem Zweck haben wir Ihnen die zentralen Konzepte "Rettungsroboter", "Vorteile" und "Nachteile" im Zentrum Ihrer Mind-Map vordefiniert. 
               Von diesen vorgegebenen Konzepten kann nur die emotionale Bewertung und nicht der Text geändert werden. 
-              Im Folgenden bitten wir Sie, ihre Gedanken und Gefühle hinsichtlich der Frage 
+              Im Folgenden bitten wir Sie, Ihre Gedanken und Gefühle hinsichtlich der Frage 
               <b>Welche Vorteile und Nachteile fallen Ihnen bezüglich des Einsatzes von Rettungsrobotern bei Such- und Rettungseinsätzen ein?</b> in Ihrer Mind-Map zu zeichnen. 
               Dafür sollen Sie alle Vorteile und Nachteile, die Ihnen bezüglich Rettungsrobotern einfallen, um vorgegebenen Konzepte "Rettungsroboter", "Vorteile" und "Nachteile" herumzeichnen. Die anfängliche Mind-Map sieht so aus:               
               `);
@@ -370,7 +370,7 @@ const explanationSR3_htmlForm = new lab.html.Form({
               Die Entwicklung von sozialen Assistenzrobotern befindet sich derzeit noch in den Anfängen. Sie können zur Entwicklung ethisch sicherer sozialer Assistenzroboter beitragen. 
               Dafür möchten wir Ihre Einstellungen und Gefühle zu sozialen Assistenzrobotern herausfinden. Zu diesem Zweck haben wir Ihnen die zentralen Konzepte "sozialer Assistenzroboter", "Vorteile" und "Nachteile" im Zentrum Ihrer Mind-Map vordefiniert. 
               Von diesen vorgegebenen Konzepten kann nur die emotionale Bewertung und nicht der Text geändert werden. 
-              Im Folgenden bitten wir Sie, ihre Gedanken und Gefühle hinsichtlich der Frage 
+              Im Folgenden bitten wir Sie, Ihre Gedanken und Gefühle hinsichtlich der Frage 
               <b>Welche Vorteile und Nachteile fallen Ihnen bezüglich des Einsatzes von sozialen Assistenzrobotern in Therapie, Altenpflege, Bildung oder als soziale Begleiter ein?</b> in Ihrer Mind-Map zu zeichnen. 
               Dafür sollen Sie alle Vorteile und Nachteile, die Ihnen bezüglich sozialer Assistenzroboter einfallen, um die vorgegebenen Konzepte "sozialer Assistenzroboter", "Vorteile" und "Nachteile" herumzeichnen. Die anfängliche Mind-Map sieht so aus: 
               `);
