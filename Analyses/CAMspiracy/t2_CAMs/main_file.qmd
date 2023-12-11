@@ -39,11 +39,11 @@ writeLines("", "CAMdata_Germany.txt") # create file
 text_connection <- file("CAMdata_Germany.txt", "a") # open connection to append
 
 ### get pre CAM data
-writeLines("", "preCAM.txt") # create file
+writeLines("", "preCAM_Germany.txt") # create file
 text_connection_pre <- file("preCAM_Germany.txt", "a") # open connection to append
 
 ### get post CAM data
-writeLines("", "postCAM.txt") # create file
+writeLines("", "postCAM_Germany.txt") # create file
 text_connection_post <- file("postCAM_Germany.txt", "a") # open connection to append
 
 for(i in 1:length(folders)){
@@ -104,11 +104,11 @@ writeLines("", "CAMdata_USA.txt") # create file
 text_connection <- file("CAMdata_USA.txt", "a") # open connection to append
 
 ### get pre CAM data
-writeLines("", "preCAM.txt") # create file
+writeLines("", "preCAM_USA.txt") # create file
 text_connection_pre <- file("preCAM_USA.txt", "a") # open connection to append
 
 ### get post CAM data
-writeLines("", "postCAM.txt") # create file
+writeLines("", "postCAM_USA.txt") # create file
 text_connection_post <- file("postCAM_USA.txt", "a") # open connection to append
 
 for(i in 1:length(folders)){

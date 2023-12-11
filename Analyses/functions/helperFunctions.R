@@ -2,6 +2,13 @@
 ########################################
 # json (from JATOS) to table
 ########################################
+### argss:
+# dataset = dat_secondPostCAM
+# listvars = vec_ques
+# notNumeric = vec_notNumeric
+# verbose = TRUE
+
+
 questionnairetype <- function(dataset,
                               listvars = ques_mixed,
                               notNumeric = vec_notNumeric,
@@ -24,6 +31,9 @@ questionnairetype <- function(dataset,
       ## tmp value variable
       tmpvalue <- dataset[, listvars[c]][!is.na(dataset[, listvars[c]])]
       datasetques[listvars[c]]  <- NA
+
+
+
 
       if(listvars[c] %in% notNumeric){
         datasetques[datasetques$ID %in% tmpid, listvars[c]] <- tmpvalue
