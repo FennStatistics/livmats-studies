@@ -1,5 +1,5 @@
 ---
-title: "Main File for t1 Segementation Study (USA sample)"
+title: "Main File for t1 Segementation Study (USA, Germany samples)"
 author: "Julius Fenn, Christophe Becht"
 format:
   html:

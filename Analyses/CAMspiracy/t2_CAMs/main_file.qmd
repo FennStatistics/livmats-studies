@@ -1,0 +1,670 @@
+---
+title: "Main File for t2 CAM study (USA, Germany samples)"
+author: "Julius Fenn, Christophe Becht"
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    html-math-method: katex
+---
+
+```{r}
+#| echo: false
+#| warning: false
+#| results: hide
+#| 
+# sets the directory of location of this script as the current directory
+# setwd(dirname(rstudioapi::getSourceEditorContext()$path))
+
+########################################
+# load packages
+########################################
+require(pacman)
+p_load('tidyverse', 'jsonlite', 'magrittr', 'xlsx',
+       'stargazer', 'psych', 'jtools', 'DT', 'ggstatsplot', 
+       'lavaan', 
+       'regsem', 'MplusAutomation', 'igraph')
+
+########################################
+# list data files
+########################################
+setwd("data/Germany")
+folders <- list.files(pattern = "^study_result.*")
+
+########################################
+# create data files - GERMANY
+########################################
+### get CAM data
+writeLines("", "CAMdata_Germany.txt") # create file
+text_connection <- file("CAMdata_Germany.txt", "a") # open connection to append
+
+### get pre CAM data
+writeLines("", "preCAM.txt") # create file
+text_connection_pre <- file("preCAM_Germany.txt", "a") # open connection to append
+
+### get post CAM data
+writeLines("", "postCAM.txt") # create file
+text_connection_post <- file("postCAM_Germany.txt", "a") # open connection to append
+
+for(i in 1:length(folders)){
+  setwd(folders[i])
+  if(length(dir()) == 3){
+    # print(i)
+    ### CAM data
+    setwd(dir()[2])
+    tmp <- jsonlite::fromJSON(txt = "data.txt")
+    writeLines(jsonlite::toJSON(x = tmp), text_connection)
+    setwd("..")
+
+    ### pre CAM data
+    setwd(dir()[1])
+    tmp <- jsonlite::fromJSON(txt = "data.txt")
+    writeLines(jsonlite::toJSON(x = tmp), text_connection_pre)
+    setwd("..")
+
+    ### post CAM data
+    setwd(dir()[3])
+    tmp <- jsonlite::fromJSON(txt = "data.txt")
+    writeLines(jsonlite::toJSON(x = tmp), text_connection_post)
+    setwd("..")
+  }
+  setwd("..")
+}
+close(text_connection) # close connection
+close(text_connection_pre) # close connection
+close(text_connection_post) # close connection
+
+########################################
+# move files to output folder
+########################################
+### copy files (not overwritten)
+tmp_file_from <-  getwd()
+setwd("../../outputs")
+file.copy(from =  paste0(tmp_file_from, "/CAMdata_Germany.txt"), to = paste0(getwd(), "/CAMdata_Germany.txt"))
+file.copy(from =  paste0(tmp_file_from, "/preCAM_Germany.txt"), to = paste0(getwd(), "/preCAM_Germany.txt"))
+file.copy(from =  paste0(tmp_file_from, "/postCAM_Germany.txt"), to = paste0(getwd(), "/postCAM_Germany.txt"))
+### remove files
+file.remove(paste0(tmp_file_from, "/CAMdata_Germany.txt"))
+file.remove(paste0(tmp_file_from, "/preCAM_Germany.txt"))
+file.remove(paste0(tmp_file_from, "/postCAM_Germany.txt"))
+
+
+
+########################################
+# list data files - USA
+########################################
+setwd("../data/USA")
+folders <- list.files(pattern = "^study_result.*")
+
+########################################
+# create data files
+########################################
+### get CAM data
+writeLines("", "CAMdata_USA.txt") # create file
+text_connection <- file("CAMdata_USA.txt", "a") # open connection to append
+
+### get pre CAM data
+writeLines("", "preCAM.txt") # create file
+text_connection_pre <- file("preCAM_USA.txt", "a") # open connection to append
+
+### get post CAM data
+writeLines("", "postCAM.txt") # create file
+text_connection_post <- file("postCAM_USA.txt", "a") # open connection to append
+
+for(i in 1:length(folders)){
+  setwd(folders[i])
+  if(length(dir()) == 3){
+    # print(i)
+    ### CAM data
+    setwd(dir()[2])
+    tmp <- jsonlite::fromJSON(txt = "data.txt")
+    writeLines(jsonlite::toJSON(x = tmp), text_connection)
+    setwd("..")
+
+    ### pre CAM data
+    setwd(dir()[1])
+    tmp <- jsonlite::fromJSON(txt = "data.txt")
+    writeLines(jsonlite::toJSON(x = tmp), text_connection_pre)
+    setwd("..")
+
+    ### post CAM data
+    setwd(dir()[3])
+    tmp <- jsonlite::fromJSON(txt = "data.txt")
+    writeLines(jsonlite::toJSON(x = tmp), text_connection_post)
+    setwd("..")
+  }
+  setwd("..")
+}
+close(text_connection) # close connection
+close(text_connection_pre) # close connection
+close(text_connection_post) # close connection
+
+########################################
+# move files to output folder
+########################################
+### copy files (not overwritten)
+tmp_file_from <-  getwd()
+setwd("../../outputs")
+file.copy(from =  paste0(tmp_file_from, "/CAMdata_USA.txt"), to = paste0(getwd(), "/CAMdata_USA.txt"))
+file.copy(from =  paste0(tmp_file_from, "/preCAM_USA.txt"), to = paste0(getwd(), "/preCAM_USA.txt"))
+file.copy(from =  paste0(tmp_file_from, "/postCAM_USA.txt"), to = paste0(getwd(), "/postCAM_USA.txt"))
+### remove files
+file.remove(paste0(tmp_file_from, "/CAMdata_USA.txt"))
+file.remove(paste0(tmp_file_from, "/preCAM_USA.txt"))
+file.remove(paste0(tmp_file_from, "/postCAM_USA.txt"))
+
+########################################
+# load functions
+########################################
+print(getwd())
+setwd("../../../functions")
+for(i in 1:length(dir())){
+  # print(dir()[i])
+  source(dir()[i], encoding = "utf-8")
+}
+
+
+setwd("../functions_CAMapp")
+for(i in 1:length(dir())){
+  # print(dir()[i])
+  source(dir()[i], encoding = "utf-8")
+}
+rm(i)
+```
+
+# Notes
+
+Remark: "dat" at first is the data set of N=150 americans who have the political affilication "Democrat"; in opposition to "dat_Republican"
+
+
+# prepare data
+
+## set up data.frame questionnaires
+
+### for Germany
+
+```{r}
+setwd("outputs")
+########################################
+# Germany
+########################################
+# > pre study
+suppressMessages(read_file('preCAM_Germany.txt') %>%
+                   # ... split it into lines ...
+                   str_split('\n') %>% first() %>%
+                   # ... filter empty rows ...
+                   discard(function(x) x == '') %>%
+                   # ... parse JSON into a data.frame
+                   map_dfr(fromJSON, flatten=TRUE)) -> dat_preCAM_Germany
+# > post study
+suppressMessages(read_file('postCAM_Germany.txt') %>%
+                   # ... split it into lines ...
+                   str_split('\n') %>% first() %>%
+                   # ... filter empty rows ...
+                   discard(function(x) x == '') %>%
+                   # ... parse JSON into a data.frame
+                   map_dfr(fromJSON, flatten=TRUE)) -> dat_postCAM_Germany
+
+
+########################################
+# create counter variable for both data sets
+########################################
+### pre study
+dat_preCAM_Germany$ID <- NA
+dat_preCAM_Germany$country <- NA
+
+tmp_IDcounter <- 0
+for(i in 1:nrow(dat_preCAM_Germany)){
+  if(!is.na(dat_preCAM_Germany$sender[i]) && dat_preCAM_Germany$sender[i] == "Greetings"){
+    # tmp <- dat_preCAM_Germany$prolific_pid[i]
+    tmp_IDcounter = tmp_IDcounter + 1
+    dat_preCAM_Germany$country[i] <- "Germany" ## add country
+  }
+  dat_preCAM_Germany$ID[i] <- tmp_IDcounter
+}
+
+### post study
+dat_postCAM_Germany$ID <- NA
+dat_postCAM_Germany$country <- NA
+
+tmp_IDcounter <- 0
+for(i in 1:nrow(dat_postCAM_Germany)){
+  if(!is.na(dat_postCAM_Germany$sender[i]) && dat_postCAM_Germany$sender[i] == "CAMfeedbackGeneral"){
+    # tmp <- dat_postCAM_Germany$prolific_pid[i]
+    tmp_IDcounter = tmp_IDcounter + 1
+    dat_postCAM_Germany$country[i] <- "Germany" ## add country
+  }
+  dat_postCAM_Germany$ID[i] <- tmp_IDcounter
+}
+
+
+########################################
+# keep only complete data sets
+########################################
+### pre-study
+sum(table(dat_preCAM_Germany$ID) != max(table(dat_preCAM_Germany$ID)))
+sum(table(dat_preCAM_Germany$ID) == max(table(dat_preCAM_Germany$ID)))
+
+dat_preCAM_Germany <- dat_preCAM_Germany[dat_preCAM_Germany$ID %in% names(table(dat_preCAM_Germany$ID))[table(dat_preCAM_Germany$ID) == max(table(dat_preCAM_Germany$ID))],]
+
+### post-study
+sum(table(dat_postCAM_Germany$ID) != max(table(dat_postCAM_Germany$ID)))
+sum(table(dat_postCAM_Germany$ID) == max(table(dat_postCAM_Germany$ID)))
+
+dat_postCAM_Germany <- dat_postCAM_Germany[dat_postCAM_Germany$ID %in% names(table(dat_postCAM_Germany$ID))[table(dat_postCAM_Germany$ID) == max(table(dat_postCAM_Germany$ID))],]
+
+
+########################################
+# json (from JATOS) to 2D data.frame
+########################################
+################################ pre-study
+tmp_notNumeric <- str_subset(string = colnames(dat_preCAM_Germany), pattern = "^meta|^R")
+tmp_notNumeric <- str_subset(string = tmp_notNumeric, pattern = "labjs|location", negate = TRUE)
+
+
+vec_ques <- c("PROLIFIC_PID",
+                "dummy_informedconsent",
+                "commCheck",
+                "country",  tmp_notNumeric)
+
+vec_notNumeric = c("PROLIFIC_PID",
+                   "country",
+                   tmp_notNumeric)
+
+questionnaire_preCAM_Germany <- questionnairetype(dataset = dat_preCAM_Germany, 
+                                        listvars = vec_ques, 
+                                        notNumeric = vec_notNumeric)
+
+
+################################ post-study
+tmp_numeric <- str_subset(string = colnames(dat_postCAM_Germany), pattern = "^Biospheric|^probabilityClimate|^concernClimate|^Risk|^policyItems|rlgdgr")
+
+
+vec_ques <- c("PROLIFIC_PID",
+                tmp_numeric,
+                "education",
+                "feedback_critic",
+                "country")
+
+vec_notNumeric = c("PROLIFIC_PID",
+                   "education",
+                   "feedback_critic",
+                   "country")
+
+questionnaire_postCAM_Germany <- questionnairetype(dataset = dat_postCAM_Germany, 
+                                        listvars = vec_ques, 
+                                        notNumeric = vec_notNumeric)
+
+
+dim(questionnaire_preCAM_Germany)
+dim(questionnaire_postCAM_Germany)
+
+questionnaire_Germany <- left_join(questionnaire_preCAM_Germany, questionnaire_postCAM_Germany, by="ID") # !!!
+dim(questionnaire_Germany)
+```
+
+### for USA
+
+```{r}
+setwd("outputs")
+########################################
+# Germany
+########################################
+# > pre study
+suppressMessages(read_file('preCAM_USA.txt') %>%
+                   # ... split it into lines ...
+                   str_split('\n') %>% first() %>%
+                   # ... filter empty rows ...
+                   discard(function(x) x == '') %>%
+                   # ... parse JSON into a data.frame
+                   map_dfr(fromJSON, flatten=TRUE)) -> dat_preCAM_USA
+# > post study
+suppressMessages(read_file('postCAM_USA.txt') %>%
+                   # ... split it into lines ...
+                   str_split('\n') %>% first() %>%
+                   # ... filter empty rows ...
+                   discard(function(x) x == '') %>%
+                   # ... parse JSON into a data.frame
+                   map_dfr(fromJSON, flatten=TRUE)) -> dat_postCAM_USA
+
+
+########################################
+# create counter variable for both data sets
+########################################
+### pre study
+dat_preCAM_USA$ID <- NA
+dat_preCAM_USA$country <- NA
+
+tmp_IDcounter <- 0
+for(i in 1:nrow(dat_preCAM_USA)){
+  if(!is.na(dat_preCAM_USA$sender[i]) && dat_preCAM_USA$sender[i] == "Greetings"){
+    # tmp <- dat_preCAM_USA$prolific_pid[i]
+    tmp_IDcounter = tmp_IDcounter + 1
+    dat_preCAM_USA$country[i] <- "Germany" ## add country
+  }
+  dat_preCAM_USA$ID[i] <- tmp_IDcounter
+}
+
+### post study
+dat_postCAM_USA$ID <- NA
+dat_postCAM_USA$country <- NA
+
+tmp_IDcounter <- 0
+for(i in 1:nrow(dat_postCAM_USA)){
+  if(!is.na(dat_postCAM_USA$sender[i]) && dat_postCAM_USA$sender[i] == "CAMfeedbackGeneral"){
+    # tmp <- dat_postCAM_USA$prolific_pid[i]
+    tmp_IDcounter = tmp_IDcounter + 1
+    dat_postCAM_USA$country[i] <- "Germany" ## add country
+  }
+  dat_postCAM_USA$ID[i] <- tmp_IDcounter
+}
+
+
+########################################
+# keep only complete data sets
+########################################
+### pre-study
+sum(table(dat_preCAM_USA$ID) != max(table(dat_preCAM_USA$ID)))
+sum(table(dat_preCAM_USA$ID) == max(table(dat_preCAM_USA$ID)))
+
+dat_preCAM_USA <- dat_preCAM_USA[dat_preCAM_USA$ID %in% names(table(dat_preCAM_USA$ID))[table(dat_preCAM_USA$ID) == max(table(dat_preCAM_USA$ID))],]
+
+### post-study
+sum(table(dat_postCAM_USA$ID) != max(table(dat_postCAM_USA$ID)))
+sum(table(dat_postCAM_USA$ID) == max(table(dat_postCAM_USA$ID)))
+
+dat_postCAM_USA <- dat_postCAM_USA[dat_postCAM_USA$ID %in% names(table(dat_postCAM_USA$ID))[table(dat_postCAM_USA$ID) == max(table(dat_postCAM_USA$ID))],]
+
+
+########################################
+# json (from JATOS) to 2D data.frame
+########################################
+################################ pre-study
+tmp_notNumeric <- str_subset(string = colnames(dat_preCAM_USA), pattern = "^meta|^R")
+tmp_notNumeric <- str_subset(string = tmp_notNumeric, pattern = "labjs|location", negate = TRUE)
+
+
+vec_ques <- c("PROLIFIC_PID",
+                "dummy_informedconsent",
+                "commCheck",
+                "country",  tmp_notNumeric)
+
+vec_notNumeric = c("PROLIFIC_PID",
+                   "country",
+                   tmp_notNumeric)
+
+questionnaire_preCAM_USA <- questionnairetype(dataset = dat_preCAM_USA, 
+                                        listvars = vec_ques, 
+                                        notNumeric = vec_notNumeric)
+
+
+################################ post-study
+tmp_numeric <- str_subset(string = colnames(dat_postCAM_USA), pattern = "^Biospheric|^probabilityClimate|^concernClimate|^Risk|^policyItems|rlgdgr")
+
+
+vec_ques <- c("PROLIFIC_PID",
+                tmp_numeric,
+                "education",
+                "feedback_critic",
+                "country")
+
+vec_notNumeric = c("PROLIFIC_PID",
+                   "education",
+                   "feedback_critic",
+                   "country")
+
+questionnaire_postCAM_USA <- questionnairetype(dataset = dat_postCAM_USA, 
+                                        listvars = vec_ques, 
+                                        notNumeric = vec_notNumeric)
+
+
+dim(questionnaire_preCAM_USA)
+dim(questionnaire_postCAM_USA)
+
+questionnaire_USA <- left_join(questionnaire_preCAM_USA, questionnaire_postCAM_USA, by="ID") # !!!
+dim(questionnaire_USA)
+```
+
+
+## set up CAM data
+
+### for Germany
+
+Load CAM data
+
+```{r, message = FALSE}
+setwd("outputs")
+suppressMessages(read_file("CAMdata_Germany_removedEmptyLine.txt") %>%
+  # ... split it into lines ...
+  str_split('\n') %>% first() %>%
+  # ... filter empty rows ...
+  discard(function(x) x == '')) -> dat_CAM_Germany
+
+raw_CAM_Germany <- list()
+for(i in 1:length(dat_CAM_Germany)){
+  raw_CAM_Germany[[i]] <- jsonlite::fromJSON(txt = dat_CAM_Germany[[i]])
+}
+```
+
+Create CAM files, draw CAMs and compute network indicators
+
+```{r, message = FALSE}
+########################################
+# create CAM single files (nodes, connectors, merged)
+########################################
+CAMfiles_Germany <- create_CAMfiles(datCAM = raw_CAM_Germany, reDeleted = TRUE)
+
+########################################
+# draw CAMs
+########################################
+CAMdrawn_Germany <- draw_CAM(dat_merged = CAMfiles_Germany[[3]],
+                     dat_nodes = CAMfiles_Germany[[1]],ids_CAMs = "all",
+                     plot_CAM = FALSE,
+                     useCoordinates = TRUE,
+                     relvertexsize = 3,
+                     reledgesize = 1)
+
+########################################
+# draw CAMs
+########################################
+tmp_microIndicator <- c("Klimawandel")
+networkIndicators_Germany <- compute_indicatorsCAM(drawn_CAM = CAMdrawn_Germany, 
+                                           micro_degree = tmp_microIndicator, 
+                                           micro_valence = tmp_microIndicator, 
+                                           micro_centr_clo = tmp_microIndicator, 
+                                           micro_transitivity = tmp_microIndicator, 
+                                           largestClique = FALSE)
+
+
+########################################
+# wordlists
+########################################
+CAMwordlist_Germany <- create_wordlist(
+  dat_nodes =  CAMfiles_Germany[[1]],
+  dat_merged =  CAMfiles_Germany[[3]],
+  order = "frequency",
+  splitByValence = FALSE,
+  comments = TRUE,
+  raterSubsetWords = NULL,
+  rater = FALSE
+)
+
+DT::datatable(CAMwordlist_Germany, options = list(pageLength = 5)) 
+```
+
+
+### save CAMs as .json files, and as .png (igraph)
+
+
+
+```{r saveCAMs_pictures_Germany, message = FALSE}
+save_CAMs_as_pictures = FALSE
+
+if(save_CAMs_as_pictures){
+  setwd("outputs")
+
+setwd("savedCAMs_Germany")
+setwd("png")
+### remove all files if there are any
+if(length(list.files()) >= 1){
+  file.remove(list.files())
+  cat('\n!
+      all former .png files have been deleted')
+}
+
+### if no participant ID was provided replace by randomly generated CAM ID
+
+if(all(CAMfiles_Germany[[3]]$participantCAM.x == "noID")){
+  CAMfiles_Germany[[3]]$participantCAM.x <- CAMfiles_Germany[[3]]$CAM.x
+}
+
+### save as .json files, and as .png (igraph)
+ids_CAMs <- unique(CAMfiles_Germany[[3]]$participantCAM.x); length(ids_CAMs)
+
+
+for(i in 1:length(ids_CAMs)){
+  save_graphic(filename = paste0(ids_CAMs[i]))
+  CAM_igraph <- CAMdrawn_Germany[[c(1:length(CAMdrawn_Germany))[
+    names(CAMdrawn_Germany) == paste0(unique(CAMfiles_Germany[[3]]$participantCAM.x)[i])]]]
+  plot(CAM_igraph, edge.arrow.size = .7,
+       layout=layout_nicely, vertex.frame.color="black", asp = .5, margin = -0.1,
+       vertex.size = 10, vertex.label.cex = .9)
+  dev.off()
+}
+
+setwd("../json")
+### remove all files if there are any
+if(length(list.files()) >= 1){
+  file.remove(list.files())
+  cat('\n!
+      all former .json files have been deleted')
+}
+for(i in 1:length(raw_CAM_Germany)){
+  if(!is_empty(raw_CAM_Germany[[i]]$nodes)){
+    if(nrow(raw_CAM_Germany[[i]]$nodes) > 5){
+      write(toJSON(raw_CAM_Germany[[i]], encoding = "UTF-8"),
+            paste0(raw_CAM_Germany[[i]]$idCAM, ".json"))
+    }
+  }
+}
+}
+```
+
+
+### for USA
+
+
+```{r, message = FALSE}
+setwd("outputs")
+suppressMessages(read_file("CAMdata_USA_removedEmptyLine.txt") %>%
+  # ... split it into lines ...
+  str_split('\n') %>% first() %>%
+  # ... filter empty rows ...
+  discard(function(x) x == '')) -> dat_CAM_USA
+
+raw_CAM_USA <- list()
+for(i in 1:length(dat_CAM_USA)){
+  raw_CAM_USA[[i]] <- jsonlite::fromJSON(txt = dat_CAM_USA[[i]])
+}
+```
+
+Create CAM files, draw CAMs and compute network indicators
+
+```{r, message = FALSE}
+########################################
+# create CAM single files (nodes, connectors, merged)
+########################################
+CAMfiles_USA <- create_CAMfiles(datCAM = raw_CAM_USA, reDeleted = TRUE)
+
+########################################
+# draw CAMs
+########################################
+CAMdrawn_USA <- draw_CAM(dat_merged = CAMfiles_USA[[3]],
+                     dat_nodes = CAMfiles_USA[[1]],ids_CAMs = "all",
+                     plot_CAM = FALSE,
+                     useCoordinates = TRUE,
+                     relvertexsize = 3,
+                     reledgesize = 1)
+
+########################################
+# draw CAMs
+########################################
+tmp_microIndicator <- c("Climate Change")
+networkIndicators_USA <- compute_indicatorsCAM(drawn_CAM = CAMdrawn_USA, 
+                                           micro_degree = tmp_microIndicator, 
+                                           micro_valence = tmp_microIndicator, 
+                                           micro_centr_clo = tmp_microIndicator, 
+                                           micro_transitivity = tmp_microIndicator, 
+                                           largestClique = FALSE)
+
+########################################
+# wordlists
+########################################
+CAMwordlist_USA <- create_wordlist(
+  dat_nodes =  CAMfiles_USA[[1]],
+  dat_merged =  CAMfiles_USA[[3]],
+  order = "frequency",
+  splitByValence = FALSE,
+  comments = TRUE,
+  raterSubsetWords = NULL,
+  rater = FALSE
+)
+
+DT::datatable(CAMwordlist_USA, options = list(pageLength = 5)) 
+```
+
+
+### save CAMs as .json files, and as .png (igraph)
+
+```{r saveCAMs_pictures_USA, message = FALSE}
+save_CAMs_as_pictures = FALSE
+
+if(save_CAMs_as_pictures){
+  setwd("outputs")
+
+setwd("savedCAMs_USA")
+setwd("png")
+### remove all files if there are any
+if(length(list.files()) >= 1){
+  file.remove(list.files())
+  cat('\n!
+      all former .png files have been deleted')
+}
+
+### if no participant ID was provided replace by randomly generated CAM ID
+
+if(all(CAMfiles_USA[[3]]$participantCAM.x == "noID")){
+  CAMfiles_USA[[3]]$participantCAM.x <- CAMfiles_USA[[3]]$CAM.x
+}
+
+### save as .json files, and as .png (igraph)
+ids_CAMs <- unique(CAMfiles_USA[[3]]$participantCAM.x); length(ids_CAMs)
+
+
+for(i in 1:length(ids_CAMs)){
+  save_graphic(filename = paste0(ids_CAMs[i]))
+  CAM_igraph <- CAMdrawn_USA[[c(1:length(CAMdrawn_USA))[
+    names(CAMdrawn_USA) == paste0(unique(CAMfiles_USA[[3]]$participantCAM.x)[i])]]]
+  plot(CAM_igraph, edge.arrow.size = .7,
+       layout=layout_nicely, vertex.frame.color="black", asp = .5, margin = -0.1,
+       vertex.size = 10, vertex.label.cex = .9)
+  dev.off()
+}
+
+setwd("../json")
+### remove all files if there are any
+if(length(list.files()) >= 1){
+  file.remove(list.files())
+  cat('\n!
+      all former .json files have been deleted')
+}
+for(i in 1:length(raw_CAM_USA)){
+  if(!is_empty(raw_CAM_USA[[i]]$nodes)){
+    if(nrow(raw_CAM_USA[[i]]$nodes) > 5){
+      write(toJSON(raw_CAM_USA[[i]], encoding = "UTF-8"),
+            paste0(raw_CAM_USA[[i]]$idCAM, ".json"))
+    }
+  }
+}
+}
+```
