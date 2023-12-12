@@ -133,6 +133,21 @@ for(i in 1:length(dir())){
   source(dir()[i], encoding = "utf-8")
 }
 rm(i)
+
+
+
+# summary function
+data_summary <- function(data, varname, groupnames){
+  require(plyr)
+  summary_func <- function(x, col){
+    c(mean = mean(x[[col]], na.rm=TRUE),
+      se = sd(x[[col]], na.rm=TRUE) / sqrt(length(x[[col]])))
+  }
+  data_sum<-ddply(data, groupnames, .fun=summary_func,
+                  varname)
+  data_sum <- plyr::rename(data_sum, c("mean" = varname))
+  return(data_sum)
+}
 ```
 
 # Notes
@@ -232,14 +247,14 @@ for(i in 1:nrow(dat_secondPostCAM)){
 # keep only complete data sets
 ########################################
 ### pre-study
-sort(table(dat_preCAM$ID))
+# sort(table(dat_preCAM$ID))
 sum(table(dat_preCAM$ID) != max(table(dat_preCAM$ID)))
 sum(table(dat_preCAM$ID) == max(table(dat_preCAM$ID)))
 
 dat_preCAM <- dat_preCAM[dat_preCAM$ID %in% names(table(dat_preCAM$ID))[table(dat_preCAM$ID) == max(table(dat_preCAM$ID))],]
 
 ### post-study
-sort(table(dat_postCAM$ID))
+# sort(table(dat_postCAM$ID))
 sum(table(dat_postCAM$ID) != max(table(dat_postCAM$ID)))
 sum(table(dat_postCAM$ID) == max(table(dat_postCAM$ID)))
 
@@ -247,7 +262,7 @@ sum(table(dat_postCAM$ID) == max(table(dat_postCAM$ID)))
 dat_postCAM <- dat_postCAM[dat_postCAM$ID %in% names(table(dat_postCAM$ID))[table(dat_postCAM$ID) >= 4],]
 
 ### post-study second
-sort(table(dat_secondPostCAM$ID))
+# sort(table(dat_secondPostCAM$ID))
 sum(table(dat_secondPostCAM$ID) != max(table(dat_secondPostCAM$ID)))
 sum(table(dat_secondPostCAM$ID) == max(table(dat_secondPostCAM$ID)))
 
@@ -260,6 +275,23 @@ dat_secondPostCAM <- dat_secondPostCAM[dat_secondPostCAM$ID %in% names(table(dat
 # json (from JATOS) to 2D data.frame
 ########################################
 ################################ pre-study
+### !!! add paradata
+vec_ques <- c("PROLIFIC_PID",
+                "choosen_Robot", 
+              "dummy_informedconsent", 
+              "commCheck")
+
+vec_notNumeric = c("PROLIFIC_PID",
+                "choosen_Robot")
+
+questionnaire_preCAM <- questionnairetype(dataset = dat_preCAM, 
+                                        listvars = vec_ques, 
+                                        notNumeric = vec_notNumeric, verbose = FALSE)
+
+
+dim(questionnaire_preCAM)
+
+
 
 ################################ post-study
 
@@ -544,8 +576,16 @@ for(i in 1:length(raw_CAM_post)){
 networkIndicators_pre$timepoint <- "pre"
 networkIndicators_post$timepoint <- "post"
 
+
+
 networkIndicators <- rbind(networkIndicators_pre, networkIndicators_post)
 
+### add type robot
+networkIndicators$typeRobot <- ifelse(test = !is.na(networkIndicators$valence_micro_Rettungsroboter), yes = "rescue robots", no = "socially assistive robots")
+table(networkIndicators$typeRobot)
+
+### add ID
+networkIndicators$ID <- c(1:(nrow(networkIndicators) / 2), 1:(nrow(networkIndicators) / 2))
 
 ########################################
 # show which robot was on average perceived more positive (overall data set)
@@ -556,16 +596,76 @@ summary(networkIndicators$mean_valence_macro[!is.na(networkIndicators$valence_mi
 ########################################
 # post - pre difference of robot -> average valence
 ########################################
+
+############
+# overall
+############
+### overall
 hist(networkIndicators_post$mean_valence_macro - networkIndicators_pre$mean_valence_macro)
 summary(networkIndicators_post$mean_valence_macro - networkIndicators_pre$mean_valence_macro)
-
-
 
 ggwithinstats(
   data = networkIndicators,
   x = timepoint,
   y = mean_valence_macro
 )
+
+
+# table(networkIndicators$ID, networkIndicators$typeRobot)
+
+############
+# separated by robots - mean valence
+############
+# fit1 <- afex::aov_car(mean_valence_macro ~ timepoint*typeRobot + Error(ID / timepoint),
+#                       data = networkIndicators)
+# plot(CAMdrawn_pre[[53]])
+# plot(CAMdrawn_post[[53]])
+# plot(CAMdrawn_pre[[70]])
+# plot(CAMdrawn_post[[70]])
+networkIndicators_anova <- networkIndicators[!networkIndicators$ID %in% c(53, 70),]
+
+fit1 <- afex::aov_car(mean_valence_macro ~ timepoint*typeRobot + Error(ID / timepoint),
+                      data = networkIndicators_anova)
+fit1a <- afex::aov_ez(id = "ID", dv = "mean_valence_macro",
+                      data = networkIndicators_anova, between=c("typeRobot"), within=c("timepoint"))
+# partical eta squared
+anova(fit1, es = "pes")
+# generalized eta squared
+fit1a # > identical results
+
+
+dfvalcor <- data_summary(networkIndicators_anova, varname="mean_valence_macro",
+                         groupnames=c("timepoint","typeRobot"))
+p <- ggplot(dfvalcor, aes(x=timepoint, y=mean_valence_macro, fill=typeRobot)) +
+  geom_bar(stat="identity", color="black",
+           position=position_dodge()) +
+  geom_errorbar(aes(ymin=mean_valence_macro-se, ymax=mean_valence_macro+se), width=.2,
+                position=position_dodge(.9)) + ggplot_theme + ylab(label = "average emotional evaluation")
+print(p)
+
+############
+# separated by robots - number of concepts
+############
+fit1 <- afex::aov_car(num_nodes_macro ~ timepoint*typeRobot + Error(ID / timepoint),
+                      data = networkIndicators_anova)
+fit1a <- afex::aov_ez(id = "ID", dv = "num_nodes_macro",
+                      data = networkIndicators_anova, between=c("typeRobot"), within=c("timepoint"))
+# partical eta squared
+anova(fit1, es = "pes")
+# generalized eta squared
+fit1a # > identical results
+
+
+dfvalcor <- data_summary(networkIndicators_anova, varname="num_nodes_macro",
+                         groupnames=c("timepoint","typeRobot"))
+p <- ggplot(dfvalcor, aes(x=timepoint, y=num_nodes_macro, fill=typeRobot)) +
+  geom_bar(stat="identity", color="black",
+           position=position_dodge()) +
+  geom_errorbar(aes(ymin=num_nodes_macro-se, ymax=num_nodes_macro+se), width=.2,
+                position=position_dodge(.9)) + ggplot_theme + ylab(label = "number of drawn concepts")
+print(p)
+
+
 
 
 ########################################
@@ -583,5 +683,26 @@ ggwithinstats(
 
 questionnaire_secondPostCAM$meanDifferencesCAMs <- round(x = networkIndicators_post$mean_valence_macro - networkIndicators_pre$mean_valence_macro, digits = 2)
 DT::datatable(questionnaire_secondPostCAM[,c("meanDifferencesCAMs", "ans1", "feedback_critic")], options = list(pageLength = 5)) 
+```
+
+
+# check questions
+
+```{r}
+###
+c("63b87d2c9edd47ad702413a1", "5edc8e2eaa0f2295a0fcef85", "6529483ef2abe408d574860a") %in% questionnaire_preCAM$PROLIFIC_PID
+###
+
+tmpID <- questionnaire_preCAM$ID[questionnaire_preCAM$PROLIFIC_PID == "63b87d2c9edd47ad702413a1"]
+plot(CAMdrawn_pre[[tmpID]])
+plot(CAMdrawn_post[[tmpID]])
+
+tmpID <- questionnaire_preCAM$ID[questionnaire_preCAM$PROLIFIC_PID == "5edc8e2eaa0f2295a0fcef85"]
+plot(CAMdrawn_pre[[tmpID]])
+plot(CAMdrawn_post[[tmpID]])
+
+tmpID <- questionnaire_preCAM$ID[questionnaire_preCAM$PROLIFIC_PID == "6529483ef2abe408d574860a"]
+plot(CAMdrawn_pre[[tmpID]])
+plot(CAMdrawn_post[[tmpID]])
 ```
 

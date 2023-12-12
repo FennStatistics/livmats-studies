@@ -1024,7 +1024,52 @@ length(unique(tmp_dat_out$ID)) == nrow(tmp_dat_out)
 write.xlsx2(x = tmp_dat_out, file = "outputs/IDs_t2.xlsx")
 
 ```
+```{r}
+### add participants 
 
+usedIDs <- read.xlsx2(file = "outputs/IDs_t2_coloured.xlsx", sheetIndex = 1)
+
+
+table(questionnaire$classes_conspiracy, questionnaire$country)
+
+
+additionalParticipants <- 20
+
+set.seed(55555)
+## low and Germany
+tmp_dat <- questionnaire[questionnaire$country == "Germany" & questionnaire$classes_conspiracy == 1, ]
+tmp_ids <- tmp_dat$PROLIFIC_PID[! tmp_dat$PROLIFIC_PID %in% usedIDs$ID]
+tmp_dat_out <- data.frame(country = "Germany", classes_conspiracy = 1, ID = sample(x = tmp_ids, size = additionalParticipants, replace = FALSE))
+## high and Germany
+tmp_dat <- questionnaire[questionnaire$country == "Germany" & questionnaire$classes_conspiracy == 3, ] # max 25
+tmp_ids <- tmp_dat$PROLIFIC_PID[! tmp_dat$PROLIFIC_PID %in% usedIDs$ID]
+tmp_dat_IDs <- rbind(tmp_dat_out,
+                     data.frame(country = "Germany", classes_conspiracy = 3, 
+                                ID = sample(x = tmp_ids, size = additionalParticipants, replace = FALSE)))
+
+## low and USA
+tmp_dat <- questionnaire[questionnaire$country == "USA" & questionnaire$classes_conspiracy == 1, ]
+tmp_ids <- tmp_dat$PROLIFIC_PID[! tmp_dat$PROLIFIC_PID %in% usedIDs$ID]
+tmp_dat_IDs <- rbind(tmp_dat_IDs,
+                     data.frame(country = "USA", classes_conspiracy = 1, ID = sample(x = tmp_ids, size = additionalParticipants, replace = FALSE)))
+
+
+
+
+## high and USA
+tmp_dat <- questionnaire[questionnaire$country == "USA" & questionnaire$classes_conspiracy == 3, ]
+tmp_ids <- tmp_dat$PROLIFIC_PID[! tmp_dat$PROLIFIC_PID %in% usedIDs$ID]
+tmp_dat_IDs <- rbind(tmp_dat_IDs,
+                     data.frame(country = "USA", classes_conspiracy = 3, ID = sample(x = tmp_ids, size = additionalParticipants, replace = FALSE)))
+
+
+table(tmp_dat_IDs$classes_conspiracy, tmp_dat_IDs$country)
+length(unique(tmp_dat_IDs$ID)) == nrow(tmp_dat_IDs)
+
+
+## save final IDs for t2
+write.xlsx2(x = tmp_dat_IDs, file = "outputs/IDs_t2_additional.xlsx")
+```
 
 
 ## group comparisons

@@ -1,0 +1,1 @@
+{"idCAM":"4dbf4890-8b5e-4115-b6fb-bed19079f908","creator":"e8abc0a6-cba1-4206-8fd6-01aa5a1a6671","projectCAM":"S2_CAM part 1","defocusCAM":null,"date":1702311359735,"nodes":[],"connectors":[],"currentID":null,"currentNode":null,"hasSelectedNode":false,"currentConnector":null,"hasSelectedConnector":false,"readyToMove":false,"isIncoming":false}
