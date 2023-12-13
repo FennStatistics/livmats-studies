@@ -58,7 +58,9 @@ Study Designs and possibilities of analyses have been discuseed with (ordered al
 * Louisa Estadieu
 * Magdalena Moy
 * Michael Gorki
+* Nina Frings
 * Oliver Müller
 * Paul Sölder
 * Philipp Höfele
 * Shelly Levy-Tzedek
+* Ulf Hahnel
