@@ -693,6 +693,9 @@ DT::datatable(questionnaire_secondPostCAM[,c("meanDifferencesCAMs", "ans1", "fee
 c("63b87d2c9edd47ad702413a1", "5edc8e2eaa0f2295a0fcef85", "6529483ef2abe408d574860a") %in% questionnaire_preCAM$PROLIFIC_PID
 ###
 
+
+
+
 tmpID <- questionnaire_preCAM$ID[questionnaire_preCAM$PROLIFIC_PID == "63b87d2c9edd47ad702413a1"]
 plot(CAMdrawn_pre[[tmpID]])
 plot(CAMdrawn_post[[tmpID]])
@@ -704,5 +707,11 @@ plot(CAMdrawn_post[[tmpID]])
 tmpID <- questionnaire_preCAM$ID[questionnaire_preCAM$PROLIFIC_PID == "6529483ef2abe408d574860a"]
 plot(CAMdrawn_pre[[tmpID]])
 plot(CAMdrawn_post[[tmpID]])
+```
+
+
+```{r}
+
+c("6523fe0741e7f3a5002ea3fd", "652d6b317dbb2b3e923226f3", "6554e5a51df35f3564d4a327", "6551ecae69c45ecbc9cd6964", "655a149f3cc84dd3699ea3c3") %in% questionnaire_preCAM$PROLIFIC_PID
 ```
 
