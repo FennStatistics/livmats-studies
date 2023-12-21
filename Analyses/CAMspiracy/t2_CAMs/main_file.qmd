@@ -176,7 +176,6 @@ rm(i)
 
 Remark: "dat" at first is the data set of N=150 americans who have the political affilication "Democrat"; in opposition to "dat_Republican"
 
-
 # prepare data
 
 ## set up data.frame questionnaires
@@ -296,6 +295,23 @@ vec_notNumeric = c("PROLIFIC_PID",
 questionnaire_postCAM_Germany <- questionnairetype(dataset = dat_postCAM_Germany, 
                                         listvars = vec_ques, 
                                         notNumeric = vec_notNumeric)
+
+
+
+
+
+################################ post-study CET 
+questionnaire_postCAM_Germany$mean_CET <- NA
+
+#> simple mean score
+tmp <- dat_postCAM_Germany[, c("ID", "CE_A", "CM_A", "BP_A", "choosenOption")]
+# head(tmp)
+for(i in 1:length(unique(tmp$ID))){
+  tmp_person <- tmp[tmp$ID == unique(tmp$ID)[i], ]
+  
+  
+  questionnaire_postCAM_Germany$mean_CET[questionnaire_postCAM_Germany$ID == unique(tmp$ID)[i]] <- sum(tmp_person$choosenOption == "optionA", na.rm = TRUE) / 25
+}
 
 
 dim(questionnaire_preCAM_Germany)
@@ -422,6 +438,20 @@ questionnaire_postCAM_USA <- questionnairetype(dataset = dat_postCAM_USA,
                                         notNumeric = vec_notNumeric)
 
 
+################################ post-study CET 
+questionnaire_postCAM_USA$mean_CET <- NA
+
+#> simple mean score
+tmp <- dat_postCAM_USA[, c("ID", "CE_A", "CM_A", "BP_A", "choosenOption")]
+# head(tmp)
+for(i in 1:length(unique(tmp$ID))){
+  tmp_person <- tmp[tmp$ID == unique(tmp$ID)[i], ]
+  
+  
+  questionnaire_postCAM_USA$mean_CET[questionnaire_postCAM_USA$ID == unique(tmp$ID)[i]] <- sum(tmp_person$choosenOption == "optionA", na.rm = TRUE) / 25
+}
+
+
 dim(questionnaire_preCAM_USA)
 dim(questionnaire_postCAM_USA)
 
@@ -448,7 +478,189 @@ table(tmp_dat$classes_conspiracy) # 3 = high, 1 = low
 tmp_dat <- questionnaire_t1[questionnaire_t1$PROLIFIC_PID %in% questionnaire_USA$PROLIFIC_PID,]
 table(tmp_dat$country)
 table(tmp_dat$classes_conspiracy) # 3 = high, 1 = low
+
+
+
+
+
+################# IDs who have not participated yet
+tmp_dat <- questionnaire_t1[questionnaire_t1$country == "USA" & (questionnaire_t1$classes_conspiracy == "1" | questionnaire_t1$classes_conspiracy == "3"),]
+tmp_dat <- tmp_dat$PROLIFIC_PID[!tmp_dat$PROLIFIC_PID %in% questionnaire_USA$PROLIFIC_PID]
+write.xlsx2(x = tmp_dat, file = "outputs/PROLIFIC_PIDs_USA_notParticipated.xlsx")
 ```
+
+## compute mean variables for scales
+
+
+### for Germany
+
+
+```{r}
+########################################
+# number of items for each scale
+########################################
+sum(str_detect(string = colnames(questionnaire_Germany), pattern = "^Biospheric"))
+sum(str_detect(string = colnames(questionnaire_Germany), pattern = "^Risk"))
+sum(str_detect(string = colnames(questionnaire_Germany), pattern = "^policyItems"))
+
+sum(str_detect(string = colnames(questionnaire_Germany), pattern = "^concernClimate"))
+sum(str_detect(string = colnames(questionnaire_Germany), pattern = "^probabilityClimate"))
+
+
+########################################
+# reverse code all items
+#> see negative correlation between single items
+########################################
+
+# items van der Linden - Biospheric Values 2015
+psych::cor.plot(r = cor(questionnaire_Germany[, str_detect(string = colnames(questionnaire_Germany),
+                                                   pattern = "^Biospheric")], 
+                                                   use = "pairwise.complete.obs"),
+                                                   upper = FALSE, xlas = 2, main = "Biospheric Values scale")
+
+# items van der Linden - Risk Perception 2015
+psych::cor.plot(r = cor(questionnaire_Germany[, str_detect(string = colnames(questionnaire_Germany),
+                                                   pattern = "^Risk")], 
+                                                   use = "pairwise.complete.obs"),
+                                                   upper = FALSE, xlas = 2, main = "Risk Perception scale")
+# policy items 
+psych::cor.plot(r = cor(questionnaire_Germany[, str_detect(string = colnames(questionnaire_Germany),
+                                                   pattern = "^policyItems")], 
+                                                   use = "pairwise.complete.obs"),
+                                                   upper = FALSE, xlas = 2, main = "policyItems scale")
+# items van der Linden - concern climate change
+psych::cor.plot(r = cor(questionnaire_Germany[, str_detect(string = colnames(questionnaire_Germany),
+                                                   pattern = "^concernClimate")], 
+                                                   use = "pairwise.complete.obs"),
+                                                   upper = FALSE, xlas = 2, main = "concern climate change scale")
+
+# items van der Linden - how likely climate change harmful
+psych::cor.plot(r = cor(questionnaire_Germany[, str_detect(string = colnames(questionnaire_Germany),
+                                                   pattern = "^probabilityClimate")], 
+                                                   use = "pairwise.complete.obs"),
+                                                   upper = FALSE, xlas = 2, main = "how likely climate change harmful scale")
+
+
+# items van der Linden - concern climate change
+psych::cor.plot(r = cor(questionnaire_Germany[, str_detect(string = colnames(questionnaire_Germany),
+                                                   pattern = "^concernClimate|^probabilityClimate")], 
+                                                   use = "pairwise.complete.obs"),
+                                                   upper = FALSE, xlas = 2, main = "concern climate change plus how likely climate change harmful scale")
+
+
+########################################
+# compute mean variables OVERALL (!)
+########################################
+### overall mean variables
+questionnaire_Germany$mean_BiosphericValues  <- questionnaire_Germany %>%
+  select(matches("^Biospheric")) %>%
+  rowMeans(na.rm = TRUE)
+
+questionnaire_Germany$mean_RiskPerception  <- questionnaire_Germany %>%
+  select(matches("^Risk")) %>%
+  rowMeans(na.rm = TRUE)
+
+questionnaire_Germany$mean_PolicyItems  <- questionnaire_Germany %>%
+  select(matches("^policyItems")) %>%
+  rowMeans(na.rm = TRUE)
+
+questionnaire_Germany$mean_CCCprobability  <- questionnaire_Germany %>%
+  select(matches("^concernClimate|^probabilityClimate")) %>%
+  rowMeans(na.rm = TRUE)
+
+
+
+psych::cor.plot(r = cor(questionnaire_Germany[, str_detect(string = colnames(questionnaire_Germany),
+                                                   pattern = "^mean")], 
+                                                   use = "pairwise.complete.obs"),
+                                                   upper = FALSE, xlas = 2, main = "mean scales")
+```
+
+
+### for USA
+
+
+```{r}
+########################################
+# number of items for each scale
+########################################
+sum(str_detect(string = colnames(questionnaire_USA), pattern = "^Biospheric"))
+sum(str_detect(string = colnames(questionnaire_USA), pattern = "^Risk"))
+sum(str_detect(string = colnames(questionnaire_USA), pattern = "^policyItems"))
+
+sum(str_detect(string = colnames(questionnaire_USA), pattern = "^concernClimate"))
+sum(str_detect(string = colnames(questionnaire_USA), pattern = "^probabilityClimate"))
+
+
+########################################
+# reverse code all items
+#> see negative correlation between single items
+########################################
+
+# items van der Linden - Biospheric Values 2015
+psych::cor.plot(r = cor(questionnaire_USA[, str_detect(string = colnames(questionnaire_USA),
+                                                   pattern = "^Biospheric")], 
+                                                   use = "pairwise.complete.obs"),
+                                                   upper = FALSE, xlas = 2, main = "Biospheric Values scale")
+
+# items van der Linden - Risk Perception 2015
+psych::cor.plot(r = cor(questionnaire_USA[, str_detect(string = colnames(questionnaire_USA),
+                                                   pattern = "^Risk")], 
+                                                   use = "pairwise.complete.obs"),
+                                                   upper = FALSE, xlas = 2, main = "Risk Perception scale")
+# policy items 
+psych::cor.plot(r = cor(questionnaire_USA[, str_detect(string = colnames(questionnaire_USA),
+                                                   pattern = "^policyItems")], 
+                                                   use = "pairwise.complete.obs"),
+                                                   upper = FALSE, xlas = 2, main = "policyItems scale")
+# items van der Linden - concern climate change
+psych::cor.plot(r = cor(questionnaire_USA[, str_detect(string = colnames(questionnaire_USA),
+                                                   pattern = "^concernClimate")], 
+                                                   use = "pairwise.complete.obs"),
+                                                   upper = FALSE, xlas = 2, main = "concern climate change scale")
+
+# items van der Linden - how likely climate change harmful
+psych::cor.plot(r = cor(questionnaire_USA[, str_detect(string = colnames(questionnaire_USA),
+                                                   pattern = "^probabilityClimate")], 
+                                                   use = "pairwise.complete.obs"),
+                                                   upper = FALSE, xlas = 2, main = "how likely climate change harmful scale")
+
+
+# items van der Linden - concern climate change
+psych::cor.plot(r = cor(questionnaire_USA[, str_detect(string = colnames(questionnaire_USA),
+                                                   pattern = "^concernClimate|^probabilityClimate")], 
+                                                   use = "pairwise.complete.obs"),
+                                                   upper = FALSE, xlas = 2, main = "concern climate change plus how likely climate change harmful scale")
+
+
+########################################
+# compute mean variables OVERALL (!)
+########################################
+### overall mean variables
+questionnaire_USA$mean_BiosphericValues  <- questionnaire_USA %>%
+  select(matches("^Biospheric")) %>%
+  rowMeans(na.rm = TRUE)
+
+questionnaire_USA$mean_RiskPerception  <- questionnaire_USA %>%
+  select(matches("^Risk")) %>%
+  rowMeans(na.rm = TRUE)
+
+questionnaire_USA$mean_PolicyItems  <- questionnaire_USA %>%
+  select(matches("^policyItems")) %>%
+  rowMeans(na.rm = TRUE)
+
+questionnaire_USA$mean_CCCprobability  <- questionnaire_USA %>%
+  select(matches("^concernClimate|^probabilityClimate")) %>%
+  rowMeans(na.rm = TRUE)
+
+
+
+psych::cor.plot(r = cor(questionnaire_USA[, str_detect(string = colnames(questionnaire_USA),
+                                                   pattern = "^mean")], 
+                                                   use = "pairwise.complete.obs"),
+                                                   upper = FALSE, xlas = 2, main = "mean scales")
+```
+
 
 
 
@@ -698,3 +910,129 @@ for(i in 1:length(raw_CAM_USA)){
 }
 }
 ```
+
+
+
+## merge data 
+
+```{r}
+dim(questionnaire_Germany)
+dim(questionnaire_USA)
+
+## order according to variable names
+questionnaire_Germany <- questionnaire_Germany[ , order(names(questionnaire_Germany))]
+questionnaire_USA <- questionnaire_USA[ , order(names(questionnaire_USA))]
+
+
+## add CAM network indicators
+questionnaire_CAM_Germany <- cbind(questionnaire_Germany, networkIndicators_Germany)
+questionnaire_CAM_Germany$country.x <- NULL
+questionnaire_CAM_Germany$country.y <- NULL
+questionnaire_CAM_Germany$country <- "Germany"
+
+questionnaire_CAM_USA <- cbind(questionnaire_USA, networkIndicators_USA)
+questionnaire_CAM_USA$country.x <- NULL
+questionnaire_CAM_USA$country.y <- NULL
+questionnaire_CAM_USA$country <- "USA"
+
+
+colnames(questionnaire_CAM_Germany)[74:77] <- colnames(questionnaire_CAM_USA)[74:77]
+
+if(all(colnames(questionnaire_CAM_Germany) == colnames(questionnaire_CAM_USA))){
+  print("questionnaires, CAM data sets can be merged!")
+  questionnaireCAMs <- rbind(questionnaire_CAM_Germany, questionnaire_CAM_USA)
+}
+```
+
+
+
+
+# analyze data 
+
+## correlation plots
+
+### to mean valence
+
+```{r, fig.width=14}
+psych::cor.plot(r = cor(questionnaire_CAM_Germany[, str_detect(string = colnames(questionnaire_CAM_Germany),
+                                                   pattern = "^mean_")],
+                                                   use = "pairwise.complete.obs"),
+                                                   upper = FALSE, xlas = 2, main = "Germany")
+
+
+psych::cor.plot(r = cor(questionnaire_CAM_USA[, str_detect(string = colnames(questionnaire_CAM_USA),
+                                                   pattern = "^mean_")],
+                                                   use = "pairwise.complete.obs"),
+                                                   upper = FALSE, xlas = 2, main = "USA")
+```
+
+
+### to number of concepts
+
+
+```{r, fig.width=14}
+psych::cor.plot(r = cor(questionnaire_CAM_Germany[, str_detect(string = colnames(questionnaire_CAM_Germany),
+                                                   pattern = "^mean_[:alpha:]*$|^num_nodes")],
+                                                   use = "pairwise.complete.obs"),
+                                                   upper = FALSE, xlas = 2, main = "Germany")
+
+
+psych::cor.plot(r = cor(questionnaire_CAM_USA[, str_detect(string = colnames(questionnaire_CAM_USA),
+                                                   pattern = "^mean_[:alpha:]*$|^num_nodes")],
+                                                   use = "pairwise.complete.obs"),
+                                                   upper = FALSE, xlas = 2, main = "USA")
+```
+
+
+
+### to latent parameters
+
+
+```{r, fig.width=14}
+psych::cor.plot(r = cor(questionnaire_CAM_Germany[, str_detect(string = colnames(questionnaire_CAM_Germany),
+                                                   pattern = "^mean_[:alpha:]*$|^density|^transitivity.*macro$|^centr.*macro$|^meanDistance|^assortativity.*macro$")],
+                                                   use = "pairwise.complete.obs"),
+                                                   upper = FALSE, xlas = 2, main = "Germany")
+
+
+psych::cor.plot(r = cor(questionnaire_CAM_USA[, str_detect(string = colnames(questionnaire_CAM_USA),
+                                                   pattern = "^mean_[:alpha:]*$|^density|^transitivity.*macro$|^centr.*macro$|^meanDistance|^assortativity.*macro$")],
+                                                   use = "pairwise.complete.obs"),
+                                                   upper = FALSE, xlas = 2, main = "USA")
+```
+
+
+
+
+## mean differences
+
+
+
+
+```{r}
+ggbetweenstats(
+  data = questionnaireCAMs,
+  x = country,
+  y = mean_valence_macro
+)
+
+ggbetweenstats(
+  data = questionnaireCAMs,
+  x = country,
+  y = num_nodes_macro
+)
+
+ggbetweenstats(
+  data = questionnaireCAMs,
+  x = country,
+  y = mean_BiosphericValues
+)
+
+
+ggbetweenstats(
+  data = questionnaireCAMs,
+  x = country,
+  y = mean_PolicyItems
+)
+```
+
