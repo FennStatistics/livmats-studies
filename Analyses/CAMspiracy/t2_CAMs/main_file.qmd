@@ -733,6 +733,83 @@ CAMwordlist_Germany <- create_wordlist(
 DT::datatable(CAMwordlist_Germany, options = list(pageLength = 5)) 
 ```
 
+### translate to English
+
+```{r}
+raw_CAM_Germany_translated <- raw_CAM_Germany
+CAMfiles_Germany_translated <- CAMfiles_Germany
+
+
+### load .xlsx with translations
+translatedWords <- xlsx::read.xlsx2(file = "data/Deutsche CAMs_übersetzt.xlsx", sheetIndex = 2)
+translatedWords[158,]
+translatedWords <- translatedWords[-158,]
+### load protocol
+protocol <- rjson::fromJSON(file = "data/protocol_translation.txt")
+
+CAMfiles_Germany_translated[[1]]$text <- str_trim(string = CAMfiles_Germany_translated[[1]]$text, side = "both")
+
+tmp_out <- overwriteTextNodes(protocolDat = protocol,
+                                nodesDat = CAMfiles_Germany_translated[[1]])
+CAMfiles_Germany_translated[[1]] <- tmp_out[[1]]
+
+
+
+
+
+
+for(i in 1:length(raw_CAM_Germany_translated)){
+  ## get summarized words
+  tmp_nodes <- CAMfiles_Germany_translated[[1]][CAMfiles_Germany_translated[[1]]$CAM == unique(CAMfiles_Germany_translated[[1]]$CAM)[i],]
+    tmpWords_summarized <- str_remove_all(string = tmp_nodes$text_summarized, pattern = "_positive$|_negative$|_neutral$|_ambivalent$")
+  
+  
+  if(length(tmpWords_summarized) != sum(raw_CAM_Germany_translated[[i]]$nodes$isActive)){
+    print(i)
+    print("ERROR")
+    break
+  }else{
+      raw_CAM_Germany_translated[[i]]$nodes$text[raw_CAM_Germany_translated[[i]]$nodes$isActive] <- tmpWords_summarized
+  }
+  
+  ## remove white spaces
+  raw_CAM_Germany_translated[[i]]$nodes$text <- str_trim(string = raw_CAM_Germany_translated[[i]]$nodes$text, side = "both")
+   
+  # tmpWords_raw <- raw_CAM_Germany_translated[[i]]$nodes$text[raw_CAM_Germany_translated[[i]]$nodes$isActive]
+  # tmpWords[!tmpWords %in% tmpWords_summarized]
+  
+  
+  tmp <- raw_CAM_Germany_translated[[i]]$nodes$text[raw_CAM_Germany_translated[[i]]$nodes$isActive & !raw_CAM_Germany_translated[[i]]$nodes$text %in% translatedWords$Words]
+
+  if(length(tmp) > 0){
+    print(i)
+    print(tmp)
+    break
+  }else{
+    
+    for(j in 1:length(tmpWords_summarized)){
+      # cat("i:", i, "j:", j, "\n")
+          raw_CAM_Germany_translated[[i]]$nodes$text[raw_CAM_Germany_translated[[i]]$nodes$isActive][j] <-     translatedWords$Translation[translatedWords$Words %in% tmpWords_summarized[j]]
+    }
+  }
+
+}
+
+
+
+
+### get CAM data
+writeLines("", "outputs/CAMdata_Germany_translated.txt") # create file
+text_connection <- file("outputs/CAMdata_Germany_translated.txt", "a") # open connection to append
+
+for(i in 1:length(raw_CAM_Germany_translated)){
+      writeLines(jsonlite::toJSON(x = raw_CAM_Germany_translated[[i]], pretty = FALSE, auto_unbox = FALSE), text_connection)
+
+}
+
+close(text_connection) # close connection
+```
+
 
 ### save CAMs as .json files, and as .png (igraph)
 
@@ -854,6 +931,7 @@ CAMwordlist_USA <- create_wordlist(
 
 DT::datatable(CAMwordlist_USA, options = list(pageLength = 5)) 
 ```
+
 
 
 ### save CAMs as .json files, and as .png (igraph)
