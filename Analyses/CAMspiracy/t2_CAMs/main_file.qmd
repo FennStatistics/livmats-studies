@@ -1008,10 +1008,17 @@ questionnaire_CAM_Germany$country.x <- NULL
 questionnaire_CAM_Germany$country.y <- NULL
 questionnaire_CAM_Germany$country <- "Germany"
 
+
+dim(questionnaire_USA); dim(networkIndicators_USA)
 questionnaire_CAM_USA <- cbind(questionnaire_USA, networkIndicators_USA)
 questionnaire_CAM_USA$country.x <- NULL
 questionnaire_CAM_USA$country.y <- NULL
 questionnaire_CAM_USA$country <- "USA"
+
+
+################# IDs who have participated
+tmp_dat <- questionnaire_CAM_USA[, c("PROLIFIC_PID", "ID")]
+write.xlsx2(x = tmp_dat, file = "outputs/PROLIFIC_PIDs_USA_Participated.xlsx")
 
 
 colnames(questionnaire_CAM_Germany)[74:77] <- colnames(questionnaire_CAM_USA)[74:77]
