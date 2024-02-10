@@ -393,7 +393,8 @@ Verpflichten Sie sich, in dieser Umfrage wohlüberlegte Antworten zu geben?
  <br>
  <b>Wichtig:</b> Durch <i>Ändern der emotionalen Bewertung der vorgegebenen Konzepte</i> können Sie angeben, ob Sie diese insgesamt als negativ, neutral, ambivalent oder positiv wahrnehmen.
  Sie können <i>das Kommentarfeld verwenden</i>, um weitere Erläuterungen zu Ihren angeordneten Konzepten zu schreiben. 
- Bitte versuchen Sie möglichst <b>genau zu überlegen, welche zentralen Eigenschaften neue Materialsysteme haben sollten, damit diese aus ihrer Sicht eine stärkere Akzeptanz erfahren, da dies relevant ist für die Ausrichtung zukünftiger Forschung</b>.
+ Bitte versuchen Sie möglichst <b>genau zu überlegen, welche zentralen Eigenschaften neue Materialsysteme haben sollten, damit diese für Sie persönlich eine 
+ höhere Akzeptanz erfahren</b>. Dies ist sehr relevant für die Ausrichtung zukünftiger Forschung.
    </div>
  </main>
  
@@ -403,6 +404,49 @@ Verpflichten Sie sich, in dieser Umfrage wohlüberlegte Antworten zu geben?
    <footer class="content-vertical-center content-horizontal-right">
    <div class="w-l text-justify">
    Drücken Sie nicht auf "Weiter", bevor Sie den Text sorgfältig gelesen haben. Der "Weiter"-Knopf ist für 15 Sekunden gesperrt.
+   </div>
+   &nbsp; <button id="continue" type="submit" form="page-form">
+   Weiter &rarr;
+ </button>
+ </footer>
+   `,
+   basalAttributes: `
+   <header>
+     <h2>
+     Bevor Sie eine <i>Mind-Map</i> zu den zentralen Eigenschaften von neuen Materialsystemen anordnen, bitten wir Sie die einzelnen möglichen Eigenschaften zu lesen.
+     </h2>
+   </header>
+   
+   <main class="content-horizontal-center content-vertical-center">
+   <div class="w-l text-justify">
+    <i>Anmerkung: eventuell müssen Sie nach unten scrollen, um den kompletten Text zu lesen.</i>
+   <br>
+   <br>
+   <section>
+   Bitte versuchen Sie möglichst <b>genau zu überlegen, welche zentralen Eigenschaften neue Materialsysteme haben sollten, damit diese für Sie persönlich eine 
+   höhere Akzeptanz erfahren</b>. Dies ist sehr relevant für die Ausrichtung zukünftiger Forschung.
+      </section>
+ <br>
+      <b>Liste von möglichen zentralen Eigenschaften der neuen Materialsysteme:</b>
+      <br>
+
+      <table id="basalAttributes">
+      <tr>
+        <th>Eigenschaft</th>
+        <th>Erklärung</th>
+      </tr>
+
+    </table>
+
+   </div>
+ </main>
+ 
+   <form id="page-form"> 
+   </form>
+   
+   <footer class="content-vertical-center content-horizontal-right">
+   <div class="w-l text-justify">
+   Drücken Sie nicht auf "Weiter", bevor Sie die Liste sorgfältig gelesen haben. Der "Weiter"-Knopf ist für 15 Sekunden gesperrt.
    </div>
    &nbsp; <button id="continue" type="submit" form="page-form">
    Weiter &rarr;

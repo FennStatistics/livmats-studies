@@ -35,8 +35,10 @@ var wordlist = [
   "lebensähnlich",              // life-like
   "wartungsfrei",               // maintenance-free
   "multifunktional",            // multifunctional
+
   "passive Änderung der Form",          // reactive
   "passive Änderung des Verhaltens",    // reactive
+  
   "zuverlässig",                // reliable
   "resilient",                  // resilient
   "reaktionsfähig",             // responsive
@@ -52,7 +54,7 @@ var wordlist = [
 
   "Energie   generierend",       // harvest energy
   "umweltschädlich",            // environmentally harmful
-  "enthält Plastik",            // contains plastic
+  "enthält Kunststoff",            // contains plastic;	https://utopia.de/ratgeber/ist-plastik-gleich-kunststoff-das-ist-der-unterschied/ 
   "leicht zerstörbar",          // easily destructible
   "wartungsintensiv",           // maintenance-intensive
   "Insekten ähnlich"            // insect-like

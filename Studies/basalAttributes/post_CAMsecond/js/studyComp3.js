@@ -5,6 +5,52 @@ const numElements = 13; // 8+5
 var numElementsCounter = 5;
 
 
+/* 
+list basal attributes
+*/
+var wordlist = [
+  "aktive Änderung der Form",         // adaptive
+  "aktive Änderung des Verhaltens",   // adaptive
+  "autonom",                    // autonomous
+  //"bio-inspiriert",             // bio-inspired
+  "biologisch inspiriert",      // biologically inspired
+  //"veränderbar",                // changeable
+  //"veränderbare Form",          // changeable shape
+  "haltbar",                    // durable
+  "ökologisch",                 // ecologically
+  "elektronikfrei",             // electronic-free
+  "energieautonom",             // energy autonomous
+  "energieeffizient",           // energy-efficient
+  "umweltfreundlich",           // environmentally friendly
+  "intelligent",                // intelligent
+  "lebensähnlich",              // life-like
+  "wartungsfrei",               // maintenance-free
+  "multifunktional",            // multifunctional
+
+  "passive Änderung der Form",          // reactive
+  "passive Änderung des Verhaltens",    // reactive
+
+  "zuverlässig",                // reliable
+  "resilient",                  // resilient
+  "reaktionsfähig",             // responsive
+  "robust",                     // robust
+  "selbstheilend",              // self-healing
+  "selbstreparierend",          // self-repairing
+  "Energie   speichernd",         // storing energy
+  "nachhaltig",                 // sustainable
+  "technologisch",              // technological
+  //"vielseitig",                  // versatile
+
+  "langlebig",                  // long-lasting
+
+  "Energie   generierend",       // harvest energy
+  "umweltschädlich",            // environmentally harmful
+  "enthält Kunststoff",            // contains plastic;	https://utopia.de/ratgeber/ist-plastik-gleich-kunststoff-das-ist-der-unterschied/ 
+  "leicht zerstörbar",          // easily destructible
+  "wartungsintensiv",           // maintenance-intensive
+  "Insekten ähnlich"            // insect-like
+];
+
 
 /* 
 ################### directly after drawing CAM ###################
@@ -17,6 +63,7 @@ const break500 = new lab.html.Screen({
 
 
 const adaptive_meanValenece = new lab.html.Form({
+  title: "adaptiveQuestion_meanValence",
   content:
     `
     <header>
@@ -30,7 +77,7 @@ const adaptive_meanValenece = new lab.html.Form({
     Ihre gezeichnete <i>Mind-Map</i> hatte eine durchschnittliche emotionale Bewertung von 
     <span id="placeholder" style="font-weight: bold;">XXX</span>, bitte erklären Sie, warum Ihre insgesamt gezeichnete <i>Mind-Map</i> 
     <span id="placeholder2" style="font-weight: bold;">XXX</span> war
-      <textarea rows="10" name="ans1" style="width: 100%;" placeholder="Schreiben Sie hier Ihre Antwort..." required></textarea>
+      <textarea rows="8" name="ans1" style="width: 100%;" placeholder="Schreiben Sie hier Ihre Antwort..." required></textarea>
     </div>
 </main>
 </form>
@@ -74,6 +121,211 @@ Weiter &rarr;
   },
 })
 
+
+const openQuestion_MaterialSystem = new lab.html.Form({
+  title: "openQuestion_MaterialSystem",
+  content:
+    `
+    <header>
+    <h2>
+    Bitte beantworten Sie die folgenden Frage zu Ihrer gezeichneten <i>Mind-Map</i>:
+    </h2>
+  </header>
+  <main class="content-horizontal-center content-vertical-center">
+  <div class="w-l text-justify">
+  <form id="page-form">
+  In Ihrer gezeichneten <i>Mind-Map</i> haben Sie verschiedene Begriffe, die zentrale Eigenschaften neuer Materialsysteme beschreiben, miteinander verbunden. 
+  Bitte bschreiben Sie <b>an welches Materialsystem Sie dabei gedacht haben</b>.
+
+      <textarea rows="8" name="openQuestion_MaterialSystem" style="width: 100%;" placeholder="Schreiben Sie hier Ihre Antwort..." required></textarea>
+
+    </div>
+</main>
+</form>
+
+<footer class="content-vertical-center content-horizontal-right">
+<button id="continue" type="submit" form="page-form">
+Weiter &rarr;
+</button>
+</footer>
+  `,
+  messageHandlers: {
+    run: function anonymous() {
+
+    },
+    commit: function anonymous() {
+      // progress bar
+      numElementsCounter++;
+      document.querySelector(".progress-bar").style.width = (numElementsCounter / numElements) * 100 + "%";
+
+
+      if (typeof jatos.jQuery === "function") {
+        // If JATOS is available, send data there
+        var resultJson2 = study.options.datastore.exportJson();
+        if (typeof jatos.jQuery === "function") {
+          console.log("my result data sent to JATOS first time: ", resultJson2);
+          jatos.submitResultData(resultJson2)
+            .then(() => console.log('success'))
+            .catch(() => console.log('error'));
+        }
+      }
+    }
+
+  },
+})
+
+
+
+const openQuestion_basalAttributes = new lab.html.Form({
+  title: "openQuestion_basalAttributes",
+  content:
+    `
+    <header>
+    <h2>
+    Bitte beantworten Sie die folgenden zwei Fragen zu Ihrer gezeichneten <i>Mind-Map</i>:
+    </h2>
+  </header>
+  <main class="content-horizontal-center content-vertical-center">
+  <div class="w-l text-justify">
+  <form id="page-form">
+  In Ihrer gezeichneten <i>Mind-Map</i> haben Sie verschiedene Begriffe, die zentrale Eigenschaften neuer Materialsysteme beschreiben, miteinander verbunden. 
+  Welche <b>drei Begriffen nehmen Sie am positivsten bzw. negativsten für die Beschreibung neuer Materialsysteme wahr</b>? Bitte geben Sie diese folgend an:
+<br>
+<br>
+<table>
+<tr>
+<td>drei <b>positivsten</b>:</td>
+<td>
+<select id="multiplePositive" multiple="multiple" required>
+<option value="cheese">Cheese</option>
+<option value="tomatoes">Tomatoes</option>
+<option value="mozarella">Mozzarella</option>
+<option value="mushrooms">Mushrooms</option>
+<option value="pepperoni">Pepperoni</option>
+<option value="onions">Onions</option>
+</select>
+</td>
+</tr>
+
+<tr>
+<td>drei <b>negativsten</b>:</td>
+<td>
+<select id="multipleNegative" multiple="multiple" required>
+<option value="cheese">Cheese</option>
+<option value="tomatoes">Tomatoes</option>
+<option value="mozarella">Mozzarella</option>
+<option value="mushrooms">Mushrooms</option>
+<option value="pepperoni">Pepperoni</option>
+<option value="onions">Onions</option>
+</select>
+</td>
+</tr>
+</table>
+
+<br>
+<br>
+Fallen Ihnen weitere Eigenschaften ein, die Sie als relevant oder negativ für die Beschreibung neuer Materialsysteme erachten, die in der Liste nicht aufgeführt sind, 
+so können Sie diese gerne in folgenden Textfeldern ergänzen:
+
+    <table>
+    <tr>
+    <td><b>positive Eigenschaften</b>:</td>
+    <td>
+    <textarea rows="4" name="openQuestion_missedPositive" style="width: 100%;" placeholder="Schreiben Sie hier weitere positive Eigenschaften..."></textarea>
+
+    </td>
+    </tr>
+    
+    <tr>
+    <td><b>negative Eigenschaften</b>:</td>
+    <td>
+    <textarea rows="4" name="openQuestion_missedNegative" style="width: 100%;" placeholder="Schreiben Sie hier weitere negative Eigenschaften..."></textarea>
+
+    </td>
+    </tr>
+    </table>
+    
+
+    </div>
+</main>
+</form>
+
+<footer class="content-vertical-center content-horizontal-right">
+<button id="continue" type="submit" form="page-form">
+Bitte jeweils 3 Eigenschaften auswählen
+</button>
+</footer>
+  `,
+  messageHandlers: {
+    run: function anonymous() {
+      $('#multiplePositive').multiselect({
+        nonSelectedText: 'Bitte wählen Sie die drei relevantesten Eigenschaften aus',
+        nSelectedText: ' - Zu viele Eigenschaften ausgewählt!',
+        numberDisplayed: 3,
+        delimiterText: '; ',
+        enableFiltering: true,
+        enableCaseInsensitiveFiltering: true,
+        filterPlaceholder: 'Suchenfunktion...',
+      })
+
+
+      $('#multipleNegative').multiselect({
+        nonSelectedText: 'Bitte wählen Sie die drei negativsten Eigenschaften aus',
+        nSelectedText: ' - Zu viele Eigenschaften ausgewählt!',
+        numberDisplayed: 3,
+        delimiterText: '; ',
+        enableFiltering: true,
+        enableCaseInsensitiveFiltering: true,
+        filterPlaceholder: 'Suchenfunktion...',
+      })
+
+      // add data
+      var wordlistObject = [];
+      for (var i = 0; i < wordlist.length; i++) {
+        wordlistObject.push({ label: wordlist[i], value: wordlist[i] });
+      }
+      $("#multiplePositive").multiselect('dataprovider', wordlistObject);
+      $("#multipleNegative").multiselect('dataprovider', wordlistObject);
+
+      // validate
+      $("#multiplePositive, #multipleNegative").on("change click", function() {
+        var countPositive = $('#multiplePositive option:selected').length;
+        //console.log("countPositive: ", countPositive);
+        var countNegative = $('#multipleNegative option:selected').length;
+        //console.log("countNegative: ", countNegative);
+
+        if(countPositive == 3 && countNegative == 3) {
+          $("#continue").prop("disabled", false);
+          $("#continue").text("Weiter →");
+        }else{
+          $("#continue").prop("disabled", true);
+          $("#continue").text("Bitte jeweils 3 Eigenschaften auswählen");
+
+        }
+      });
+
+
+    },
+    commit: function anonymous() {
+      // progress bar
+      numElementsCounter++;
+      document.querySelector(".progress-bar").style.width = (numElementsCounter / numElements) * 100 + "%";
+
+
+      if (typeof jatos.jQuery === "function") {
+        // If JATOS is available, send data there
+        var resultJson2 = study.options.datastore.exportJson();
+        if (typeof jatos.jQuery === "function") {
+          console.log("my result data sent to JATOS first time: ", resultJson2);
+          jatos.submitResultData(resultJson2)
+            .then(() => console.log('success'))
+            .catch(() => console.log('error'));
+        }
+      }
+    }
+
+  },
+})
 
 /* 
 ################### survey scales ###################
@@ -407,10 +659,10 @@ const template = new lab.html.Form({
   </tr>
   <tr>
    <td>&nbsp;CO2 Emissionen<br/>`
-   + '&nbsp;<strong> ${ parameters.CE_A } kg CO2 <br/>(~${ parameters.CM_A }km mit dem Auto)</strong></td>' + `
+    + '&nbsp;<strong> ${ parameters.CE_A } kg CO2 <br/>(~${ parameters.CM_A }km mit dem Auto)</strong></td>' + `
    <td>&nbsp;Bonuszahlung<br/>
    `
-   + '   &nbsp;<strong>${ parameters.BP_A } Cent<br/><br/></strong></td>' + `
+    + '   &nbsp;<strong>${ parameters.BP_A } Cent<br/><br/></strong></td>' + `
   </tr>
   <tr>
    </tbody>
@@ -429,10 +681,10 @@ const template = new lab.html.Form({
 </tr>
 <tr>
 <td>&nbsp;CO2 Emissionen<br/>`
-+ '&nbsp;<strong> ${ parameters.CE_B } kg CO2 <br/>(~${ parameters.CM_B }km mit dem Auto)</strong></td>' + `
+    + '&nbsp;<strong> ${ parameters.CE_B } kg CO2 <br/>(~${ parameters.CM_B }km mit dem Auto)</strong></td>' + `
 <td>&nbsp;Bonuszahlung<br/>
 `
-+ '   &nbsp;<strong>${ parameters.BP_B } Cent<br/><br/></strong></td>' + `
+    + '   &nbsp;<strong>${ parameters.BP_B } Cent<br/><br/></strong></td>' + `
 </tr>
 <tr>
 </tbody>
@@ -470,14 +722,14 @@ const template = new lab.html.Form({
 
     },
     end: function anonymous() {
-     
+
     },
   },
 })
 
 const CETparams = new lab.flow.Loop({
   template: template,
-  templateParameters: [{"CE_A":"0","CE_B":"0","CM_A":"0","CM_B":"0","BP_A":"20","BP_B":"0"},{"CE_A":"0.1","CE_B":"0","CM_A":"0.58","CM_B":"0","BP_A":"20","BP_B":"0"},{"CE_A":"0.46","CE_B":"0","CM_A":"2.66","CM_B":"0","BP_A":"20","BP_B":"0"},{"CE_A":"2","CE_B":"0","CM_A":"11.65","CM_B":"0","BP_A":"20","BP_B":"0"},{"CE_A":"9","CE_B":"0","CM_A":"51.86","CM_B":"0","BP_A":"20","BP_B":"0"},{"CE_A":"0","CE_B":"0","CM_A":"0","CM_B":"0","BP_A":"40","BP_B":"0"},{"CE_A":"0.1","CE_B":"0","CM_A":"0.58","CM_B":"0","BP_A":"20","BP_B":"0"},{"CE_A":"0.46","CE_B":"0","CM_A":"2.66","CM_B":"0","BP_A":"40","BP_B":"0"},{"CE_A":"2","CE_B":"0","CM_A":"11.65","CM_B":"0","BP_A":"40","BP_B":"0"},{"CE_A":"9","CE_B":"0","CM_A":"51.86","CM_B":"0","BP_A":"40","BP_B":"0"},{"CE_A":"0","CE_B":"0","CM_A":"0","CM_B":"0","BP_A":"60","BP_B":"0"},{"CE_A":"0.1","CE_B":"0","CM_A":"0.58","CM_B":"0","BP_A":"60","BP_B":"0"},{"CE_A":"0.46","CE_B":"0","CM_A":"2.66","CM_B":"0","BP_A":"60","BP_B":"0"},{"CE_A":"2","CE_B":"0","CM_A":"11.65","CM_B":"0","BP_A":"60","BP_B":"0"},{"CE_A":"9","CE_B":"0","CM_A":"51.86","CM_B":"0","BP_A":"60","BP_B":"0"},{"CE_A":"0","CE_B":"0","CM_A":"0","CM_B":"0","BP_A":"80","BP_B":"0"},{"CE_A":"0.1","CE_B":"0","CM_A":"0.58","CM_B":"0","BP_A":"80","BP_B":"0"},{"CE_A":"0.46","CE_B":"0","CM_A":"2.66","CM_B":"0","BP_A":"80","BP_B":"0"},{"CE_A":"2","CE_B":"0","CM_A":"11.65","CM_B":"0","BP_A":"80","BP_B":"0"},{"CE_A":"9","CE_B":"0","CM_A":"51.86","CM_B":"0","BP_A":"80","BP_B":"0"},{"CE_A":"0","CE_B":"0","CM_A":"0","CM_B":"0","BP_A":"100","BP_B":"0"},{"CE_A":"0.1","CE_B":"0","CM_A":"0.58","CM_B":"0","BP_A":"100","BP_B":"0"},{"CE_A":"0.46","CE_B":"0","CM_A":"2.66","CM_B":"0","BP_A":"100","BP_B":"0"},{"CE_A":"2","CE_B":"0","CM_A":"11.65","CM_B":"0","BP_A":"100","BP_B":"0"},{"CE_A":"9","CE_B":"0","CM_A":"51.86","CM_B":"0","BP_A":"100","BP_B":"0"}],
+  templateParameters: [{ "CE_A": "0", "CE_B": "0", "CM_A": "0", "CM_B": "0", "BP_A": "20", "BP_B": "0" }, { "CE_A": "0.1", "CE_B": "0", "CM_A": "0.58", "CM_B": "0", "BP_A": "20", "BP_B": "0" }, { "CE_A": "0.46", "CE_B": "0", "CM_A": "2.66", "CM_B": "0", "BP_A": "20", "BP_B": "0" }, { "CE_A": "2", "CE_B": "0", "CM_A": "11.65", "CM_B": "0", "BP_A": "20", "BP_B": "0" }, { "CE_A": "9", "CE_B": "0", "CM_A": "51.86", "CM_B": "0", "BP_A": "20", "BP_B": "0" }, { "CE_A": "0", "CE_B": "0", "CM_A": "0", "CM_B": "0", "BP_A": "40", "BP_B": "0" }, { "CE_A": "0.1", "CE_B": "0", "CM_A": "0.58", "CM_B": "0", "BP_A": "20", "BP_B": "0" }, { "CE_A": "0.46", "CE_B": "0", "CM_A": "2.66", "CM_B": "0", "BP_A": "40", "BP_B": "0" }, { "CE_A": "2", "CE_B": "0", "CM_A": "11.65", "CM_B": "0", "BP_A": "40", "BP_B": "0" }, { "CE_A": "9", "CE_B": "0", "CM_A": "51.86", "CM_B": "0", "BP_A": "40", "BP_B": "0" }, { "CE_A": "0", "CE_B": "0", "CM_A": "0", "CM_B": "0", "BP_A": "60", "BP_B": "0" }, { "CE_A": "0.1", "CE_B": "0", "CM_A": "0.58", "CM_B": "0", "BP_A": "60", "BP_B": "0" }, { "CE_A": "0.46", "CE_B": "0", "CM_A": "2.66", "CM_B": "0", "BP_A": "60", "BP_B": "0" }, { "CE_A": "2", "CE_B": "0", "CM_A": "11.65", "CM_B": "0", "BP_A": "60", "BP_B": "0" }, { "CE_A": "9", "CE_B": "0", "CM_A": "51.86", "CM_B": "0", "BP_A": "60", "BP_B": "0" }, { "CE_A": "0", "CE_B": "0", "CM_A": "0", "CM_B": "0", "BP_A": "80", "BP_B": "0" }, { "CE_A": "0.1", "CE_B": "0", "CM_A": "0.58", "CM_B": "0", "BP_A": "80", "BP_B": "0" }, { "CE_A": "0.46", "CE_B": "0", "CM_A": "2.66", "CM_B": "0", "BP_A": "80", "BP_B": "0" }, { "CE_A": "2", "CE_B": "0", "CM_A": "11.65", "CM_B": "0", "BP_A": "80", "BP_B": "0" }, { "CE_A": "9", "CE_B": "0", "CM_A": "51.86", "CM_B": "0", "BP_A": "80", "BP_B": "0" }, { "CE_A": "0", "CE_B": "0", "CM_A": "0", "CM_B": "0", "BP_A": "100", "BP_B": "0" }, { "CE_A": "0.1", "CE_B": "0", "CM_A": "0.58", "CM_B": "0", "BP_A": "100", "BP_B": "0" }, { "CE_A": "0.46", "CE_B": "0", "CM_A": "2.66", "CM_B": "0", "BP_A": "100", "BP_B": "0" }, { "CE_A": "2", "CE_B": "0", "CM_A": "11.65", "CM_B": "0", "BP_A": "100", "BP_B": "0" }, { "CE_A": "9", "CE_B": "0", "CM_A": "51.86", "CM_B": "0", "BP_A": "100", "BP_B": "0" }],
   sample: {
     mode: "draw-shuffle",
     n: "25",
@@ -556,9 +808,9 @@ const FeedbackScreen_htmlScreen = new lab.html.Form({
       // save bonus payment
       let bonuspayment = study.options.datastore.extract("BP_A");
       let choosenA = study.options.datastore.extract("choosenOption");
-      
+
       let result = bonuspayment.filter((value, index) => choosenA[index] === "optionA");
-      
+
       study.options.datastore.set(
         "CETbonuspayment",
         shuffleArray(result)[0]
@@ -671,9 +923,16 @@ const study = new lab.flow.Sequence({
     //new lab.plugins.Download()
   ],
   content: [
+
+
+
+
+
     // break500,
     CAMfeedbackGeneral_htmlForm,
-    adaptive_meanValenece,
+    // adaptive_meanValenece,
+    openQuestion_MaterialSystem,
+    openQuestion_basalAttributes,
 
     //SCALES_sequence,
     SocioDemo_htmlScreen,

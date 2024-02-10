@@ -29,6 +29,12 @@
 
   <script src="./post_CAMsecond/js/jquery.js" crossorigin="anonymous"></script>
   <script src="./post_CAMsecond/js/jqueryUI.js" crossorigin="anonymous"></script>
+
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.15/css/bootstrap-multiselect.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.15/js/bootstrap-multiselect.min.js"></script>
+</body>
 </head>
 
 <body id="hideall">
@@ -55,6 +61,28 @@
 
     <div id="toprightdiv">Placeholder Questions</div>
     <div id="toprightdiv_pagenumber">Pagenumber</div>
+
+
+    <script>
+      var productionPhase = false;
+    
+      if(productionPhase){
+        $(document).on("mousemove", (event) => {
+        $("#toprightdiv_pagenumber").text("#page " + numElementsCounter) 
+      })
+    
+      $(document).ready(function() { 
+        $("#toprightdiv_pagenumber").text("#page " + numElementsCounter) 
+    });
+      }else{
+        $(document).ready(function() { 
+       $("#toprightdiv").hide(); 
+        $("#toprightdiv_pagenumber").hide(); 
+      });
+    }
+    </script>
+
+
     <!--  Again, please feel free to replace the footer content,
              or to remove the footer if you don't need it 
     <footer class="content-vertical-center content-horizontal-center" style="background-color: red;">
@@ -81,23 +109,4 @@
     </button>
   </div>
 </div>
-
-<script>
-  var productionPhase = true;
-
-  if(productionPhase){
-    $(document).on("mousemove", (event) => {
-    $("#toprightdiv_pagenumber").text("#page " + numElementsCounter) 
-  })
-
-  $(document).ready(function() { 
-    $("#toprightdiv_pagenumber").text("#page " + numElementsCounter) 
-});
-  }else{
-    $(document).ready(function() { 
-   $("#toprightdiv").hide(); 
-    $("#toprightdiv_pagenumber").hide(); 
-  });
-}
-</script>
 </html>

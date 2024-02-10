@@ -6,6 +6,65 @@ var URLparams_global;
 
 var paracountclicks = 0;
 
+
+/* 
+list basal attributes
+*/
+var wordlist = [
+  "aktive Änderung der Form",         // adaptive
+  "aktive Änderung des Verhaltens",   // adaptive
+  "autonom",                    // autonomous
+  //"bio-inspiriert",             // bio-inspired
+  "biologisch inspiriert",      // biologically inspired
+  //"veränderbar",                // changeable
+  //"veränderbare Form",          // changeable shape
+  "haltbar",                    // durable
+  "ökologisch",                 // ecologically
+  "elektronikfrei",             // electronic-free
+  "energieautonom",             // energy autonomous
+  "energieeffizient",           // energy-efficient
+  "umweltfreundlich",           // environmentally friendly
+  "intelligent",                // intelligent
+  "lebensähnlich",              // life-like
+  "wartungsfrei",               // maintenance-free
+  "multifunktional",            // multifunctional
+
+  "passive Änderung der Form",          // reactive
+  "passive Änderung des Verhaltens",    // reactive
+  
+  "zuverlässig",                // reliable
+  "resilient",                  // resilient
+  "reaktionsfähig",             // responsive
+  "robust",                     // robust
+  "selbstheilend",              // self-healing
+  "selbstreparierend",          // self-repairing
+  "Energie   speichernd",         // storing energy
+  "nachhaltig",                 // sustainable
+  "technologisch",              // technological
+  //"vielseitig",                  // versatile
+
+  "langlebig",                  // long-lasting
+
+  "Energie   generierend",       // harvest energy
+  "umweltschädlich",            // environmentally harmful
+  "enthält Kunststoff",            // contains plastic;	https://utopia.de/ratgeber/ist-plastik-gleich-kunststoff-das-ist-der-unterschied/ 
+  "leicht zerstörbar",          // easily destructible
+  "wartungsintensiv",           // maintenance-intensive
+  "Insekten ähnlich"            // insect-like
+];
+
+
+function shuffleArray(array) {
+  for (var i = array.length - 1; i > 0; i--) {
+    var j = Math.floor(Math.random() * (i + 1));
+    var temp = array[i];
+    array[i] = array[j];
+    array[j] = temp;
+  }
+  
+  return array
+}
+
 /* 
 ################### introduction phase ###################
 */
@@ -200,6 +259,37 @@ const explanationCAM_htmlForm = new lab.html.Form({
           (numElementsCounter / numElements) * 100 + "%";
 
           // alert(numElementsCounter)
+    }
+  },
+});
+
+
+
+const basalAttributes_htmlForm = new lab.html.Form({
+  title: "basalAttributes",
+  content: textObj.basalAttributes,
+  messageHandlers: {
+    run: function anonymous() {
+      document.querySelector("button").style.visibility = "hidden";
+      setTimeout(
+        () => (document.querySelector("button").style.visibility = "visible"),
+        15000 // 10000 (10 seconds)
+      );
+
+      // add basal attributes to the table
+      var shuffledWordlist = shuffleArray(wordlist);
+      for(var i = 0; i < wordlist.length; i++){
+      $('#basalAttributes tr:last').after('<tr><td>' + shuffledWordlist[i] + '</td><td>AAA</td></tr>');
+      }
+
+    },
+    commit: () => {
+      // progress bar
+        numElementsCounter++;
+        document.querySelector(".progress-bar").style.width =
+          (numElementsCounter / numElements) * 100 + "%";
+
+          // alert(numElementsCounter)
     },
     epilogue: function anonymous() {
       if (typeof jatos.jQuery === "function") {
@@ -226,8 +316,6 @@ const explanationCAM_htmlForm = new lab.html.Form({
 
 
 
-
-
 // Define the sequence of components that define the study
 const study = new lab.flow.Sequence({
   metadata: {
@@ -243,7 +331,6 @@ const study = new lab.flow.Sequence({
     // new lab.plugins.Download()
   ],
   content: [ 
-    explanationCAM_htmlForm ,
      // >>> PRE
     Greetings_htmlForm,
 
@@ -255,7 +342,8 @@ const study = new lab.flow.Sequence({
 
     CAMinst_multipage_htmlScreen,
  
-    explanationCAM_htmlForm     // -> next session
+    explanationCAM_htmlForm,
+    basalAttributes_htmlForm    // -> next session
   ],
 });
 

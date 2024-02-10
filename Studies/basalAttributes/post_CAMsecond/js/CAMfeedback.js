@@ -14,7 +14,7 @@ Bevor Sie mit der Studie fortfahren, bitten wir Sie, die folgenden Fragen zu bea
 
    <div>
      <p class="text-left font-weight-bold" style="margin: 1rem 0 0.25rem">
-     Inwieweit denken Sie, dass die von Ihnen soeben angeordnete <i>Mind-Map</i> zentrale Eigenschaften neuer Materialsysteme, die relevant für die Akzeptanz sind, repräsentiert?
+     Inwieweit denken Sie, dass die von Ihnen soeben angeordnete <i>Mind-Map</i> zentrale Eigenschaften neuer Materialsysteme, die relevant für Ihre Akzeptanz sind, repräsentiert?
      </p>
      
      <p class="text-left small text-muted hide-if-empty" style="margin: 0.25rem 0">
