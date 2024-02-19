@@ -354,7 +354,7 @@ Verpflichten Sie sich, in dieser Umfrage wohlüberlegte Antworten zu geben?
      </table>
      <br>
      <section>
-       Die einzelnen Abschnitte werden nachfolgend erklärt und begründet. Wir danken Ihnen nochmals für Ihre Teilnahme an der Studie. Wir ermutigen Sie, alle folgenden Fragen ehrlich zu beantworten.
+       Die einzelnen Abschnitte werden nachfolgend erklärt. Wir danken Ihnen nochmals für Ihre Teilnahme an der Studie. Wir ermutigen Sie, alle folgenden Fragen ehrlich zu beantworten.
      </section>
    </div>
  </main>
@@ -423,6 +423,9 @@ Verpflichten Sie sich, in dieser Umfrage wohlüberlegte Antworten zu geben?
    <br>
    <br>
    <section>
+   Bisherige Technologien bestanden aus Materialien (z.B. Keramik, Holz, Stein, Kunststoffe), die unflexibel waren und im Rahmen ihrer Nutzung feste, gleichbleibende Eigenschaften hatten. 
+   Aktuelle Forschung beschäftigt sich damit neue, aus Materialsystemen bestehende Technologien zu entwickeln, die neuartige, nicht mehr nur statische, unveränderbare Eigenschaften haben können. 
+   Mögliche Eigenschaften dieser finden Sie beispielsweise in der untenstehenden Liste. 
    Bitte versuchen Sie möglichst <b>genau zu überlegen, welche zentralen Eigenschaften neue Materialsysteme haben sollten, damit diese für Sie persönlich eine 
    höhere Akzeptanz erfahren</b>. Dies ist sehr relevant für die Ausrichtung zukünftiger Forschung.
       </section>
@@ -432,10 +435,11 @@ Verpflichten Sie sich, in dieser Umfrage wohlüberlegte Antworten zu geben?
 
       <table id="basalAttributes">
       <tr>
-        <th>Eigenschaft</th>
-        <th>Erklärung</th>
+        <th>Eigenschaften</th>
       </tr>
-
+      <tr>
+        <th>   </th>
+      </tr>
     </table>
 
    </div>

@@ -671,6 +671,7 @@ const study = new lab.flow.Sequence({
     //new lab.plugins.Download()
   ],
   content: [
+    SocioDemo_htmlScreen,
     // break500,
     CAMfeedbackGeneral_htmlForm,
     adaptive_meanValenece,

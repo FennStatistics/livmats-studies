@@ -1,5 +1,5 @@
 /* number of components / elements to set slider */
-const numElements = 13; // 8+5
+const numElements = 13; // 7 Part I + 6 Part II
 var numElementsCounter = 0; // 8
 /* general global variables */
 var URLparams_global;
@@ -11,8 +11,8 @@ var paracountclicks = 0;
 list basal attributes
 */
 var wordlist = [
-  "aktive Änderung der Form",         // adaptive
-  "aktive Änderung des Verhaltens",   // adaptive
+  "aktive Änderung der Form aufgrund einer Umwelteinwirkung",         // adaptive
+  "aktive Änderung des Verhaltens aufgrund einer Umwelteinwirkung",   // adaptive
   "autonom",                    // autonomous
   //"bio-inspiriert",             // bio-inspired
   "biologisch inspiriert",      // biologically inspired
@@ -33,7 +33,7 @@ var wordlist = [
   "passive Änderung des Verhaltens",    // reactive
   
   "zuverlässig",                // reliable
-  "resilient",                  // resilient
+  "widerstandsfähig",                  // resilient
   "reaktionsfähig",             // responsive
   "robust",                     // robust
   "selbstheilend",              // self-healing
@@ -279,7 +279,7 @@ const basalAttributes_htmlForm = new lab.html.Form({
       // add basal attributes to the table
       var shuffledWordlist = shuffleArray(wordlist);
       for(var i = 0; i < wordlist.length; i++){
-      $('#basalAttributes tr:last').after('<tr><td>' + shuffledWordlist[i] + '</td><td>AAA</td></tr>');
+      $('#basalAttributes tr:last').after('<tr><td>' + shuffledWordlist[i]);
       }
 
     },
@@ -331,6 +331,10 @@ const study = new lab.flow.Sequence({
     // new lab.plugins.Download()
   ],
   content: [ 
+    basalAttributes_htmlForm   ,
+
+
+
      // >>> PRE
     Greetings_htmlForm,
 

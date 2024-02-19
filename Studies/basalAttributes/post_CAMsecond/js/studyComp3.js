@@ -1,8 +1,14 @@
 const Required_Testing = false; // set to false for production
 
 /* number of components / elements to set slider */
-const numElements = 13; // 8+5
-var numElementsCounter = 5;
+const numElements = 13; // 7 Part I + 6 Part II
+var numElementsCounter = 8;
+
+
+// variables for multiple selection
+var var_Ethic;
+var var_Positive;
+var var_Negative;
 
 
 /* 
@@ -135,7 +141,7 @@ const openQuestion_MaterialSystem = new lab.html.Form({
   <div class="w-l text-justify">
   <form id="page-form">
   In Ihrer gezeichneten <i>Mind-Map</i> haben Sie verschiedene Begriffe, die zentrale Eigenschaften neuer Materialsysteme beschreiben, miteinander verbunden. 
-  Bitte bschreiben Sie <b>an welches Materialsystem Sie dabei gedacht haben</b>.
+  Bitte beschreiben Sie <b>an an welches Materialsystem oder welche Materialsysteme Sie dabei gedacht haben</b>.
 
       <textarea rows="8" name="openQuestion_MaterialSystem" style="width: 100%;" placeholder="Schreiben Sie hier Ihre Antwort..." required></textarea>
 
@@ -182,7 +188,7 @@ const openQuestion_basalAttributes = new lab.html.Form({
     `
     <header>
     <h2>
-    Bitte beantworten Sie die folgenden zwei Fragen zu Ihrer gezeichneten <i>Mind-Map</i>:
+    Bitte beantworten Sie die folgenden Fragen zu Ihrer gezeichneten <i>Mind-Map</i>:
     </h2>
   </header>
   <main class="content-horizontal-center content-vertical-center">
@@ -289,12 +295,12 @@ Bitte jeweils 3 Eigenschaften auswählen
 
       // validate
       $("#multiplePositive, #multipleNegative").on("change click", function() {
-        var countPositive = $('#multiplePositive option:selected').length;
-        //console.log("countPositive: ", countPositive);
-        var countNegative = $('#multipleNegative option:selected').length;
-        //console.log("countNegative: ", countNegative);
+        var_Positive = $('#multiplePositive option:selected');
+        //console.log("var_Positive: ", var_Positive);
+        var_Negative = $('#multipleNegative option:selected');
+        //console.log("var_Negative: ", var_Negative);
 
-        if(countPositive == 3 && countNegative == 3) {
+        if(var_Positive.length == 3 && var_Negative.length == 3) {
           $("#continue").prop("disabled", false);
           $("#continue").text("Weiter →");
         }else{
@@ -311,6 +317,17 @@ Bitte jeweils 3 Eigenschaften auswählen
       numElementsCounter++;
       document.querySelector(".progress-bar").style.width = (numElementsCounter / numElements) * 100 + "%";
 
+      // save data
+      // console.log("var_Positive", var_Positive)
+      study.options.datastore.set(
+        "multiplePositive",
+        [var_Positive[0].value, var_Positive[1].value, var_Positive[2].value]
+      );
+      // console.log("var_Negative", var_Negative)
+      study.options.datastore.set(
+        "multipleNegative",
+        [var_Negative[0].value, var_Negative[1].value, var_Negative[2].value]
+      );
 
       if (typeof jatos.jQuery === "function") {
         // If JATOS is available, send data there
@@ -326,6 +343,130 @@ Bitte jeweils 3 Eigenschaften auswählen
 
   },
 })
+
+
+
+
+const openQuestion_basalAttributes_Ethic = new lab.html.Form({
+  title: "openQuestion_basalAttributes_Ethic",
+  content:
+    `
+    <header>
+    <h2>
+    Bitte beantworten Sie die folgenden weiteren Fragen zu Ihrer gezeichneten <i>Mind-Map</i>:
+    </h2>
+  </header>
+  <main class="content-horizontal-center content-vertical-center">
+  <div class="w-l text-justify">
+  <form id="page-form">
+  Folgend interessiert uns Ihre persönliche <b>ethische Bewertung der Eigenschaften</b>, die Sie in Ihrer <i>Mind-Map</i> verbunden haben. 
+  Generell ist unser Leben voll von verbindlichen Handlungsnormen, z. B. dass wir als Menschen andere Menschen nicht töten, ihnen keine Schmerzen oder Leiden zufügen oder Menschen, 
+  die in Gefahr sind, wenn möglich, retten sollen. Wenn gegen solche Normen verstoßen wird, haben wir oft eine emotionale Reaktion, zum Beispiel empfinden wir Abscheu, wenn wir Bilder von leidenden Menschen sehen. 
+  In ähnlicher Weise empfinden wir oft instinktiv, dass eine bestimmte Technologie "fair", "gerecht" oder "moralisch richtig" ist. 
+  Hierbei bezieht sich Moral auf einen Verhaltenskodex, der explizit oder implizit (durch Konvention) von einer Gesellschaft, einer Gruppe oder bestimmten Individuen anerkannt wird 
+  und den diese selbst befolgen oder von anderen verlangen, ihn zu befolgen. 
+  <br>
+  <br>
+  Welche <b>drei Begriffe sind aus Ihrer Sicht in moralischer Hinsicht am "relevantesten"</b>? Bitte geben Sie diese folgend an:
+<br>
+<br>
+<table>
+<tr>
+<td>drei <b>ethisch relevante</b> Begriffe:</td>
+<td>
+<select id="multipleEthic" multiple="multiple" required>
+<option value="cheese">Cheese</option>
+<option value="tomatoes">Tomatoes</option>
+<option value="mozarella">Mozzarella</option>
+<option value="mushrooms">Mushrooms</option>
+<option value="pepperoni">Pepperoni</option>
+<option value="onions">Onions</option>
+</select>
+</td>
+</tr>
+</table>
+
+<br>
+<br>
+Bitte begründen Sie kurz die Auswahl der <b>ethisch relevanten</b> Begriffe:
+
+    <textarea rows="4" name="openQuestion_Ethic" style="width: 100%;" placeholder="Schreiben Sie hier Ihre Antwort..." required></textarea>
+
+    
+
+    </div>
+</main>
+</form>
+
+<footer class="content-vertical-center content-horizontal-right">
+<button id="continue" type="submit" form="page-form">
+Bitte jeweils 3 Eigenschaften auswählen
+</button>
+</footer>
+  `,
+  messageHandlers: {
+    run: function anonymous() {
+      $('#multipleEthic').multiselect({
+        nonSelectedText: 'Bitte wählen Sie drei ethisch relevante Eigenschaften aus',
+        nSelectedText: ' - Zu viele Eigenschaften ausgewählt!',
+        numberDisplayed: 3,
+        delimiterText: '; ',
+        enableFiltering: true,
+        enableCaseInsensitiveFiltering: true,
+        filterPlaceholder: 'Suchenfunktion...',
+      })
+
+      // add data
+      var wordlistObject = [];
+      for (var i = 0; i < wordlist.length; i++) {
+        wordlistObject.push({ label: wordlist[i], value: wordlist[i] });
+      }
+      $("#multipleEthic").multiselect('dataprovider', wordlistObject);
+
+      // validate
+      $("#multipleEthic").on("change click", function() {
+        var_Ethic = $('#multipleEthic option:selected');
+        //console.log("countEthic: ", countEthic);
+
+        if(var_Ethic.length == 3) {
+          $("#continue").prop("disabled", false);
+          $("#continue").text("Weiter →");
+        }else{
+          $("#continue").prop("disabled", true);
+          $("#continue").text("Bitte jeweils 3 Eigenschaften auswählen");
+
+        }
+      });
+
+
+    },
+    commit: function anonymous() {
+      // progress bar
+      numElementsCounter++;
+      document.querySelector(".progress-bar").style.width = (numElementsCounter / numElements) * 100 + "%";
+
+      // save data
+      // console.log("var_Ethic", var_Ethic)
+      study.options.datastore.set(
+        "multipleEthic",
+        [var_Ethic[0].value, var_Ethic[1].value, var_Ethic[2].value]
+      );
+
+      if (typeof jatos.jQuery === "function") {
+        // If JATOS is available, send data there
+        var resultJson2 = study.options.datastore.exportJson();
+        if (typeof jatos.jQuery === "function") {
+          console.log("my result data sent to JATOS first time: ", resultJson2);
+          jatos.submitResultData(resultJson2)
+            .then(() => console.log('success'))
+            .catch(() => console.log('error'));
+        }
+      }
+    }
+
+  },
+})
+
 
 /* 
 ################### survey scales ###################
@@ -912,10 +1053,10 @@ const SCALES_sequence = new lab.flow.Sequence({
 // Define the sequence of components that define the study
 const study = new lab.flow.Sequence({
   metadata: {
-    title: "CAMspiracy t2 Germany CAM",
-    description: "CAMspiracy t2",
+    title: "basal Attributes",
+    description: "basal Attributes post CAM",
     repository: "",
-    contributors: "Julius Fenn, Christophe Becht",
+    contributors: "Julius Fenn",
   },
   plugins: [
     //new lab.plugins.Metadata(),
@@ -923,8 +1064,8 @@ const study = new lab.flow.Sequence({
     //new lab.plugins.Download()
   ],
   content: [
-
-
+    openQuestion_basalAttributes_Ethic,
+    openQuestion_basalAttributes,
 
 
 
@@ -933,7 +1074,9 @@ const study = new lab.flow.Sequence({
     // adaptive_meanValenece,
     openQuestion_MaterialSystem,
     openQuestion_basalAttributes,
+    openQuestion_basalAttributes_Ethic,
 
+    
     //SCALES_sequence,
     SocioDemo_htmlScreen,
     FeedbackScreen_htmlScreen,

@@ -401,6 +401,48 @@ Für wie wahrscheinlich halten Sie es, dass der Klimawandel sehr schädliche, la
             </select>
           </td>
         </tr>
+
+        <!-- Bildungsabschluss    
+ <tr style="height: 100px">
+ <td >
+ Bitte geben Sie Ihren höchsten Bildungsabschluss an:
+   </td>
+   <td>
+     <select name="education" required style="width: 300px">
+       <option value="" selected>
+       -- Bitte wählen Sie --
+       </option>
+       <option value="none">Kein Schulabschluss</option>              
+       <option value="general secondary school">Hauptschulabschluss</option>              
+       <option value="intermediate secondary school">Realschule (Mittlere Reife)</option>
+       <option value="grammar school">Gymnasium (Abitur)</option>              
+       <option value="completed training">abgeschlossene Ausbildung</option>
+       <option value="degree from a university of applied science">Fachhochschulabschluss</option>              
+       <option value="craftsman">Meister</option>
+       <option value="university bachelor">Universität (Bachelor)</option> 
+       <option value="university master">Universität (Master)</option>     
+       <option value="university doctorate">Universität (Promotion)</option>     
+       <option value="other">Andere</option>     
+       <option value="not specified">Das möchte ich nicht angeben</option>              
+     </select>
+   </td>
+ </tr>
+ -->
+        <!-- Experience Material Systems    -->
+        <tr style="height: 100px">
+        <td >
+        Haben Sie bereits Vorerfahrungen mit Materialsystemen, beispielsweise durch Ihre Arbeit oder ein Studium?
+          </td>
+          <td>
+            <select name="experienceMS" required style="width: 300px">
+              <option value="" selected>
+              -- Bitte wählen Sie --
+              </option>
+              <option value="no">Nein</option>
+              <option value="yes">Ja</option>             
+            </select>
+          </td>
+        </tr>
      
 
         <!-- Occupation
@@ -415,6 +457,7 @@ Für wie wahrscheinlich halten Sie es, dass der Klimawandel sehr schädliche, la
         -->
 
         <!-- Column balance -->
+        <!-- 
         <colgroup>
           <col style="width: 45%">
           <col style="width: 55%">
@@ -670,7 +713,9 @@ Sehr religiös(10)
 <tr>
   
             </tbody>
+            -->
           </table>
+   
         </div>
     </form>
   </div>
