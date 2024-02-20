@@ -77,7 +77,7 @@ const textObj = {
        </section>
        <br>
        <section>
-       Trotz der Anonymität bitten wir Sie freundlichst um Ihre volle Konzentration und Aufmerksamkeit während der Teilnahme an der Studie. Dies trägt wesentlich zur Qualität und Zuverlässigkeit unserer Forschung bei.
+       Trotz der Anonymität bitten wir Sie freundlich um Ihre volle Konzentration und Aufmerksamkeit während der Teilnahme an der Studie. Dies trägt wesentlich zur Qualität und Zuverlässigkeit unserer Forschung bei.
        </section>
        <br>
        <section>
@@ -166,7 +166,7 @@ const textObj = {
 <main class="content-horizontal-center content-vertical-center">
    <div class="w-l text-justify">
        <section>
-           Bevor wir beginnen, möchten wir Ihre Aufmerksamkeit auf die folgenden Regeln während der Online-Studie lenken:
+       Bevor wir starten, möchten wir Sie bitten, sich mit den nachfolgenden Regeln für die Teilnahme an der Online-Studie vertraut zu machen:
        </section>
        <br>
        <ul>
@@ -394,7 +394,7 @@ Verpflichten Sie sich, in dieser Umfrage wohlüberlegte Antworten zu geben?
  <b>Wichtig:</b> Durch <i>Ändern der emotionalen Bewertung der vorgegebenen Konzepte</i> können Sie angeben, ob Sie diese insgesamt als negativ, neutral, ambivalent oder positiv wahrnehmen.
  Sie können <i>das Kommentarfeld verwenden</i>, um weitere Erläuterungen zu Ihren angeordneten Konzepten zu schreiben. 
  Bitte versuchen Sie möglichst <b>genau zu überlegen, welche zentralen Eigenschaften neue Materialsysteme haben sollten, damit diese für Sie persönlich eine 
- höhere Akzeptanz erfahren</b>. Dies ist sehr relevant für die Ausrichtung zukünftiger Forschung.
+ höhere Akzeptanz erfahren</b>.
    </div>
  </main>
  

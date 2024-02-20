@@ -24,8 +24,8 @@ Bitte klicken Sie auf den Hintergrund, um fortzufahren, und klicken Sie auf das 
 
 
 var startTimeMS = 0;  // EPOCH Time of event count started
-var timerStepFirst = 540000;   // Time first reminder > 540000 / 1000 / 60 = 9 minutes
-var timerStepFinal = 720000;   // Time final reminder > 900000 / 1000 / 60 = 12 minutes
+var timerStepFirst = 720000;   // Time first reminder > 540000 / 1000 / 60 = 9 minutes
+var timerStepFinal = 900000;   // Time final reminder > 900000 / 1000 / 60 = 15 minutes
 
 
 function firstReminder() {

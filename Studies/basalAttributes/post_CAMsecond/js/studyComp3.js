@@ -1,7 +1,7 @@
 const Required_Testing = false; // set to false for production
 
 /* number of components / elements to set slider */
-const numElements = 13; // 7 Part I + 6 Part II
+const numElements = 15; // 7 Part I + 8 Part II
 var numElementsCounter = 8;
 
 
@@ -15,11 +15,11 @@ var var_Negative;
 list basal attributes
 */
 var wordlist = [
-  "aktive Änderung der Form",         // adaptive
-  "aktive Änderung des Verhaltens",   // adaptive
+  "aktive Formänderung durch Umwelteinwirkung",         // adaptive
+  "aktive Verhaltensänderung durch Umwelteinwirkung",   // adaptive
   "autonom",                    // autonomous
   //"bio-inspiriert",             // bio-inspired
-  "biologisch inspiriert",      // biologically inspired
+  "bioinspiriert",      // biologically inspired
   //"veränderbar",                // changeable
   //"veränderbare Form",          // changeable shape
   "haltbar",                    // durable
@@ -33,11 +33,11 @@ var wordlist = [
   "wartungsfrei",               // maintenance-free
   "multifunktional",            // multifunctional
 
-  "passive Änderung der Form",          // reactive
-  "passive Änderung des Verhaltens",    // reactive
-
+  "passive Formänderung",          // reactive
+  "passive Verhaltensänderung",    // reactive
+  
   "zuverlässig",                // reliable
-  "resilient",                  // resilient
+  "widerstandsfähig",                  // resilient
   "reaktionsfähig",             // responsive
   "robust",                     // robust
   "selbstheilend",              // self-healing
@@ -400,7 +400,7 @@ Bitte begründen Sie kurz die Auswahl der <b>ethisch relevanten</b> Begriffe:
 
 <footer class="content-vertical-center content-horizontal-right">
 <button id="continue" type="submit" form="page-form">
-Bitte jeweils 3 Eigenschaften auswählen
+Bitte 3 Eigenschaften auswählen
 </button>
 </footer>
   `,
@@ -433,7 +433,7 @@ Bitte jeweils 3 Eigenschaften auswählen
           $("#continue").text("Weiter →");
         }else{
           $("#continue").prop("disabled", true);
-          $("#continue").text("Bitte jeweils 3 Eigenschaften auswählen");
+          $("#continue").text("Bitte 3 Eigenschaften auswählen");
 
         }
       });
@@ -466,6 +466,44 @@ Bitte jeweils 3 Eigenschaften auswählen
 
   },
 })
+
+
+// outcome questions material systems
+const outcomeMS_htmlForm = new lab.html.Form({
+  title: "outcome_MS",
+  content: textObj.outcomeMS,
+  messageHandlers: {
+    run: function anonymous() {
+      $("#hideKnowSRMdefinition").hide();
+
+      $("#outcome_buy").on("input", () => {
+        var tmpValue = $("#outcome_buy option:selected")[0].value;
+
+        if (tmpValue == "yes") {
+          $("#hideKnowSRMdefinition").show();
+        } else {
+          $("#hideKnowSRMdefinition").hide();
+        }
+      });
+    },
+    commit: function anonymous() {
+      // progress bar
+      numElementsCounter++;
+      document.querySelector(".progress-bar").style.width =
+        (numElementsCounter / numElements) * 100 + "%";
+
+      if (typeof jatos.jQuery === "function") {
+        // If JATOS is available, send data there
+        var resultJson = study.options.datastore.exportJson();
+        jatos
+          .submitResultData(resultJson)
+          .then(() => console.log("success"))
+          .catch(() => console.log("error"));
+      }
+    },
+  },
+});
+
 
 
 /* 
@@ -1053,22 +1091,17 @@ const SCALES_sequence = new lab.flow.Sequence({
 // Define the sequence of components that define the study
 const study = new lab.flow.Sequence({
   metadata: {
-    title: "basal Attributes",
+    title: "basale Attribute",
     description: "basal Attributes post CAM",
     repository: "",
     contributors: "Julius Fenn",
   },
   plugins: [
-    //new lab.plugins.Metadata(),
-    //new lab.plugins.Debug(), // comment out finally
-    //new lab.plugins.Download()
+    // new lab.plugins.Metadata(),
+    // new lab.plugins.Debug(), // comment out finally
+    // new lab.plugins.Download()
   ],
   content: [
-    openQuestion_basalAttributes_Ethic,
-    openQuestion_basalAttributes,
-
-
-
     // break500,
     CAMfeedbackGeneral_htmlForm,
     // adaptive_meanValenece,
@@ -1076,11 +1109,12 @@ const study = new lab.flow.Sequence({
     openQuestion_basalAttributes,
     openQuestion_basalAttributes_Ethic,
 
+    outcomeMS_htmlForm,
     
     //SCALES_sequence,
     SocioDemo_htmlScreen,
     FeedbackScreen_htmlScreen,
-    EndingScreen_htmlScreen,
+    EndingScreen_htmlScreen
   ],
 })
 

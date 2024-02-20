@@ -1,5 +1,5 @@
 /* number of components / elements to set slider */
-const numElements = 13; // 7 Part I + 6 Part II
+const numElements = 15; // 7 Part I + 8 Part II
 var numElementsCounter = 0; // 8
 /* general global variables */
 var URLparams_global;
@@ -11,11 +11,11 @@ var paracountclicks = 0;
 list basal attributes
 */
 var wordlist = [
-  "aktive Änderung der Form aufgrund einer Umwelteinwirkung",         // adaptive
-  "aktive Änderung des Verhaltens aufgrund einer Umwelteinwirkung",   // adaptive
+  "aktive Formänderung durch Umwelteinwirkung",         // adaptive
+  "aktive Verhaltensänderung durch Umwelteinwirkung",   // adaptive
   "autonom",                    // autonomous
   //"bio-inspiriert",             // bio-inspired
-  "biologisch inspiriert",      // biologically inspired
+  "bioinspiriert",      // biologically inspired
   //"veränderbar",                // changeable
   //"veränderbare Form",          // changeable shape
   "haltbar",                    // durable
@@ -29,8 +29,8 @@ var wordlist = [
   "wartungsfrei",               // maintenance-free
   "multifunktional",            // multifunctional
 
-  "passive Änderung der Form",          // reactive
-  "passive Änderung des Verhaltens",    // reactive
+  "passive Formänderung",          // reactive
+  "passive Verhaltensänderung",    // reactive
   
   "zuverlässig",                // reliable
   "widerstandsfähig",                  // resilient
@@ -112,11 +112,6 @@ const Greetings_htmlForm = new lab.html.Form({
           study.options.datastore.set(
             "PROLIFIC_PID",
             URLparams_global.PROLIFIC_PID
-          );
-          // save random choosen robot
-          study.options.datastore.set(
-            "choosen_Robot",
-            choosenRobot
           );
         }
       }
@@ -266,7 +261,7 @@ const explanationCAM_htmlForm = new lab.html.Form({
 
 
 const basalAttributes_htmlForm = new lab.html.Form({
-  title: "basalAttributes",
+  title: "basalAttributes_list",
   content: textObj.basalAttributes,
   messageHandlers: {
     run: function anonymous() {
@@ -320,21 +315,17 @@ const basalAttributes_htmlForm = new lab.html.Form({
 const study = new lab.flow.Sequence({
   metadata: {
     title: "basale Attribute",
-    description: "main study",
+    description: "basal Attributes pre CAM",
     repository: "",
     contributors: "Julius Fenn",
   },
   plugins: [
     new lab.plugins.Metadata(),
-    //new lab.plugins.Fullscreen(),
-    new lab.plugins.Debug(), // comment out finally
+    // new lab.plugins.Fullscreen(),
+    // new lab.plugins.Debug(), // comment out finally
     // new lab.plugins.Download()
   ],
   content: [ 
-    basalAttributes_htmlForm   ,
-
-
-
      // >>> PRE
     Greetings_htmlForm,
 

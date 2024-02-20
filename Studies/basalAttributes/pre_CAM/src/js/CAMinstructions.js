@@ -262,7 +262,7 @@ const textObjInstCAM = {
     </tr>
   </table>
 </footer>`
-  }
+}
 
 
 /* CAM Instruktionen on multiple pages */
@@ -282,6 +282,9 @@ const CAMinst_multipage_htmlScreen = new lab.html.Screen({
       }
 
       const moveForth = (selector) => {
+        // hide the header
+        $('header').hide();
+
         const target = study.options.el.querySelector(selector)
         if (target.nextElementSibling) {
           target.classList.add("hidden"); // hide current screen
@@ -299,6 +302,12 @@ const CAMinst_multipage_htmlScreen = new lab.html.Screen({
 
       const moveBack = (selector) => {
         target = study.options.el.querySelector(selector);
+
+        // show the header
+        if (target.id === "page1") {
+          $('header').show();
+        }
+
         if (target.previousElementSibling) { //.innerHTML !== undefined
           target.classList.add("hidden"); // hide current screen
           target.previousElementSibling.classList.remove("hidden"); // show previous screen
@@ -349,4 +358,4 @@ const CAMinst_htmlForm = new lab.html.Form({
     }
   },
 })
-  /* CAM Instruktionen on one page */
+/* CAM Instruktionen on one page */

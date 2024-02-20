@@ -18,11 +18,11 @@ function shuffle(queslist) {
 
 
 var wordlist = [
-  "aktive Änderung der Form",         // adaptive
-  "aktive Änderung des Verhaltens",   // adaptive
+  "aktive Formänderung durch Umwelteinwirkung",         // adaptive
+  "aktive Verhaltensänderung durch Umwelteinwirkung",   // adaptive
   "autonom",                    // autonomous
   //"bio-inspiriert",             // bio-inspired
-  "biologisch inspiriert",      // biologically inspired
+  "bioinspiriert",      // biologically inspired
   //"veränderbar",                // changeable
   //"veränderbare Form",          // changeable shape
   "haltbar",                    // durable
@@ -36,11 +36,11 @@ var wordlist = [
   "wartungsfrei",               // maintenance-free
   "multifunktional",            // multifunctional
 
-  "passive Änderung der Form",          // reactive
-  "passive Änderung des Verhaltens",    // reactive
+  "passive Formänderung",          // reactive
+  "passive Verhaltensänderung",    // reactive
   
   "zuverlässig",                // reliable
-  "resilient",                  // resilient
+  "widerstandsfähig",                  // resilient
   "reaktionsfähig",             // responsive
   "robust",                     // robust
   "selbstheilend",              // self-healing

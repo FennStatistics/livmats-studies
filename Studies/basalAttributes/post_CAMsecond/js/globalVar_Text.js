@@ -958,6 +958,113 @@ Informationen zur nachfolgenden Aufgabe
   </footer>
   `,
 
+  outcomeMS: `
+  <header>
+    <h2>
+    Bitte beantworten Sie die folgenden drei Fragen
+        </h2>
+  </header>
+  
+  <main class="content-horizontal-center content-vertical-center">
+  <div class="w-l text-justify" style="display: block">
+    
+    <p>Bitte nutzen Sie diese Fragen, um <b>Ihre Entscheidungen zu zukünftigen Materialsysteme</b>, anzugeben: </p>
+    
+    <form id="demography">
+      <table>
+
+
+      <!-- Research -->
+      <tr style="height: 100px">
+        <td class="font-weight-bold text-left">
+        Sollte die Entwicklung innovativer Materialsysteme mit öffentlichen Mitteln gefördert werden?
+        </td>
+        <td>
+          <select id="outcome_research" name="outcome_research" required class="w-100">
+            <option value="" selected>
+            -- Bitte wählen Sie --
+            </option>
+            <option value="yes">Ja.</option>
+            <option value="no">Nein.</option>
+            <option value="unsure">Ich bin nicht sicher.</option>
+          </select>
+        </td>
+      </tr>
+
+
+      
+      <!-- Prohibition -->
+      <tr style="height: 100px">
+        <td class="font-weight-bold text-left">
+        Sollten die Erforschung und Entwicklung solcher innovativer Materialsysteme verboten werden?
+                </td>
+        <td>
+          <select id="outcome_prohibition" name="outcome_prohibition" required class="w-100">
+            <option value="" selected>
+            -- Bitte wählen Sie --
+            </option>
+            <option value="yes">Ja.</option>
+            <option value="no">Nein.</option>
+            <option value="unsure">Ich bin nicht sicher.</option>
+          </select>
+        </td>
+      </tr>
+        
+
+
+        <!-- Buy -->
+        <tr style="height: 100px">
+          <td class="font-weight-bold text-left">
+          Wären Sie bereit, Produkte zu kaufen, die innovative Materialsysteme enthalten?
+          </td>
+          <td>
+            <select id="outcome_buy" name="outcome_buy" required class="w-100">
+              <option value="" selected>
+              -- Bitte wählen Sie --
+              </option>
+              <option value="yes">Ja.</option>
+              <option value="no">Nein.</option>
+              <option value="unsure">Ich bin nicht sicher.</option>
+            </select>
+          </td>
+        </tr>
+      
+        <!-- Buy Text -->
+        <tr id="hideKnowSRMdefinition" style="height: 100px">
+          <td class="font-weight-bold text-left">
+An welche möglichen Produkte haben Sie gedacht?
+          <br>
+          <p class="text-left small text-muted hide-if-empty" style="margin: 0.25rem 0">
+Bitte schreiben Sie eine kurze Antwort.
+          </p>
+          </td>
+          <td>
+          <textarea id="outcome_buy_text" name="outcome_buy_text" class="w-100" rows="3"></textarea>
+          </td>
+        </tr>
+
+ 
+        <!-- Column balance -->
+        <colgroup>
+          <col style="width: 50%">
+          <col style="width: 50%">
+        </colgroup>
+      </table>
+      </form>
+  </div>
+</main>
+
+  
+  <footer class="content-vertical-center content-horizontal-right">
+  <div class="w-l text-justify">
+  </div>
+  <button id="continue" type="submit" form="demography">
+  Continue &rarr;
+</button>
+
+</footer>
+  `,
+
 
   
 }
