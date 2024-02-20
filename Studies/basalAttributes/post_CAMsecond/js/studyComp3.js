@@ -160,6 +160,13 @@ Weiter &rarr;
 
     },
     commit: function anonymous() {
+      if(Object.keys(jatos.studySessionData).includes("PROLIFIC_PID")){
+        // save prolific ID
+        study.options.datastore.set(
+          "PROLIFIC_PID",
+          jatos.studySessionData.PROLIFIC_PID
+        );
+}
       // progress bar
       numElementsCounter++;
       document.querySelector(".progress-bar").style.width = (numElementsCounter / numElements) * 100 + "%";
@@ -1050,7 +1057,7 @@ const EndingScreen_htmlScreen = new lab.html.Screen({
           study.options.datastore.extract("sender").includes("FeedbackScreen")
         ) {
           jatos.endStudyAndRedirect(
-            "https://app.prolific.co/submissions/complete?cc=C8FL71OE",  // !!! ""
+            "https://app.prolific.com/submissions/complete?cc=CJNL5D58",  // !!! ""
             true,
             "everything worked fine"
           );

@@ -137,9 +137,14 @@ function saveCAMsuccess() {
     console.log("usingJATOS: ", usingJATOS);
     if (usingJATOS) {
       if (typeof jatos.jQuery === "function") {
+
+        
         // if an ID was sent via URL param overwrite CAM creator
         if (Object.keys(jatos.urlQueryParameters).indexOf("participantID") >= 0) {
           CAM.creator = jatos.urlQueryParameters.participantID;
+        } else if (config.MultiComponentStudy && Object.keys(jatos.studySessionData).includes("PROLIFIC_PID")) {
+          // if multi component study add ID to CAM.creator
+          CAM.creator = jatos.studySessionData.PROLIFIC_PID;
         } else {
           CAM.creator = "noID";
         }
@@ -163,10 +168,7 @@ function saveCAMsuccess() {
         } else if (config.MultiComponentStudy) {
 
 
-          // if existent add ID to CAM.creator
-          if (Object.keys(jatos.studySessionData).includes("PROLIFIC_PID")) {
-            CAM.creator = jatos.studySessionData.PROLIFIC_PID;
-          }
+
 
           // > as multi component study
           var tmpActiveNodes = getActiveListNodes();

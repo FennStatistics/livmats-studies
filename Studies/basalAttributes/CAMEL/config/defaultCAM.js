@@ -61,8 +61,7 @@ var wordlist = [
 ];
 
 
-const index_wordlist = shuffle(wordlist);
-console.log("index_wordlist:", index_wordlist);
+
 
 
 var coordinatesTop = [{ x: 100, y: 50 },
@@ -108,7 +107,8 @@ function defaultCAM() {
     y: 400
   }, false, false, false));
 
-
+  var index_wordlist = shuffle(wordlist);
+  console.log("index_wordlist:", index_wordlist);
 
   for (var i = 0; i < 10; i++) {
     CAM.addElement(new NodeCAM(0, wordlist[index_wordlist[0]], coordinatesTop[i], true, false, false));
@@ -129,6 +129,7 @@ function defaultCAM() {
     CAM.addElement(new NodeCAM(0, wordlist[index_wordlist[0]], coordinatesRight[i], true, false, false));
     index_wordlist.shift();
   }
+
 
   /*
   function defaultCAM() {
