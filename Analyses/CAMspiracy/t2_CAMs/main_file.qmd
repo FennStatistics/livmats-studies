@@ -1042,7 +1042,12 @@ colnames(questionnaire_CAM_Germany)[75:78] <- colnames(questionnaire_CAM_USA)[75
 if(all(colnames(questionnaire_CAM_Germany) == colnames(questionnaire_CAM_USA))){
   print("questionnaires, CAM data sets can be merged!")
   questionnaireCAMs <- rbind(questionnaire_CAM_Germany, questionnaire_CAM_USA)
+  
+  ## save file
+  setwd("outputs")
+  xlsx::write.xlsx2(x = questionnaireCAMs, file = "questionnaireCAMs.xlsx")
 }
+
 ```
 
 
