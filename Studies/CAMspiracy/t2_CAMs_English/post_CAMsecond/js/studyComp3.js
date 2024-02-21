@@ -671,6 +671,19 @@ const study = new lab.flow.Sequence({
     //new lab.plugins.Download()
   ],
   content: [
+    LikertPolicyItems_htmlForm,
+        // van der Linden 2015
+        Likert_Risk_htmlForm,
+        Likert_Biospheric_htmlForm,
+        Likert_Mixed1_htmlForm,
+        Likert_Mixed2_htmlForm,
+    
+        // own items
+        LikertPolicyItems_htmlForm,
+    
+        // CET
+        SCALES_CET,
+
     SocioDemo_htmlScreen,
     // break500,
     CAMfeedbackGeneral_htmlForm,

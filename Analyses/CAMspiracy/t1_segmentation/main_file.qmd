@@ -1,6 +1,6 @@
 ---
 title: "Main File for t1 Segementation Study (USA, Germany samples)"
-author: "Julius Fenn, Christophe Becht"
+author: "Julius Fenn"
 format:
   html:
     toc: true

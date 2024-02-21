@@ -1,6 +1,6 @@
 ---
-title: "Main File for t2 CAM study (USA, Germany samples)"
-author: "Julius Fenn, Christophe Becht"
+title: "Main File for t2 CAM study (samples from USA, Germany)"
+author: "Julius Fenn"
 format:
   html:
     toc: true
@@ -174,7 +174,7 @@ rm(i)
 
 # Notes
 
-Remark: "dat" at first is the data set of N=150 americans who have the political affilication "Democrat"; in opposition to "dat_Republican"
+Remark: 
 
 # prepare data
 
@@ -278,17 +278,19 @@ questionnaire_preCAM_Germany <- questionnairetype(dataset = dat_preCAM_Germany,
 
 
 ################################ post-study
-tmp_numeric <- str_subset(string = colnames(dat_postCAM_Germany), pattern = "^Biospheric|^probabilityClimate|^concernClimate|^Risk|^policyItems|rlgdgr")
+tmp_numeric <- str_subset(string = colnames(dat_postCAM_Germany), pattern = "^Biospheric|^probabilityClimate|^concernClimate|^Risk|^policyItems")
 
 
 vec_ques <- c("PROLIFIC_PID",
                 tmp_numeric,
                 "education",
+              "lrscale", "rlgdgr",
                 "feedback_critic",
                 "country")
 
 vec_notNumeric = c("PROLIFIC_PID",
                    "education",
+                   "lrscale", "rlgdgr",
                    "feedback_critic",
                    "country")
 
@@ -317,7 +319,7 @@ for(i in 1:length(unique(tmp$ID))){
 dim(questionnaire_preCAM_Germany)
 dim(questionnaire_postCAM_Germany)
 
-questionnaire_Germany <- left_join(questionnaire_preCAM_Germany, questionnaire_postCAM_Germany, by="ID") # !!!
+questionnaire_Germany <- left_join(questionnaire_preCAM_Germany, questionnaire_postCAM_Germany, by="ID")
 dim(questionnaire_Germany)
 ```
 
@@ -326,7 +328,7 @@ dim(questionnaire_Germany)
 ```{r}
 setwd("outputs")
 ########################################
-# Germany
+# USA
 ########################################
 # > pre study
 suppressMessages(read_file('preCAM_USA.txt') %>%
@@ -360,7 +362,7 @@ for(i in 1:nrow(dat_preCAM_USA)){
   if(!is.na(dat_preCAM_USA$sender[i]) && dat_preCAM_USA$sender[i] == "Greetings"){
     # tmp <- dat_preCAM_USA$prolific_pid[i]
     tmp_IDcounter = tmp_IDcounter + 1
-    dat_preCAM_USA$country[i] <- "Germany" ## add country
+    dat_preCAM_USA$country[i] <- "USA" ## add country
   }
   dat_preCAM_USA$ID[i] <- tmp_IDcounter
 }
@@ -374,7 +376,7 @@ for(i in 1:nrow(dat_postCAM_USA)){
   if(!is.na(dat_postCAM_USA$sender[i]) && dat_postCAM_USA$sender[i] == "CAMfeedbackGeneral"){
     # tmp <- dat_postCAM_USA$prolific_pid[i]
     tmp_IDcounter = tmp_IDcounter + 1
-    dat_postCAM_USA$country[i] <- "Germany" ## add country
+    dat_postCAM_USA$country[i] <- "USA" ## add country
   }
   dat_postCAM_USA$ID[i] <- tmp_IDcounter
 }
@@ -421,15 +423,16 @@ questionnaire_preCAM_USA <- questionnairetype(dataset = dat_preCAM_USA,
 ################################ post-study
 tmp_numeric <- str_subset(string = colnames(dat_postCAM_USA), pattern = "^Biospheric|^probabilityClimate|^concernClimate|^Risk|^policyItems|rlgdgr")
 
-
 vec_ques <- c("PROLIFIC_PID",
                 tmp_numeric,
                 "education",
+              "lrscale", "rlgdgr",
                 "feedback_critic",
                 "country")
 
 vec_notNumeric = c("PROLIFIC_PID",
                    "education",
+                   "lrscale", "rlgdgr",
                    "feedback_critic",
                    "country")
 
@@ -455,8 +458,10 @@ for(i in 1:length(unique(tmp$ID))){
 dim(questionnaire_preCAM_USA)
 dim(questionnaire_postCAM_USA)
 
-questionnaire_USA <- left_join(questionnaire_preCAM_USA, questionnaire_postCAM_USA, by="ID") # !!!
+questionnaire_USA <- left_join(questionnaire_preCAM_USA, questionnaire_postCAM_USA, by="ID")
 dim(questionnaire_USA)
+# questionnaire_USA <- na.omit(questionnaire_USA) # remove 2 missings !!!
+# dim(questionnaire_USA)
 ```
 
 ### check current data for conspiracy / country group
@@ -469,6 +474,13 @@ questionnaire_t1 <- read.xlsx2(file = "data/questionnaire_final.xlsx", sheetInde
 ########################################
 tmp_dat <- questionnaire_t1[questionnaire_t1$PROLIFIC_PID %in% questionnaire_Germany$PROLIFIC_PID,]
 table(tmp_dat$country)
+table(tmp_dat$socio_sex)
+
+
+tmp_dat$socio_age <- as.numeric(tmp_dat$socio_age)
+psych::describe(tmp_dat$socio_age)
+
+
 table(tmp_dat$classes_conspiracy) # 3 = high, 1 = low
 
 
@@ -477,11 +489,15 @@ table(tmp_dat$classes_conspiracy) # 3 = high, 1 = low
 ########################################
 tmp_dat <- questionnaire_t1[questionnaire_t1$PROLIFIC_PID %in% questionnaire_USA$PROLIFIC_PID,]
 table(tmp_dat$country)
+table(tmp_dat$politicalParty)
+table(tmp_dat$socio_sex)
+
 table(tmp_dat$classes_conspiracy) # 3 = high, 1 = low
 
+table(tmp_dat$politicalParty, tmp_dat$classes_conspiracy)
 
-
-
+tmp_dat$socio_age <- as.numeric(tmp_dat$socio_age)
+psych::describe(tmp_dat$socio_age)
 
 ################# IDs who have not participated yet
 tmp_dat <- questionnaire_t1[questionnaire_t1$country == "USA" & (questionnaire_t1$classes_conspiracy == "1" | questionnaire_t1$classes_conspiracy == "3"),]
@@ -1021,7 +1037,7 @@ tmp_dat <- questionnaire_CAM_USA[, c("PROLIFIC_PID", "ID")]
 write.xlsx2(x = tmp_dat, file = "outputs/PROLIFIC_PIDs_USA_Participated.xlsx")
 
 
-colnames(questionnaire_CAM_Germany)[74:77] <- colnames(questionnaire_CAM_USA)[74:77]
+colnames(questionnaire_CAM_Germany)[75:78] <- colnames(questionnaire_CAM_USA)[75:78]
 
 if(all(colnames(questionnaire_CAM_Germany) == colnames(questionnaire_CAM_USA))){
   print("questionnaires, CAM data sets can be merged!")
@@ -1033,6 +1049,13 @@ if(all(colnames(questionnaire_CAM_Germany) == colnames(questionnaire_CAM_USA))){
 
 
 # analyze data 
+
+## descriptives 
+
+```{r}
+table(questionnaireCAMs$country)
+```
+
 
 ## correlation plots
 
@@ -1091,10 +1114,11 @@ psych::cor.plot(r = cor(questionnaire_CAM_USA[, str_detect(string = colnames(que
 
 ## mean differences
 
-
-
-
 ```{r}
+# questionnaireCAMs$countryParty <- NA
+# questionnaireCAMs$CAM_ID %in% questionnaire_t1$PROLIFIC_PID
+# questionnaire_t1$politicalParty
+
 ggbetweenstats(
   data = questionnaireCAMs,
   x = country,
