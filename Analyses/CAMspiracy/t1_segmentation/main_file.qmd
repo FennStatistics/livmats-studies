@@ -252,10 +252,11 @@ ggsave(filename = "outputs/durations_components.pdf", p)
 
 
 # Calculate the mean duration in seconds for each sender and sort by mean duration
-dat_duration %>%
+tmp <- dat_duration %>%
   group_by(sender) %>%
   summarise(N = n(), mean_duration = mean(duration, na.rm = TRUE)) %>%
-  arrange(mean_duration)
+  arrange(desc(mean_duration))
+DT::datatable(tmp, options = list(pageLength = 5)) 
 ```
 
 
@@ -299,6 +300,9 @@ if(nrow(prolific) == nrow(questionnaire)){
   questionnaire$socio_age <- as.numeric(questionnaire$socio_age)
 }
 
+## plot reaction times to see if a person timed out
+plot(questionnaire$total_min, questionnaire$total_min_prolific)
+
 
 ## save raw questionnaire
 write.xlsx2(x = questionnaire, file = "outputs/questionnaire_raw.xlsx")
@@ -319,20 +323,24 @@ table(questionnaire$socio_sex)
 table(questionnaire$socio_ethnicity)
 table(questionnaire$socio_student)
 table(questionnaire$socio_employment)
+table(questionnaire$politicalParty) # political party
+table(questionnaire$country) # country
+
 
 ## socio demographics (numeric variables)
+psych::describe(questionnaire[, c("socio_age")])
+
+
+# Calculate mean and standard deviation
+mu <- mean(questionnaire$socio_age, na.rm = TRUE)
+sigma <- sd(questionnaire$socio_age, na.rm = TRUE)
+# Create the histogram with normal distribution overlay
 ggplot(questionnaire, aes(x = socio_age)) +
-  geom_histogram(binwidth = 1, fill = "dodgerblue3", color = "white") +
-  labs(x = "Age", y = "Frequency") +
+  geom_histogram(aes(y = ..density..), binwidth = 1, fill = "dodgerblue3", color = "white") +
+  stat_function(fun = dnorm, args = list(mean = mu, sd = sigma), color = "red") +
+  labs(x = "Mean Affection Imagery", y = "Density") +
   theme_apa() +
-  theme(plot.title = element_text(hjust = 0.5))
-
-summary(questionnaire$socio_age)
-
-## political party
-table(questionnaire$politicalParty)
-## country
-table(questionnaire$country)
+  theme(plot.title = element_text(hjust = 0.5)) + geom_vline(xintercept = mean(questionnaire$socio_age, na.rm = TRUE), col = "red")
 ```
 
 
@@ -474,8 +482,6 @@ psych::cor.plot(r = cor(questionnaire[, str_detect(string = colnames(questionnai
                                                    use = "pairwise.complete.obs"),
                                                    upper = FALSE, xlas = 2, main = "mean scales")
 ```
-
-
 
 
 
@@ -1075,25 +1081,48 @@ write.xlsx2(x = tmp_dat_IDs, file = "outputs/IDs_t2_additional.xlsx")
 ## group comparisons
 
 
+### Descriptives
+
 ```{r}
+questionnaire$countryParty <- questionnaire$politicalParty
+questionnaire$countryParty[is.na(questionnaire$countryParty)] <- "Germany"
+table(questionnaire$countryParty)
+tmp <- questionnaire[, c(str_subset(string = colnames(questionnaire), pattern = "mean_"), "countryParty")] 
+
+psych::describe(tmp ~ countryParty)
+```
+
+
+### Hypothesis Tests
+
+```{r}
+# questionnaire$fc_CMQ <- as.numeric(questionnaire$fc_CMQ)
+# ggbetweenstats(
+#   data = questionnaire,
+#   x = politicalParty,
+#   y = fc_CMQ
+# )
+
+ggbetweenstats(
+  data = questionnaire,
+  x = countryParty,
+  y = mean_CMQ
+)
+
 ggbetweenstats(
   data = questionnaire,
   x = politicalParty,
   y = mean_CMQ
 )
+```
 
-questionnaire$fc_CMQ <- as.numeric(questionnaire$fc_CMQ)
+## correlational analyses
 
-ggbetweenstats(
-  data = questionnaire,
-  x = politicalParty,
-  y = fc_CMQ
-)
-
-ggbetweenstats(
-  data = questionnaire,
-  x = country,
-  y = mean_CMQ
-)
+```{r}
+#> see negative correlation between single items
+psych::cor.plot(r = cor(questionnaire[, str_detect(string = colnames(questionnaire),
+                                                   pattern = "^fc_")], 
+                                                   use = "pairwise.complete.obs"),
+                                                   upper = FALSE, xlas = 2, main = "Factor Scores Scales")
 ```
 
