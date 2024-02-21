@@ -1109,6 +1109,8 @@ const study = new lab.flow.Sequence({
     // new lab.plugins.Download()
   ],
   content: [
+    outcomeMS_htmlForm,
+
     // break500,
     CAMfeedbackGeneral_htmlForm,
     // adaptive_meanValenece,
