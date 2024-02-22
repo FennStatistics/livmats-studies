@@ -145,6 +145,8 @@ setwd("outputs")
 
 
 dat_overwrite$text_overwrite[dat_overwrite$text_overwrite == ""] <- NA
+sum(!is.na(dat_overwrite$text_overwrite))
+
 # dat_overwrite$text_overwrite[!is.na(dat_overwrite$text_overwrite)]
 dat_overwrite$value <- as.numeric(dat_overwrite$value)
 
@@ -194,6 +196,7 @@ dat_ids_consp <- dat_ids_consp[, c("PROLIFIC_PID", "classes_conspiracy", "countr
 
 table(dat_ids_consp$classes_conspiracy) # 1 = low, 3 = high
 
+## check classes again
 dat_ids_consp$mean_CMQ <- as.numeric(dat_ids_consp$mean_CMQ)
 boxplot(dat_ids_consp$mean_CMQ ~ dat_ids_consp$classes_conspiracy)
 # table(dat_ids_consp$classes_conspiracy, dat_ids_consp$country)
@@ -202,9 +205,69 @@ boxplot(dat_ids_consp$mean_CMQ ~ dat_ids_consp$classes_conspiracy)
 
 ### to low consp.
 
-blub
+Split data, where class conspiracy is low (1)
+
+```{r}
+setwd("outputs")
+if(!file.exists("lowConspiracy")){
+  dir.create("lowConspiracy")
+}
+setwd("lowConspiracy")
+
+
+CAMfiles_low <- CAMfiles
+
+## check is ID data set is complete
+if(!all(CAMfiles_low[[1]]$participantCAM %in% dat_ids_consp$PROLIFIC_PID)){
+    print("Error")
+}
+
+
+dat_ids_consp_low <- dat_ids_consp[dat_ids_consp$classes_conspiracy == "1", ]
+
+## only persons with low conspiracy for CAMfiles_low
+CAMfiles_low[[1]] <- CAMfiles_low[[1]][CAMfiles_low[[1]]$participantCAM %in% dat_ids_consp_low$PROLIFIC_PID,]
+CAMfiles_low[[2]] <- CAMfiles_low[[2]][CAMfiles_low[[2]]$participantCAM %in% dat_ids_consp_low$PROLIFIC_PID,]
+CAMfiles_low[[3]] <- CAMfiles_low[[3]][CAMfiles_low[[3]]$participantCAM.x %in% dat_ids_consp_low$PROLIFIC_PID,]
+
+## save files ob subsets
+vroom::vroom_write(x =  CAMfiles_low[[1]], file = "CAM_nodes_low.txt")
+vroom::vroom_write(x =  CAMfiles_low[[2]], file = "CAM_connectors_low.txt")
+vroom::vroom_write(x =  CAMfiles_low[[3]], file = "CAM_merged_low.txt")
+```
+
 
 
 ### to high consp.
 
-blub
+Split data, where class conspiracy is high (3)
+
+
+```{r}
+setwd("outputs")
+if(!file.exists("highConspiracy")){
+  dir.create("highConspiracy")
+}
+setwd("highConspiracy")
+
+
+CAMfiles_high <- CAMfiles
+
+## check is ID data set is complete
+# if(!all(CAMfiles_high[[1]]$participantCAM %in% dat_ids_consp$PROLIFIC_PID)){
+#     print("Error")
+# }
+
+
+dat_ids_consp_high <- dat_ids_consp[dat_ids_consp$classes_conspiracy == "3", ]
+
+## only persons with low conspiracy for CAMfiles_high
+CAMfiles_high[[1]] <- CAMfiles_high[[1]][CAMfiles_high[[1]]$participantCAM %in% dat_ids_consp_high$PROLIFIC_PID,]
+CAMfiles_high[[2]] <- CAMfiles_high[[2]][CAMfiles_high[[2]]$participantCAM %in% dat_ids_consp_high$PROLIFIC_PID,]
+CAMfiles_high[[3]] <- CAMfiles_high[[3]][CAMfiles_high[[3]]$participantCAM.x %in% dat_ids_consp_high$PROLIFIC_PID,]
+
+## save files ob subsets
+vroom::vroom_write(x =  CAMfiles_high[[1]], file = "CAM_nodes_high.txt")
+vroom::vroom_write(x =  CAMfiles_high[[2]], file = "CAM_connectors_high.txt")
+vroom::vroom_write(x =  CAMfiles_high[[3]], file = "CAM_merged_high.txt")
+```
