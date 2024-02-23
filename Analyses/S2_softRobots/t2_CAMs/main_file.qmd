@@ -362,7 +362,10 @@ questionnaire <-  left_join(x = questionnaire_preCAM, y = questionnaire_postCAM,
 questionnaire$ID.x <- NULL
 questionnaire$ID.y <- NULL
 
-dim(questionnaire_secondPostCAM)
+dim(questionnaire)
+
+## save as .xlsx file
+xlsx::write.xlsx2(x = questionnaire, file = "questionnaire.xlsx")
 ```
 
 
@@ -616,6 +619,126 @@ for(i in 1:length(raw_CAM_post)){
 }
 ```
 
+## identify types of changes (delta CAM)
+
+```{r}
+################
+# set A, B, C, D types
+################
+# !!! i = 215
+if (all(unique(CAMfiles_pre[[1]]$participantCAM) == unique(CAMfiles_post[[1]]$participantCAM))) {
+  vec_type <- c()
+  error <- 0
+  verbose = FALSE
+  
+  ##
+  list_newWords_text <- list()
+  list_newWords_value <- list()
+  list_ids <- list()
+  h = 1
+  for (i in 1:length(unique(CAMfiles_pre[[1]]$participantCAM))) {
+    praeCAM <-
+      CAMfiles_pre[[1]][CAMfiles_pre[[1]]$participantCAM == unique(CAMfiles_pre[[1]]$participantCAM)[i],]
+    postCAM <-
+      CAMfiles_post[[1]][CAMfiles_post[[1]]$participantCAM == unique(CAMfiles_post[[1]]$participantCAM)[i],]
+    
+    ## to test:
+    # praeCAM$text %in% postCAM$text
+    # postCAM$text %in% praeCAM$text
+    # length(praeCAM$text)
+    # length(postCAM$text)
+    # praeCAM$text
+    # postCAM$text
+    
+    ## Typ A
+    if (all(postCAM$text %in% praeCAM$text) &
+        length(postCAM$text) < length(praeCAM$text)) {
+      vec_type[i] <- "A"
+      if (verbose) {
+        cat("\n i:", i, "type:", vec_type[i], "\n")
+      }
+      error = error + 1
+    }
+    
+    ## Typ B
+    if (all(praeCAM$text %in% postCAM$text) &
+        length(postCAM$text) > length(praeCAM$text)) {
+      vec_type[i] <- "B"
+      if (verbose) {
+        cat("\n i:", i, "type:", vec_type[i], "\n")
+      }
+      error = error + 1
+      
+      ## get words and values
+      list_newWords_text[[h]] <-
+        postCAM$text[!postCAM$text %in% praeCAM$text]
+      list_newWords_value[[h]] <-
+        postCAM$value[!postCAM$text %in% praeCAM$text]
+      list_ids[[h]] <- rep(unique(CAMfiles_pre[[1]]$participantCAM)[i], times = length(list_newWords_value[[h]]))
+      
+      h = h + 1
+    }
+    
+    ## Typ C
+    if (all(praeCAM$text %in% postCAM$text) &
+        all(postCAM$text %in% praeCAM$text)) {
+      vec_type[i] <- "C"
+      if (verbose) {
+        cat("\n i:", i, "type:", vec_type[i], "\n")
+      }
+      error = error + 1
+    }
+    
+    ## Typ D
+    # smaller > pr? UE post, post UE pr?
+    if (sum(praeCAM$text %in% postCAM$text) < length(praeCAM$text) &
+        sum(postCAM$text %in% praeCAM$text) < length(postCAM$text)) {
+      vec_type[i] <- "D"
+      if (verbose) {
+        cat("\n i:", i, "type:", vec_type[i], "\n")
+      }
+      error = error + 1
+    }
+    
+    if (error > 1) {
+      print("ERROR in (not exclusive logical condition)", i)
+      stop("check your data and adjust this function")
+    }
+    error = 0
+  }
+}
+
+
+table(vec_type)
+
+
+barplot(table(unlist(list_newWords_value)))
+# sort(table(unlist(list_newWords_text)))
+
+
+dat_newWords <- data.frame(participantCAM = unlist(list_ids), 
+                           text = unlist(list_newWords_text), 
+                           value = unlist(list_newWords_value))
+DT::datatable(dat_newWords, options = list(pageLength = 5)) 
+
+dat_newWords$value <- ifelse(test = dat_newWords$value == 10, yes = 0, no = dat_newWords$value)
+
+tmp <- dat_newWords %>% 
+  group_by(participantCAM) %>%
+  dplyr::summarise(mean = mean(value), n = n())
+
+
+tmp2 <- data.frame(typeRobot = questionnaire$choosen_Robot[questionnaire$PROLIFIC_PID %in% dat_newWords$participantCAM], participantCAM = tmp$participantCAM, mean = tmp$mean, n = tmp$n)
+
+
+DT::datatable(tmp2, options = list(pageLength = 5)) 
+
+boxplot(tmp2$mean ~ tmp2$typeRobot)
+boxplot(tmp2$n ~ tmp2$typeRobot)
+```
+
+
+
 
 # analyze data 
 
@@ -623,11 +746,22 @@ for(i in 1:length(raw_CAM_post)){
 
 ### feedback to the study
 
-Question: 
+Question:  Haben Sie Feedback oder Kritik an der Online-Studie? 
 
 ```{r}
 DT::datatable(questionnaire[,c("PROLIFIC_PID", "feedback_critic")], options = list(pageLength = 5)) 
 ```
+
+### technical problems CAMEL
+
+```{r}
+DT::datatable(questionnaire[,c("PROLIFIC_PID", str_subset(string = colnames(questionnaire), pattern = "^feedCAM"))], options = list(pageLength = 5)) 
+
+hist(questionnaire$feedCAM_repres)
+summary(questionnaire$feedCAM_repres)
+```
+
+## anaylze data set
 
 ## group comparisons
 
@@ -729,7 +863,6 @@ print(p)
 
 
 
-
 ########################################
 # post - pre difference of robot -> average number of concepts
 ########################################
@@ -742,16 +875,17 @@ ggwithinstats(
 
 
 
-## open text answers
+## open text answers (adaptive question)
+
+Question: Ihre angepasste Mind-Map hatte eine durchschnittliche emotionale Bewertung von XXX, diese war im Vergleich zu ihrer anfangs gezeichneten Mind-Map (durchschnittliche emotionale Bewertung von XXX) XXX. Bitte erklären Sie, warum Sie diese XXX wahrgenommen haben:
 
 ```{r}
-
 questionnaire_secondPostCAM$meanDifferencesCAMs <- round(x = networkIndicators_post$mean_valence_macro - networkIndicators_pre$mean_valence_macro, digits = 2)
 DT::datatable(questionnaire_secondPostCAM[,c("meanDifferencesCAMs", "ans1", "feedback_critic")], options = list(pageLength = 5)) 
 ```
 
 
-# check questions
+# check questions (will be removed)
 
 ```{r}
 ###
