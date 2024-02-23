@@ -9,10 +9,11 @@
 # draw_CAM()
 #
 ############################################################################
-# dat_merged = CAMfiles_Germany[[3]]
-# dat_nodes = CAMfiles_Germany[[1]]
+# dat_merged = CAMfiles[[3]]
+# dat_nodes = CAMfiles[[1]]
 # ids_CAMs = "all"
 # plot_CAM = TRUE
+# useCoordinates = TRUE
 # relvertexsize = 7
 # reledgesize = 1
 draw_CAM <- function(dat_merged = CAMfiles[[3]],

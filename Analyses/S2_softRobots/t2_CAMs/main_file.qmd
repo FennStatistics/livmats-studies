@@ -58,33 +58,60 @@ for(i in 1:length(folders)){
   setwd(folders[i])
   if(length(dir()) == 5){
     # print(i)
+    
+    
+    ### pre CAM data
+    setwd(dir()[1])
+    tmp_pre <- jsonlite::fromJSON(txt = "data.txt")
+    writeLines(jsonlite::toJSON(x = tmp_pre), text_connection_pre)
+    setwd("..")
+    
+    
     ### CAM data
     setwd(dir()[2])
     tmp <- jsonlite::fromJSON(txt = "data.txt")
+    
+    ## add Prolific PID
+    if(sum(!is.na(tmp_pre$PROLIFIC_PID)) != 1){
+      cat("Error in assigning prolific PID in index", i, "\n")
+      break
+    }
+    
+    tmp$creator <- tmp_pre$PROLIFIC_PID[!is.na(tmp_pre$PROLIFIC_PID)]
     writeLines(jsonlite::toJSON(x = tmp), text_connection)
     setwd("..")
 
-    ### pre CAM data
-    setwd(dir()[1])
-    tmp <- jsonlite::fromJSON(txt = "data.txt")
-    writeLines(jsonlite::toJSON(x = tmp), text_connection_pre)
-    setwd("..")
+
 
     ### post CAM data
     setwd(dir()[3])
     tmp <- jsonlite::fromJSON(txt = "data.txt")
+    
+    ## add Prolific PID
+    tmp$PROLIFIC_PID <- NA
+    tmp$PROLIFIC_PID[2] <- tmp_pre$PROLIFIC_PID[!is.na(tmp_pre$PROLIFIC_PID)]
+    
     writeLines(jsonlite::toJSON(x = tmp), text_connection_post)
     setwd("..")
     
     ### CAM data second
     setwd(dir()[4])
     tmp <- jsonlite::fromJSON(txt = "data.txt")
+    
+    ## add Prolific PID
+    tmp$creator <- tmp_pre$PROLIFIC_PID[!is.na(tmp_pre$PROLIFIC_PID)]
+    
     writeLines(jsonlite::toJSON(x = tmp), text_connection_second)
     setwd("..")
     
     ### post CAM data second
     setwd(dir()[5])
     tmp <- jsonlite::fromJSON(txt = "data.txt")
+    
+    ## add Prolific PID
+    tmp$PROLIFIC_PID <- NA
+    tmp$PROLIFIC_PID[2] <- tmp_pre$PROLIFIC_PID[!is.na(tmp_pre$PROLIFIC_PID)]
+    
     writeLines(jsonlite::toJSON(x = tmp), text_connection_postSecond)
     setwd("..")
   }
@@ -169,6 +196,7 @@ suppressMessages(read_file('preCAM.txt') %>%
                    discard(function(x) x == '\r') %>%
                    # ... parse JSON into a data.frame
                    map_dfr(fromJSON, flatten=TRUE)) -> dat_preCAM
+
 # > post first CAM
 suppressMessages(read_file('postCAM.txt') %>%
                    # ... split it into lines ...
@@ -275,14 +303,16 @@ dat_secondPostCAM <- dat_secondPostCAM[dat_secondPostCAM$ID %in% names(table(dat
 # json (from JATOS) to 2D data.frame
 ########################################
 ################################ pre-study
-### !!! add paradata
+tmp_notNumeric <- str_subset(string = colnames(dat_preCAM), pattern = "^meta|^R")
+tmp_notNumeric <- str_subset(string = tmp_notNumeric, pattern = "labjs|location", negate = TRUE)
+
 vec_ques <- c("PROLIFIC_PID",
                 "choosen_Robot", 
               "dummy_informedconsent", 
-              "commCheck")
+              "commCheck", tmp_notNumeric)
 
 vec_notNumeric = c("PROLIFIC_PID",
-                "choosen_Robot")
+                "choosen_Robot", tmp_notNumeric)
 
 questionnaire_preCAM <- questionnairetype(dataset = dat_preCAM, 
                                         listvars = vec_ques, 
@@ -294,22 +324,43 @@ dim(questionnaire_preCAM)
 
 
 ################################ post-study
+vec_ques <- c("PROLIFIC_PID",
+              "feedCAM_repres", "feedCAM_technicalprobs", "feedCAM_technicalprobsText",
+              "feedCAM_already", "feedCAM_alreadyText")
+
+vec_notNumeric = c("PROLIFIC_PID", 
+                   "feedCAM_technicalprobsText", "feedCAM_alreadyText")
+
+questionnaire_postCAM <- questionnairetype(dataset = dat_postCAM, 
+                                        listvars = vec_ques, 
+                                        notNumeric = vec_notNumeric, verbose = FALSE)
 
 ################################ post-study second
 tmp_numeric <- str_subset(string = colnames(dat_secondPostCAM), pattern = "^GAToRS|^Almere|^LiWang")
 
 
-vec_ques <- c("ans1",
+vec_ques <- c("PROLIFIC_PID", 
+              "ans1",
                 tmp_numeric,
                 "feedback_critic")
 
-vec_notNumeric = c("ans1",
+vec_notNumeric = c("PROLIFIC_PID",
+                   "ans1",
                    "feedback_critic")
 
 questionnaire_secondPostCAM <- questionnairetype(dataset = dat_secondPostCAM, 
                                         listvars = vec_ques, 
                                         notNumeric = vec_notNumeric, verbose = FALSE)
 
+
+dim(questionnaire_secondPostCAM)
+
+################################ merge all data sets
+questionnaire <-  left_join(x = questionnaire_preCAM, y = questionnaire_postCAM, by='PROLIFIC_PID') %>%
+                left_join(., questionnaire_secondPostCAM, by='PROLIFIC_PID') 
+
+questionnaire$ID.x <- NULL
+questionnaire$ID.y <- NULL
 
 dim(questionnaire_secondPostCAM)
 ```
@@ -374,6 +425,7 @@ networkIndicators_pre <- compute_indicatorsCAM(drawn_CAM = CAMdrawn_pre,
 CAMwordlist_pre <- create_wordlist(
   dat_nodes =  CAMfiles_pre[[1]],
   dat_merged =  CAMfiles_pre[[3]],
+  useSummarized = TRUE,
   order = "frequency",
   splitByValence = FALSE,
   comments = TRUE,
@@ -567,7 +619,15 @@ for(i in 1:length(raw_CAM_post)){
 
 # analyze data 
 
+## describe data set
 
+### feedback to the study
+
+Question: 
+
+```{r}
+DT::datatable(questionnaire[,c("PROLIFIC_PID", "feedback_critic")], options = list(pageLength = 5)) 
+```
 
 ## group comparisons
 
@@ -576,7 +636,9 @@ for(i in 1:length(raw_CAM_post)){
 networkIndicators_pre$timepoint <- "pre"
 networkIndicators_post$timepoint <- "post"
 
-
+networkIndicators_post$timepoint <- factor(networkIndicators_post$timepoint, 
+                                           levels = c("pre", "post"), 
+                                           ordered = FALSE)
 
 networkIndicators <- rbind(networkIndicators_pre, networkIndicators_post)
 

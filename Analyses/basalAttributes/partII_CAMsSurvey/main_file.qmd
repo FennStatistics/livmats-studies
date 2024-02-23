@@ -231,13 +231,15 @@ dim(questionnaire_preCAM)
 
 ################################ post-study
 vec_ques <- c("PROLIFIC_PID", "commCheck",
-              "feedCAM_repres", "feedCAM_technicalprobsText", "feedCAM_alreadyText",
+              "feedCAM_repres", "feedCAM_technicalprobs", "feedCAM_technicalprobsText", "feedCAM_already","feedCAM_alreadyText",
               "openQuestion_MaterialSystem",
               "openQuestion_Ethic",
               "openQuestion_missedPositive", "openQuestion_missedNegative",
               "outcome_research", "outcome_prohibition", "outcome_buy", "outcome_buy_text", 
               "education", "experienceMS",
               "feedback_critic")
+
+     
 
 vec_notNumeric = c("PROLIFIC_PID", 
                    "feedCAM_technicalprobsText", "feedCAM_alreadyText", 
