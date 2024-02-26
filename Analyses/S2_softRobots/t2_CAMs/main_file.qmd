@@ -829,14 +829,17 @@ anova(fit1, es = "pes")
 # generalized eta squared
 fit1a # > identical results
 
-
 dfvalcor <- data_summary(networkIndicators_anova, varname="mean_valence_macro",
                          groupnames=c("timepoint","typeRobot"))
+
+dfvalcor$timepoint <- factor(dfvalcor$timepoint, levels = c("pre", "post"))
+
 p <- ggplot(dfvalcor, aes(x=timepoint, y=mean_valence_macro, fill=typeRobot)) +
   geom_bar(stat="identity", color="black",
            position=position_dodge()) +
   geom_errorbar(aes(ymin=mean_valence_macro-se, ymax=mean_valence_macro+se), width=.2,
-                position=position_dodge(.9)) + ggplot_theme + ylab(label = "average emotional evaluation")
+                position=position_dodge(.9)) + ggplot_theme + ylab(label = "average emotional evaluation") + 
+  theme(axis.text=element_text(size=20), legend.text = element_text(size=14), legend.title = element_text(size=16))
 print(p)
 
 ############

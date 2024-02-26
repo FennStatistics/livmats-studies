@@ -271,3 +271,142 @@ vroom::vroom_write(x =  CAMfiles_high[[1]], file = "CAM_nodes_high.txt")
 vroom::vroom_write(x =  CAMfiles_high[[2]], file = "CAM_connectors_high.txt")
 vroom::vroom_write(x =  CAMfiles_high[[3]], file = "CAM_merged_high.txt")
 ```
+
+
+
+## aggregate CAMs high
+
+
+```{r}
+
+sel_ids <- unique(CAMfiles_high[[1]]$participantCAM)
+
+tmp_nodes <- CAMfiles_high[[1]]
+
+tmp_nodes$text_summarized <- str_remove(string = tmp_nodes$text_summarized, pattern = "_positive$|_negative$|_neutral$|_ambivalent$")
+tmp_nodes$text_summarized <- str_trim(string = tmp_nodes$text_summarized)
+
+
+tmp_nodes_high <- tmp_nodes
+tmp_nodes_high$group <- "high"
+
+CAMaggregated <- aggregate_CAMs(dat_merged = CAMfiles_high[[3]], dat_nodes = tmp_nodes,
+                                ids_CAMs = sel_ids)
+
+# plot(CAMaggregated[[2]], vertex.size=diag(CAMaggregated[[1]]) / max(diag(CAMaggregated[[1]]))*20, edge.arrow.size=0.01)
+# plot(CAMaggregated[[2]], vertex.size=(abs(V(CAMaggregated[[2]])$value)+1)*5, edge.arrow.size=0.01)
+
+
+g = CAMaggregated[[2]]
+g2 = simplify(CAMaggregated[[2]])
+# plot(g2, edge.arrow.size=0.01,
+#      vertex.size=diag(CAMaggregated[[1]]) / max(diag(CAMaggregated[[1]]))*20)
+
+E(g2)$weight = sapply(E(g2), function(e) {
+  length(all_shortest_paths(g, from=ends(g2, e)[1], to=ends(g2, e)[2])$res) } )
+E(g2)$weight = E(g2)$weight / 2
+# E(g2)$weight[E(g2)$weight == 1] <- NA
+
+V(g2)$color[V(g2)$value <= .5 & V(g2)$value >= -.5] <- "yellow"
+
+V(g2)$shape <- NA
+V(g2)$shape <- ifelse(test = V(g2)$color == "yellow", yes = "square", no = "circle")
+
+
+
+### > plot multiple times because of random layout
+for(i in 1:5){
+plot(g2, edge.arrow.size = 0,
+     layout=layout_nicely, vertex.frame.color="black", asp = .5, margin = -0.1,
+     vertex.size=diag(CAMaggregated[[1]]) / max(diag(CAMaggregated[[1]]))*5,
+     vertex.label.cex = .9, 
+     edge.weight=2, edge.width=(E(g2)$weight/10))
+}
+
+
+tmp <- make_ego_graph(g, order = 2, "conspirative narration")
+plot(tmp[[1]], edge.arrow.size = 0,
+     layout=layout_nicely, vertex.frame.color="black", asp = .5, margin = -0.1,
+     vertex.size=diag(CAMaggregated[[1]]) / max(diag(CAMaggregated[[1]]))*5,
+     vertex.label.cex = .9, 
+     edge.weight=2, edge.width=(E(g2)$weight/10))
+
+
+# tmp <- CAMaggregated[[1]][rownames(CAMaggregated[[1]]) == "conspirative narration", ]
+# tmp[tmp != 0]
+```
+## aggregate CAMs low
+
+
+```{r}
+
+sel_ids <- unique(CAMfiles_low[[1]]$participantCAM)
+
+tmp_nodes <- CAMfiles_low[[1]]
+
+tmp_nodes$text_summarized <- str_remove(string = tmp_nodes$text_summarized, pattern = "_positive$|_negative$|_neutral$|_ambivalent$")
+tmp_nodes$text_summarized <- str_trim(string = tmp_nodes$text_summarized)
+
+tmp_nodes_low <- tmp_nodes
+tmp_nodes_low$group <- "low"
+
+CAMaggregated <- aggregate_CAMs(dat_merged = CAMfiles_low[[3]], dat_nodes = tmp_nodes,
+                                ids_CAMs = sel_ids)
+
+# plot(CAMaggregated[[2]], vertex.size=diag(CAMaggregated[[1]]) / max(diag(CAMaggregated[[1]]))*20, edge.arrow.size=0.01)
+# plot(CAMaggregated[[2]], vertex.size=(abs(V(CAMaggregated[[2]])$value)+1)*5, edge.arrow.size=0.01)
+
+
+g = CAMaggregated[[2]]
+g2 = simplify(CAMaggregated[[2]])
+# plot(g2, edge.arrow.size=0.01,
+#      vertex.size=diag(CAMaggregated[[1]]) / max(diag(CAMaggregated[[1]]))*20)
+
+E(g2)$weight = sapply(E(g2), function(e) {
+  length(all_shortest_paths(g, from=ends(g2, e)[1], to=ends(g2, e)[2])$res) } )
+E(g2)$weight = E(g2)$weight / 2
+# E(g2)$weight[E(g2)$weight == 1] <- NA
+
+V(g2)$color[V(g2)$value <= .5 & V(g2)$value >= -.5] <- "yellow"
+
+V(g2)$shape <- NA
+V(g2)$shape <- ifelse(test = V(g2)$color == "yellow", yes = "square", no = "circle")
+
+
+
+### > plot multiple times because of random layout
+for(i in 1:5){
+plot(g2, edge.arrow.size = 0,
+     layout=layout_nicely, vertex.frame.color="black", asp = .5, margin = -0.1,
+     vertex.size=diag(CAMaggregated[[1]]) / max(diag(CAMaggregated[[1]]))*5,
+     vertex.label.cex = .9, 
+     edge.weight=2, edge.width=(E(g2)$weight/2))
+}
+```
+
+
+### t tests
+
+```{r}
+nodes_lowHigh <- rbind(tmp_nodes_high, tmp_nodes_low)
+nodes_lowHigh$value <- ifelse(test = nodes_lowHigh$value == 10, yes = 0, no = nodes_lowHigh$value)
+
+
+tmp_nodes_lowHigh <- nodes_lowHigh[nodes_lowHigh$text_summarized == "climate change",]
+describeBy(tmp_nodes_lowHigh$value, tmp_nodes_lowHigh$group)
+
+car::leveneTest(tmp_nodes_lowHigh$value, tmp_nodes_lowHigh$group)
+
+
+t.test(tmp_nodes_lowHigh$value ~ tmp_nodes_lowHigh$group, var.equal = FALSE, alternative = "two.sided")
+barplot(table(tmp_nodes_lowHigh$value))
+table(tmp_nodes_lowHigh$value, tmp_nodes_lowHigh$group)
+
+
+
+
+# tmp_nodes_lowHigh <- nodes_lowHigh[nodes_lowHigh$text_summarized == "political measures against climate change",]
+# describeBy(tmp_nodes_lowHigh$value, tmp_nodes_lowHigh$group)
+# t.test(tmp_nodes_lowHigh$value ~ tmp_nodes_lowHigh$group, var.equal = TRUE, alternative = "two.sided")
+```
+
