@@ -1,7 +1,7 @@
 const Required_Testing = false; // set to false for production
 
 /* number of components / elements to set slider */
-const numElements = 15; // 7 Part I + 8 Part II
+const numElements = 16; // 7 Part I + 9 Part II
 var numElementsCounter = 8;
 
 
@@ -510,6 +510,82 @@ const outcomeMS_htmlForm = new lab.html.Form({
     },
   },
 });
+
+
+// >>>  General Attitudes Towards Robots Scale (GAToRS)
+const LikertNeedForCognition = new lab.html.Page({
+  title: "Need for Cognition",
+  items: [
+    {
+      required: true,
+      type: "likert",
+      items: item_NeedforCognition,
+      width: "7",
+      anchors: [
+        "trifft überhaupt nicht zu",
+        "trifft nicht zu",
+        "trifft eher nicht zu",
+        "neutral",
+        "trifft eher zu",
+        "trifft zu",
+        "trifft voll und ganz zu"
+      ],
+      label:
+        "Bitte geben Sie für jede der nachstehenden Aussagen an, inwieweit die Aussage charakteristisch für Sie ist.",
+      help: "Beantworten Sie bitte jede Aussage, auch wenn Sie sich nicht ganz sicher sind, was Sie antworten sollen.",
+      shuffle: false,
+      name: "nfc",
+    },
+  ],
+  submitButtonText: "Weiter →",
+  submitButtonPosition: "right",
+  width: "l",
+  messageHandlers: {
+    run: function anonymous() {
+      // adjust size of scale
+      document.querySelectorAll("div")[0].classList = ["text-left"];
+      document.querySelectorAll("main")[1].classList = ["w-xl"];
+      document.querySelectorAll(".page-item-table colgroup")[0].innerHTML = `
+     <col style=\"width: 51%\">
+     <col style=\"width: 7%\">
+     <col style=\"width: 7%\">
+     <col style=\"width: 7%\">
+     <col style=\"width: 7%\">
+     <col style=\"width: 7%\">
+     <col style=\"width: 7%\">
+     <col style=\"width: 7%\">
+     `;
+      // sticky labels to front
+      $("thead").first().css("z-index", "20");
+
+      // add header
+      $(".w-xl").prepend('<header><h2> Bitte beantworten Sie die folgende Frage zu Ihrer Person</h2></header>');
+
+      
+      // collect paradata
+      paracountclicks = 0;
+      document.querySelectorAll("input").forEach((item) => {
+        item.addEventListener("click", (event) => {
+          paracountclicks++;
+          console.log("input clicked", paracountclicks);
+        });
+      });
+    },
+    end: function anonymous() {
+      // collect paradata
+      let numberitems = document.querySelectorAll("tbody tr").length;
+      paracountclicks -= numberitems;
+      study.options.datastore.set("para_countclicks", paracountclicks);
+    },
+    commit: function anonymous() {
+      // progress bar
+      numElementsCounter++;
+      document.querySelector(".progress-bar").style.width =
+        (numElementsCounter / numElements) * 100 + "%";
+    },
+  },
+});
+
 
 
 
@@ -1108,9 +1184,7 @@ const study = new lab.flow.Sequence({
     // new lab.plugins.Debug(), // comment out finally
     // new lab.plugins.Download()
   ],
-  content: [
-    outcomeMS_htmlForm,
-
+  content: [   
     // break500,
     CAMfeedbackGeneral_htmlForm,
     // adaptive_meanValenece,
@@ -1119,7 +1193,8 @@ const study = new lab.flow.Sequence({
     openQuestion_basalAttributes_Ethic,
 
     outcomeMS_htmlForm,
-    
+    LikertNeedForCognition,
+
     //SCALES_sequence,
     SocioDemo_htmlScreen,
     FeedbackScreen_htmlScreen,

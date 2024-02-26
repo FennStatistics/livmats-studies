@@ -83,3 +83,26 @@ console.log("policyItemsList index: ", index_policyItemsList);
 
 var items_policyItems = createitems(policyItemsList, index_policyItemsList);
 console.log(items_policyItems.slice(0, 4));
+
+
+
+/* items Need for Cognition 2019
+https://econtent.hogrefe.com/doi/full/10.1026/0012-1924/a000242
+ */
+let NeedforCognitionList = {
+  ques: ["Die Aufgabe, neue Lösungen für Probleme zu finden, macht mir wirklich Spaß.",
+  "Ich setze mir eher solche Ziele, die nur mit erheblicher geistiger Anstrengung erreicht werden können.",
+  "Ich würde lieber etwas tun, das wenig Denken erfordert, als etwas, das mit Sicherheit meine Denkfähigkeit herausfordert.",
+  "Ich finde wenig Befriedigung darin, angestrengt und stundenlang nachzudenken.",
+  "Ich habe es gern, wenn mein Leben voller kniffliger Aufgaben ist, die ich lösen muss."],
+  scale: ["1", "2", "3r", "4r", "5"]
+};
+
+var index_NeedforCognitionList = shuffle(NeedforCognitionList);
+console.log("NeedforCognitionList: ", NeedforCognitionList);
+console.log("KoverolaList index: ", index_NeedforCognitionList);
+
+var item_NeedforCognition = createitems(NeedforCognitionList, index_NeedforCognitionList);
+console.log(item_NeedforCognition.slice(0, 4));
+
+
