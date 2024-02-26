@@ -1,0 +1,121 @@
+---
+title: "Main File for S2 main CAM study"
+author: "Julius Fenn, Louisa Estadieu"
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    html-math-method: katex
+---
+
+```{r}
+#| echo: false
+#| warning: false
+#| results: hide
+
+# sets the directory of location of this script as the current directory
+# setwd(dirname(rstudioapi::getSourceEditorContext()$path))
+
+########################################
+# load packages
+########################################
+require(pacman)
+p_load('tidyverse', 'jsonlite', 'magrittr', 'xlsx',
+       'stargazer', 'psych', 'jtools', 'DT', 'ggstatsplot', 
+       'lavaan', 
+       'regsem', 'MplusAutomation', 'igraph',
+       'irr')
+
+########################################
+# list data files
+########################################
+setwd("data")
+dir()
+
+files <- list.files(pattern = "xlsx")
+files_rater <- list()
+
+for(i in 1:length(files)){
+  tmp <- xlsx::read.xlsx2(file = files[i], sheetIndex = 1)
+  files_rater[[i]] <- tmp
+  if(i == 1){
+    dat <- tmp
+  }else{
+    dat <- rbind(dat, tmp)
+  }
+}
+
+
+########################################
+# load functions
+########################################
+# print(getwd())
+setwd("../../../functions")
+for(i in 1:length(dir())){
+  # print(dir()[i])
+  source(dir()[i], encoding = "utf-8")
+}
+
+
+setwd("../functions_CAMapp")
+for(i in 1:length(dir())){
+  # print(dir()[i])
+  source(dir()[i], encoding = "utf-8")
+}
+rm(i)
+```
+
+# Notes
+
+
+# compute reliability coefficients
+
+```{r}
+### compute inter-rater coefficients
+
+
+# addRatingColum(filesRater = files_rater)
+cohensKappas <- computeCohensKappa(files = files_rater,
+                                   numberRaters = length(files_rater))
+cohensKappas
+
+
+
+cohensKappasMaximized <- computeCohensKappaMaximized(files = files_rater,
+                                                     numberRaters = length(files_rater))
+cohensKappasMaximized
+```
+# see raw data
+
+```{r}
+setwd("data")
+tmp_namesRater <- files <- list.files(pattern = "xlsx")
+setwd("..")
+ovallRaterList <- getOverallRaterList(files = files_rater,
+                                        orderAlphabetically = TRUE,
+                                        raterNames = tmp_namesRater)
+
+DT::datatable(ovallRaterList[,c("Words", str_subset(string = colnames(ovallRaterList), pattern = "Superordinate"))], options = list(pageLength = 5))
+```
+
+
+# compute percantage of overlap
+
+```{r}
+ovallRaterList$overlapNum <- NA
+for(i in 1:nrow(ovallRaterList)){
+ovallRaterList$overlapNum[i] <- max(table(unlist(ovallRaterList[i,c(str_subset(string = colnames(ovallRaterList), pattern = "Superordinate"))])))
+}
+
+## number raters
+length(str_subset(string = colnames(ovallRaterList), pattern = "Superordinate"))
+
+
+table(ovallRaterList$overlapNum)
+barplot(table(ovallRaterList$overlapNum) / nrow(ovallRaterList) * 100)
+
+
+
+DT::datatable(ovallRaterList[ovallRaterList$overlapNum >= 3,c("Words", str_subset(string = colnames(ovallRaterList), pattern = "Superordinate"))], options = list(pageLength = 5))
+```
+

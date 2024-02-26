@@ -1,0 +1,1125 @@
+---
+title: "Open Text Analyses"
+author: "Julius Fenn"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    toc: true
+    theme: united
+---
+
+
+
+Define your global settings: 
+
+```{r globalSettings}
+
+```
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Load packages, data files and self-written functions
+
+## Remarks
+
+* data can be found in the folder "data"
+  * data was already cleaned in previous study, see for details: 
+https://doi.org/10.1371/journal.pclm.0000207 
+* The sentiment analysis was conducted using the Python module VADER (for Valence Aware Dictionary for sEntiment Reasoning), see https://github.com/cjhutto/vaderSentiment
+
+## load packages
+
+```{r load_packages, message = FALSE}
+require(pacman)
+p_load('tidyverse', 'xlsx',
+       'stargazer', 'psych', 'ggstatsplot', 'rstatix', 'report',
+       'irr', 'igraph')
+```
+
+## load data
+
+**questionnaire**
+
+```{r load_data, message = FALSE}
+questionnaire <- readRDS(file = "data/questionnaire.rds")
+allEAs <- xlsx::read.xlsx2(file = "data/all EAs.xlsx", sheetIndex = 1)
+allEAs_second <- xlsx::read.xlsx2(file = "data/all EAs_second.xlsx", sheetIndex = 1)
+
+```
+
+
+**sentiment analysis**
+
+```{r load_sentimentData, message = FALSE}
+sentiment <- read.csv(file = "sentiment analysis/sentiment_text.csv")
+
+## missing values
+sentiment[sentiment$sentimentVadderPolarityScore == -99, ]
+
+questionnaire$text_morallyRight[c(120, 489, 507)]
+
+#> set to NA
+sentiment$sentimentVadderPolarityScore[sentiment$sentimentVadderPolarityScore == -99] <- NA
+sentiment$sentimentVadder[sentiment$sentimentVadder == -99] <- NA
+
+## add to questionnaire
+questionnaire$sentimentVadder <- sentiment$sentimentVadder
+```
+
+
+
+## load functions
+
+
+```{r load_functions, message = FALSE}
+source(file = "functions/getDescriptives.R", encoding = "UTF-8")
+```
+
+
+# Prepare data
+
+*Remarks*:
+* Data was already cleaned in previous study, see for details: 
+  * https://doi.org/10.1371/journal.pclm.0000207 and OSF project: https://osf.io/zn7vy/
+  * all scripts to clean data are also uploaded in the folder "Prepare Data"
+* 29 participants were removed, because of insufficient effort responding (provided careless or random responses to survey items)
+
+*Tools used*:
+* data was collected using local [JATOS Server](https://www.jatos.org/)
+* studies were programmed using [lab.js](https://lab.js.org/)
+
+
+
+# descriptive statistics
+
+## text lengths, sentiment scores
+
+```{r DS_sentiment, warning = FALSE}
+###############
+# text lengths
+###############
+## Number of Characters
+hist(nchar(questionnaire$text_morallyRight))
+summary(nchar(questionnaire$text_morallyRight))
+
+## Number of Words
+hist(str_count(string = questionnaire$text_morallyRight, pattern = '\\w+'))
+summary(str_count(string = questionnaire$text_morallyRight, pattern = '\\w+'))
+sd(str_count(string = questionnaire$text_morallyRight, pattern = '\\w+'), na.rm = TRUE)
+
+###############
+# sentiment scores
+###############
+table(questionnaire$sentimentVadder)
+```
+```{r DS_dontKnow, warning = FALSE}
+###############
+# do not know
+###############
+questionnaire$text_morallyRight[str_count(string = questionnaire$text_morallyRight, pattern = '\\w+') <= 5]
+
+str_subset(string = questionnaire$text_morallyRight, pattern = "don't know|do not know")
+
+## two don't know answers are correctly coded as neutral
+questionnaire$sentimentVadder[questionnaire$text_morallyRight == "don't know." & !is.na(questionnaire$text_morallyRight)]
+questionnaire$sentimentVadder[questionnaire$text_morallyRight == "I don't know how to answer this." & !is.na(questionnaire$text_morallyRight)]
+```
+
+# significant mean differences
+
+
+```{r MD_acceptability, warning = FALSE}
+tmp <- questionnaire %>%
+  group_by(sentimentVadder) %>%
+  summarise(N = n(), 
+            meanAcceptability = mean(mean_acceptability), 
+            sdAcceptability = sd(mean_acceptability),
+            meanWords = mean(str_count(string = text_morallyRight, pattern = '\\w+')),
+           sdWords = sd(str_count(string = text_morallyRight, pattern = '\\w+')))
+tmp
+
+tmp$meanAcceptability <- round(x = tmp$meanAcceptability, digits = 2)
+tmp$sdAcceptability <- round(x = tmp$sdAcceptability, digits = 2)
+tmp$meanWords <- round(x = tmp$meanWords, digits = 2)
+tmp$sdWords <- round(x = tmp$sdWords, digits = 2)
+suppressOutput <- stargazer::stargazer(tmp, type = "html", summary = FALSE, out = "outputs/descriptiveTableAppendixB.html", digits = 2)
+
+## plot by ggstatsplot package
+ggbetweenstats(
+  questionnaire,
+  x    = sentimentVadder,
+  y    = mean_acceptability,
+  type = "parametric",
+  var.equal = TRUE,
+  xlab = "Categorized sentiment scores",
+  ylab = "Average acceptability of SAI"
+)
+
+
+## ANOVAs afex package
+fit1 <- afex::aov_car(mean_acceptability ~ sentimentVadder + Error(PROLIFIC_PID),
+                      data = questionnaire)
+fit1a <- afex::aov_ez(id = "PROLIFIC_PID", dv = "mean_acceptability",
+                      data = questionnaire, between=c("sentimentVadder"))
+# partical eta squared
+anova(fit1, es = "pes")
+# fit1a # equal generalized eta squared
+
+
+pwc <- questionnaire %>%
+  rstatix::pairwise_t_test(mean_acceptability ~ sentimentVadder, p.adjust.method = "bonferroni")
+pwc
+
+
+## simplify interpretation results report package
+aov(mean_acceptability ~ sentimentVadder, data = questionnaire) %>%
+  report::report()
+```
+
+```{r MD_further, warning = FALSE}
+## plot by ggstatsplot package
+ggbetweenstats(
+  questionnaire,
+  x    = sentimentVadder,
+  y    = mean_deontology,
+  type = "parametric",
+  xlab = "Categorized sentiment scores",
+  ylab = "Average perceived deontological acceptability of SAI"
+)
+
+## simplify interpretation results report package
+aov(mean_deontology ~ sentimentVadder, data = questionnaire) %>%
+  report::report()
+
+## plot by ggstatsplot package
+ggbetweenstats(
+  questionnaire,
+  x    = sentimentVadder,
+  y    = mean_utilitarian,
+  type = "parametric",
+  xlab = "Categorized sentiment scores",
+  ylab = "Average perceived utilitarian acceptability of SAI"
+)
+
+## simplify interpretation results report package
+aov(mean_utilitarian ~ sentimentVadder, data = questionnaire) %>%
+  report::report()
+
+
+pwc <- questionnaire %>%
+  rstatix::pairwise_t_test(mean_utilitarian ~ sentimentVadder, p.adjust.method = "bonferroni")
+pwc
+```
+
+## exploratory
+
+
+
+```{r MD_exploratory, warning = FALSE}
+
+mean_vars <- str_subset(string = colnames(questionnaire), pattern = "mean_")
+
+
+out_dataset <- data.frame(variable = rep(NA, times = length(mean_vars)),
+                          F_value = rep(NA, times = length(mean_vars)),
+                          ges = rep(NA, times = length(mean_vars)),
+                          p_value = rep(NA, times = length(mean_vars)))
+
+counter = 1
+for(v in mean_vars){
+tmp_fit <- afex::aov_ez(id = "PROLIFIC_PID", dv = v,
+                      data = questionnaire, between=c("sentimentVadder"))
+tmp <- as.matrix(summary(tmp_fit))
+
+out_dataset$variable[counter] <- v
+out_dataset$F_value[counter] <- tmp[4]
+out_dataset$ges[counter] <- tmp[5]
+out_dataset$p_value[counter] <- tmp[6]
+
+
+counter = counter + 1
+}
+
+
+sum(out_dataset$p_value < .05)
+out_dataset$variable[out_dataset$p_value < .05]
+
+out_dataset$variable[out_dataset$ges == max(out_dataset$ges)]
+
+head(out_dataset[order(out_dataset$ges, decreasing = TRUE),])
+```
+
+
+
+# qualitative content analysis
+
+## first coding process
+
+### prepare data
+
+```{r}
+######## combine .csv files
+setwd("codingProcess_first/data")
+
+### save DocumentStatistics
+for(i in 1:length(dir())){
+  tmp_rater <- dir()[i]
+  
+  setwd(dir()[i])
+  
+  tmp_file_DS <- str_subset(string = dir(), pattern = "DocumentStatistics")
+  # guess_encoding(tmp_file_DS, n_max = 1000)
+  tmpFile <- read.csv2(file = tmp_file_DS, header = TRUE, fileEncoding = "UTF-16LE")
+  tmpFile$Rater <- tmp_rater
+  
+  colnames(tmpFile) <- c("Document", paste0("EA", 1:21), "Rater")
+  
+  if(i == 1){
+    tmp_out_DocumentStatistics <- tmpFile
+  }else{
+    tmp_out_DocumentStatistics <- rbind(tmp_out_DocumentStatistics, tmpFile)
+  }
+  setwd("..")
+}
+
+### save MarkedPassages
+for(i in 1:length(dir())){
+  tmp_rater <- dir()[i]
+  
+  setwd(dir()[i])
+  
+  tmp_file_DS <- str_subset(string = dir(), pattern = "MarkedPassages")
+  # guess_encoding(tmp_file_DS, n_max = 1000)
+  tmpFile <- read.csv2(file = tmp_file_DS, header = TRUE, fileEncoding = "UTF-16LE")
+  tmpFile$Rater <- tmp_rater
+  
+  if(i == 1){
+    tmp_out_MarkedPassages <- tmpFile
+  }else{
+    tmp_out_MarkedPassages <- rbind(tmp_out_MarkedPassages, tmpFile)
+  }
+  setwd("..")
+}
+
+
+setwd("..")
+######## save combined files
+#### DocumentStatistics
+## as .xslx
+write.xlsx2(x = tmp_out_DocumentStatistics,
+            file = paste0("outputs/DocumentStatistics", ".xlsx"))
+## as R object
+saveRDS(tmp_out_DocumentStatistics, file = "outputs/DocumentStatistics.rds")
+
+#### MarkedPassages
+## as .xslx
+for(i in 1:nrow(tmp_out_MarkedPassages)){
+  if(tmp_out_MarkedPassages[i,"Category"] == ""){
+    # print(i)
+    # print(tmp_out_MarkedPassages[i,]$Document)
+    
+    tmp_out_MarkedPassages[i-1,]$Marked.Text <- paste0(tmp_out_MarkedPassages[i-1,]$Marked.Text, tmp_out_MarkedPassages[i,]$Document)
+  }
+}
+
+tmp_out_MarkedPassages <- tmp_out_MarkedPassages[tmp_out_MarkedPassages$Category != "",]
+
+
+
+write.xlsx2(x = tmp_out_MarkedPassages,
+            file = paste0("outputs/MarkedPassages", ".xlsx"))
+## as R object
+saveRDS(tmp_out_MarkedPassages, file = "outputs/MarkedPassages.rds")
+```
+
+
+
+### compute reliability coefficients
+
+Remark: if a single ethical argument (EA) was given multiple times it is only counted once
+
+```{r}
+mat <- matrix(data = NA, 
+              nrow = length(unique(tmp_out_DocumentStatistics$Document)), 
+              ncol = length(unique(tmp_out_DocumentStatistics$Rater)))
+
+counter_r = 1
+counter_c = 1
+for(d in unique(tmp_out_DocumentStatistics$Document)){
+  for(r in unique(tmp_out_DocumentStatistics$Rater)){
+    tmp_dat <- tmp_out_DocumentStatistics[tmp_out_DocumentStatistics$Document == d & 
+                                            tmp_out_DocumentStatistics$Rater == r, ]
+    tmp_dat <- tmp_dat[, str_subset(string = colnames(tmp_dat), pattern = "^EA")]
+    
+    mat[counter_r, counter_c] <- paste0(names(tmp_dat)[tmp_dat != 0], collapse = " | ")
+    
+
+    counter_c = counter_c + 1
+  }
+  counter_r = counter_r + 1
+  counter_c = 1
+}
+
+write.csv(x = mat, file = "outputs/multiValuedCoding.csv")
+
+docsXratings <- mat
+docsXratings_first <- mat
+docsXratings_first <- as.data.frame(docsXratings_first)
+docsXratings_first$Document <- unique(tmp_out_DocumentStatistics$Document)
+```
+
+
+#### Fleiss Kappa
+compute **Fleiss Kappa** for strongest overlap of EAs:
+
+```{r}
+mat <- matrix(data = NA, nrow = nrow(docsXratings), ncol = ncol(docsXratings))
+
+for(i in 1:nrow(docsXratings)){
+  tmp_vector <- as.vector(x = str_split(string = docsXratings[i,], pattern = "\\|", simplify = TRUE))
+  tmp_vector <- str_trim(string = tmp_vector)
+
+  tmp_table <- table(tmp_vector)
+  tmp_table <- tmp_table[names(tmp_table) != ""]
+  tmp_EAmax <- names(tmp_table)[tmp_table == max(tmp_table)]
+  # tmp_EAmax <- str_trim(string = tmp_EAmax)
+  # print(tmp_EAmax)
+  
+  if(length(tmp_EAmax) > 1){
+    tmp_EAmax <- tmp_EAmax[1]
+  }
+  
+    
+    tmp_rating <- ifelse(test = str_detect(string = docsXratings[i,], pattern = tmp_EAmax), yes = tmp_EAmax, no = NA)
+    
+    while(any(is.na(tmp_rating))){
+      if(isFALSE(names(tmp_table) != tmp_EAmax)){
+        break
+      }
+     tmp_table <- tmp_table[names(tmp_table) != tmp_EAmax] 
+     tmp_EAmax <- names(tmp_table)[tmp_table == max(tmp_table)]
+     if(length(tmp_EAmax) > 1){
+       tmp_EAmax <- tmp_EAmax[1]
+     }
+     
+     tmp_rating[str_detect(string = docsXratings[i,], pattern = tmp_EAmax) & is.na(tmp_rating)] <- tmp_EAmax
+    }
+
+  mat[i,] <- tmp_rating
+}
+
+docsXratings_highestOverlap <- mat
+
+print("no EA as missing")
+irr::kappam.fleiss(ratings = docsXratings_highestOverlap)
+
+print("consider no EA")
+docsXratings_highestOverlap[is.na(docsXratings_highestOverlap)] <- "no EA"
+irr::kappam.fleiss(ratings = docsXratings_highestOverlap, detail = TRUE)
+
+kappa_detail <- irr::kappam.fleiss(ratings = docsXratings_highestOverlap, detail = TRUE)$detail
+
+
+mat <- matrix(data = NA, nrow = nrow(kappa_detail), ncol = 4)
+
+for(r in 1:length(rownames(kappa_detail))){
+  mat[r,1] <- kappa_detail[,1][rownames(kappa_detail) == rownames(kappa_detail)[r]]
+  mat[r,2] <- sum(docsXratings_highestOverlap == rownames(kappa_detail)[r])
+  mat[r,3] <- round(x = sum(docsXratings_highestOverlap == rownames(kappa_detail)[r]) / (dim(docsXratings_highestOverlap)[1]*dim(docsXratings_highestOverlap)[2]) * 100, digits = 0)
+  
+  tmp <- rowSums(x = docsXratings_highestOverlap == rownames(kappa_detail)[r])
+   mat[r,4] <- round(x = mean(x = tmp), digits = 2)
+}
+
+
+
+## 
+#> probability of a randomly chosen rater assigning an item to that category given that another randomly chosen rater has also assigned that item to that category
+
+colnames(mat) <- c("probability", "sum EAs", "percentage EAs", "mean EA (per document)")
+
+
+
+## get correct rownames
+
+rownames(mat) <- rownames(kappa_detail)
+
+namesEAs <- data.frame(Category = tmp_out_MarkedPassages$Category, 
+                          EA = tmp_out_MarkedPassages$Category.Title)
+tmp_names_category <- str_extract(string = namesEAs$Category, pattern = "-[:digit:]*")
+tmp_names_category <- str_remove(string = tmp_names_category, pattern = "-")
+tmp_names_category <- paste0("EA", tmp_names_category)
+
+namesEAs$Category <- tmp_names_category
+namesEAs <- unique(namesEAs)
+namesEAs <- namesEAs[namesEAs$Category != "EANA",]
+
+
+for(i in 1:nrow(mat)){
+  if(rownames(mat)[i] != "no EA"){
+      rownames(mat)[i] <- namesEAs$EA[namesEAs$Category %in% rownames(mat)[i]]
+  }
+}
+mat <- mat[order(as.numeric(mat[,1]), decreasing = TRUE), ]
+
+suppressOutput <- stargazer::stargazer(mat, type = "html", summary = FALSE, out = "outputs/detailedKappa.html", digits = 2)
+
+
+mat
+```
+
+### numer of EAs overall
+
+
+```{r}
+docsXratings_splitted <- str_split(string = docsXratings, pattern = "\\|", simplify = TRUE)
+docsXratings_splitted <- str_trim(string = docsXratings_splitted)
+docsXratings_splitted <- docsXratings_splitted[docsXratings_splitted != ""]
+
+namesEAs[["number EAs"]] <- NA
+namesEAs[["percentage EAs"]] <- NA
+for(i in 1:nrow(namesEAs)){
+  namesEAs$`number EAs`[i] <- sum(docsXratings_splitted == namesEAs$Category[i])
+    namesEAs$`percentage EAs`[i] <- round(x =  sum(docsXratings_splitted == namesEAs$Category[i]) / sum(docsXratings_splitted != "") * 100, digits = 2)
+}
+
+## add EA which have not been applied
+missingEAs <- cbind(allEAs$Category[!allEAs$Category %in% namesEAs$Category], allEAs$EA[!allEAs$Category %in% namesEAs$Category],0,0)
+if(nrow(missingEAs) > 0){
+  colnames(missingEAs) <- colnames(namesEAs)
+  namesEAs <- rbind(namesEAs, missingEAs)
+}
+
+namesEAs <- namesEAs[order(as.numeric(namesEAs$`number EAs`), decreasing = TRUE), ]
+
+
+suppressOutput <- stargazer::stargazer(namesEAs, type = "html", summary = FALSE, out = "outputs/frequencyEAs.html", digits = 2)
+
+
+namesEAs
+```
+
+
+
+
+### get co-occurrence of ethical arguments
+
+Remark: if a single ethical argument (EA) was given multiple times it is only counted once
+
+check if there are any significant co-occurrence between ethical arguments
+
+```{r, warning=FALSE}
+mat <- matrix(data = NA, nrow  = nrow(allEAs), ncol = nrow(allEAs))
+rownames(mat) <- allEAs$Category
+colnames(mat) <- allEAs$Category
+
+
+## for overall sum
+docsXratings_splitted_vec <- as.vector(str_split(string = docsXratings, pattern = "\\|", simplify = TRUE))
+docsXratings_splitted_vec <- docsXratings_splitted_vec[docsXratings_splitted_vec != ""]
+docsXratings_splitted_vec <- str_trim(string = docsXratings_splitted_vec)
+
+for(c in 1:ncol(mat)){
+  for(r in 1:nrow(mat)){
+    
+    if(r == c){
+        mat[r, c] <- sum(docsXratings_splitted_vec == rownames(mat)[r])
+    }
+    
+    if(r > c){ # only consider lower triangular (no effect of order assumed)
+
+      
+      tmp_doc <- tmp_out_DocumentStatistics[tmp_out_DocumentStatistics$Document == "41.docx",]
+      
+      
+      cbind(tmp_doc[,rownames(mat)[r]], 
+            tmp_doc[,colnames(mat)[c]])
+   
+      
+      
+      counter_Docs = 1
+      tmpEA_boolean_out = NULL
+      
+      for(e in 1:length(unique(tmp_out_DocumentStatistics$Document))){
+              tmp_doc <- tmp_out_DocumentStatistics[tmp_out_DocumentStatistics$Document ==
+                                                      unique(tmp_out_DocumentStatistics$Document)[e],]
+
+        if(any(tmp_doc[,rownames(mat)[r]] >= 1) &
+           any(tmp_doc[,colnames(mat)[c]] >= 1)){
+
+          if(counter_Docs == 1){
+            tmpEA_boolean_out <- cbind(tmp_doc[,rownames(mat)[r]], 
+                                       tmp_doc[,colnames(mat)[c]])
+          }else{
+            tmpEA_boolean_out <- rbind(tmpEA_boolean_out, 
+                                       cbind(tmp_doc[,rownames(mat)[r]], 
+                                       tmp_doc[,colnames(mat)[c]]))
+          }
+          
+          counter_Docs = counter_Docs + 1
+        }
+      }
+      
+      
+      if(!is.null(tmpEA_boolean_out)){
+        tmpEA_boolean_out[tmpEA_boolean_out >= 2] <- 1
+        tmpEA_boolean_out <- as.data.frame(tmpEA_boolean_out)
+        tmpEA_boolean_out$V1 <- factor(x = tmpEA_boolean_out$V1, levels = c(0, 1))
+        tmpEA_boolean_out$V2 <- factor(x = tmpEA_boolean_out$V2, levels = c(0, 1))
+
+        tmp_contTable <- table(tmpEA_boolean_out[,1], tmpEA_boolean_out[,2])
+ 
+   
+        tmp_chisq <- chisq.test(tmp_contTable)
+        
+        if(!is.na(tmp_chisq$p.value) & tmp_chisq$p.value < .05){
+          cat("r:", rownames(mat)[r], "c:", colnames(mat)[c], "\n")
+          print(tmp_contTable)
+          print(tmp_chisq)
+        }
+
+      }
+    }
+
+  }
+}
+```
+
+
+
+
+## second coding process
+
+### prepare data
+
+```{r}
+######## combine .csv files
+setwd("codingProcess_second/data")
+
+### save DocumentStatistics
+for(i in 1:length(dir())){
+  tmp_rater <- dir()[i]
+  
+  setwd(dir()[i])
+  
+  tmp_file_DS <- str_subset(string = dir(), pattern = "DocumentStatistics")
+  # guess_encoding(tmp_file_DS, n_max = 1000)
+  tmpFile <- read.csv2(file = tmp_file_DS, header = TRUE, fileEncoding = "UTF-16LE")
+  tmpFile$Rater <- tmp_rater
+  
+  colnames(tmpFile) <- c("Document", paste0("EA", 1:22), "Rater")
+  
+  if(i == 1){
+    tmp_out_DocumentStatistics <- tmpFile
+  }else{
+    tmp_out_DocumentStatistics <- rbind(tmp_out_DocumentStatistics, tmpFile)
+  }
+  setwd("..")
+}
+
+### save MarkedPassages
+for(i in 1:length(dir())){
+  tmp_rater <- dir()[i]
+  
+  setwd(dir()[i])
+  
+  tmp_file_DS <- str_subset(string = dir(), pattern = "MarkedPassages")
+  # guess_encoding(tmp_file_DS, n_max = 1000)
+  tmpFile <- read.csv2(file = tmp_file_DS, header = TRUE, fileEncoding = "UTF-16LE")
+  tmpFile$Rater <- tmp_rater
+  
+  if(i == 1){
+    tmp_out_MarkedPassages <- tmpFile
+  }else{
+    tmp_out_MarkedPassages <- rbind(tmp_out_MarkedPassages, tmpFile)
+  }
+  setwd("..")
+}
+
+
+setwd("..")
+######## save combined files
+#### DocumentStatistics
+## as .xslx
+write.xlsx2(x = tmp_out_DocumentStatistics,
+            file = paste0("outputs/DocumentStatistics_second", ".xlsx"))
+## as R object
+saveRDS(tmp_out_DocumentStatistics, file = "outputs/DocumentStatistics_second.rds")
+
+#### MarkedPassages
+## as .xslx
+write.xlsx2(x = tmp_out_MarkedPassages,
+            file = paste0("outputs/MarkedPassages_second", ".xlsx"))
+## as R object
+saveRDS(tmp_out_MarkedPassages, file = "outputs/MarkedPassages_second.rds")
+```
+
+
+
+### compute reliability coefficients
+
+Remark: if a single ethical argument (EA) was given multiple times it is only counted once
+
+```{r}
+mat <- matrix(data = NA, 
+              nrow = length(unique(tmp_out_DocumentStatistics$Document)), 
+              ncol = length(unique(tmp_out_DocumentStatistics$Rater)))
+
+counter_r = 1
+counter_c = 1
+for(d in unique(tmp_out_DocumentStatistics$Document)){
+  for(r in unique(tmp_out_DocumentStatistics$Rater)){
+    tmp_dat <- tmp_out_DocumentStatistics[tmp_out_DocumentStatistics$Document == d & 
+                                            tmp_out_DocumentStatistics$Rater == r, ]
+    tmp_dat <- tmp_dat[, str_subset(string = colnames(tmp_dat), pattern = "^EA")]
+    
+    mat[counter_r, counter_c] <- paste0(names(tmp_dat)[tmp_dat != 0], collapse = " | ")
+    
+
+    counter_c = counter_c + 1
+  }
+  counter_r = counter_r + 1
+  counter_c = 1
+}
+
+write.csv(x = mat, file = "outputs/multiValuedCoding_second.csv")
+
+docsXratings <- mat
+docsXratings_second <- mat
+docsXratings_second <- as.data.frame(docsXratings_second)
+docsXratings_second$Document <- unique(tmp_out_DocumentStatistics$Document)
+```
+
+
+#### Fleiss Kappa
+compute **Fleiss Kappa** for strongest overlap of EAs:
+
+```{r}
+
+docsXratings_all <- docsXratings[rowSums(x = docsXratings != "") > 1, ]
+
+
+mat <- matrix(data = NA, nrow = nrow(docsXratings_all), ncol = ncol(docsXratings_all))
+
+
+
+
+for(i in 1:nrow(docsXratings_all)){
+  tmp_vector <- as.vector(x = str_split(string = docsXratings_all[i,], pattern = "\\|", simplify = TRUE))
+  tmp_vector <- str_trim(string = tmp_vector)
+
+  tmp_table <- table(tmp_vector)
+  tmp_table <- tmp_table[names(tmp_table) != ""]
+  tmp_EAmax <- names(tmp_table)[tmp_table == max(tmp_table)]
+  # tmp_EAmax <- str_trim(string = tmp_EAmax)
+  # print(tmp_EAmax)
+  
+  if(length(tmp_EAmax) > 1){
+    tmp_EAmax <- tmp_EAmax[1]
+  }
+  
+    
+    tmp_rating <- ifelse(test = str_detect(string = docsXratings_all[i,], pattern = tmp_EAmax), yes = tmp_EAmax, no = NA)
+    
+    while(any(is.na(tmp_rating))){
+      if(isFALSE(names(tmp_table) != tmp_EAmax)){
+        break
+      }
+     tmp_table <- tmp_table[names(tmp_table) != tmp_EAmax] 
+     tmp_EAmax <- names(tmp_table)[tmp_table == max(tmp_table)]
+     if(length(tmp_EAmax) > 1){
+       tmp_EAmax <- tmp_EAmax[1]
+     }
+     
+     tmp_rating[str_detect(string = docsXratings_all[i,], pattern = tmp_EAmax) & is.na(tmp_rating)] <- tmp_EAmax
+    }
+
+  mat[i,] <- tmp_rating
+}
+
+docsXratings_highestOverlap <- mat
+
+print("no EA as missing")
+irr::kappam.fleiss(ratings = docsXratings_highestOverlap)
+
+print("consider no EA")
+docsXratings_highestOverlap[is.na(docsXratings_highestOverlap)] <- "no EA"
+irr::kappam.fleiss(ratings = docsXratings_highestOverlap, detail = TRUE)
+
+kappa_detail <- irr::kappam.fleiss(ratings = docsXratings_highestOverlap, detail = TRUE)$detail
+
+
+mat <- matrix(data = NA, nrow = nrow(kappa_detail), ncol = 4)
+
+for(r in 1:length(rownames(kappa_detail))){
+  mat[r,1] <- kappa_detail[,1][rownames(kappa_detail) == rownames(kappa_detail)[r]]
+  mat[r,2] <- sum(docsXratings_highestOverlap == rownames(kappa_detail)[r])
+  mat[r,3] <- round(x = sum(docsXratings_highestOverlap == rownames(kappa_detail)[r]) / (dim(docsXratings_highestOverlap)[1]*dim(docsXratings_highestOverlap)[2]) * 100, digits = 0)
+  
+  tmp <- rowSums(x = docsXratings_highestOverlap == rownames(kappa_detail)[r])
+   mat[r,4] <- round(x = mean(x = tmp), digits = 2)
+}
+
+
+
+## 
+#> probability of a randomly chosen rater assigning an item to that category given that another randomly chosen rater has also assigned that item to that category
+
+colnames(mat) <- c("probability", "sum EAs", "percentage EAs", "mean EA (per document)")
+
+
+
+## get correct rownames
+
+rownames(mat) <- rownames(kappa_detail)
+
+namesEAs <- data.frame(Category = tmp_out_MarkedPassages$Category, 
+                          EA = tmp_out_MarkedPassages$Category.Title)
+
+namesEAs$EA[namesEAs$EA == "1.\tMoral Hazard"] <- "Moral Hazard" # spelling error
+
+tmp_names_category <- str_extract(string = namesEAs$Category, pattern = "-[:digit:]*")
+tmp_names_category <- str_remove(string = tmp_names_category, pattern = "-")
+tmp_names_category <- paste0("EA", tmp_names_category)
+
+namesEAs$Category <- tmp_names_category
+namesEAs <- unique(namesEAs)
+namesEAs <- namesEAs[namesEAs$Category != "EANA",]
+
+
+for(i in 1:nrow(mat)){
+  if(rownames(mat)[i] != "no EA"){
+      rownames(mat)[i] <- namesEAs$EA[namesEAs$Category %in% rownames(mat)[i]]
+  }
+}
+mat <- mat[order(as.numeric(mat[,1]), decreasing = TRUE), ]
+
+suppressOutput <- stargazer::stargazer(mat, type = "html", summary = FALSE, out = "outputs/detailedKappa_second.html", digits = 2)
+
+
+mat
+```
+
+
+### numer of EAs overall
+
+
+```{r}
+docsXratings_splitted <- str_split(string = docsXratings, pattern = "\\|", simplify = TRUE)
+docsXratings_splitted <- str_trim(string = docsXratings_splitted)
+docsXratings_splitted <- docsXratings_splitted[docsXratings_splitted != ""]
+
+namesEAs[["number EAs"]] <- NA
+namesEAs[["percentage EAs"]] <- NA
+for(i in 1:nrow(namesEAs)){
+  namesEAs$`number EAs`[i] <- sum(docsXratings_splitted == namesEAs$Category[i])
+    namesEAs$`percentage EAs`[i] <- round(x =  sum(docsXratings_splitted == namesEAs$Category[i]) / sum(docsXratings_splitted != "") * 100, digits = 2)
+}
+
+## add EA which have not been applied
+if(!all(allEAs_second$Category %in% namesEAs$Category)){
+  missingEAs <- cbind(allEAs_second$Category[!allEAs_second$Category %in% namesEAs$Category], allEAs_second$EA[!allEAs_second$Category %in% namesEAs$Category],0,0)
+if(nrow(missingEAs) > 0){
+  colnames(missingEAs) <- colnames(namesEAs)
+  namesEAs <- rbind(namesEAs, missingEAs)
+}
+}
+
+
+namesEAs <- namesEAs[order(as.numeric(namesEAs$`number EAs`), decreasing = TRUE), ]
+
+
+suppressOutput <- stargazer::stargazer(namesEAs, type = "html", summary = FALSE, out = "outputs/frequencyEAs_second.html", digits = 2)
+
+
+namesEAs
+```
+
+
+
+
+## Visualization of codings
+
+### prepare data - create adjacency matrix
+
+```{r}
+docsXratings_all <- rbind(docsXratings_first, docsXratings_second)
+
+
+adjmat <- matrix(
+  data = 0,
+  nrow = length(allEAs_second$Category),
+  ncol = length(allEAs_second$Category)
+)
+
+rownames(adjmat) <- allEAs_second$Category
+colnames(adjmat) <- allEAs_second$Category
+
+vec_noEA <- c(); noEA = 1
+vec_noConsensus <- c(); noConsensus = 1
+
+
+for (i in 1:nrow(docsXratings_all)) {
+  if (sum(docsXratings_all[i, 1:7] == "") == 7) {
+    cat(
+      "\n   > to text in row",
+      i,
+      "no EA was assigned, following document:",
+      docsXratings_all$Document[i],
+      "\n"
+    )
+    print(questionnaire$text_morallyRight[rownames(questionnaire) == str_extract(string = docsXratings_all$Document[i], pattern = "[:digit:]*")])
+    
+    vec_noEA[noEA] <- i
+    noEA = noEA + 1
+  } else if (sum(docsXratings_all[i, 1:7] != "") >= 1) {
+    if (sum(docsXratings_all[i, 1:7] != "") == 1) {
+      tmp_rating <-
+        docsXratings_all[i, 1:7][docsXratings_all[i, 1:7] != ""]
+      tmp_rating <-
+        str_split(string = tmp_rating,
+                  pattern = "\\|",
+                  simplify = TRUE)
+      # remove whitespaces
+      tmp_rating <- str_trim(string = tmp_rating, side = "both")
+    } else{
+      tmp_rating <-
+        docsXratings_all[i, 1:7][docsXratings_all[i, 1:7] != ""]
+      tmp_rating <-
+        str_split(string = tmp_rating,
+                  pattern = "\\|",
+                  simplify = FALSE)
+      
+      # remove whitespaces
+      for (c in 1:length(tmp_rating)) {
+        tmp_rating[[c]] <- str_trim(string = tmp_rating[[c]],
+                                    side = "both")
+      }
+      
+      # get number of occurrence
+      tmp_rating_overlap <- unique(tmp_rating)
+      vec_occurrence <- integer(length = length(tmp_rating_overlap))
+      for (l in 1:length(tmp_rating_overlap)) {
+        for (m in 1:length(tmp_rating)) {
+          if (identical(tmp_rating[[m]], tmp_rating_overlap[[l]])) {
+            vec_occurrence[l] <- vec_occurrence[l] + 1
+          }
+        }
+      }
+      
+      #> look for highest overlap
+      if (sum(vec_occurrence == max(vec_occurrence)) == 1) {
+        tmp_rating <-
+          tmp_rating_overlap[vec_occurrence == max(vec_occurrence)]
+      } else{
+        cat(
+          "\n   > no consensus on given EAs in line",
+          i,
+          "multiple EAs were assigned to the following document:",
+          docsXratings_all$Document[i],
+          "\n"
+        )
+        print(docsXratings_all[i, 1:7][docsXratings_all[i, 1:7] != ""])
+        print(questionnaire$text_morallyRight[rownames(questionnaire) == str_extract(string = docsXratings_all$Document[i], pattern = "[:digit:]*")])
+        
+        tmp_rating <- NA
+        
+        vec_noConsensus[noConsensus] <- i
+        noConsensus = noConsensus + 1
+      }
+    }
+    ## add 1 to the diagonal
+    if (all(!is.na(tmp_rating))) {
+      if (length(tmp_rating) > 1) {
+        diag(adjmat[rownames(adjmat) %in% tmp_rating,
+                    colnames(adjmat) %in% tmp_rating]) <-
+          diag(adjmat[rownames(adjmat) %in% tmp_rating,
+                      colnames(adjmat) %in% tmp_rating]) + 1
+        ## add 1 if multiple EAs within one document
+        tmp_multiEAs <- t(combn(tmp_rating, 2))
+        
+        for (n in 1:nrow(tmp_multiEAs)) {
+          adjmat[rownames(adjmat) == tmp_multiEAs[n, 1],
+                 colnames(adjmat) == tmp_multiEAs[n, 2]] <-
+            adjmat[rownames(adjmat) == tmp_multiEAs[n, 1],
+                   colnames(adjmat) == tmp_multiEAs[n, 2]] + 1
+          
+          adjmat[rownames(adjmat) == tmp_multiEAs[n, 2],
+                 colnames(adjmat) == tmp_multiEAs[n, 1]] <-
+            adjmat[rownames(adjmat) == tmp_multiEAs[n, 2],
+                   colnames(adjmat) == tmp_multiEAs[n, 1]] + 1
+        }
+        
+      } else{
+        adjmat[rownames(adjmat) %in% tmp_rating,
+               colnames(adjmat) %in% tmp_rating] <-
+          adjmat[rownames(adjmat) %in% tmp_rating,
+                 colnames(adjmat) %in% tmp_rating] + 1
+      }
+    }
+  }
+}
+
+
+rownames(adjmat) <- allEAs_second$EA
+colnames(adjmat) <- allEAs_second$EA
+
+
+
+adjmat_backup <- adjmat
+# "Dual Use" was never applied
+diag(adjmat)[names(diag(adjmat)) == "Dual Use"]
+adjmat <- adjmat[rownames(adjmat) != "Dual Use",
+                 colnames(adjmat) != "Dual Use"]
+# "99 (residual category)" not included
+diag(adjmat)[names(diag(adjmat)) == "99 (residual category)"]
+adjmat <- adjmat[rownames(adjmat) != "99 (residual category)",
+                 colnames(adjmat) != "99 (residual category)"]
+```
+
+
+
+### descriptive statistics
+
+```{r}
+sort(diag(adjmat))
+sum(diag(adjmat))
+sum(adjmat[lower.tri(adjmat)])
+
+## no EA assigned
+length(vec_noEA) 
+round(x = length(vec_noEA) / nrow(docsXratings_all) * 100, digits = 2) 
+## no consensus found
+length(vec_noConsensus)
+round(x = length(vec_noConsensus) / nrow(docsXratings_all) * 100, digits = 2) 
+
+## number of considered EAs
+nrow(docsXratings_all) - length(vec_noEA) - length(vec_noConsensus)
+```
+
+
+### single EAs
+
+```{r}
+diag(adjmat)[names(diag(adjmat)) == "Emergency Case"]
+sum(adjmat[rownames(adjmat) == "Emergency Case", ], na.rm = TRUE) - diag(adjmat)[names(diag(adjmat)) == "Emergency Case"]
+sort(adjmat[rownames(adjmat) == "Emergency Case", ], decreasing = TRUE)[1:5]
+
+diag(adjmat)[names(diag(adjmat)) == "Informed Consent"]
+sum(adjmat[rownames(adjmat) == "Informed Consent", ], na.rm = TRUE) - diag(adjmat)[names(diag(adjmat)) == "Informed Consent"]
+sort(adjmat[rownames(adjmat) == "Informed Consent", ], decreasing = TRUE)[1:5]
+
+diag(adjmat)[names(diag(adjmat)) == "Lesser-evil"]
+sum(adjmat[rownames(adjmat) == "Lesser-evil", ], na.rm = TRUE) - diag(adjmat)[names(diag(adjmat)) == "Lesser-evil"]
+sort(adjmat[rownames(adjmat) == "Lesser-evil", ], decreasing = TRUE)[1:5]
+```
+### table all EAs
+
+```{r}
+
+tmp_dat <- allEAs_second
+tmp_dat$Category <- NULL
+tmp_dat$number <- NA
+tmp_dat$percentage <- NA
+tmp_dat$numberCooccurrence <- NA
+
+for(i in 1:nrow(adjmat_backup)){
+  tmp_dat[tmp_dat$EA == rownames(adjmat_backup)[i], "number"] <- diag(adjmat_backup)[names(diag(adjmat_backup)) == rownames(adjmat_backup)[i]]
+  tmp_dat[tmp_dat$EA == rownames(adjmat_backup)[i], "percentage"] <- round(x = diag(adjmat_backup)[names(diag(adjmat_backup)) == rownames(adjmat_backup)[i]] / sum(diag(adjmat_backup)) * 100, digits = 2)
+    tmp_dat[tmp_dat$EA == rownames(adjmat_backup)[i], "numberCooccurrence"] <- sum(adjmat_backup[rownames(adjmat_backup) == rownames(adjmat_backup)[i], ], na.rm = TRUE) - diag(adjmat_backup)[names(diag(adjmat_backup)) == rownames(adjmat_backup)[i]]
+}
+
+tmp_dat <- tmp_dat[order(tmp_dat$number, decreasing = TRUE), ]
+
+suppressOutput <- stargazer::stargazer(tmp_dat, type = "html", summary = FALSE, out = "outputs/allEAs.html", digits = 2)
+
+tmp_dat
+```
+
+### network representation
+
+```{r}
+g_agg <-
+  igraph::graph_from_adjacency_matrix(adjmat, mode = "directed", diag = FALSE)
+
+### title color vertex attributes:
+V(g_agg)$label.color <- "black" # text black
+
+### title font vertex attributes:
+V(g_agg)$label.font <- 1 # 2 = bold
+
+
+g = g_agg
+g2 = simplify(g_agg)
+plot(g2,
+     edge.arrow.size = 0.01,
+     vertex.size = diag(adjmat) / max(diag(adjmat)) * 10)
+
+E(g2)$weight = sapply(E(g2), function(e) {
+  length(all_shortest_paths(g, from = ends(g2, e)[1], to = ends(g2, e)[2])$res)
+})
+E(g2)$weight = E(g2)$weight / 4
+
+V(g2)$color <- c("red", "red", "green", "purple", "red", "red", "purple", "purple", 
+                 "green", "red", "red", "red", "red", "purple", "green", 
+                 "red", "red", "red", "red", "green")
+
+plot(
+  g2,
+  edge.arrow.size = .1,
+  layout = layout_nicely,
+  vertex.frame.color = "black",
+  asp = .5,
+  vertex.label.cex = .9,
+  vertex.size = diag(adjmat) / max(diag(adjmat)) * 10,
+  edge.width = E(g2)$weight
+)
+
+```
+
+
+
+
+
+
+```{r}
+vars <- paste0("EA", 1:22)
+
+
+for(v in vars){
+  questionnaire[[v]] <- 0
+}
+
+docsXratings_all$Document_numeric <- str_remove_all(string = docsXratings_all$Document, pattern = ".docx")
+docsXratings_all$Document_numeric <- as.numeric(docsXratings_all$Document_numeric)
+
+
+for(i in 1:nrow(docsXratings_all)){
+  tmp <- docsXratings_all[i, str_subset(string = colnames(docsXratings_all), pattern = "^V")]
+tmp <- str_split(string = tmp, pattern = "\\|")
+tmp <- str_trim(string = unlist(tmp), side = "both")
+tmp <- unique(tmp)
+tmp <- tmp[tmp != ""]
+
+if(all(!is.na(tmp))){
+  questionnaire[docsXratings_all$Document_numeric[i], tmp] <- 1
+}
+
+}
+
+
+questionnaire$`affImgAffect-R1`
+
+
+colnames(questionnaire) <- str_remove(string = colnames(questionnaire), pattern = "-")
+questionnaire[, str_subset(string = colnames(questionnaire), pattern = "^meta")] <- NULL
+
+
+
+haven::write_sas(data = questionnaire, "questionnaire_withEAs.sav")
+haven::write_dta(data = questionnaire, "questionnaire_withEAs.dta")
+
+```
+
