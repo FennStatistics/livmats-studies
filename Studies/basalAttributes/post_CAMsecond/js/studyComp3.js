@@ -33,8 +33,8 @@ var wordlist = [
   "wartungsfrei",               // maintenance-free
   "multifunktional",            // multifunctional
 
-  "passive Formänderung",          // reactive
-  "passive Verhaltensänderung",    // reactive
+  "passive Formänderung durch Umwelteinwirkung",          // reactive
+  "passive Verhaltensänderung durch Umwelteinwirkung",    // reactive
   
   "zuverlässig",                // reliable
   "widerstandsfähig",                  // resilient
@@ -42,14 +42,14 @@ var wordlist = [
   "robust",                     // robust
   "selbstheilend",              // self-healing
   "selbstreparierend",          // self-repairing
-  "Energie   speichernd",         // storing energy
+  "Energie speichernd",         // storing energy
   "nachhaltig",                 // sustainable
   "technologisch",              // technological
   //"vielseitig",                  // versatile
 
   "langlebig",                  // long-lasting
 
-  "Energie   generierend",       // harvest energy
+  "Energie generierend",       // harvest energy
   "umweltschädlich",            // environmentally harmful
   "enthält Kunststoff",            // contains plastic;	https://utopia.de/ratgeber/ist-plastik-gleich-kunststoff-das-ist-der-unterschied/ 
   "leicht zerstörbar",          // easily destructible

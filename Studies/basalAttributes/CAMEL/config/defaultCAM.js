@@ -36,8 +36,8 @@ var wordlist = [
   "wartungsfrei",               // maintenance-free
   "multifunktional",            // multifunctional
 
-  "passive Formänderung",          // reactive
-  "passive Verhaltensänderung",    // reactive
+  "passive Formänderung durch Umwelteinwirkung",          // reactive
+  "passive Verhaltensänderung durch Umwelteinwirkung",    // reactive
   
   "zuverlässig",                // reliable
   "widerstandsfähig",                  // resilient

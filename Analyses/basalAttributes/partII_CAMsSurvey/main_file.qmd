@@ -332,6 +332,8 @@ Create CAM files, draw CAMs and compute network indicators
 CAMfiles <- create_CAMfiles(datCAM = raw_CAM, reDeleted = TRUE)
 ## remove white spaces within pre-defined concepts
 CAMfiles[[1]]$text <- str_replace_all(string = CAMfiles[[1]]$text, "\\s+", " ")
+CAMfiles[[1]]$text <- str_trim(string = CAMfiles[[1]]$text, side = "both")
+
 
 ########################################
 # draw CAMs
