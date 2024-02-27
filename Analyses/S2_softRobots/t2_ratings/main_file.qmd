@@ -185,6 +185,7 @@ cohensKappas
 cohensKappasMaximized <- computeCohensKappaMaximized(files = files_rater,
                                                      numberRaters = length(files_rater))
 cohensKappasMaximized
+mean(colMeans(cohensKappasMaximized))
 ```
 # see raw data
 
@@ -230,6 +231,32 @@ dim(dat)
 write.xlsx2(x = dat, file = "ovallRater_long.xlsx")
 dim(ovallRaterList)
 write.xlsx2(x = ovallRaterList, file = "ovallRater_wide.xlsx")
+```
+## words used
+
+```{r}
+tmp_words <- unique(dat$Superordinate)
+tmp_words <- tmp_words[!is.na(tmp_words)]
+
+mat <- matrix(data = NA, nrow = length(tmp_words), ncol = 3)
+h = 1
+
+for(w in tmp_words){
+  tmp <- dat[dat$Superordinate %in% w,]
+  tmp_overlap <- 
+  mat[h,] <- c(nrow(tmp), 
+               round(x = nrow(tmp) / nrow(dat) * 100, digits = 2),
+               mean(table(tmp$Words)))
+  h = h + 1
+  
+}
+
+rownames(mat) <- tmp_words
+colnames(mat) <- c("N", "percantage", "mean overlap")
+mat
+
+setwd("outputs")
+stargazer(mat, type = "html", out = "table_words.html", summary = FALSE)
 ```
 
 
