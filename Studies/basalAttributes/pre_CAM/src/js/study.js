@@ -268,7 +268,7 @@ const basalAttributes_htmlForm = new lab.html.Form({
       document.querySelector("button").style.visibility = "hidden";
       setTimeout(
         () => (document.querySelector("button").style.visibility = "visible"),
-        15000 // 10000 (10 seconds)
+        30000 // 30000 / 1000 / 60 = 0.5 minutes
       );
 
       // add basal attributes to the table

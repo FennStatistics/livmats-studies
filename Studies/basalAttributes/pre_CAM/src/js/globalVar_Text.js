@@ -442,6 +442,16 @@ Verpflichten Sie sich, in dieser Umfrage wohlüberlegte Antworten zu geben?
       </tr>
     </table>
 
+    <br>
+    <br>
+    <section>
+    <b>Wichtig:</b> Beachten Sie bitte folgende Ratschläge zum Zeichnen Ihrer <i>Mind-Map</i>:
+    <ul>
+    <li>Ändern Sie die emotionale Bewertung der vorgegebenen zentralen Eigenschaften.</li>
+    <li>Möglichst bedeutsame zentrale Eigenschaften für Ihre Akzeptanz neuer Materialsysteme können Sie direkt mit dem zentralen Konzept verbinden.</li>
+    <li><b>Zentralen Eigenschaften, die aus Ihrer Sicht stark miteinander zusammenhängen, können Sie miteinander verbinden.</b></li>
+  </ul>
+
    </div>
  </main>
  
@@ -450,7 +460,7 @@ Verpflichten Sie sich, in dieser Umfrage wohlüberlegte Antworten zu geben?
    
    <footer class="content-vertical-center content-horizontal-right">
    <div class="w-l text-justify">
-   Drücken Sie nicht auf "Weiter", bevor Sie die Liste sorgfältig gelesen haben. Der "Weiter"-Knopf ist für 15 Sekunden gesperrt.
+   Drücken Sie nicht auf "Weiter", bevor Sie die Liste sorgfältig gelesen haben. Der "Weiter"-Knopf ist für 30 Sekunden gesperrt.
    </div>
    &nbsp; <button id="continue" type="submit" form="page-form">
    Weiter &rarr;
