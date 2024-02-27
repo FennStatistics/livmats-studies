@@ -32,7 +32,7 @@ p_load('tidyverse', 'jsonlite', 'magrittr', 'xlsx',
 setwd("data")
 dir()
 
-files <- list.files(pattern = "xlsx")
+files <- list.files(pattern = "ratings")
 files_rater <- list()
 
 for(i in 1:length(files)){
@@ -45,6 +45,9 @@ for(i in 1:length(files)){
   }
 }
 
+# categories_coding_guidelines
+
+categories_CG <- xlsx::read.xlsx2(file = "categories_coding_guidelines.xlsx", sheetIndex = 1)
 
 ########################################
 # load functions
@@ -68,6 +71,104 @@ rm(i)
 # Notes
 
 
+# clean data
+
+Superordinate concepts of raters are written slightly differently.
+
+```{r}
+length(categories_CG$Category)
+length(unique(dat$Superordinate))
+
+
+table(dat$Superordinate)
+```
+Remove whitespaces
+
+```{r}
+dat$Superordinate <- str_trim(string = dat$Superordinate, side = "both")
+length(unique(dat$Superordinate))
+```
+
+
+Loop over list coding guidelines using approximate matching
+
+```{r}
+vec_unique <-  unique(dat$Superordinate)
+for(i in 1:length(vec_unique)){
+  tmp <- stringdist::stringdist(a = categories_CG$Category, b = vec_unique[i])
+  
+  cat("i: ", i, "word: ", vec_unique[i], "\n", categories_CG$Category[tmp <= 2], "\n\n")
+
+  if(length(categories_CG$Category[tmp <= 2]) == 1){
+    dat$Superordinate[dat$Superordinate == vec_unique[i]] <- categories_CG$Category[tmp <= 2]
+  }
+}
+
+
+length(unique(dat$Superordinate))
+```
+
+
+Set 4 ratings to missing:
+* Social impact, pos./neg., 2 times
+* Anthropomorphism, pos./neg., once
+* empty, once
+
+```{r}
+sum(dat$Superordinate == "Social impact, pos./neg.", na.rm = TRUE)
+sum(dat$Superordinate == "Anthropomorphism, pos./neg.", na.rm = TRUE)
+sum(dat$Superordinate == "", na.rm = TRUE)
+
+
+dat$Superordinate[dat$Superordinate == "Social impact, pos./neg."] <- NA
+dat$Superordinate[dat$Superordinate == "Anthropomorphism, pos./neg."] <- NA
+dat$Superordinate[dat$Superordinate == ""] <- NA
+```
+```{r}
+length(categories_CG$Category)
+length(unique(dat$Superordinate)) # plus missing
+
+
+table(dat$Superordinate)
+```
+
+
+## same for files list
+
+```{r}
+for(i in 1:length(files_rater)) {
+  # remove whitespaces
+  files_rater[[i]]$Superordinate <-
+    str_trim(string = files_rater[[i]]$Superordinate, side = "both")
+  
+  
+  # Loop over list coding guidelines using approximate matching
+  vec_unique <-  unique(files_rater[[i]]$Superordinate)
+  for (j in 1:length(vec_unique)) {
+    tmp <-
+      stringdist::stringdist(a = categories_CG$Category, b = vec_unique[j])
+    
+    # cat("i: ", i, "word: ", vec_unique[i], "\n", categories_CG$Category[tmp <= 2], "\n\n")
+    
+    if (length(categories_CG$Category[tmp <= 2]) == 1) {
+      files_rater[[i]]$Superordinate[files_rater[[i]]$Superordinate == vec_unique[j]] <-
+        categories_CG$Category[tmp <= 2]
+    }
+  }
+  
+  
+  # remove 3 ratings manually
+  # files_rater[[i]]$Superordinate[files_rater[[i]]$Superordinate == "Social impact, pos./neg."] <-
+  #   NA
+  # files_rater[[i]]$Superordinate[files_rater[[i]]$Superordinate == "Anthropomorphism, pos./neg."] <-
+  #   NA
+  # files_rater[[i]]$Superordinate[files_rater[[i]]$Superordinate == ""] <-
+  #   NA
+}
+```
+
+
+
 # compute reliability coefficients
 
 ```{r}
@@ -89,7 +190,7 @@ cohensKappasMaximized
 
 ```{r}
 setwd("data")
-tmp_namesRater <- files <- list.files(pattern = "xlsx")
+tmp_namesRater <- files <- list.files(pattern = "ratings")
 setwd("..")
 ovallRaterList <- getOverallRaterList(files = files_rater,
                                         orderAlphabetically = TRUE,
@@ -117,5 +218,18 @@ barplot(table(ovallRaterList$overlapNum) / nrow(ovallRaterList) * 100)
 
 
 DT::datatable(ovallRaterList[ovallRaterList$overlapNum >= 3,c("Words", str_subset(string = colnames(ovallRaterList), pattern = "Superordinate"))], options = list(pageLength = 5))
+
+
+DT::datatable(ovallRaterList[ovallRaterList$overlapNum <= 2,c("Words", str_subset(string = colnames(ovallRaterList), pattern = "Superordinate"))], options = list(pageLength = 5))
+
 ```
+
+```{r}
+setwd("outputs")
+dim(dat)
+write.xlsx2(x = dat, file = "ovallRater_long.xlsx")
+dim(ovallRaterList)
+write.xlsx2(x = ovallRaterList, file = "ovallRater_wide.xlsx")
+```
+
 
