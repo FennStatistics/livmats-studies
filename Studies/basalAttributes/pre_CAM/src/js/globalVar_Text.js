@@ -39,7 +39,7 @@ const textObj = {
        </section>
        <br>
        <section>
-       Das Ziel der Studie ist es, Ihre Einstellung und Gefühle zu zentralen Eigenschaften von neuen Materialsystemen zu messen. Dafür setzen wir eine Methode ein, die "Cognitive-Affective Mapping" (CAM-Methode) heißt und bei der Sie eine Art Mind-Map zeichnen werden. 
+       Das Ziel der Studie ist es, Ihre Einstellung und Gefühle zu zentrale Eigenschaften von neuen Materialsystemen zu messen. Dafür setzen wir eine Methode ein, die "Cognitive-Affective Mapping" (CAM-Methode) heißt und bei der Sie eine Art Mind-Map zeichnen werden. 
        Auf den nächsten Seiten finden Sie weitere Informationen zum genauen Ablauf der Studie. Zunächst möchten wir Sie bitten, auf der folgenden Seite der informierten Einwilligung zuzustimmen.       
        </section>
    </div>
@@ -346,7 +346,7 @@ Verpflichten Sie sich, in dieser Umfrage wohlüberlegte Antworten zu geben?
        <td>2) Lesen Sie einen Text über Ihre genaue Arbeitsanweisung.</td>
      </tr>
        <tr>
-       <td>3) Zeichnen Sie eine <i>Mind-Map</i> zu Ihren Einstellung und Gefühlen zu zentralen Eigenschaften von neuen Materialsystemen.</td>
+       <td>3) Zeichnen Sie eine <i>Mind-Map</i> zu Ihren Einstellung und Gefühlen zu zentrale Eigenschaften von neuen Materialsystemen.</td>
        </tr>
        <tr>
          <td>4) Beantworten Sie abschließend mehrere Fragen.</td>
@@ -371,7 +371,7 @@ Verpflichten Sie sich, in dieser Umfrage wohlüberlegte Antworten zu geben?
    explanationCAM: `
    <header>
      <h2>
-     Bitte lesen Sie den folgenden Text sorgfältig durch. Anschließend bitten wir Sie, eine <i>Mind-Map</i> zu zentralen Eigenschaften von neuen Materialsystemen anzuordnen.
+     Bitte lesen Sie den folgenden Text sorgfältig durch. Anschließend bitten wir Sie, eine <i>Mind-Map</i> zu zentrale Eigenschaften von neuen Materialsystemen anzuordnen.
      </h2>
    </header>
    
@@ -381,8 +381,8 @@ Verpflichten Sie sich, in dieser Umfrage wohlüberlegte Antworten zu geben?
    <br>
    <br>
    <section>
-   Wir möchten Ihre Einstellungen und Gefühle zu zentralen Eigenschaften von neuen Materialsystemen herausfinden. Zu diesem Zweck haben wir Ihnen in der <i>Mind-Map</i> den zentralen Begriff "Akzeptanz eines neuen Materialsystems" vorgegeben. 
-   Weiter finden Sie unten und oben in der <i>Mind-Map</i> weitere Begriffe, die sie mit dem zentralen Begriff in Verbindung setzen sollen. Von allen vorgegebenen Begriffen können Kommentare hinzugefügt werden und 
+   Wir möchten Ihre Einstellungen und Gefühle zu zentrale Eigenschaften von neuen Materialsystemen herausfinden. Zu diesem Zweck haben wir Ihnen in der <i>Mind-Map</i> den zentralen Begriff "Akzeptanz eines neuen Materialsystems" vorgegeben. 
+   Weiter finden Sie unten und oben in der <i>Mind-Map</i> weitere Begriffe, die sie mit dem zentralen Begriff in Verbindung setzen sollen. Bei allen vorgegebenen Begriffen können Kommentare hinzugefügt werden und 
    die emotionale Bewertung geändert werden, nicht aber der Text (Inhalt). Die vorgegebene <i>Mind-Map</i> sieht von der Struktur so aus:
 
       </section>
@@ -393,7 +393,7 @@ Verpflichten Sie sich, in dieser Umfrage wohlüberlegte Antworten zu geben?
  <br>
  <b>Wichtig:</b> Durch <i>Ändern der emotionalen Bewertung der vorgegebenen Konzepte</i> können Sie angeben, ob Sie diese insgesamt als negativ, neutral, ambivalent oder positiv wahrnehmen.
  Sie können <i>das Kommentarfeld verwenden</i>, um weitere Erläuterungen zu Ihren angeordneten Konzepten zu schreiben. 
- Bitte versuchen Sie möglichst <b>genau zu überlegen, welche zentralen Eigenschaften neue Materialsysteme haben sollten, damit diese für Sie persönlich eine 
+ Bitte versuchen Sie möglichst <b>genau zu überlegen, welche zentrale Eigenschaften neue Materialsysteme haben sollten, damit diese für Sie persönlich eine 
  höhere Akzeptanz erfahren</b>.
    </div>
  </main>
@@ -413,7 +413,7 @@ Verpflichten Sie sich, in dieser Umfrage wohlüberlegte Antworten zu geben?
    basalAttributes: `
    <header>
      <h2>
-     Bevor Sie eine <i>Mind-Map</i> zu den zentralen Eigenschaften von neuen Materialsystemen anordnen, bitten wir Sie die einzelnen möglichen Eigenschaften zu lesen.
+     Bevor Sie eine <i>Mind-Map</i> zu zentrale Eigenschaften von neuen Materialsystemen anordnen, bitten wir Sie die einzelnen möglichen Eigenschaften zu lesen.
      </h2>
    </header>
    
@@ -426,7 +426,7 @@ Verpflichten Sie sich, in dieser Umfrage wohlüberlegte Antworten zu geben?
    Bisherige Technologien bestanden aus Materialien (z.B. Keramik, Holz, Stein, Kunststoffe), die unflexibel waren und im Rahmen ihrer Nutzung feste, gleichbleibende Eigenschaften hatten. 
    Aktuelle Forschung beschäftigt sich damit neue, aus Materialsystemen bestehende Technologien zu entwickeln, die neuartige, nicht mehr nur statische, unveränderbare Eigenschaften haben können. 
    Mögliche Eigenschaften dieser finden Sie beispielsweise in der untenstehenden Liste. 
-   Bitte versuchen Sie möglichst <b>genau zu überlegen, welche zentralen Eigenschaften neue Materialsysteme haben sollten, damit diese für Sie persönlich eine 
+   Bitte versuchen Sie möglichst <b>genau zu überlegen, welche zentrale Eigenschaften neue Materialsysteme haben sollten, damit diese für Sie persönlich eine 
    höhere Akzeptanz erfahren</b>. Dies ist sehr relevant für die Ausrichtung zukünftiger Forschung.
       </section>
  <br>
@@ -449,7 +449,7 @@ Verpflichten Sie sich, in dieser Umfrage wohlüberlegte Antworten zu geben?
     <ul>
     <li>Ändern Sie die emotionale Bewertung der vorgegebenen zentralen Eigenschaften.</li>
     <li>Möglichst bedeutsame zentrale Eigenschaften für Ihre Akzeptanz neuer Materialsysteme können Sie direkt mit dem zentralen Konzept verbinden.</li>
-    <li><b>Zentralen Eigenschaften, die aus Ihrer Sicht stark miteinander zusammenhängen, können Sie miteinander verbinden.</b></li>
+    <li><b>Zentrale Eigenschaften, die aus Ihrer Sicht stark miteinander zusammenhängen, können Sie miteinander verbinden.</b></li>
   </ul>
 
    </div>
