@@ -320,7 +320,7 @@ plot(g2, edge.arrow.size = 0,
      layout=layout_nicely, vertex.frame.color="black", asp = .5, margin = -0.1,
      vertex.size=diag(CAMaggregated[[1]]) / max(diag(CAMaggregated[[1]]))*5,
      vertex.label.cex = .9, 
-     edge.weight=2, edge.width=(E(g2)$weight/10))
+     edge.weight=2, edge.width=(E(g2)$weight/3))
 }
 
 
@@ -329,7 +329,7 @@ plot(tmp[[1]], edge.arrow.size = 0,
      layout=layout_nicely, vertex.frame.color="black", asp = .5, margin = -0.1,
      vertex.size=diag(CAMaggregated[[1]]) / max(diag(CAMaggregated[[1]]))*5,
      vertex.label.cex = .9, 
-     edge.weight=2, edge.width=(E(g2)$weight/10))
+     edge.weight=2, edge.width=(E(g2)$weight/3))
 
 
 # tmp <- CAMaggregated[[1]][rownames(CAMaggregated[[1]]) == "conspirative narration", ]
