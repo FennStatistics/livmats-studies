@@ -839,7 +839,7 @@ p <- ggplot(dfvalcor, aes(x=timepoint, y=mean_valence_macro, fill=typeRobot)) +
            position=position_dodge()) +
   geom_errorbar(aes(ymin=mean_valence_macro-se, ymax=mean_valence_macro+se), width=.2,
                 position=position_dodge(.9)) + ggplot_theme + ylab(label = "average emotional evaluation") + 
-  theme(axis.text=element_text(size=20), legend.text = element_text(size=14), legend.title = element_text(size=16))
+  theme(axis.title.x = element_text(size=20), axis.title.y = element_text(size=20), axis.text.x = element_text(size = 18), axis.text.y = element_text(size = 18), legend.text = element_text(size=16), legend.title = element_text(size=18))
 print(p)
 
 ############
