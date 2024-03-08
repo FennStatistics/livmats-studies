@@ -275,7 +275,7 @@ const textObjInstCAM = {
 
 /* CAM Instruktionen on multiple pages */
 const CAMinst_multipage_htmlScreen = new lab.html.Screen({
-  title: "done",
+  title: "CAM instructions",
   content: textObjInstCAM.CAMinst_multipage,
   messageHandlers: {
     run: function anonymous() {

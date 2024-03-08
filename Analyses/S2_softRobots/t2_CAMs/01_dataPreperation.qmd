@@ -1,5 +1,5 @@
 ---
-title: "Main File for S2 main CAM study"
+title: "Data preperation for S2 main CAM study"
 author: "Julius Fenn, Louisa Estadieu"
 format:
   html:
@@ -13,9 +13,7 @@ format:
 # Notes
 
 
-# prepare data
-
-## create raw data files
+# create raw data files
 
 ```{r}
 #| label: create raw files
@@ -186,7 +184,7 @@ data_summary <- function(data, varname, groupnames){
 }
 ```
 
-## set up data.frame questionnaires
+# set up data.frame questionnaires
 
 
 ```{r}
@@ -411,11 +409,13 @@ saveRDS(questionnaire, file = "questionnaire.rds")
 ```
 
 
-## get reaction times for single components
+# get reaction times for single components
 
 Plot time taken (in minutes) by participants for single components of study:
 
-```{r prepare_data3, message = FALSE}
+```{r, message = FALSE}
+#| label: get reaction times by component
+
 dat_duration <- data.frame(duration = NA, sender = NA, ID = NA, PROLIFIC_PID = NA)
 
 for(i in 1:length(unique(dat_secondPostCAM$ID))){
@@ -461,6 +461,8 @@ for(i in 1:length(unique(dat_secondPostCAM$ID))){
 dat_duration <- dat_duration[!is.na(dat_duration$sender), ]
 dat_duration <- dat_duration[!is.na(dat_duration$duration), ]
 
+dat_duration$sender[dat_duration$sender == "done"] <- "CAM instructions"
+
 ## save as .xlsx
 # write.xlsx2(x = dat_duration, file = "outputs/para_duration_singleComponents.xlsx")
 
@@ -489,32 +491,16 @@ DT::datatable(tmp, options = list(pageLength = 5))
 
 
 
+# set up CAM data
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-## set up CAM data
-
-### pre
+## pre
 
 Load CAM data
 
 ```{r, message = FALSE}
-setwd("outputs")
+#| label: get raw CAM data pre
+
+setwd("outputs/01_dataPreperation")
 suppressMessages(read_file("CAMdata.txt") %>%
   # ... split it into lines ...
   str_split('\n') %>% first() %>%
@@ -532,14 +518,38 @@ for(i in 1:length(dat_CAM_pre)){
 Create CAM files, draw CAMs and compute network indicators
 
 ```{r, message = FALSE}
-########################################
-# create CAM single files (nodes, connectors, merged)
-########################################
+#| label: draw CAMs, network indicators, wordlist pre
+
+### create CAM single files (nodes, connectors, merged)
 CAMfiles_pre <- create_CAMfiles(datCAM = raw_CAM_pre, reDeleted = TRUE)
 
-########################################
-# draw CAMs
-########################################
+# remove testing data sets
+CAMfiles_pre[[1]] <- CAMfiles_pre[[1]][nchar(CAMfiles_pre[[1]]$participantCAM) == 24,]
+CAMfiles_pre[[2]] <- CAMfiles_pre[[2]][nchar(CAMfiles_pre[[2]]$participantCAM) == 24,]
+CAMfiles_pre[[3]] <- CAMfiles_pre[[3]][nchar(CAMfiles_pre[[3]]$participantCAM.x) == 24,]
+
+# remove CAM with many empty concepts
+## remove person from survey data
+tmp_pid <- unique(CAMfiles_pre[[1]]$participantCAM[CAMfiles_pre[[1]]$CAM %in% c("a0c6edeb-267a-4f27-8199-79f896e033ce", "8d74f576-e617-4eb1-8ccf-93589ce6c65b")])
+questionnaire <- questionnaire[!questionnaire$PROLIFIC_PID %in% tmp_pid,]
+
+## remove person from CAM data
+CAMfiles_pre[[1]] <- CAMfiles_pre[[1]][CAMfiles_pre[[1]]$CAM != "a0c6edeb-267a-4f27-8199-79f896e033ce",]
+CAMfiles_pre[[2]] <- CAMfiles_pre[[2]][CAMfiles_pre[[2]]$CAM != "a0c6edeb-267a-4f27-8199-79f896e033ce",]
+CAMfiles_pre[[3]] <- CAMfiles_pre[[3]][CAMfiles_pre[[3]]$CAM.x != "a0c6edeb-267a-4f27-8199-79f896e033ce",]
+
+
+
+
+# remove empty concepts:
+CAMfiles_pre[[1]]$text[nchar(CAMfiles_pre[[1]]$text) < 2]
+tmp_ids <- CAMfiles_pre[[1]]$id[nchar(CAMfiles_pre[[1]]$text) < 2]
+table(CAMfiles_pre[[1]]$isActive[CAMfiles_pre[[1]]$id %in% tmp_ids])
+
+CAMfiles_pre[[1]] <- CAMfiles_pre[[1]][!CAMfiles_pre[[1]]$id %in% tmp_ids,]
+
+
+### draw CAMs
 CAMdrawn_pre <- draw_CAM(dat_merged = CAMfiles_pre[[3]],
                      dat_nodes = CAMfiles_pre[[1]],ids_CAMs = "all",
                      plot_CAM = FALSE,
@@ -547,9 +557,14 @@ CAMdrawn_pre <- draw_CAM(dat_merged = CAMfiles_pre[[3]],
                      relvertexsize = 3,
                      reledgesize = 1)
 
-########################################
-# draw CAMs
-########################################
+for(i in 1:length(CAMdrawn_pre)){
+  if(any(nchar(V(CAMdrawn_pre[[i]])$label) < 3)){
+    print(V(CAMdrawn_pre[[i]])$label)
+  }
+}
+
+
+### network indicators
 tmp_microIndicator <- c("Rettungsroboter", "sozialer Assistenzroboter", "Vorteile", "Nachteile")
 networkIndicators_pre <- compute_indicatorsCAM(drawn_CAM = CAMdrawn_pre, 
                                            micro_degree = tmp_microIndicator, 
@@ -559,9 +574,7 @@ networkIndicators_pre <- compute_indicatorsCAM(drawn_CAM = CAMdrawn_pre,
                                            largestClique = FALSE)
 
 
-########################################
-# wordlists
-########################################
+### wordlist
 CAMwordlist_pre <- create_wordlist(
   dat_nodes =  CAMfiles_pre[[1]],
   dat_merged =  CAMfiles_pre[[3]],
@@ -573,6 +586,10 @@ CAMwordlist_pre <- create_wordlist(
   rater = FALSE
 )
 
+if(all(nchar(CAMwordlist_pre$Words) > 2)){
+  print("sucessfully removed empty words")
+}
+
 DT::datatable(CAMwordlist_pre, options = list(pageLength = 5)) 
 ```
 
@@ -580,11 +597,13 @@ DT::datatable(CAMwordlist_pre, options = list(pageLength = 5))
 ### save CAMs as .json files, and as .png (igraph)
 
 
-```{r saveCAMs_pictures_pre, message = FALSE}
+```{r, message = FALSE}
+#| label: save CAM pictures pre
+
 save_CAMs_as_pictures = FALSE
 
 if(save_CAMs_as_pictures){
-  setwd("outputs")
+setwd("outputs/01_dataPreperation")
 
 setwd("savedCAMs_pre")
 setwd("png")
@@ -633,12 +652,14 @@ for(i in 1:length(raw_CAM_pre)){
 }
 ```
 
-### post
+## post
 
 Load CAM data
 
 ```{r, message = FALSE}
-setwd("outputs")
+#| label: get raw CAM data post
+
+setwd("outputs/01_dataPreperation")
 suppressMessages(read_file("secondCAMdata.txt") %>%
   # ... split it into lines ...
   str_split('\n') %>% first() %>%
@@ -656,14 +677,31 @@ for(i in 1:length(dat_CAM_post)){
 Create CAM files, draw CAMs and compute network indicators
 
 ```{r, message = FALSE}
-########################################
-# create CAM single files (nodes, connectors, merged)
-########################################
+#| label: draw CAMs, network indicators, wordlist post
+
+### create CAM single files (nodes, connectors, merged)
 CAMfiles_post <- create_CAMfiles(datCAM = raw_CAM_post, reDeleted = TRUE)
 
-########################################
-# draw CAMs
-########################################
+# remove testing data sets
+CAMfiles_post[[1]] <- CAMfiles_post[[1]][nchar(CAMfiles_post[[1]]$participantCAM) == 24,]
+CAMfiles_post[[2]] <- CAMfiles_post[[2]][nchar(CAMfiles_post[[2]]$participantCAM) == 24,]
+CAMfiles_post[[3]] <- CAMfiles_post[[3]][nchar(CAMfiles_post[[3]]$participantCAM.x) == 24,]
+
+# remove CAM with many empty concepts
+CAMfiles_post[[1]] <- CAMfiles_post[[1]][CAMfiles_post[[1]]$CAM != "8d74f576-e617-4eb1-8ccf-93589ce6c65b",]
+CAMfiles_post[[2]] <- CAMfiles_post[[2]][CAMfiles_post[[2]]$CAM != "8d74f576-e617-4eb1-8ccf-93589ce6c65b",]
+CAMfiles_post[[3]] <- CAMfiles_post[[3]][CAMfiles_post[[3]]$CAM.x != "8d74f576-e617-4eb1-8ccf-93589ce6c65b",]
+
+
+# remove empty concepts:
+CAMfiles_post[[1]]$text[nchar(CAMfiles_post[[1]]$text) < 2  & CAMfiles_post[[1]]$text != "f"]
+tmp_ids <- CAMfiles_post[[1]]$id[nchar(CAMfiles_post[[1]]$text) < 2 & CAMfiles_post[[1]]$text != "f"]
+table(CAMfiles_post[[1]]$isActive[CAMfiles_post[[1]]$id %in% tmp_ids])
+
+CAMfiles_post[[1]] <- CAMfiles_post[[1]][!CAMfiles_post[[1]]$id %in% tmp_ids,]
+
+
+### draw CAMs
 CAMdrawn_post <- draw_CAM(dat_merged = CAMfiles_post[[3]],
                      dat_nodes = CAMfiles_post[[1]],ids_CAMs = "all",
                      plot_CAM = FALSE,
@@ -671,9 +709,7 @@ CAMdrawn_post <- draw_CAM(dat_merged = CAMfiles_post[[3]],
                      relvertexsize = 3,
                      reledgesize = 1)
 
-########################################
-# draw CAMs
-########################################
+### network indicators
 tmp_microIndicator <- c("Rettungsroboter", "sozialer Assistenzroboter", "Vorteile", "Nachteile")
 networkIndicators_post <- compute_indicatorsCAM(drawn_CAM = CAMdrawn_post, 
                                            micro_degree = tmp_microIndicator, 
@@ -683,9 +719,7 @@ networkIndicators_post <- compute_indicatorsCAM(drawn_CAM = CAMdrawn_post,
                                            largestClique = FALSE)
 
 
-########################################
-# wordlists
-########################################
+# wordlist
 CAMwordlist_post <- create_wordlist(
   dat_nodes =  CAMfiles_post[[1]],
   dat_merged =  CAMfiles_post[[3]],
@@ -696,6 +730,12 @@ CAMwordlist_post <- create_wordlist(
   rater = FALSE
 )
 
+if(all(nchar(CAMwordlist_post$Words) > 2)){
+  print("sucessfully removed empty words")
+}else{
+  CAMwordlist_post$Words[nchar(CAMwordlist_post$Words) < 2]
+}
+
 DT::datatable(CAMwordlist_post, options = list(pageLength = 5)) 
 ```
 
@@ -703,11 +743,13 @@ DT::datatable(CAMwordlist_post, options = list(pageLength = 5))
 ### save CAMs as .json files, and as .png (igraph)
 
 
-```{r saveCAMs_pictures_post, message = FALSE}
+```{r, message = FALSE}
+#| label: save CAM pictures post
+
 save_CAMs_as_pictures = FALSE
 
 if(save_CAMs_as_pictures){
-  setwd("outputs")
+setwd("outputs/01_dataPreperation")
 
 setwd("savedCAMs_post")
 setwd("png")
@@ -756,12 +798,13 @@ for(i in 1:length(raw_CAM_post)){
 }
 ```
 
+
 ## identify types of changes (delta CAM)
 
 ```{r}
-################
-# set A, B, C, D types
-################
+#| label: identify types of changes
+
+### set A, B, C, D types
 # !!! i = 215
 if (all(unique(CAMfiles_pre[[1]]$participantCAM) == unique(CAMfiles_post[[1]]$participantCAM))) {
   vec_type <- c()
@@ -811,7 +854,7 @@ if (all(unique(CAMfiles_pre[[1]]$participantCAM) == unique(CAMfiles_post[[1]]$pa
         postCAM$text[!postCAM$text %in% praeCAM$text]
       list_newWords_value[[h]] <-
         postCAM$value[!postCAM$text %in% praeCAM$text]
-      list_ids[[h]] <- rep(unique(CAMfiles_pre[[1]]$participantCAM)[i], times = length(list_newWords_value[[h]]))
+      list_ids[[h]] <- postCAM$id[!postCAM$text %in% praeCAM$text]
       
       h = h + 1
     }
@@ -848,209 +891,103 @@ if (all(unique(CAMfiles_pre[[1]]$participantCAM) == unique(CAMfiles_post[[1]]$pa
 
 table(vec_type)
 
-
 barplot(table(unlist(list_newWords_value)))
 # sort(table(unlist(list_newWords_text)))
 
 
-dat_newWords <- data.frame(participantCAM = unlist(list_ids), 
+dat_newWords <- data.frame(id = unlist(list_ids), 
                            text = unlist(list_newWords_text), 
                            value = unlist(list_newWords_value))
-DT::datatable(dat_newWords, options = list(pageLength = 5)) 
-
-dat_newWords$value <- ifelse(test = dat_newWords$value == 10, yes = 0, no = dat_newWords$value)
-
-tmp <- dat_newWords %>% 
-  group_by(participantCAM) %>%
-  dplyr::summarise(mean = mean(value), n = n())
-
-
-tmp2 <- data.frame(typeRobot = questionnaire$choosen_Robot[questionnaire$PROLIFIC_PID %in% dat_newWords$participantCAM], participantCAM = tmp$participantCAM, mean = tmp$mean, n = tmp$n)
-
-
-DT::datatable(tmp2, options = list(pageLength = 5)) 
-
-boxplot(tmp2$mean ~ tmp2$typeRobot)
-boxplot(tmp2$n ~ tmp2$typeRobot)
+DT::datatable(dat_newWords, options = list(pageLength = 5))
 ```
 
 
-
-
-# analyze data 
-
-## describe data set
-
-### feedback to the study
-
-Question:  Haben Sie Feedback oder Kritik an der Online-Studie? 
-
-```{r}
-DT::datatable(questionnaire[,c("PROLIFIC_PID", "feedback_critic")], options = list(pageLength = 5)) 
-```
-
-### technical problems CAMEL
-
-```{r}
-DT::datatable(questionnaire[,c("PROLIFIC_PID", str_subset(string = colnames(questionnaire), pattern = "^feedCAM"))], options = list(pageLength = 5)) 
-
-hist(questionnaire$feedCAM_repres)
-summary(questionnaire$feedCAM_repres)
-```
-
-## anaylze data set
-
-## group comparisons
+# merge and save all data
 
 
 ```{r}
-networkIndicators_pre$timepoint <- "pre"
-networkIndicators_post$timepoint <- "post"
+#| label: merge and save all data
 
-networkIndicators_post$timepoint <- factor(networkIndicators_post$timepoint, 
-                                           levels = c("pre", "post"), 
-                                           ordered = FALSE)
+setwd("outputs/01_dataPreperation/final")
 
-networkIndicators <- rbind(networkIndicators_pre, networkIndicators_post)
-
-### add type robot
-networkIndicators$typeRobot <- ifelse(test = !is.na(networkIndicators$valence_micro_Rettungsroboter), yes = "rescue robots", no = "socially assistive robots")
-table(networkIndicators$typeRobot)
-
-### add ID
-networkIndicators$ID <- c(1:(nrow(networkIndicators) / 2), 1:(nrow(networkIndicators) / 2))
-
-########################################
-# show which robot was on average perceived more positive (overall data set)
-########################################
-summary(networkIndicators$mean_valence_macro[!is.na(networkIndicators$valence_micro_Rettungsroboter)])
-summary(networkIndicators$mean_valence_macro[!is.na(networkIndicators$valence_micro_sozialerAssistenzroboter)])
-
-########################################
-# post - pre difference of robot -> average valence
-########################################
-
-############
-# overall
-############
-### overall
-hist(networkIndicators_post$mean_valence_macro - networkIndicators_pre$mean_valence_macro)
-summary(networkIndicators_post$mean_valence_macro - networkIndicators_pre$mean_valence_macro)
-
-ggwithinstats(
-  data = networkIndicators,
-  x = timepoint,
-  y = mean_valence_macro
-)
+### add type of change
+if(all(questionnaire$PROLIFIC_PID  == unique(CAMfiles_pre[[1]]$participantCAM))){
+  questionnaire$typeChange <- vec_type
+}
 
 
-# table(networkIndicators$ID, networkIndicators$typeRobot)
+if(all(questionnaire$PROLIFIC_PID == networkIndicators_pre$participantCAM) & all(networkIndicators_pre$participantCAM == networkIndicators_post$participantCAM)){
+  print("all data can be matched")
+  
+  # save questionnaire
+  ## save as .xlsx file
+  xlsx::write.xlsx2(x = questionnaire, file = "questionnaire_final.xlsx")
+  ## save as R object
+  saveRDS(questionnaire, file = "questionnaire_final.rds")
+  
+  # save network indicators pre
+    ## save as .xlsx file
+  xlsx::write.xlsx2(x = networkIndicators_pre, file = "networkIndicators_pre_final.xlsx")
+  ## save as R object
+  saveRDS(networkIndicators_pre, file = "networkIndicators_pre_final.rds")
+  
+  # save network indicators post
+    ## save as .xlsx file
+  xlsx::write.xlsx2(x = networkIndicators_post, file = "networkIndicators_post_final.xlsx")
+  ## save as R object
+  saveRDS(networkIndicators_post, file = "networkIndicators_post_final.rds")
+  
+  
+    # save CAMfiles pre
+      saveRDS(CAMfiles_pre, file = "CAMfiles_pre_final.rds")
 
-############
-# separated by robots - mean valence
-############
-# fit1 <- afex::aov_car(mean_valence_macro ~ timepoint*typeRobot + Error(ID / timepoint),
-#                       data = networkIndicators)
-# plot(CAMdrawn_pre[[53]])
-# plot(CAMdrawn_post[[53]])
-# plot(CAMdrawn_pre[[70]])
-# plot(CAMdrawn_post[[70]])
-networkIndicators_anova <- networkIndicators[!networkIndicators$ID %in% c(53, 70),]
-
-fit1 <- afex::aov_car(mean_valence_macro ~ timepoint*typeRobot + Error(ID / timepoint),
-                      data = networkIndicators_anova)
-fit1a <- afex::aov_ez(id = "ID", dv = "mean_valence_macro",
-                      data = networkIndicators_anova, between=c("typeRobot"), within=c("timepoint"))
-# partical eta squared
-anova(fit1, es = "pes")
-# generalized eta squared
-fit1a # > identical results
-
-dfvalcor <- data_summary(networkIndicators_anova, varname="mean_valence_macro",
-                         groupnames=c("timepoint","typeRobot"))
-
-dfvalcor$timepoint <- factor(dfvalcor$timepoint, levels = c("pre", "post"))
-
-p <- ggplot(dfvalcor, aes(x=timepoint, y=mean_valence_macro, fill=typeRobot)) +
-  geom_bar(stat="identity", color="black",
-           position=position_dodge()) +
-  geom_errorbar(aes(ymin=mean_valence_macro-se, ymax=mean_valence_macro+se), width=.2,
-                position=position_dodge(.9)) + ggplot_theme + ylab(label = "average emotional evaluation") + 
-  theme(axis.title.x = element_text(size=20), axis.title.y = element_text(size=20), axis.text.x = element_text(size = 18), axis.text.y = element_text(size = 18), legend.text = element_text(size=16), legend.title = element_text(size=18))
-print(p)
-
-############
-# separated by robots - number of concepts
-############
-fit1 <- afex::aov_car(num_nodes_macro ~ timepoint*typeRobot + Error(ID / timepoint),
-                      data = networkIndicators_anova)
-fit1a <- afex::aov_ez(id = "ID", dv = "num_nodes_macro",
-                      data = networkIndicators_anova, between=c("typeRobot"), within=c("timepoint"))
-# partical eta squared
-anova(fit1, es = "pes")
-# generalized eta squared
-fit1a # > identical results
-
-
-dfvalcor <- data_summary(networkIndicators_anova, varname="num_nodes_macro",
-                         groupnames=c("timepoint","typeRobot"))
-p <- ggplot(dfvalcor, aes(x=timepoint, y=num_nodes_macro, fill=typeRobot)) +
-  geom_bar(stat="identity", color="black",
-           position=position_dodge()) +
-  geom_errorbar(aes(ymin=num_nodes_macro-se, ymax=num_nodes_macro+se), width=.2,
-                position=position_dodge(.9)) + ggplot_theme + ylab(label = "number of drawn concepts")
-print(p)
-
-
-
-########################################
-# post - pre difference of robot -> average number of concepts
-########################################
-ggwithinstats(
-  data = networkIndicators,
-  x = timepoint,
-  y = num_nodes_macro
-)
+  
+  # save CAMfiles post
+    saveRDS(CAMfiles_post, file = "CAMfiles_post_final.rds")
+}
 ```
 
 
-
-## open text answers (adaptive question)
-
-Question: Ihre angepasste Mind-Map hatte eine durchschnittliche emotionale Bewertung von XXX, diese war im Vergleich zu ihrer anfangs gezeichneten Mind-Map (durchschnittliche emotionale Bewertung von XXX) XXX. Bitte erklären Sie, warum Sie diese XXX wahrgenommen haben:
+# get wordlists for raters
 
 ```{r}
-questionnaire_secondPostCAM$meanDifferencesCAMs <- round(x = networkIndicators_post$mean_valence_macro - networkIndicators_pre$mean_valence_macro, digits = 2)
-DT::datatable(questionnaire_secondPostCAM[,c("meanDifferencesCAMs", "ans1", "feedback_critic")], options = list(pageLength = 5)) 
+#| label: get wordlists for raters
+
+setwd("outputs/01_dataPreperation/wordlists_raters")
+
+### add type of change
+if(all(questionnaire$PROLIFIC_PID  == unique(CAMfiles_pre[[1]]$participantCAM))){
+  
+}
+
+
+if(all(questionnaire$PROLIFIC_PID == networkIndicators_pre$participantCAM) & all(networkIndicators_pre$participantCAM == networkIndicators_post$participantCAM)){
+  print("all data can be matched")
+  
+  # save questionnaire
+  ## save as .xlsx file
+  xlsx::write.xlsx2(x = questionnaire, file = "questionnaire_final.xlsx")
+  ## save as R object
+  saveRDS(questionnaire, file = "questionnaire_final.rds")
+  
+  # save network indicators pre
+    ## save as .xlsx file
+  xlsx::write.xlsx2(x = networkIndicators_pre, file = "networkIndicators_pre_final.xlsx")
+  ## save as R object
+  saveRDS(networkIndicators_pre, file = "networkIndicators_pre_final.rds")
+  
+  # save network indicators post
+    ## save as .xlsx file
+  xlsx::write.xlsx2(x = networkIndicators_post, file = "networkIndicators_post_final.xlsx")
+  ## save as R object
+  saveRDS(networkIndicators_post, file = "networkIndicators_post_final.rds")
+  
+  
+    # save CAMfiles pre
+      saveRDS(CAMfiles_pre, file = "CAMfiles_pre_final.rds")
+
+  
+  # save CAMfiles post
+    saveRDS(CAMfiles_post, file = "CAMfiles_post_final.rds")
+}
 ```
-
-
-# check questions (will be removed)
-
-```{r}
-###
-c("63b87d2c9edd47ad702413a1", "5edc8e2eaa0f2295a0fcef85", "6529483ef2abe408d574860a") %in% questionnaire_preCAM$PROLIFIC_PID
-###
-
-
-
-
-tmpID <- questionnaire_preCAM$ID[questionnaire_preCAM$PROLIFIC_PID == "63b87d2c9edd47ad702413a1"]
-plot(CAMdrawn_pre[[tmpID]])
-plot(CAMdrawn_post[[tmpID]])
-
-tmpID <- questionnaire_preCAM$ID[questionnaire_preCAM$PROLIFIC_PID == "5edc8e2eaa0f2295a0fcef85"]
-plot(CAMdrawn_pre[[tmpID]])
-plot(CAMdrawn_post[[tmpID]])
-
-tmpID <- questionnaire_preCAM$ID[questionnaire_preCAM$PROLIFIC_PID == "6529483ef2abe408d574860a"]
-plot(CAMdrawn_pre[[tmpID]])
-plot(CAMdrawn_post[[tmpID]])
-```
-
-
-```{r}
-
-c("6523fe0741e7f3a5002ea3fd", "652d6b317dbb2b3e923226f3", "6554e5a51df35f3564d4a327", "6551ecae69c45ecbc9cd6964", "655a149f3cc84dd3699ea3c3") %in% questionnaire_preCAM$PROLIFIC_PID
-```
-
