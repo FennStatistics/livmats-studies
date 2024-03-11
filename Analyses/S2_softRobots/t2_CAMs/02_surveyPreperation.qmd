@@ -329,13 +329,106 @@ questionnaire[[nameVariable]]  <- questionnaire %>%
 
 # analysis
 
-## correlation mean variables
+## correlation between survey mean variables
 
 ```{r}
 psych::cor.plot(r = cor(questionnaire[, str_detect(string = colnames(questionnaire),
                                                    pattern = "^mean")], 
                                                    use = "pairwise.complete.obs"),
                                                    upper = FALSE, xlas = 2, main = "mean scales")
+```
+
+## correlation between survey mean variables and valence
+
+```{r}
+tmp <- questionnaire
+tmp$mean_valence_pre <- networkIndicators_pre$mean_valence_macro
+tmp$mean_valence_post <- networkIndicators_post$mean_valence_macro
+
+psych::cor.plot(r = cor(tmp[, str_detect(string = colnames(tmp),
+                                                   pattern = "^mean")], 
+                                                   use = "pairwise.complete.obs"),
+                                                   upper = FALSE, xlas = 2, main = "mean scales")
+```
+
+## mediation, moderator analysis
+
+```{r}
+tmp <- questionnaire
+tmp$mean_valence_pre <- networkIndicators_pre$mean_valence_macro
+tmp$mean_valence_post <- networkIndicators_post$mean_valence_macro
+
+
+regEx <- "^Almere.*att$"
+tmp_vars <- str_subset(string = colnames(tmp), pattern = regEx)
+
+tmp_dat_mediation <- tmp[,c(tmp_vars, "mean_valence_pre", "mean_valence_post", "mean_AlmereAttitude")]
+
+colnames(tmp_dat_mediation) <- str_remove(string = colnames(tmp_dat_mediation), pattern = "-")
+
+
+
+### mediation
+model <- '
+ AlmAtt =~ Almere1att + Almere2att + Almere3att
+
+
+# direct effect
+mean_valence_post ~ c*mean_valence_pre
+# mediator
+AlmAtt ~ a*mean_valence_pre
+mean_valence_post ~ b*AlmAtt
+
+
+# indirect effect (a*b)
+ab := a*b
+# total effect
+total := c + (a*b)
+'
+
+fit <- sem(model, data = tmp_dat_mediation, estimator = "MLR")
+summary(fit, standardized = TRUE)
+fit_bootstrap <- sem(model, data = tmp_dat_mediation, estimator = "ML", se ="bootstrap")
+summary(fit_bootstrap, standardized = TRUE)
+
+
+
+semPlot::semPaths(object = fit, what = "std", edge.label.cex = 0.5)
+round(fitmeasures(fit,
+                  fit.measures =c("aic", "bic", "logl", "pvalue",
+                                  "rmsea", "rmsea.ci.lower", "rmsea.ci.upper",
+                                  "srmr", "cfi")), digits = 3)
+
+
+
+### moderation
+
+tmp_dat_mediation$interaction <- tmp_dat_mediation$mean_valence_pre * tmp_dat_mediation$mean_AlmereAttitude
+
+
+summary(lm(formula = mean_valence_post ~ mean_valence_pre + mean_AlmereAttitude + interaction, 
+           data = tmp_dat_mediation))
+```
+## regression analysis
+
+```{r}
+tmp <- questionnaire
+tmp$mean_valence_pre <- networkIndicators_pre$mean_valence_macro
+tmp$mean_valence_post <- networkIndicators_post$mean_valence_macro
+
+
+summary(lm(formula = mean_valence_post ~ mean_AlmereAnxiety + mean_AlmereAttitude + mean_LiWangAnthropomorphism + mean_LiWangAutonomy + mean_GAToRSpp + mean_GAToRSpn + mean_GAToRSsp + mean_GAToRSsn, 
+           data = tmp))
+
+
+
+### !!!
+
+ggbetweenstats(
+  data = tmp,
+  x = typeChange,
+  y = mean_valence_post
+)
 ```
 
 
