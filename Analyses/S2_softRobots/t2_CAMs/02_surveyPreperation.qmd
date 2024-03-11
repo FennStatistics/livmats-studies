@@ -1,0 +1,190 @@
+---
+title: "Prepare Survey data for S2 main CAM study"
+author: "Julius Fenn, Louisa Estadieu"
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    html-math-method: katex
+---
+
+
+
+# Notes
+
+
+# load cleaned data files
+
+```{r}
+#| label: load cleaned data files
+#| warning: false
+
+# sets the directory of location of this script as the current directory
+# setwd(dirname(rstudioapi::getSourceEditorContext()$path))
+
+### load packages
+require(pacman)
+p_load('tidyverse', 'jsonlite', 'magrittr', 'xlsx',
+       'stargazer', 'psych', 'jtools', 'DT', 'ggstatsplot', 
+       'lavaan', 
+       'regsem', 'MplusAutomation', 'igraph')
+
+
+setwd("outputs/01_dataPreperation/final")
+
+
+### load socio-demographic data
+
+setwd("data_demographic")
+prolific1 <- read.csv(file = "prolific_export_6576dab8c6f593e69b2c4246.csv", header = TRUE)
+prolific2 <- read.csv(file = "prolific_export_657827d7dc1b45092f59eb51.csv", header = TRUE)
+
+prolific <- rbind(prolific1, prolific2)
+
+
+
+### list data files
+setwd("../data")
+folders <- list.files(pattern = "^study_result.*")
+
+### create data files - GERMANY
+# get CAM data
+writeLines("", "CAMdata.txt") # create file
+text_connection <- file("CAMdata.txt", "a") # open connection to append
+
+# get CAM data second
+writeLines("", "secondCAMdata.txt") # create file
+text_connection_second <- file("secondCAMdata.txt", "a") # open connection to append
+
+# get pre CAM data
+writeLines("", "preCAM.txt") # create file
+text_connection_pre <- file("preCAM.txt", "a") # open connection to append
+
+# get post CAM data
+writeLines("", "postCAM.txt") # create file
+text_connection_post <- file("postCAM.txt", "a") # open connection to append
+
+# get post second CAM data
+writeLines("", "secondPostCAM.txt") # create file
+text_connection_postSecond <- file("secondPostCAM.txt", "a") # open connection to append
+
+for(i in 1:length(folders)){
+  setwd(folders[i])
+  if(length(dir()) == 5){
+    # print(i)
+    
+    
+    # pre CAM data
+    setwd(dir()[1])
+    tmp_pre <- jsonlite::fromJSON(txt = "data.txt")
+    writeLines(jsonlite::toJSON(x = tmp_pre), text_connection_pre)
+    setwd("..")
+    
+    
+    # CAM data
+    setwd(dir()[2])
+    tmp <- jsonlite::fromJSON(txt = "data.txt")
+    
+    # add Prolific PID
+    if(sum(!is.na(tmp_pre$PROLIFIC_PID)) != 1){
+      cat("Error in assigning prolific PID in index", i, "\n")
+      break
+    }
+    
+    tmp$creator <- tmp_pre$PROLIFIC_PID[!is.na(tmp_pre$PROLIFIC_PID)]
+    writeLines(jsonlite::toJSON(x = tmp), text_connection)
+    setwd("..")
+
+
+
+    # post CAM data
+    setwd(dir()[3])
+    tmp <- jsonlite::fromJSON(txt = "data.txt")
+    
+    # add Prolific PID
+    tmp$PROLIFIC_PID <- NA
+    tmp$PROLIFIC_PID[2] <- tmp_pre$PROLIFIC_PID[!is.na(tmp_pre$PROLIFIC_PID)]
+    
+    writeLines(jsonlite::toJSON(x = tmp), text_connection_post)
+    setwd("..")
+    
+    # CAM data second
+    setwd(dir()[4])
+    tmp <- jsonlite::fromJSON(txt = "data.txt")
+    
+    ## add Prolific PID
+    tmp$creator <- tmp_pre$PROLIFIC_PID[!is.na(tmp_pre$PROLIFIC_PID)]
+    
+    writeLines(jsonlite::toJSON(x = tmp), text_connection_second)
+    setwd("..")
+    
+    # post CAM data second
+    setwd(dir()[5])
+    tmp <- jsonlite::fromJSON(txt = "data.txt")
+    
+    # add Prolific PID
+    tmp$PROLIFIC_PID <- NA
+    tmp$PROLIFIC_PID[2] <- tmp_pre$PROLIFIC_PID[!is.na(tmp_pre$PROLIFIC_PID)]
+    
+    writeLines(jsonlite::toJSON(x = tmp), text_connection_postSecond)
+    setwd("..")
+  }
+  setwd("..")
+}
+
+close(text_connection) # close connection CAM
+close(text_connection_pre) # close connection
+close(text_connection_post) # close connection
+close(text_connection_second) # close connection CAM
+close(text_connection_postSecond) # close connection
+
+### move files to output folder
+# copy files (not overwritten)
+tmp_file_from <-  getwd()
+setwd("../outputs/01_dataPreperation")
+file.copy(from =  paste0(tmp_file_from, "/CAMdata.txt"), to = paste0(getwd(), "/CAMdata.txt"))
+file.copy(from =  paste0(tmp_file_from, "/preCAM.txt"), to = paste0(getwd(), "/preCAM.txt"))
+file.copy(from =  paste0(tmp_file_from, "/postCAM.txt"), to = paste0(getwd(), "/postCAM.txt"))
+file.copy(from =  paste0(tmp_file_from, "/secondPostCAM.txt"), to = paste0(getwd(), "/secondPostCAM.txt"))
+file.copy(from =  paste0(tmp_file_from, "/secondCAMdata.txt"), to = paste0(getwd(), "/secondCAMdata.txt"))
+
+# remove files
+file.remove(paste0(tmp_file_from, "/CAMdata.txt"))
+file.remove(paste0(tmp_file_from, "/preCAM.txt"))
+file.remove(paste0(tmp_file_from, "/postCAM.txt"))
+file.remove(paste0(tmp_file_from, "/secondPostCAM.txt"))
+file.remove(paste0(tmp_file_from, "/secondCAMdata.txt"))
+
+
+### load functions
+# print(getwd())
+setwd("../../../../functions")
+for(i in 1:length(dir())){
+  # print(dir()[i])
+  source(dir()[i], encoding = "utf-8")
+}
+
+
+setwd("../functions_CAMapp")
+for(i in 1:length(dir())){
+  # print(dir()[i])
+  source(dir()[i], encoding = "utf-8")
+}
+rm(i)
+
+
+
+### summary function
+data_summary <- function(data, varname, groupnames){
+  require(plyr)
+  summary_func <- function(x, col){
+    c(mean = mean(x[[col]], na.rm=TRUE),
+      se = sd(x[[col]], na.rm=TRUE) / sqrt(length(x[[col]])))
+  }
+  data_sum<-ddply(data, groupnames, .fun=summary_func,
+                  varname)
+  data_sum <- plyr::rename(data_sum, c("mean" = varname))
+  return(data_sum)
+}
+```
+

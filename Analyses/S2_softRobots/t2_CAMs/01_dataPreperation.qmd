@@ -625,7 +625,7 @@ ids_CAMs <- unique(CAMfiles_pre[[3]]$participantCAM.x); length(ids_CAMs)
 
 
 for(i in 1:length(ids_CAMs)){
-  save_graphic(filename = paste0("CAM_", i, "_t1")) #  paste0(ids_CAMs[i]))
+  save_graphic(filename = paste0("CAM", "_t1_", ids_CAMs[i])) #  paste0(ids_CAMs[i]))
   CAM_igraph <- CAMdrawn_pre[[c(1:length(CAMdrawn_pre))[
     names(CAMdrawn_pre) == paste0(unique(CAMfiles_pre[[3]]$participantCAM.x)[i])]]]
   plot(CAM_igraph, edge.arrow.size = .7,
@@ -645,7 +645,7 @@ for(i in 1:length(raw_CAM_pre)){
   if(!is_empty(raw_CAM_pre[[i]]$nodes)){
     if(nrow(raw_CAM_pre[[i]]$nodes) > 5){
       write(toJSON(raw_CAM_pre[[i]], encoding = "UTF-8"),
-            paste0(raw_CAM_pre[[i]]$idCAM, ".json"))
+            paste0(raw_CAM_pre[[i]]$creator, ".json"))
     }
   }
 }
@@ -771,7 +771,7 @@ ids_CAMs <- unique(CAMfiles_post[[3]]$participantCAM.x); length(ids_CAMs)
 
 
 for(i in 1:length(ids_CAMs)){
-  save_graphic(filename = paste0("CAM_", i, "_t2")) #  paste0(ids_CAMs[i], "_t2"))
+  save_graphic(filename = paste0("CAM", "_t2_", ids_CAMs[i])) #  paste0(ids_CAMs[i]))
   CAM_igraph <- CAMdrawn_post[[c(1:length(CAMdrawn_post))[
     names(CAMdrawn_post) == paste0(unique(CAMfiles_post[[3]]$participantCAM.x)[i])]]]
   plot(CAM_igraph, edge.arrow.size = .7,
@@ -791,7 +791,7 @@ for(i in 1:length(raw_CAM_post)){
   if(!is_empty(raw_CAM_post[[i]]$nodes)){
     if(nrow(raw_CAM_post[[i]]$nodes) > 5){
       write(toJSON(raw_CAM_post[[i]], encoding = "UTF-8"),
-            paste0(raw_CAM_post[[i]]$idCAM, ".json"))
+            paste0(raw_CAM_post[[i]]$creator, ".json"))
     }
   }
 }
@@ -895,10 +895,204 @@ barplot(table(unlist(list_newWords_value)))
 # sort(table(unlist(list_newWords_text)))
 
 
+### add data
+nrow(questionnaire); length(vec_type)
+questionnaire$typeChange <- vec_type 
+
+
 dat_newWords <- data.frame(id = unlist(list_ids), 
                            text = unlist(list_newWords_text), 
                            value = unlist(list_newWords_value))
 DT::datatable(dat_newWords, options = list(pageLength = 5))
+```
+
+
+## combine CAM data and apply protocol CAM-App
+
+Load CAM data
+
+```{r, message = FALSE}
+#| label: get raw CAM data combined
+
+setwd("outputs/01_dataPreperation")
+suppressMessages(read_file("CAMdata_combined.txt") %>%
+  # ... split it into lines ...
+  str_split('\n') %>% first() %>%
+    discard(function(x) x == '') %>%
+    discard(function(x) x == '\r') %>%
+  # ... filter empty rows ...
+  discard(function(x) x == '')) -> dat_CAM_combined
+
+raw_CAM_combined <- list()
+for(i in 1:length(dat_CAM_combined)){
+  raw_CAM_combined[[i]] <- jsonlite::fromJSON(txt = dat_CAM_combined[[i]])
+}
+```
+
+Create CAM files, draw CAMs and compute network indicators
+
+```{r, message = FALSE}
+#| label: draw CAMs, network indicators, wordlist combined
+consider_Protocol = TRUE
+
+
+
+### create CAM single files (nodes, connectors, merged)
+CAMfiles_combined <- create_CAMfiles(datCAM = raw_CAM_combined, reDeleted = TRUE)
+
+# remove testing data sets
+CAMfiles_combined[[1]] <- CAMfiles_combined[[1]][nchar(CAMfiles_combined[[1]]$participantCAM) == 24,]
+CAMfiles_combined[[2]] <- CAMfiles_combined[[2]][nchar(CAMfiles_combined[[2]]$participantCAM) == 24,]
+CAMfiles_combined[[3]] <- CAMfiles_combined[[3]][nchar(CAMfiles_combined[[3]]$participantCAM.x) == 24,]
+
+# remove CAM with many empty concepts
+CAMfiles_combined[[1]] <- CAMfiles_combined[[1]][!CAMfiles_combined[[1]]$CAM %in% c("a0c6edeb-267a-4f27-8199-79f896e033ce", "8d74f576-e617-4eb1-8ccf-93589ce6c65b"),]
+CAMfiles_combined[[2]] <- CAMfiles_combined[[2]][!CAMfiles_combined[[2]]$CAM %in% c("a0c6edeb-267a-4f27-8199-79f896e033ce", "8d74f576-e617-4eb1-8ccf-93589ce6c65b"),]
+CAMfiles_combined[[3]] <- CAMfiles_combined[[3]][!CAMfiles_combined[[3]]$CAM.x %in% c("a0c6edeb-267a-4f27-8199-79f896e033ce", "8d74f576-e617-4eb1-8ccf-93589ce6c65b"),]
+
+
+# remove empty concepts:
+CAMfiles_combined[[1]]$text[nchar(CAMfiles_combined[[1]]$text) < 2  & CAMfiles_combined[[1]]$text != "f"]
+tmp_ids <- CAMfiles_combined[[1]]$id[nchar(CAMfiles_combined[[1]]$text) < 2 & CAMfiles_combined[[1]]$text != "f"]
+table(CAMfiles_combined[[1]]$isActive[CAMfiles_combined[[1]]$id %in% tmp_ids])
+
+CAMfiles_combined[[1]] <- CAMfiles_combined[[1]][!CAMfiles_combined[[1]]$id %in% tmp_ids,]
+
+
+### add protocol # 
+if(consider_Protocol){
+  setwd("outputs/01_dataPreperation")
+
+  text <- readLines("protocol_after_word2vec.txt", warn = FALSE)
+  text <- readLines(textConnection(text, encoding="UTF-8"), encoding="UTF-8")
+
+  if (testIfJson(file = text)) {
+    protocol <- rjson::fromJSON(file = "protocol_after_word2vec.txt")
+  
+    ## no CAM deleted  
+  # CAMfiles_combined[[1]] <- CAMfiles_combined[[1]][CAMfiles_combined[[1]]$CAM %in% protocol$currentCAMs,]
+  # CAMfiles_combined[[2]] <- CAMfiles_combined[[2]][CAMfiles_combined[[2]]$CAM %in% protocol$currentCAMs,]
+  # CAMfiles_combined[[3]] <- CAMfiles_combined[[3]][CAMfiles_combined[[3]]$CAM.x %in% protocol$currentCAMs,]
+
+
+  tmp_out <- overwriteTextNodes(protocolDat = protocol,
+                                nodesDat = CAMfiles_combined[[1]])
+  CAMfiles_combined[[1]] <- tmp_out[[1]]
+  # tmp_out[[2]]
+  
+  } else{
+    print("Invalid protocol uploaded")
+  }
+}
+
+
+### 
+
+for(c in unique(CAMfiles_combined[[1]]$participantCAM)){
+  tmp <- CAMfiles_combined[[1]][CAMfiles_combined[[1]]$participantCAM %in% c,]
+  
+  if(!(any(c("Rettungsroboter", "sozialer Assistenzroboter") %in% tmp$text) & all(c("Vorteile", "Nachteile") %in% tmp$text))){
+    # print(c)
+    # print(tmp$text)
+  }
+}
+
+vec_CAMs <- c(); h = 1
+for(c in unique(CAMfiles_combined[[1]]$CAM)){
+  tmp <- CAMfiles_combined[[1]][CAMfiles_combined[[1]]$CAM %in% c,]
+  
+  if(!(any(c("Rettungsroboter", "sozialer Assistenzroboter") %in% tmp$text) & all(c("Vorteile", "Nachteile") %in% tmp$text))){
+    # print(c)
+    # print(tmp$text)
+    vec_CAMs[h] <- c
+    h = h + 1
+    # plot(CAMdrawn_combined[[c]])
+  }
+}
+
+## fix manually
+# single pre defined concepts were falsly written
+CAMfiles_combined[[1]]$text[CAMfiles_combined[[1]]$participantCAM %in% "5debfbcc3a11682f0fae8b29" & CAMfiles_combined[[1]]$text == "Soziale Assistenzroboter"] <- "sozialer Assistenzroboter"
+CAMfiles_combined[[1]]$text_summarized[CAMfiles_combined[[1]]$participantCAM %in% "5debfbcc3a11682f0fae8b29" & CAMfiles_combined[[1]]$text == "sozialer Assistenzroboter"] <- "sozialer Assistenzroboter_positive"
+
+
+CAMfiles_combined[[1]]$text[CAMfiles_combined[[1]]$participantCAM %in% "5ba00acff337030001de805d" & CAMfiles_combined[[1]]$text == "Roboter"] <- "Rettungsroboter"
+CAMfiles_combined[[1]]$text_summarized[CAMfiles_combined[[1]]$participantCAM %in% "5ba00acff337030001de805d" & CAMfiles_combined[[1]]$text == "Rettungsroboter"] <- "Rettungsroboter_neutral"              
+
+
+## remove 5 persons
+vec_Pids <- unique(CAMfiles_combined[[1]]$participantCAM[CAMfiles_combined[[1]]$CAM %in% vec_CAMs])
+vec_Pids
+
+# remove CAMs
+CAMfiles_combined[[1]] <- CAMfiles_combined[[1]][!CAMfiles_combined[[1]]$participantCAM %in% vec_Pids,]
+CAMfiles_combined[[2]] <- CAMfiles_combined[[2]][!CAMfiles_combined[[2]]$participantCAM %in% vec_Pids,]
+CAMfiles_combined[[3]] <- CAMfiles_combined[[3]][!CAMfiles_combined[[3]]$participantCAM.x %in% vec_Pids,]
+
+# remove questionnaires
+questionnaire <- questionnaire[!questionnaire$PROLIFIC_PID %in% vec_Pids,]
+
+###
+# vec_CAMs <- c(); h = 1
+for(c in unique(CAMfiles_combined[[1]]$participantCAM)){
+  tmp <- CAMfiles_combined[[1]][CAMfiles_combined[[1]]$participantCAM %in% c,]
+  
+  if(sum(tmp$text %in% c("Vorteile", "Nachteile")) != 4){
+    print(c)
+    print(sum(tmp$text %in% c("Vorteile", "Nachteile")))
+    # print(tmp$text)
+    # vec_CAMs[h] <- c
+    h = h + 1
+    # plot(CAMdrawn_combined[[c]])
+  }
+}
+
+
+# remove CAM "6560e6f734ae18bd18474cc9" -> only draw pre-defined concepts
+CAMfiles_combined[[1]] <- CAMfiles_combined[[1]][!CAMfiles_combined[[1]]$participantCAM %in% "6560e6f734ae18bd18474cc9",]
+CAMfiles_combined[[2]] <- CAMfiles_combined[[2]][!CAMfiles_combined[[2]]$participantCAM %in% "6560e6f734ae18bd18474cc9",]
+CAMfiles_combined[[3]] <- CAMfiles_combined[[3]][!CAMfiles_combined[[3]]$participantCAM.x %in% "6560e6f734ae18bd18474cc9",]
+
+# remove questionnaires
+questionnaire <- questionnaire[!questionnaire$PROLIFIC_PID %in% "6560e6f734ae18bd18474cc9",]
+
+
+### draw CAMs
+CAMdrawn_combined <- draw_CAM(dat_merged = CAMfiles_combined[[3]],
+                     dat_nodes = CAMfiles_combined[[1]],ids_CAMs = "all",
+                     plot_CAM = FALSE,
+                     useCoordinates = TRUE,
+                     relvertexsize = 3,
+                     reledgesize = 1)
+
+### network indicators
+tmp_microIndicator <- c("Rettungsroboter", "sozialer Assistenzroboter", "Vorteile", "Nachteile")
+networkIndicators_combined <- compute_indicatorsCAM(drawn_CAM = CAMdrawn_combined, 
+                                           micro_degree = tmp_microIndicator, 
+                                           micro_valence = tmp_microIndicator, 
+                                           micro_centr_clo = tmp_microIndicator, 
+                                           micro_transitivity = tmp_microIndicator, 
+                                           largestClique = FALSE)
+
+
+# wordlist
+CAMwordlist_combined <- create_wordlist(
+  dat_nodes =  CAMfiles_combined[[1]],
+  dat_merged =  CAMfiles_combined[[3]],
+  order = "frequency",
+  splitByValence = FALSE,
+  comments = TRUE,
+  raterSubsetWords = NULL,
+  rater = FALSE
+)
+
+if(all(nchar(CAMwordlist_combined$Words) > 2)){
+  print("sucessfully removed empty words")
+}else{
+  CAMwordlist_combined$Words[nchar(CAMwordlist_combined$Words) < 2]
+}
+
+DT::datatable(CAMwordlist_combined, options = list(pageLength = 5)) 
 ```
 
 
@@ -911,12 +1105,18 @@ DT::datatable(dat_newWords, options = list(pageLength = 5))
 setwd("outputs/01_dataPreperation/final")
 
 ### add type of change
-if(all(questionnaire$PROLIFIC_PID  == unique(CAMfiles_pre[[1]]$participantCAM))){
-  questionnaire$typeChange <- vec_type
-}
 
 
-if(all(questionnaire$PROLIFIC_PID == networkIndicators_pre$participantCAM) & all(networkIndicators_pre$participantCAM == networkIndicators_post$participantCAM)){
+### remove all previously removed participants
+networkIndicators_pre <-
+  networkIndicators_pre[networkIndicators_pre$participantCAM %in% questionnaire$PROLIFIC_PID,]
+networkIndicators_post <-
+  networkIndicators_post[networkIndicators_post$participantCAM %in% questionnaire$PROLIFIC_PID,]
+
+
+
+if (all(questionnaire$PROLIFIC_PID == networkIndicators_pre$participantCAM) &
+    all(networkIndicators_pre$participantCAM == networkIndicators_post$participantCAM)) {
   print("all data can be matched")
   
   # save questionnaire
@@ -925,25 +1125,39 @@ if(all(questionnaire$PROLIFIC_PID == networkIndicators_pre$participantCAM) & all
   ## save as R object
   saveRDS(questionnaire, file = "questionnaire_final.rds")
   
+  
+  
   # save network indicators pre
-    ## save as .xlsx file
+  ## save as .xlsx file
   xlsx::write.xlsx2(x = networkIndicators_pre, file = "networkIndicators_pre_final.xlsx")
   ## save as R object
   saveRDS(networkIndicators_pre, file = "networkIndicators_pre_final.rds")
   
   # save network indicators post
-    ## save as .xlsx file
+  ## save as .xlsx file
   xlsx::write.xlsx2(x = networkIndicators_post, file = "networkIndicators_post_final.xlsx")
   ## save as R object
   saveRDS(networkIndicators_post, file = "networkIndicators_post_final.rds")
   
+  # save network indicators combined and clean
+  ## save as .xlsx file
+  xlsx::write.xlsx2(x = networkIndicators_combined, file = "networkIndicators_combined_clean_final.xlsx")
+  ## save as R object
+  saveRDS(networkIndicators_combined, file = "networkIndicators_combined_clean_final.rds")
   
-    # save CAMfiles pre
-      saveRDS(CAMfiles_pre, file = "CAMfiles_pre_final.rds")
-
+  
+  # save CAMfiles pre
+  saveRDS(CAMfiles_pre, file = "CAMfiles_pre_final.rds")
+  
   
   # save CAMfiles post
-    saveRDS(CAMfiles_post, file = "CAMfiles_post_final.rds")
+  saveRDS(CAMfiles_post, file = "CAMfiles_post_final.rds")
+  
+  # save CAMfiles combined and clean
+  saveRDS(CAMfiles_combined, file = "CAMfiles_combined_clean_final.rds")
+  
+  # save wordlist
+  xlsx::write.xlsx2(x = CAMwordlist_combined, file = "CAMwordlist_combined.xlsx")
 }
 ```
 
@@ -955,39 +1169,25 @@ if(all(questionnaire$PROLIFIC_PID == networkIndicators_pre$participantCAM) & all
 
 setwd("outputs/01_dataPreperation/wordlists_raters")
 
-### add type of change
-if(all(questionnaire$PROLIFIC_PID  == unique(CAMfiles_pre[[1]]$participantCAM))){
-  
-}
+
+nrow(CAMwordlist_combined) / 7
+# 6*307 + 311
 
 
-if(all(questionnaire$PROLIFIC_PID == networkIndicators_pre$participantCAM) & all(networkIndicators_pre$participantCAM == networkIndicators_post$participantCAM)){
-  print("all data can be matched")
-  
-  # save questionnaire
-  ## save as .xlsx file
-  xlsx::write.xlsx2(x = questionnaire, file = "questionnaire_final.xlsx")
-  ## save as R object
-  saveRDS(questionnaire, file = "questionnaire_final.rds")
-  
-  # save network indicators pre
-    ## save as .xlsx file
-  xlsx::write.xlsx2(x = networkIndicators_pre, file = "networkIndicators_pre_final.xlsx")
-  ## save as R object
-  saveRDS(networkIndicators_pre, file = "networkIndicators_pre_final.rds")
-  
-  # save network indicators post
-    ## save as .xlsx file
-  xlsx::write.xlsx2(x = networkIndicators_post, file = "networkIndicators_post_final.xlsx")
-  ## save as R object
-  saveRDS(networkIndicators_post, file = "networkIndicators_post_final.rds")
-  
-  
-    # save CAMfiles pre
-      saveRDS(CAMfiles_pre, file = "CAMfiles_pre_final.rds")
-
-  
-  # save CAMfiles post
-    saveRDS(CAMfiles_post, file = "CAMfiles_post_final.rds")
+vec_words <- 1:nrow(CAMwordlist_combined) 
+vec_names <- c("Louisa", "Julius", "Christophe", "Irina", "Michael", "Paul", "Lars")
+for(i in 1:7){
+  print(length(vec_words))
+  if(i == 1){
+    tmp <- sample(x = vec_words, size = 311, replace = FALSE)
+    tmp_out <- CAMwordlist_combined[tmp,]
+    write.xlsx2(x = cbind(Superordinate = NA,	Comment = NA, tmp_out), file = paste0("ratings_", vec_names[i], ".xlsx"), row.names = FALSE)
+    vec_words <- vec_words[!vec_words %in% tmp]
+  }else{
+    tmp <- sample(x = vec_words, size = 307, replace = FALSE)
+    tmp_out <- CAMwordlist_combined[tmp,]
+    write.xlsx2(x = cbind(Superordinate = NA,	Comment = NA, tmp_out), file = paste0("ratings_", vec_names[i], ".xlsx"), row.names = FALSE)
+    vec_words <- vec_words[!vec_words %in% tmp]
+  }
 }
 ```
