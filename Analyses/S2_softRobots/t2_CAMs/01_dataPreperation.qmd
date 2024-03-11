@@ -1129,15 +1129,15 @@ if (all(questionnaire$PROLIFIC_PID == networkIndicators_pre$participantCAM) &
   
   # save network indicators pre
   ## save as .xlsx file
-  xlsx::write.xlsx2(x = networkIndicators_pre, file = "networkIndicators_pre_final.xlsx")
+  xlsx::write.xlsx2(x = networkIndicators_pre, file = "networkIndicators_pre_clean_final.xlsx")
   ## save as R object
-  saveRDS(networkIndicators_pre, file = "networkIndicators_pre_final.rds")
+  saveRDS(networkIndicators_pre, file = "networkIndicators_pre_clean_final.rds")
   
   # save network indicators post
   ## save as .xlsx file
-  xlsx::write.xlsx2(x = networkIndicators_post, file = "networkIndicators_post_final.xlsx")
+  xlsx::write.xlsx2(x = networkIndicators_post, file = "networkIndicators_post_clean_final.xlsx")
   ## save as R object
-  saveRDS(networkIndicators_post, file = "networkIndicators_post_final.rds")
+  saveRDS(networkIndicators_post, file = "networkIndicators_post_clean_final.rds")
   
   # save network indicators combined and clean
   ## save as .xlsx file

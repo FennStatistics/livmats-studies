@@ -33,132 +33,20 @@ p_load('tidyverse', 'jsonlite', 'magrittr', 'xlsx',
 setwd("outputs/01_dataPreperation/final")
 
 
-### load socio-demographic data
-
-setwd("data_demographic")
-prolific1 <- read.csv(file = "prolific_export_6576dab8c6f593e69b2c4246.csv", header = TRUE)
-prolific2 <- read.csv(file = "prolific_export_657827d7dc1b45092f59eb51.csv", header = TRUE)
-
-prolific <- rbind(prolific1, prolific2)
+### load questionnaire
+questionnaire <- readRDS(file = "questionnaire_final.rds")
 
 
-
-### list data files
-setwd("../data")
-folders <- list.files(pattern = "^study_result.*")
-
-### create data files - GERMANY
-# get CAM data
-writeLines("", "CAMdata.txt") # create file
-text_connection <- file("CAMdata.txt", "a") # open connection to append
-
-# get CAM data second
-writeLines("", "secondCAMdata.txt") # create file
-text_connection_second <- file("secondCAMdata.txt", "a") # open connection to append
-
-# get pre CAM data
-writeLines("", "preCAM.txt") # create file
-text_connection_pre <- file("preCAM.txt", "a") # open connection to append
-
-# get post CAM data
-writeLines("", "postCAM.txt") # create file
-text_connection_post <- file("postCAM.txt", "a") # open connection to append
-
-# get post second CAM data
-writeLines("", "secondPostCAM.txt") # create file
-text_connection_postSecond <- file("secondPostCAM.txt", "a") # open connection to append
-
-for(i in 1:length(folders)){
-  setwd(folders[i])
-  if(length(dir()) == 5){
-    # print(i)
-    
-    
-    # pre CAM data
-    setwd(dir()[1])
-    tmp_pre <- jsonlite::fromJSON(txt = "data.txt")
-    writeLines(jsonlite::toJSON(x = tmp_pre), text_connection_pre)
-    setwd("..")
-    
-    
-    # CAM data
-    setwd(dir()[2])
-    tmp <- jsonlite::fromJSON(txt = "data.txt")
-    
-    # add Prolific PID
-    if(sum(!is.na(tmp_pre$PROLIFIC_PID)) != 1){
-      cat("Error in assigning prolific PID in index", i, "\n")
-      break
-    }
-    
-    tmp$creator <- tmp_pre$PROLIFIC_PID[!is.na(tmp_pre$PROLIFIC_PID)]
-    writeLines(jsonlite::toJSON(x = tmp), text_connection)
-    setwd("..")
+networkIndicators_pre <- readRDS(file = "networkIndicators_pre_clean_final.rds")
+networkIndicators_post <- readRDS(file = "networkIndicators_post_clean_final.rds")
 
 
-
-    # post CAM data
-    setwd(dir()[3])
-    tmp <- jsonlite::fromJSON(txt = "data.txt")
-    
-    # add Prolific PID
-    tmp$PROLIFIC_PID <- NA
-    tmp$PROLIFIC_PID[2] <- tmp_pre$PROLIFIC_PID[!is.na(tmp_pre$PROLIFIC_PID)]
-    
-    writeLines(jsonlite::toJSON(x = tmp), text_connection_post)
-    setwd("..")
-    
-    # CAM data second
-    setwd(dir()[4])
-    tmp <- jsonlite::fromJSON(txt = "data.txt")
-    
-    ## add Prolific PID
-    tmp$creator <- tmp_pre$PROLIFIC_PID[!is.na(tmp_pre$PROLIFIC_PID)]
-    
-    writeLines(jsonlite::toJSON(x = tmp), text_connection_second)
-    setwd("..")
-    
-    # post CAM data second
-    setwd(dir()[5])
-    tmp <- jsonlite::fromJSON(txt = "data.txt")
-    
-    # add Prolific PID
-    tmp$PROLIFIC_PID <- NA
-    tmp$PROLIFIC_PID[2] <- tmp_pre$PROLIFIC_PID[!is.na(tmp_pre$PROLIFIC_PID)]
-    
-    writeLines(jsonlite::toJSON(x = tmp), text_connection_postSecond)
-    setwd("..")
-  }
-  setwd("..")
-}
-
-close(text_connection) # close connection CAM
-close(text_connection_pre) # close connection
-close(text_connection_post) # close connection
-close(text_connection_second) # close connection CAM
-close(text_connection_postSecond) # close connection
-
-### move files to output folder
-# copy files (not overwritten)
-tmp_file_from <-  getwd()
-setwd("../outputs/01_dataPreperation")
-file.copy(from =  paste0(tmp_file_from, "/CAMdata.txt"), to = paste0(getwd(), "/CAMdata.txt"))
-file.copy(from =  paste0(tmp_file_from, "/preCAM.txt"), to = paste0(getwd(), "/preCAM.txt"))
-file.copy(from =  paste0(tmp_file_from, "/postCAM.txt"), to = paste0(getwd(), "/postCAM.txt"))
-file.copy(from =  paste0(tmp_file_from, "/secondPostCAM.txt"), to = paste0(getwd(), "/secondPostCAM.txt"))
-file.copy(from =  paste0(tmp_file_from, "/secondCAMdata.txt"), to = paste0(getwd(), "/secondCAMdata.txt"))
-
-# remove files
-file.remove(paste0(tmp_file_from, "/CAMdata.txt"))
-file.remove(paste0(tmp_file_from, "/preCAM.txt"))
-file.remove(paste0(tmp_file_from, "/postCAM.txt"))
-file.remove(paste0(tmp_file_from, "/secondPostCAM.txt"))
-file.remove(paste0(tmp_file_from, "/secondCAMdata.txt"))
+CAMfiles_combined <- readRDS(file = "CAMfiles_combined_clean_final.rds")
 
 
 ### load functions
 # print(getwd())
-setwd("../../../../functions")
+setwd("../../../../../functions")
 for(i in 1:length(dir())){
   # print(dir()[i])
   source(dir()[i], encoding = "utf-8")
@@ -186,5 +74,329 @@ data_summary <- function(data, varname, groupnames){
   data_sum <- plyr::rename(data_sum, c("mean" = varname))
   return(data_sum)
 }
+```
+
+
+
+# check single scales and compute mean variables
+
+
+## Almere
+
+### Anxiety dimension
+
+
+```{r}
+#| label: Almere Anxiety
+#| warning: false
+
+regEx <- "^Almere.*anx$"
+nameScale <- "Almere - Anxiety"
+nameVariable <- "mean_AlmereAnxiety"
+
+### number of items
+sum(str_detect(string = colnames(questionnaire), pattern = regEx))
+
+### get correlation plot, descriptives, EFA, CFA
+
+### EFA
+tmp <- CFAstats(dataset = questionnaire, regularExp = regEx, labelLatent = str_remove(string = nameVariable, pattern = "mean_"), 
+                showPlots = TRUE, 
+                computeEFA = TRUE, 
+                computeCFA = TRUE, 
+                computeCFAMplus = FALSE)
+
+### variable mean
+questionnaire[[nameVariable]]  <- questionnaire %>%
+  select(matches(regEx)) %>%
+  rowMeans(na.rm = TRUE)
+```
+
+
+### Attitude dimension
+
+
+```{r}
+#| label: Almere Attitude
+#| warning: false
+
+regEx <- "^Almere.*att$"
+nameScale <- "Almere - Attitude"
+nameVariable <- "mean_AlmereAttitude"
+
+### number of items
+sum(str_detect(string = colnames(questionnaire), pattern = regEx))
+
+### get correlation plot, descriptives, EFA, CFA
+
+### EFA
+tmp <- CFAstats(dataset = questionnaire, regularExp = regEx, labelLatent = str_remove(string = nameVariable, pattern = "mean_"), 
+                showPlots = TRUE, 
+                computeEFA = TRUE, 
+                computeCFA = TRUE, 
+                computeCFAMplus = FALSE)
+
+### variable mean
+questionnaire[[nameVariable]]  <- questionnaire %>%
+  select(matches(regEx)) %>%
+  rowMeans(na.rm = TRUE)
+```
+
+## Li & Wang (2021)
+
+### Anthropomorphism dimension
+
+
+```{r}
+#| label: Li & Wang Anthropomorphism
+#| warning: false
+
+regEx <- "^LiWang.*anthropomorphism$"
+nameScale <- "LiWang - Anthropomorphism"
+nameVariable <- "mean_LiWangAnthropomorphism"
+
+### number of items
+sum(str_detect(string = colnames(questionnaire), pattern = regEx))
+
+### get correlation plot, descriptives, EFA, CFA
+
+### EFA
+tmp <- CFAstats(dataset = questionnaire, regularExp = regEx, labelLatent = str_remove(string = nameVariable, pattern = "mean_"), 
+                showPlots = TRUE, 
+                computeEFA = TRUE, 
+                computeCFA = TRUE, 
+                computeCFAMplus = FALSE)
+
+### variable mean
+questionnaire[[nameVariable]]  <- questionnaire %>%
+  select(matches(regEx)) %>%
+  rowMeans(na.rm = TRUE)
+```
+
+
+### Autonomy dimension
+
+
+```{r}
+#| label: Li & Wang Autonomy
+#| warning: false
+
+regEx <- "^LiWang.*autonomy$"
+nameScale <- "LiWang - Autonomy"
+nameVariable <- "mean_LiWangAutonomy"
+
+### number of items
+sum(str_detect(string = colnames(questionnaire), pattern = regEx))
+
+### get correlation plot, descriptives, EFA, CFA
+
+### EFA
+tmp <- CFAstats(dataset = questionnaire, regularExp = regEx, labelLatent = str_remove(string = nameVariable, pattern = "mean_"), 
+                showPlots = TRUE, 
+                computeEFA = TRUE, 
+                computeCFA = TRUE, 
+                computeCFAMplus = FALSE)
+
+### variable mean
+questionnaire[[nameVariable]]  <- questionnaire %>%
+  select(matches(regEx)) %>%
+  rowMeans(na.rm = TRUE)
+```
+
+
+
+## General Attitudes Towards Robots Scale, GAToRS (2022)
+
+### Personal Level Positive Attitude
+
+```{r}
+#| label: GAToRS PP
+#| warning: false
+
+regEx <- "^GAToRS.*pp$"
+nameScale <- "GAToRS - PP"
+nameVariable <- "mean_GAToRSpp"
+
+### number of items
+sum(str_detect(string = colnames(questionnaire), pattern = regEx))
+
+### get correlation plot, descriptives, EFA, CFA
+
+### EFA
+tmp <- CFAstats(dataset = questionnaire, regularExp = regEx, labelLatent = str_remove(string = nameVariable, pattern = "mean_"), 
+                showPlots = TRUE, 
+                computeEFA = TRUE, 
+                computeCFA = TRUE, 
+                computeCFAMplus = FALSE)
+
+### variable mean
+questionnaire[[nameVariable]]  <- questionnaire %>%
+  select(matches(regEx)) %>%
+  rowMeans(na.rm = TRUE)
+```
+
+
+### Personal Level Negative Attitude
+
+```{r}
+#| label: GAToRS PN
+#| warning: false
+
+regEx <- "^GAToRS.*pn$"
+nameScale <- "GAToRS - pn"
+nameVariable <- "mean_GAToRSpn"
+
+### number of items
+sum(str_detect(string = colnames(questionnaire), pattern = regEx))
+
+### get correlation plot, descriptives, EFA, CFA
+
+### EFA
+tmp <- CFAstats(dataset = questionnaire, regularExp = regEx, labelLatent = str_remove(string = nameVariable, pattern = "mean_"), 
+                showPlots = TRUE, 
+                computeEFA = TRUE, 
+                computeCFA = TRUE, 
+                computeCFAMplus = FALSE)
+
+### variable mean
+questionnaire[[nameVariable]]  <- questionnaire %>%
+  select(matches(regEx)) %>%
+  rowMeans(na.rm = TRUE)
+```
+
+### Societal Level Positive Attitude
+
+```{r}
+#| label: GAToRS SP
+#| warning: false
+
+regEx <- "^GAToRS.*sp$"
+nameScale <- "GAToRS - sp"
+nameVariable <- "mean_GAToRSsp"
+
+### number of items
+sum(str_detect(string = colnames(questionnaire), pattern = regEx))
+
+### get correlation plot, descriptives, EFA, CFA
+
+### EFA
+tmp <- CFAstats(dataset = questionnaire, regularExp = regEx, labelLatent = str_remove(string = nameVariable, pattern = "mean_"), 
+                showPlots = TRUE, 
+                computeEFA = TRUE, 
+                computeCFA = TRUE, 
+                computeCFAMplus = FALSE)
+
+### variable mean
+questionnaire[[nameVariable]]  <- questionnaire %>%
+  select(matches(regEx)) %>%
+  rowMeans(na.rm = TRUE)
+```
+
+
+### Societal Level Negative Attitude
+
+```{r}
+#| label: GAToRS SN
+#| warning: false
+
+regEx <- "^GAToRS.*sn$"
+nameScale <- "GAToRS - sn"
+nameVariable <- "mean_GAToRSsn"
+
+### number of items
+sum(str_detect(string = colnames(questionnaire), pattern = regEx))
+
+### get correlation plot, descriptives, EFA, CFA
+
+### EFA
+tmp <- CFAstats(dataset = questionnaire, regularExp = regEx, labelLatent = str_remove(string = nameVariable, pattern = "mean_"), 
+                showPlots = TRUE, 
+                computeEFA = TRUE, 
+                computeCFA = TRUE, 
+                computeCFAMplus = FALSE)
+
+### variable mean
+questionnaire[[nameVariable]]  <- questionnaire %>%
+  select(matches(regEx)) %>%
+  rowMeans(na.rm = TRUE)
+```
+
+
+
+
+
+
+
+# analysis
+
+## correlation mean variables
+
+```{r}
+psych::cor.plot(r = cor(questionnaire[, str_detect(string = colnames(questionnaire),
+                                                   pattern = "^mean")], 
+                                                   use = "pairwise.complete.obs"),
+                                                   upper = FALSE, xlas = 2, main = "mean scales")
+```
+
+
+
+## mean differences
+
+```{r}
+ggbetweenstats(
+  data = questionnaire,
+  x = choosen_Robot,
+  y = mean_AlmereAnxiety
+)
+
+ggbetweenstats(
+  data = questionnaire,
+  x = choosen_Robot,
+  y = mean_AlmereAttitude
+)
+
+ggbetweenstats(
+  data = questionnaire,
+  x = choosen_Robot,
+  y = mean_LiWangAnthropomorphism
+)
+
+ggbetweenstats(
+  data = questionnaire,
+  x = choosen_Robot,
+  y = mean_LiWangAutonomy
+)
+
+ggbetweenstats(
+  data = questionnaire,
+  x = choosen_Robot,
+  y = mean_GAToRSpp
+)
+
+
+ggbetweenstats(
+  data = questionnaire,
+  x = choosen_Robot,
+  y = mean_GAToRSpn
+)
+
+ggbetweenstats(
+  data = questionnaire,
+  x = choosen_Robot,
+  y = mean_GAToRSsp
+)
+
+ggbetweenstats(
+  data = questionnaire,
+  x = choosen_Robot,
+  y = mean_GAToRSsp
+)
+
+
+ggbetweenstats(
+  data = questionnaire,
+  x = choosen_Robot,
+  y = mean_GAToRSsn
+)
 ```
 
