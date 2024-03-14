@@ -1,17 +1,30 @@
 ########################################
 # test number of factors
 ########################################
+# label = labelLatent
+# regEx = regularExp
+# dataset = dataset
+
 dimensionalityTest <- function(label, regEx, dataset){
   tmp_dat <- dataset[, str_detect(string = colnames(dataset),
                                   pattern = regEx)]
 
   if(label == "Overall"){
     fa_parallel_out <- fa.parallel(x = tmp_dat, fm = "minres", fa="both", main = label, cor = "cor")
-
-  }else if(label == "Trust"){
-    fa_parallel_out <- fa.parallel(x = tmp_dat, fm = "minres", fa="both", main = label, cor = "cor")
   }else{
-    fa_parallel_out <- fa.parallel(x = tmp_dat, fm = "minres", fa="both", main = label, cor = "poly")
+
+
+    res <- try(fa_parallel_out <- fa.parallel(x = tmp_dat,
+                                              fm = "minres",
+                                              fa="both", main = label,
+                                              cor = "poly"))
+    if(inherits(res, "try-error")){
+      print("use instead of polychoric correlations pearson correlations")
+      fa_parallel_out <- fa.parallel(x = tmp_dat,
+                                     fm = "minres",
+                                     fa="both", main = label,
+                                     cor = "cor")
+    }
   }
 
   cat(label, "\n")
@@ -22,14 +35,15 @@ dimensionalityTest <- function(label, regEx, dataset){
 }
 
 
+
 ########################################
 # explorative factor analysis
 ########################################
 ## args
 # i = 2
-# label = searchLogic$label[i]
-# regEx = searchLogic$regEx[i]
-# dataset = questionnaire
+# label = labelLatent
+# regEx = regularExp
+# dataset = dataset
 # nfac = 1
 explorativeFactorAnalysis <- function(label, regEx, dataset, nfac = 1, showCronbach = FALSE){
   tmp_dat <- dataset[, str_detect(string = colnames(dataset),
@@ -43,10 +57,21 @@ explorativeFactorAnalysis <- function(label, regEx, dataset, nfac = 1, showCronb
 
     tmp_fa_out <- fa(r = tmp_dat, nfactors = nfac, rotate = "promax", cor ="cor")
   }else{
-    tmp_cor <- polychoric(tmp_dat)
-    tmp_cor <- tmp_cor$rho
+    res <- try(tmp_cor <- polychoric(tmp_dat))
 
-    tmp_fa_out <- fa(r = tmp_dat, nfactors = nfac, rotate = "promax", cor ="poly")
+
+    if(inherits(res, "try-error")){
+      print("use instead of polychoric correlations pearson correlations")
+      tmp_cor <- cor(tmp_dat)
+
+      tmp_fa_out <- fa(r = tmp_dat, nfactors = nfac, rotate = "promax", cor ="cor")
+    }else{
+      tmp_cor <- polychoric(tmp_dat)
+      tmp_cor <- tmp_cor$rho
+
+      tmp_fa_out <- fa(r = tmp_dat, nfactors = nfac, rotate = "promax", cor ="poly")
+    }
+
   }
 
 

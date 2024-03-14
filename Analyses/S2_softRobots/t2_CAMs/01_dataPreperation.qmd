@@ -1125,7 +1125,7 @@ if (all(questionnaire$PROLIFIC_PID == networkIndicators_pre$participantCAM) &
   ## save as R object
   saveRDS(questionnaire, file = "questionnaire_final.rds")
   
-  
+  haven::write_sav(data = questionnaire, path = "questionnaire_final.sav")
   
   # save network indicators pre
   ## save as .xlsx file

@@ -2,13 +2,13 @@
 # get CFA fit statistics
 ########################################
 ## args
-# dataset = questionnaire_reduced
-# regularExp = "^HEXACO-A"
-# labelLatent = "risk"
-# showPlots = FALSE
-# computeEFA = FALSE
-# computeCFA = FALSE
-# computeCFAMplus = TRUE
+# dataset = questionnaire
+# regularExp = "^LiWang.*anthropomorphism$"
+# labelLatent = "LiWangAnthropomorphism"
+# showPlots = TRUE
+# computeEFA = TRUE
+# computeCFA = TRUE
+# computeCFAMplus = FALSE
 
 CFAstats <- function(dataset, regularExp, labelLatent = "latentVar",
                      showPlots = FALSE,

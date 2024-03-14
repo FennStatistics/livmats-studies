@@ -1099,6 +1099,14 @@ const study = new lab.flow.Sequence({
     // new lab.plugins.Download()
   ],
   content: [
+        // risk benefits soft robot
+        InfosSoftRobot_htmlForm,
+        SRapplication_htmlForm,
+        SRbenefitsRisks_htmlForm,
+        SRsocialBenefitsRisks_htmlForm,
+        SRsustainable_htmlForm,
+
+        
     InfosBasalAttributes_htmlForm,
     basalAttributesRating,
 
