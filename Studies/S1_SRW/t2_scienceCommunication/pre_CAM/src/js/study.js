@@ -247,11 +247,85 @@ const explanation_video_htmlForm = new lab.html.Form({
   skip: '${ choosenInformation === "Text" }',
   messageHandlers: {
     run: function anonymous() {
-      document.querySelector("button").style.visibility = "hidden";
-      setTimeout(
-        () => (document.querySelector("button").style.visibility = "visible"),
-        5000 // 10000 (10 seconds)
-      );
+
+
+      $("#continue").css("visibility", "hidden"); 
+      $("#dialog").hide();
+
+
+      $('#SRWvideo').on('ended',  evt => { 
+        // code you want to happen when the video ends
+        // enable interaction with video
+        $("#SRWvideo").css("pointer-events", "auto"); 
+        // show continue button
+        $("#continue").css("visibility", "visible"); 
+
+        // inform participants
+        $("#dialog").dialog({
+          autoOpen: true,
+          modal: true,
+          show: "fade",
+          hide: false,
+          resizable: false,
+          draggable: true,
+          width: 400,
+          maxWidth: 400,
+          height: "auto",
+          buttons: [
+            {text: "Ok",
+                id: "CloseButton",
+                click: function () {
+                    console.log("clicked close button");
+                    $(this).dialog("close");
+                },
+            },
+        ],
+          position: {
+            my: "center",
+            at: "center",
+            of: window,
+            within: $("#SRWvideo")
+           }
+      });
+     });
+
+
+     /*
+     // to test code
+     playTimeout = setTimeout(function() {
+      $("#SRWvideo").css("pointer-events", "auto"); 
+      $("#continue").css("visibility", "visible"); 
+      $("#dialog").dialog({
+        autoOpen: true,
+        modal: true,
+        show: "fade",
+        hide: false,
+        resizable: false,
+        draggable: true,
+        width: 400,
+        maxWidth: 400,
+        height: "auto",
+        buttons: [
+          {text: "Ok",
+              id: "CloseButton",
+              click: function () {
+                  console.log("clicked close button");
+                  $(this).dialog("close");
+              },
+          },
+      ],
+        position: {
+          my: "center",
+          at: "center",
+          of: window,
+          within: $("#SRWvideo")
+         }
+    })
+
+
+    }, 3000); // 3 seconds in ms
+*/
+
     },
     commit: () => {
       // progress bar
@@ -306,11 +380,10 @@ const study = new lab.flow.Sequence({
   plugins: [
     new lab.plugins.Metadata(),
     //new lab.plugins.Fullscreen(),
-    //new lab.plugins.Debug(), // comment out finally
+    new lab.plugins.Debug(), // comment out finally
     // new lab.plugins.Download()
   ],
   content: [ 
-    explanation_video_htmlForm,
     explanation_text_htmlForm,
 
     // >>> PRE

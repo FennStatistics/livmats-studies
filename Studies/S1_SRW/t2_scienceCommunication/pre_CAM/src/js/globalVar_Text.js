@@ -327,6 +327,7 @@ Verpflichten Sie sich, in dieser Umfrage wohlüberlegte Antworten zu geben?
    </footer>
    `,
       // !!! adjust if using END
+
    setupStudy: `
    <header>
    <h2>Übersicht der Studie:</h2>
@@ -367,76 +368,31 @@ Verpflichten Sie sich, in dieser Umfrage wohlüberlegte Antworten zu geben?
      <h2>
      Bitte schauen Sie sich das folgende Video aufmerksam an:
      </h2>
-     <i>Anmerkung: sie können das Video im Vollbild anschauen indem sich zweifach auf das Video klicken.</i>
+     <i>Anmerkung: Scrollen Sie runter, so dass sie das Video komplett sehen können, zoomen Sie gegebenenfalls rein und raus.</i>
    </header>
    <main class="content-horizontal-center content-vertical-center">
    <div class="w-xl text-justify">
 
-   <video id="example_video_1" class="video-js vjs-default-skin"
-   controls preload="auto" width="640" height="264"
-   data-setup='{"example_option":true}'>
- <source src="http://download.blender.org/peach/trailer/trailer_400p.ogg" type='video/ogg' />
- <p class="vjs-no-js">To view this video please enable JavaScript, and consider upgrading to a web browser that
-   <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
- </p>
-</video>
+  <div id="dialog" title="Video beendet">
+  <p>Sie haben nach dem Ende des Videos nun nochmals die Möglichkeit, Ausschnitte aus dem Video sich anzuschauen. Bitte nutzen Sie diese Möglichkeit falls Ihnen etwas zu schnell ging.</p>
+  <p>Drücken Sie sonst bitte unten rechts auf "Weiter"</p>
+</div>
 
-   <br>
-   <br>
-
-   
-   <video id="example_video_1" class="video-js vjs-default-skin"
-   controls preload="auto" width="640" height="264"
-   data-setup='{"example_option":true}'>
- <source src="http://download.blender.org/peach/trailer/trailer_400p.ogg" type='video/ogg' />
- <source src="pre_CAM/static/Video/SRW_videoCondition.mp4" type="video/mp4">
- <p class="vjs-no-js">To view this video please enable JavaScript, and consider upgrading to a web browser that
-   <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
- </p>
-</video>
-
-   <br>
-   <br>
-aaaa
-   <video id="myMovie" class="video-js vjs-default-skin" controls preload="auto" width="640" height="264">
+   <video
+   style="pointer-events: none;"
+   autoplay 
+   playsinline 
+   id="SRWvideo"
+   class="video-js vjs-default-skin vjs-costum"
+   controls
+   preload="auto"
+   width="100%"
+   height="100%"
+   poster="pre_CAM/static/Video/SRW_poster.jpg"
+   >
    <source src="pre_CAM/static/Video/SRW_videoCondition.mp4" type='video/mp4'/>
    <source src="pre_CAM/static/Video/SRW_videoCondition.webm" type='video/webm'/>
 </video>
-
-<br>
-<br>
-
-   <video
-   id="my-video"
-   class="video-js"
-   controls
-   preload="auto"
-   width="640"
-   height="264"
-   poster="pre_CAM/static/Video/SRW_poster.jpg"
-   data-setup="{}"
- >
-   <source src="pre_CAM/static/Video/SRW_videoCondition.mp4" type="video/mp4" />
-   <p class="vjs-no-js">
-     To view this video please enable JavaScript, and consider upgrading to a
-     web browser that
-     <a href="https://videojs.com/html5-video-support/" target="_blank"
-       >supports HTML5 video</a
-     >
-   </p>
- </video>
-
-<br>
-<br>
-
-<video controls autoplay>
-  <source src="pre_CAM/static/Video/SRW_videoCondition.mp4" type="video/mp4">
- </video>
-
-
-   <section>
-   <iframe width="100%" height="700px" src="https://www.youtube-nocookie.com/embed/725flcytGJw?si=MNFdRUslaoFSRQzD&amp;controls=0&rel=0&autoplay=1" title="YouTube video player" frameborder="1" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-   </section>
    </div>
  </main>
  
@@ -445,7 +401,7 @@ aaaa
    
    <footer class="content-vertical-center content-horizontal-right">
    <div class="w-l text-justify">
-   Drücken Sie nicht auf "Weiter", bevor Sie das Video komplett angeschaut haben. Der "Weiter"-Knopf ist für XXX Sekunden gesperrt.
+   Sie können erst auf "Weiter" drücken, wenn das Video beendet ist.
    </div>
    &nbsp; <button id="continue" type="submit" form="page-form">
    Weiter &rarr;
