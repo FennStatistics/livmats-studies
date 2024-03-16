@@ -37,23 +37,24 @@ function createitems(queslist, quesindex) {
 /* items Koverola 2022 */
 let KoverolaList = {
   ques: ["Ich kann Personen und Organisationen, die mit der Entwicklung von Robotern zu tun haben, vertrauen.",
-  "Personen und Organisationen, die mit der Entwicklung von Robotern zu tun haben, werden die Bedürfnisse, Gedanken und Gefühle ihrer Nutzer berücksichtigen.",
-  "Ich kann einem Roboter vertrauen. ","Ich würde mich im Gespräch mit einem Roboter entspannt fühlen.",
-  "Wenn Roboter Emotionen hätten, könnte ich mich mit ihnen anfreunden.",
-  "Ich würde mich unbehaglich dabei fühlen, wenn ich einen Job bekommen würde, bei dem ich mit Robotern arbeiten müsste.",
-  "Ich befürchte, dass Roboter meine Anweisungen nicht verstehen wüden.",
-  "Roboter machen mir Angst.",
-  "Ich würde mich sehr nervös fühlen, allein in der Nähe eines Roboters zu sein.",
-  "Ich möchte nicht, dass ein Roboter mich anfasst.",
-  "Roboter sind notwendig, da sie Jobs ausführen können, welche zu schwer oder gefährlich für Menschen sind.",
-  "Roboter können das Leben einfacher machen.",
-  "Die Zuweisung von Routineaufgaben an Roboter ermöglicht es den Menschen, bedeutungsvollere Aufgaben zu erledigen.",
-  "Gefährliche Aufgaben sollten primär Robotern übertragen werden.","Roboter sind eine gute Sache für die Gesellschaft, da sie Menschen helfen. ",
-  "Roboter könnten uns noch fauler machen. ",
-  "Der weitverbreitete Einsatz von Robotern wird Menschen Arbeitsplätze wegnehmen.",
-  "Ich habe Angst, dass Roboter dazu führen könnten, dass weniger zwischenmenschliche Interaktion stattfindet.",
-  "Robotik ist einer der Bereiche der Technologie, der engmaschig überwacht werden muss.",
-  "Der unregulierte Einsatz von Robotik kann zu gesellschaftlichen Umwälzungen führen."],
+    "Personen und Organisationen, die mit der Entwicklung von Robotern zu tun haben, werden die Bedürfnisse, Gedanken und Gefühle ihrer Nutzer berücksichtigen.",
+    "Ich kann einem Roboter vertrauen.",
+    "Ich würde mich im Gespräch mit einem Roboter entspannt fühlen.",
+    "Wenn Roboter Emotionen hätten, könnte ich mich mit ihnen anfreunden.",
+    "Ich würde mich unbehaglich dabei fühlen, wenn ich einen Job bekommen würde, bei dem ich mit Robotern arbeiten müsste.",
+    "Ich befürchte, dass Roboter meine Anweisungen nicht verstehen wüden.",
+    "Roboter machen mir Angst.",
+    "Ich würde mich sehr nervös fühlen, allein in der Nähe eines Roboters zu sein.",
+    "Ich möchte nicht, dass ein Roboter mich anfasst.",
+    "Roboter sind notwendig, da sie Jobs ausführen können, welche zu schwer oder gefährlich für Menschen sind.",
+    "Roboter können das Leben einfacher machen.",
+    "Die Zuweisung von Routineaufgaben an Roboter ermöglicht es den Menschen, bedeutungsvollere Aufgaben zu erledigen.",
+    "Gefährliche Aufgaben sollten primär Robotern übertragen werden.", "Roboter sind eine gute Sache für die Gesellschaft, da sie Menschen helfen. ",
+    "Roboter könnten uns noch fauler machen. ",
+    "Der weitverbreitete Einsatz von Robotern wird Menschen Arbeitsplätze wegnehmen.",
+    "Ich habe Angst, dass Roboter dazu führen könnten, dass weniger zwischenmenschliche Interaktion stattfindet.",
+    "Robotik ist einer der Bereiche der Technologie, der engmaschig überwacht werden muss.",
+    "Der unregulierte Einsatz von Robotik kann zu gesellschaftlichen Umwälzungen führen."],
   scale: ["1pp", "2pp", "3pp", "4pp", "5pp", "1pn", "2pn", "3pn", "4pn", "5pn", "1sp", "2sp", "3sp", "4sp", "5sp", "1sn", "2sn", "3sn", "4sn", "5sn"]
 };
 
@@ -83,20 +84,20 @@ console.log(items_Heerink.slice(0, 4));
 /* items Li and Wang 2022 ADJUSTED */
 let LiWangList = {
   ques: ["Der Roboter sollte automatisch Veränderungen in der Umgebung wahrnehmen.",
-  "Der Roboter sollte automatisch Entscheidungen treffen.",
-  "Der Roboter sollte automatisch Aufgaben erledigen.",
-  "Der Roboter sollte einen eigenen Willen haben.",
-  "Der Roboter sollte Absichten haben.",
-  "Der Roboter sollte einen freien Willen haben.",
-  "Der Roboter sollte ein Bewusstsein haben.",
-  "Der Roboter sollte die Fähigkeit besitzen, Emotionen zu erleben."]
+    "Der Roboter sollte automatisch Entscheidungen treffen.",
+    "Der Roboter sollte automatisch Aufgaben erledigen.",
+    "Der Roboter sollte einen eigenen Willen haben.",
+    "Der Roboter sollte Absichten haben.",
+    "Der Roboter sollte einen freien Willen haben.",
+    "Der Roboter sollte ein Bewusstsein haben.",
+    "Der Roboter sollte die Fähigkeit besitzen, Emotionen zu erleben."]
   ,
-  scale: ["1autonomy","2autonomy","3autonomy","1anthropomorphism","2anthropomorphism","3anthropomorphism","4anthropomorphism","5anthropomorphism"]
+  scale: ["1autonomy", "2autonomy", "3autonomy", "1anthropomorphism", "2anthropomorphism", "3anthropomorphism", "4anthropomorphism", "5anthropomorphism"]
 };
 
 var index_LiWangList = shuffle(LiWangList);
-console.log("LiWangList: ", LiWangList);  
-console.log("LiWangList index: ", index_LiWangList);  
+console.log("LiWangList: ", LiWangList);
+console.log("LiWangList index: ", index_LiWangList);
 
 var items_LiWang = createitems(LiWangList, index_LiWangList);
 console.log(items_LiWang.slice(0, 4));
@@ -104,8 +105,8 @@ console.log(items_LiWang.slice(0, 4));
 
 /* items MDMT 2019 */
 let MDMTList = {
-  ques: ["Verlässlich","Vorhersehbar","Jemand, auf den man zählen kann","Konsistent","Fähig","Fachkundig","Kompetent","Gewissenhaft","Ethisch","Respektabel","Prinzipientreu","hat Integrität","Ehrlich","Echt","Aufrichtig","Authentisch"],
-  scale: ["1reliable","2reliable","3reliable","4reliable","1capable","2capable","3capable","4capable","1ethical","2ethical","3ethical","4ethical","1sincere","2sincere","3sincere","4sincere"]
+  ques: ["Verlässlich", "Vorhersehbar", "Jemand, auf den man zählen kann", "Konsistent", "Fähig", "Fachkundig", "Kompetent", "Gewissenhaft", "Ethisch", "Respektabel", "Prinzipientreu", "hat Integrität", "Ehrlich", "Echt", "Aufrichtig", "Authentisch"],
+  scale: ["1reliable", "2reliable", "3reliable", "4reliable", "1capable", "2capable", "3capable", "4capable", "1ethical", "2ethical", "3ethical", "4ethical", "1sincere", "2sincere", "3sincere", "4sincere"]
 };
 
 var index_MDMTList = shuffle(MDMTList);

@@ -1046,6 +1046,7 @@ if(all(colnames(questionnaire_CAM_Germany) == colnames(questionnaire_CAM_USA))){
   ## save file
   setwd("outputs")
   xlsx::write.xlsx2(x = questionnaireCAMs, file = "questionnaireCAMs.xlsx")
+  write.csv2(x = questionnaireCAMs, file = "questionnaireCAMs.csv")
 }
 
 ```
