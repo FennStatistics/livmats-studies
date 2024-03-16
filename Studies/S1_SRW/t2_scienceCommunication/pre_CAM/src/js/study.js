@@ -109,6 +109,7 @@ const Greetings_htmlForm = new lab.html.Form({
 
 /* 
 ################### test headphones ###################
+see: https://link.springer.com/article/10.3758/s13414-017-1361-2
 */
 // audio calibration file
 function playAudio() {
