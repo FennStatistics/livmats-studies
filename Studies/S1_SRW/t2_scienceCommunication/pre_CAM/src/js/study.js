@@ -107,6 +107,138 @@ const Greetings_htmlForm = new lab.html.Form({
 });
 
 
+/* 
+################### test headphones ###################
+*/
+// audio calibration file
+function playAudio() {
+  var audio = new Audio('pre_CAM/static/Audio_HS/noise_calib_stim.wav');
+  audio.play();
+}
+
+const HeadphoneScreening_Info_htmlForm = new lab.html.Form({
+  title: "Headphone Screening info",
+  content: textObj.hs_info,
+  messageHandlers: {
+    run: function anonymous() {
+    },
+    commit: function anonymous() {
+      // progress bar
+      numElementsCounter++;
+      document.querySelector(".progress-bar").style.width =
+        (numElementsCounter / numElements) * 100 + "%";
+    },
+  },
+});
+
+
+const HeadphoneScreening_Task_htmlForm = new lab.html.Form({
+  title: "Headphone Screening task",
+  content: textObj.hs_task,
+  messageHandlers: {
+    run: function anonymous() {
+    },
+    commit: function anonymous() {
+      // progress bar
+      numElementsCounter++;
+      document.querySelector(".progress-bar").style.width =
+        (numElementsCounter / numElements) * 100 + "%";
+    },
+  },
+});
+
+const HeadphoneScreening_Sound_htmlForm = new lab.html.Screen({
+  title: "Headphone Screening sound",
+  content: textObj.hs_sound,
+  timeline: [{
+    type: "sound",
+    start: 0,
+    stop: 1000,
+    priority: 0,
+    payload: {
+      gain: 1,
+      pan: 0,
+      rampUp: 0,
+      rampDown: 0,
+      src: "pre_CAM/static/Audio_HS/noise_calib_stim.wav" // "${ this.files[this.parameters.stimulus_1 + \".wav\"] }"
+    }
+  },
+  {
+    type: "sound",
+    start: 1500,
+    stop: 2500,
+    priority: 0,
+    payload: {
+      gain: 1,
+      pan: 0,
+      rampUp: 0,
+      rampDown: 0,
+      src: "pre_CAM/static/Audio_HS/noise_calib_stim.wav"
+    }
+  }],
+  timeout: 3000,
+  messageHandlers: {
+    run: function anonymous() {
+    },
+    commit: function anonymous() {
+      // progress bar
+    },
+  },
+});
+
+const HeadphoneScreening_Judgement_htmlForm = new lab.html.Screen({
+  title: "Headphone Screening judgement",
+  content: textObj.hs_judgement,
+  responses: {
+    "click #choice-1": 1,
+    "click #choice-2": 2,
+  },
+  correctResponse: 1, // "${ this.parameters.position_correct }"
+  messageHandlers: {
+    run: function anonymous() {
+    },
+    commit: function anonymous() {
+      // progress bar
+    },
+  },
+});
+
+
+
+
+// loop
+// trap
+
+
+
+
+
+
+
+
+
+const HeadphoneScreening_sequence = new lab.flow.Sequence({
+  title: "Headphone Screening Sequence",
+  shuffle: false,
+  tardy: true,
+  skip: '${ choosenInformation === "Text" }',
+  content: [
+    HeadphoneScreening_Info_htmlForm,
+    HeadphoneScreening_Task_htmlForm,
+
+
+    HeadphoneScreening_Sound_htmlForm,
+  ],
+});
+
+
+
+
+
+
+/* 
+################### continue introduction phase ###################
+*/
 const InformCon_htmlForm = new lab.html.Form({
   title: "InformedConsent",
   content: textObj.informCon,
@@ -205,9 +337,9 @@ const SetupStudy_htmlForm = new lab.html.Form({
   content: textObj.setupStudy,
   messageHandlers: {
     run: () => {
-      if(choosenInformation === "Video"){
-      $("#placeholderCondition").text("Schauen Sie sich das Video zu dem Roboter, der sich aktuell in der Entwicklung befindet, aufmerksam an.");
-      }else{
+      if (choosenInformation === "Video") {
+        $("#placeholderCondition").text("Schauen Sie sich das Video zu dem Roboter, der sich aktuell in der Entwicklung befindet, aufmerksam an.");
+      } else {
         // Text
         $("#placeholderCondition").text("Lesen Sie die Informationen zu dem Roboter, der sich aktuell in der Entwicklung befindet, aufmerksam durch.");
       }
@@ -218,15 +350,15 @@ const SetupStudy_htmlForm = new lab.html.Form({
       document.querySelector(".progress-bar").style.width =
         (numElementsCounter / numElements) * 100 + "%";
 
-        if (typeof jatos.jQuery === "function") {
-          // If JATOS is available, send data there
-          var resultJson = study.options.datastore.exportJson();
-          console.log("result data sent to JATOS second time");
-          jatos
-            .submitResultData(resultJson)
-            .then(() => console.log("success"))
-            .catch(() => console.log("error"));
-        }
+      if (typeof jatos.jQuery === "function") {
+        // If JATOS is available, send data there
+        var resultJson = study.options.datastore.exportJson();
+        console.log("result data sent to JATOS second time");
+        jatos
+          .submitResultData(resultJson)
+          .then(() => console.log("success"))
+          .catch(() => console.log("error"));
+      }
     },
   },
 });
@@ -249,16 +381,16 @@ const explanation_video_htmlForm = new lab.html.Form({
     run: function anonymous() {
 
 
-      $("#continue").css("visibility", "hidden"); 
+      $("#continue").css("visibility", "hidden");
       $("#dialog").hide();
 
 
-      $('#SRWvideo').on('ended',  evt => { 
+      $('#SRWvideo').on('ended', evt => {
         // code you want to happen when the video ends
         // enable interaction with video
-        $("#SRWvideo").css("pointer-events", "auto"); 
+        $("#SRWvideo").css("pointer-events", "auto");
         // show continue button
-        $("#continue").css("visibility", "visible"); 
+        $("#continue").css("visibility", "visible");
 
         // inform participants
         $("#dialog").dialog({
@@ -272,67 +404,68 @@ const explanation_video_htmlForm = new lab.html.Form({
           maxWidth: 400,
           height: "auto",
           buttons: [
-            {text: "Ok",
-                id: "CloseButton",
-                click: function () {
-                    console.log("clicked close button");
-                    $(this).dialog("close");
-                },
+            {
+              text: "Ok",
+              id: "CloseButton",
+              click: function () {
+                console.log("clicked close button");
+                $(this).dialog("close");
+              },
             },
-        ],
+          ],
           position: {
             my: "center",
             at: "center",
             of: window,
             within: $("#SRWvideo")
-           }
+          }
+        });
       });
-     });
 
 
-     /*
-     // to test code
-     playTimeout = setTimeout(function() {
-      $("#SRWvideo").css("pointer-events", "auto"); 
-      $("#continue").css("visibility", "visible"); 
-      $("#dialog").dialog({
-        autoOpen: true,
-        modal: true,
-        show: "fade",
-        hide: false,
-        resizable: false,
-        draggable: true,
-        width: 400,
-        maxWidth: 400,
-        height: "auto",
-        buttons: [
-          {text: "Ok",
-              id: "CloseButton",
-              click: function () {
-                  console.log("clicked close button");
-                  $(this).dialog("close");
-              },
-          },
-      ],
-        position: {
-          my: "center",
-          at: "center",
-          of: window,
-          within: $("#SRWvideo")
-         }
-    })
-
-
-    }, 3000); // 3 seconds in ms
-*/
+      /*
+      // to test code
+      playTimeout = setTimeout(function() {
+       $("#SRWvideo").css("pointer-events", "auto"); 
+       $("#continue").css("visibility", "visible"); 
+       $("#dialog").dialog({
+         autoOpen: true,
+         modal: true,
+         show: "fade",
+         hide: false,
+         resizable: false,
+         draggable: true,
+         width: 400,
+         maxWidth: 400,
+         height: "auto",
+         buttons: [
+           {text: "Ok",
+               id: "CloseButton",
+               click: function () {
+                   console.log("clicked close button");
+                   $(this).dialog("close");
+               },
+           },
+       ],
+         position: {
+           my: "center",
+           at: "center",
+           of: window,
+           within: $("#SRWvideo")
+          }
+     })
+ 
+ 
+     }, 3000); // 3 seconds in ms
+ */
 
     },
     commit: () => {
       // progress bar
-        numElementsCounter++;
-        document.querySelector(".progress-bar").style.width =
-          (numElementsCounter / numElements) * 100 + "%";
-          // alert(numElementsCounter)
+      numElementsCounter++;
+      document.querySelector(".progress-bar").style.width =
+        (numElementsCounter / numElements) * 100 + "%";
+      // alert(numElementsCounter)
     }
   },
 });
@@ -355,10 +488,10 @@ const explanation_text_htmlForm = new lab.html.Form({
     },
     commit: () => {
       // progress bar
-        numElementsCounter++;
-        document.querySelector(".progress-bar").style.width =
-          (numElementsCounter / numElements) * 100 + "%";
-          // alert(numElementsCounter)
+      numElementsCounter++;
+      document.querySelector(".progress-bar").style.width =
+        (numElementsCounter / numElements) * 100 + "%";
+      // alert(numElementsCounter)
     }
   },
 });
@@ -383,11 +516,14 @@ const study = new lab.flow.Sequence({
     new lab.plugins.Debug(), // comment out finally
     // new lab.plugins.Download()
   ],
-  content: [ 
-    explanation_text_htmlForm,
+  content: [
+    HeadphoneScreening_Judgement_htmlForm,
+    HeadphoneScreening_sequence,
 
     // >>> PRE
     Greetings_htmlForm,
+
+    HeadphoneScreening_sequence,
 
     InformCon_htmlForm,
     InformConsentNO_htmlForm,
