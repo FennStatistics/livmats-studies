@@ -1,4 +1,4 @@
-# Ignore video files
+# Ignore video files (too large)
 *.mp4
 *.mov
 *.avi
