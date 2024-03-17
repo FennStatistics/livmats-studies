@@ -6,6 +6,9 @@ var URLparams_global;
 
 var paracountclicks = 0;
 
+
+var perc_correct_HS; // measuring performance of headphone screening
+
 /* 
 ################### randomly choose condition ###################
 */
@@ -28,10 +31,8 @@ function shuffleArray(array) {
 
 
 
-const typeInformation = ["Video", "Text"]; // ["rescue robots", "Socially assistive robots"];
-// const indexTypeRobot = shuffleArray(typeRobot);
-var choosenInformation = typeInformation[0]; // typeRobot[indexTypeRobot[0]];
-
+const typeInformation = ["Video", "Text"];
+var choosenInformation = typeInformation[0]; 
 /*
 var firstIndex = [];
 for (i = 0; i < 10000; i++) {
@@ -161,7 +162,7 @@ const HeadphoneScreening_Sound_htmlForm = new lab.html.Screen({
       pan: 0,
       rampUp: 0,
       rampDown: 0,
-      src: "pre_CAM/static/Audio_HS/noise_calib_stim.wav" // "${ this.files[this.parameters.stimulus_1 + \".wav\"] }"
+      src: `pre_CAM/static/Audio_HS/` + '${parameters.stimulus_1}' +  `.wav`,
     }
   },
   {
@@ -174,7 +175,7 @@ const HeadphoneScreening_Sound_htmlForm = new lab.html.Screen({
       pan: 0,
       rampUp: 0,
       rampDown: 0,
-      src: "pre_CAM/static/Audio_HS/noise_calib_stim.wav"
+      src: `pre_CAM/static/Audio_HS/` + '${parameters.stimulus_2}' +  `.wav`,
     }
   }],
   timeout: 3000,
@@ -191,44 +192,88 @@ const HeadphoneScreening_Judgement_htmlForm = new lab.html.Screen({
   title: "Headphone Screening judgement",
   content: textObj.hs_judgement,
   responses: {
-    "click #choice-1": 1,
-    "click #choice-2": 2,
+    "click #choice-1": "1",
+    "click #choice-2": "2",
   },
-  correctResponse: 1, // "${ this.parameters.position_correct }"
+  correctResponse: "${parameters.position_correct}",
   messageHandlers: {
     run: function anonymous() {
     },
     commit: function anonymous() {
-      // progress bar
     },
   },
 });
 
 
 
+const HeadphoneScreening_task_sequence = new lab.flow.Sequence({
+  title: "Headphone Screening task sequence",
+  shuffle: false,
+  tardy: true,
+  content: [
+    HeadphoneScreening_Sound_htmlForm,
+    HeadphoneScreening_Judgement_htmlForm,
+  ],
+});
 
-// loop
+
+const HeadphoneScreening_Loop = new lab.flow.Loop({
+  template: HeadphoneScreening_task_sequence,
+  templateParameters: [
+    {
+      "stimulus_1": "louder1",
+      "stimulus_2": "softest",
+      "position_correct": "2"
+    },
+    {
+      "stimulus_1": "softest",
+      "stimulus_2": "louder1",
+      "position_correct": "1"
+    }
+  ],
+  sample: {
+    mode: "draw-shuffle",
+    n: "6",
+  },
+  messageHandlers: {
+    run: function anonymous() {
+    },
+    end: function anonymous() {
+      var vec_responses = study.options.datastore.extract('correct', 'Headphone Screening judgement');
+      console.log("vec_responses:", vec_responses);
+      perc_correct_HS = lab.util.stats.mean(vec_responses);
+      console.log("perc_correct_HS:", perc_correct_HS);
+    },
+  },
+})
+
+
 // trap
-
-
-
-
-
-
+const HeadphoneScreening_Trap_htmlForm = new lab.html.Form({
+  title: "Headphone Screening trap",
+  content: textObj.hs_trap,
+  tardy: true,
+  skip:  '${ perc_correct_HS > 2/3 }',
+  messageHandlers: {
+    run: function anonymous() {
+      // progress bar
+      document.querySelector(".progress-bar").style.width = 100 + "%";
+    },
+  },
+});
 
 
 
 const HeadphoneScreening_sequence = new lab.flow.Sequence({
-  title: "Headphone Screening Sequence",
+  title: "Headphone Screening sequence",
   shuffle: false,
   tardy: true,
   skip: '${ choosenInformation === "Text" }',
   content: [
     HeadphoneScreening_Info_htmlForm,
     HeadphoneScreening_Task_htmlForm,
-
-
-    HeadphoneScreening_Sound_htmlForm,
+    HeadphoneScreening_Loop,
+    HeadphoneScreening_Trap_htmlForm,
   ],
 });
 
@@ -281,6 +326,13 @@ const ExclusionCriteria_htmlForm = new lab.html.Form({
   title: "ExclusionCriteria",
   content: textObj.exclusionCriteria,
   messageHandlers: {
+    run: function anonymous() {
+      if(choosenInformation === "Video"){
+        $("#placeholder_header").text("Vielen Dank für die Zustimmung zu den Teilnahmebedingungen und die Testung der erforderlichen Audioqualität.");
+      }else{
+        $("#placeholder_header").text("Vielen Dank für die Zustimmung zu den Teilnahmebedingungen.");
+      }
+    },
     commit: () => {
       // progress bar
       numElementsCounter++;
@@ -518,21 +570,18 @@ const study = new lab.flow.Sequence({
     // new lab.plugins.Download()
   ],
   content: [
-    HeadphoneScreening_Judgement_htmlForm,
-    HeadphoneScreening_sequence,
-
     // >>> PRE
     Greetings_htmlForm,
+    InformCon_htmlForm,
+    InformConsentNO_htmlForm,
 
     HeadphoneScreening_sequence,
 
-    InformCon_htmlForm,
-    InformConsentNO_htmlForm,
     ExclusionCriteria_htmlForm,
     //AttentionCheck_htmlForm,
     SetupStudy_htmlForm,
 
-    /**/
+    // >>> information phase
     explanation_video_htmlForm,
     explanation_text_htmlForm,
   ],

@@ -125,15 +125,14 @@ const textObj = {
    `,
    hs_sound: `
    <header>
-   <h2>Bitte hören Sie genau zu auf die Töne</h2>
+   <h2>Bitte hören Sie genau auf die Töne</h2>
  </header>
  
  
  <main class="content-horizontal-center content-vertical-center" style="height:300px;">
-
  </main>
 
- 
+
  <footer class="content-vertical-center content-horizontal-center">
  Die Studie wird automatisch fortgesetzt
  </footer>
@@ -178,11 +177,17 @@ const textObj = {
 Treffen Sie eine Entscheidung, um die Studie fortzusetzen.
  </footer>
    `,
-
-   
-
-
-   
+   hs_trap: `
+   <header></header>
+   <main class="content-horizontal-center content-vertical-center">
+   <div class="w-l text-justify">
+   <section>
+   Ihr System bietet nicht die erforderliche Audioqualität, um diese Studie abzuschließen. Leider bedeutet das, dass die Studie für Sie beendet ist. Sie können
+       jetzt den Bildschirm schließen. Drücken Sie die <kbd>Esc</kbd>-Taste, um den Vollbildmodus zu beenden.
+   </section>
+   </div>
+   </main>   
+   `,
 
    informCon: `
    <header>
@@ -289,7 +294,7 @@ Treffen Sie eine Entscheidung, um die Studie fortzusetzen.
    `,
    exclusionCriteria: `
    <header>
-   <h2>Vielen Dank für die Zustimmung zu den Teilnahmebedingungen.</h2>
+   <h2 id="placeholder_header">XXX.</h2>
 </header>
 
 <main class="content-horizontal-center content-vertical-center">
