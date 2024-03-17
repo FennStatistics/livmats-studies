@@ -287,9 +287,6 @@ const HeadphoneScreening_sequence = new lab.flow.Sequence({
 
 
 
-
-
-
 /* 
 ################### continue introduction phase ###################
 */
@@ -559,7 +556,145 @@ const explanation_text_htmlForm = new lab.html.Form({
 
 
 
+/* 
+################### survey scales ###################
+*/
+// >>> Almere Model
+const LikertAlmere_htmlForm = new lab.html.Page({
+  title: "Almere",
+  items: [
+    {
+      required: true,
+      type: "likert",
+      items: items_Heerink,
+      width: "5",
+      anchors: [
+        "Stimme überhaupt nicht zu",
+        "Stimme nicht zu",
+        "Weiß nicht",
+        "Stimme zu",
+        "Stimme voll und ganz zu"
+      ],
+      label:
+        "Bitte lesen Sie die folgenden Aussagen und geben Sie basierend darauf an, inwieweit Sie jeder Aussage zustimmen.",
+      help: "Beantworten Sie bitte jede Aussage, auch wenn Sie sich nicht ganz sicher sind, was Sie antworten sollen.",
+      shuffle: false,
+      name: "Almere",
+    },
+  ],
+  submitButtonText: "Continue →",
+  submitButtonPosition: "right",
+  width: "l",
+  messageHandlers: {
+    run: function anonymous() {
+      // adjust size of scale
+      document.querySelectorAll("div")[0].classList = ["text-left"];
+      document.querySelectorAll("main")[1].classList = ["w-xl"];
+      document.querySelectorAll(".page-item-table colgroup")[0].innerHTML = `
+     <col style=\"width: 50%\">
+     <col style=\"width: 10%\">
+     <col style=\"width: 10%\">
+     <col style=\"width: 10%\">
+     <col style=\"width: 10%\">
+     <col style=\"width: 10%\">
+     `;
+      // sticky labels to front
+      $("thead").first().css("z-index", "20");
+      // collect paradata
+      paracountclicks = 0;
+      document.querySelectorAll("input").forEach((item) => {
+        item.addEventListener("click", (event) => {
+          paracountclicks++;
+          console.log("input clicked", paracountclicks);
+        });
+      });
+    },
+    end: function anonymous() {
+      // collect paradata
+      let numberitems = document.querySelectorAll("tbody tr").length;
+      paracountclicks -= numberitems;
+      study.options.datastore.set("para_countclicks", paracountclicks);
+      paracountclicks = 0;
+    },
+    commit: function anonymous() {
+      // progress bar
+      numElementsCounter++;
+      document.querySelector(".progress-bar").style.width =
+        (numElementsCounter / numElements) * 100 + "%";
+    },
+  },
+});
 
+
+
+// >>>  General Attitudes Towards Robots Scale (GAToRS)
+const LikertGAToRS_htmlForm = new lab.html.Page({
+  title: "GAToRS",
+  items: [
+    {
+      required: true,
+      type: "likert",
+      items: items_Koverola,
+      width: "7",
+      anchors: [
+        "Stimme überhaupt nicht zu",
+        "Stimme nicht zu",
+        "Stimme eher nicht zu",
+        "Neutral",
+        "Stimme eher zu",
+        "Stimme zu",
+        "Stimme voll und ganz zu"
+      ],
+      label:
+        "Bitte lesen Sie die folgenden Aussagen und geben Sie basierend darauf an, inwieweit Sie jeder Aussage zustimmen.",
+      help: "Beantworten Sie bitte jede Aussage, auch wenn Sie sich nicht ganz sicher sind, was Sie antworten sollen.",
+      shuffle: false,
+      name: "GAToRS",
+    },
+  ],
+  submitButtonText: "Continue →",
+  submitButtonPosition: "right",
+  width: "l",
+  messageHandlers: {
+    run: function anonymous() {
+      // adjust size of scale
+      document.querySelectorAll("div")[0].classList = ["text-left"];
+      document.querySelectorAll("main")[1].classList = ["w-xl"];
+      document.querySelectorAll(".page-item-table colgroup")[0].innerHTML = `
+     <col style=\"width: 55%\">
+     <col style=\"width: 5%\">
+     <col style=\"width: 5%\">
+     <col style=\"width: 10%\">
+     <col style=\"width: 5%\">
+     <col style=\"width: 5%\">
+     <col style=\"width: 5%\">
+     <col style=\"width: 15%\">
+     `;
+      // sticky labels to front
+      $("thead").first().css("z-index", "20");
+      // collect paradata
+      paracountclicks = 0;
+      document.querySelectorAll("input").forEach((item) => {
+        item.addEventListener("click", (event) => {
+          paracountclicks++;
+          console.log("input clicked", paracountclicks);
+        });
+      });
+    },
+    end: function anonymous() {
+      // collect paradata
+      let numberitems = document.querySelectorAll("tbody tr").length;
+      paracountclicks -= numberitems;
+      study.options.datastore.set("para_countclicks", paracountclicks);
+    },
+    commit: function anonymous() {
+      // progress bar
+      numElementsCounter++;
+      document.querySelector(".progress-bar").style.width =
+        (numElementsCounter / numElements) * 100 + "%";
+    },
+  },
+});
 
 
 
@@ -592,6 +727,10 @@ const study = new lab.flow.Sequence({
     // >>> information phase
     explanation_video_htmlForm,
     explanation_text_htmlForm,
+
+    // >>> scales
+    LikertAlmere_htmlForm,
+    LikertGAToRS_htmlForm,
   ],
 });
 

@@ -855,6 +855,11 @@ const study = new lab.flow.Sequence({
     //new lab.plugins.Download()
   ],
   content: [
+
+    LikertAlmere_htmlForm,
+
+
+
     htmlForm,
 
 
