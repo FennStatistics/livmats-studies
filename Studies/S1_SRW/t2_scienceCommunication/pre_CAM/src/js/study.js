@@ -80,8 +80,8 @@ const Greetings_htmlForm = new lab.html.Form({
         console.log("URLparams_global:", URLparams_global);
 
         // check if a robot is provided via URL parameter
-        if (typeof URLparams_global.fixRobot !== "undefined") {
-          choosenInformation = URLparams_global.fixRobot;
+        if (typeof URLparams_global.info !== "undefined") {
+          choosenInformation = URLparams_global.info;
         }
 
         // check if a prolific ID is provided via URL parameter PROLIFIC study
@@ -96,7 +96,7 @@ const Greetings_htmlForm = new lab.html.Form({
             "PROLIFIC_PID",
             URLparams_global.PROLIFIC_PID
           );
-          // save random choosen robot
+          // save condition
           study.options.datastore.set(
             "condiion",
             choosenInformation
@@ -243,6 +243,14 @@ const HeadphoneScreening_Loop = new lab.flow.Loop({
       console.log("vec_responses:", vec_responses);
       perc_correct_HS = lab.util.stats.mean(vec_responses);
       console.log("perc_correct_HS:", perc_correct_HS);
+
+      if (typeof jatos.jQuery === "function") {
+        // save number of correct responses HS
+        study.options.datastore.set(
+          "number_correct_HS",
+          lab.util.stats.sum(vec_responses)
+        );
+    }
     },
   },
 })
