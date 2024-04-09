@@ -243,6 +243,7 @@ const study = new lab.flow.Sequence({
     // new lab.plugins.Download()
   ],
   content: [ 
+    explanationCAM_htmlForm,
      // >>> PRE
     Greetings_htmlForm,
 

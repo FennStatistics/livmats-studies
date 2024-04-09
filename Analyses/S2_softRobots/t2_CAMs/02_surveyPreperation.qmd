@@ -492,4 +492,66 @@ ggbetweenstats(
   y = mean_GAToRSsn
 )
 ```
+## mean differences gender
 
+```{r}
+questionnaire$RobotXsex <- paste0(questionnaire$choosen_Robot, "_", questionnaire$socio_sex)
+questionnaire$AgeGroup <- ifelse(test = questionnaire$socio_age >= 40, yes = "old", no = "young")
+
+
+ggbetweenstats(
+  data = questionnaire,
+  x = AgeGroup,
+  y = mean_AlmereAnxiety
+)
+
+ggbetweenstats(
+  data = questionnaire,
+  x = AgeGroup,
+  y = mean_AlmereAttitude
+)
+
+ggbetweenstats(
+  data = questionnaire,
+  x = AgeGroup,
+  y = mean_LiWangAnthropomorphism
+)
+
+ggbetweenstats(
+  data = questionnaire,
+  x = AgeGroup,
+  y = mean_LiWangAutonomy
+)
+
+ggbetweenstats(
+  data = questionnaire,
+  x = AgeGroup,
+  y = mean_GAToRSpp
+)
+
+
+ggbetweenstats(
+  data = questionnaire,
+  x = socio_sex,
+  y = mean_GAToRSpn
+)
+
+ggbetweenstats(
+  data = questionnaire,
+  x = AgeGroup,
+  y = mean_GAToRSsp
+)
+
+ggbetweenstats(
+  data = questionnaire,
+  x = AgeGroup,
+  y = mean_GAToRSsp
+)
+
+
+ggbetweenstats(
+  data = questionnaire,
+  x = socio_sex,
+  y = mean_GAToRSsn
+)
+```

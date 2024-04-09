@@ -481,7 +481,7 @@ const explanation_video_htmlForm = new lab.html.Form({
       });
 
 
-      /*
+
       // to test code
       playTimeout = setTimeout(function() {
        $("#SRWvideo").css("pointer-events", "auto"); 
@@ -515,7 +515,7 @@ const explanation_video_htmlForm = new lab.html.Form({
  
  
      }, 3000); // 3 seconds in ms
- */
+       /**/
 
     },
     commit: () => {
@@ -713,6 +713,9 @@ const study = new lab.flow.Sequence({
     // new lab.plugins.Download()
   ],
   content: [
+    Greetings_htmlForm,
+    explanation_video_htmlForm,
+
     // >>> PRE
     Greetings_htmlForm,
     InformCon_htmlForm,

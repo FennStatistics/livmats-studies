@@ -1125,8 +1125,6 @@ if (all(questionnaire$PROLIFIC_PID == networkIndicators_pre$participantCAM) &
   ## save as R object
   saveRDS(questionnaire, file = "questionnaire_final.rds")
   
-  haven::write_sav(data = questionnaire, path = "questionnaire_final.sav")
-  
   # save network indicators pre
   ## save as .xlsx file
   xlsx::write.xlsx2(x = networkIndicators_pre, file = "networkIndicators_pre_clean_final.xlsx")
@@ -1191,3 +1189,112 @@ for(i in 1:7){
   }
 }
 ```
+# clean up CAM data
+
+## identify words with high variance in valence
+
+```{r}
+#| label: overwrite single words
+
+setwd("data_overwrite")
+dat_overwrite <- xlsx::read.xlsx2(file = "ratings_combined_final.xlsx", sheetIndex = 1)
+dat_overwrite$mean_valence <- as.numeric(dat_overwrite$mean_valence)
+
+# dat_overwrite$Words <- str_trim(string = dat_overwrite$Words, side = "both")
+# table(dat_overwrite$Words)[table(dat_overwrite$Words) >= 2]
+
+
+tmp_nodes <- CAMfiles_combined[[1]]
+tmp_nodes$text_summarized <- str_remove(string = tmp_nodes$text_summarized, pattern = "_positive$|_negative$|_neutral$|_ambivalent$")
+
+
+dat_overwrite$splitWords <- 0
+
+## loop through single words to identify possible split words:
+for(i in 1:nrow(dat_overwrite)){
+  if(dat_overwrite$sd_valence[i] >= 1){
+    
+    tmp <- tmp_nodes$value[tmp_nodes$text_summarized == dat_overwrite$Words[i]]
+    
+    tmp <- tmp[tmp != 10]
+    tmp <- tmp[tmp != 0]
+
+    if(!is.na(sd(tmp)) & any(tmp >= 1) & any(tmp <= -1)){
+      cat("\n for word: \"", dat_overwrite$Words[i], "\" there is a high SD with \"", sd(tmp), "\"\n", 
+          sort(tmp), "\n")
+      
+      dat_overwrite$splitWords[i] <- 1
+
+    }
+  }
+}
+
+```
+
+
+## overwrite single words
+
+
+
+```{r}
+#| label: overwrite single words
+
+# i <- 1170
+# tmp_nodes$text_summarized[stringdist::stringdist(a = dat_overwrite$Words[i], tmp_nodes$text_summarized) <= 2]
+
+tmp_nodes$text_summarized[tmp_nodes$text_summarized == "-Soziale Begleitung"] <- "Soziale Begleitung"
+## overwrite concepts
+for(i in 1:nrow(dat_overwrite)){
+  if(!is.na(dat_overwrite$Superordinate[i])){
+    tmp <- tmp_nodes[tmp_nodes$text_summarized == dat_overwrite$Words[i], ]
+    
+    for(j in 1:nrow(tmp)){
+      if(sum(tmp_nodes$id %in% tmp[j,]$id) != 1){
+        print("ERROR")
+        print(i)
+        break
+      }else{
+        # add suffix
+        if(tmp[j,]$value < 0){
+          tmp[j,]$text_summarized <- paste0(dat_overwrite$Superordinate[i], "_negative")
+        }else if(tmp[j,]$value == 0){
+          tmp[j,]$text_summarized <- paste0(dat_overwrite$Superordinate[i], "_neutral")
+        }else if(tmp[j,]$value == 10){
+          tmp[j,]$text_summarized <- paste0(dat_overwrite$Superordinate[i], "_ambivalent")
+        }else{
+          tmp[j,]$text_summarized <- paste0(dat_overwrite$Superordinate[i], "_positive")
+        }
+      }   
+    }        
+    
+    tmp_nodes$text_summarized[tmp_nodes$text_summarized == dat_overwrite$Words[i]] <- tmp$text_summarized
+  }
+}
+
+
+table(tmp_nodes$text_summarized)
+
+
+table(tmp_nodes$CAM[tmp_nodes$participantCAM == unique(tmp_nodes$participantCAM)[1]])
+table(tmp_nodes$CAM[tmp_nodes$participantCAM == unique(tmp_nodes$participantCAM)[2]])
+table(tmp_nodes$CAM[tmp_nodes$participantCAM == unique(tmp_nodes$participantCAM)[3]])
+table(tmp_nodes$CAM[tmp_nodes$participantCAM == unique(tmp_nodes$participantCAM)[4]])
+table(tmp_nodes$CAM[tmp_nodes$participantCAM == unique(tmp_nodes$participantCAM)[5]])
+table(tmp_nodes$CAM[tmp_nodes$participantCAM == unique(tmp_nodes$participantCAM)[6]])
+
+CAMfiles_pre[[1]][CAMfiles_pre[[1]]$participantCAM == unique(CAMfiles_pre[[1]]$participantCAM)[6],]
+CAMfiles_post[[1]][CAMfiles_post[[1]]$participantCAM == unique(CAMfiles_post[[1]]$participantCAM)[6],]
+
+
+
+
+table(questionnaire$typeChange)
+questionnaire$PROLIFIC_PID[questionnaire$typeChange == "A"]
+
+table(tmp_nodes$CAM[tmp_nodes$participantCAM == "6480b160d51d051b42f67b3d"])
+table(tmp_nodes$CAM[tmp_nodes$participantCAM == "6480b160d51d051b42f67b3d"])
+
+```
+
+
+## split data sets robots

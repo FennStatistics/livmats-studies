@@ -109,6 +109,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#mediation-moderator-analysis" id="toc-mediation-moderator-analysis" class="nav-link" data-scroll-target="#mediation-moderator-analysis">mediation, moderator analysis</a></li>
   <li><a href="#regression-analysis" id="toc-regression-analysis" class="nav-link" data-scroll-target="#regression-analysis">regression analysis</a></li>
   <li><a href="#mean-differences" id="toc-mean-differences" class="nav-link" data-scroll-target="#mean-differences">mean differences</a></li>
+  <li><a href="#mean-differences-gender" id="toc-mean-differences-gender" class="nav-link" data-scroll-target="#mean-differences-gender">mean differences gender</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -956,13 +957,16 @@ GAToRS-1pp              7    -0.44         0.18       0
 
 variables under investigation:  GAToRS4pp GAToRS3pp GAToRS5pp GAToRS2pp GAToRS1pp 
 
-Cronbachs Alpha: 0.69 </code></pre>
+Cronbachs Alpha: 0.69 
+Error in if (any(lower &gt; upper)) stop("lower&gt;upper integration limits") : 
+  Fehlender Wert, wo TRUE/FALSE nötig ist
+[1] "use instead of polychoric correlations pearson correlations"</code></pre>
 </div>
 <div class="cell-output-display">
 <p><img src="02_surveyPreperation_files/figure-html/GAToRS%20PP-3.png" class="img-fluid" width="672"></p>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Parallel analysis suggests that the number of factors =  3  and the number of components =  1 
+<pre><code>Parallel analysis suggests that the number of factors =  2  and the number of components =  1 
 GAToRSpp 
 Number of components:  1 
 
@@ -1135,7 +1139,10 @@ GAToRS-5pn              7     0.37        -0.78       0
 
 variables under investigation:  GAToRS2pn GAToRS4pn GAToRS3pn GAToRS1pn GAToRS5pn 
 
-Cronbachs Alpha: 0.81 </code></pre>
+Cronbachs Alpha: 0.81 
+Error in if (any(lower &gt; upper)) stop("lower&gt;upper integration limits") : 
+  Fehlender Wert, wo TRUE/FALSE nötig ist
+[1] "use instead of polychoric correlations pearson correlations"</code></pre>
 </div>
 <div class="cell-output-display">
 <p><img src="02_surveyPreperation_files/figure-html/GAToRS%20PN-3.png" class="img-fluid" width="672"></p>
@@ -1499,9 +1506,9 @@ Cronbachs Alpha: 0.61 </code></pre>
 <p><img src="02_surveyPreperation_files/figure-html/GAToRS%20SN-3.png" class="img-fluid" width="672"></p>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Parallel analysis suggests that the number of factors =  2  and the number of components =  2 
+<pre><code>Parallel analysis suggests that the number of factors =  2  and the number of components =  1 
 GAToRSsn 
-Number of components:  2 
+Number of components:  1 
 
 KMO criteria is to low (&lt; .6) for: 
  GAToRS4sn 
@@ -1753,7 +1760,7 @@ Defined Parameters:
 <div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a>fit_bootstrap <span class="ot">&lt;-</span> <span class="fu">sem</span>(model, <span class="at">data =</span> tmp_dat_mediation, <span class="at">estimator =</span> <span class="st">"ML"</span>, <span class="at">se =</span><span class="st">"bootstrap"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning in lav_model_nvcov_bootstrap(lavmodel = lavmodel, lavsamplestats =
-lavsamplestats, : lavaan WARNING: 17 bootstrap runs resulted in nonadmissible
+lavsamplestats, : lavaan WARNING: 14 bootstrap runs resulted in nonadmissible
 solutions.</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit_bootstrap, <span class="at">standardized =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1782,30 +1789,30 @@ Latent Variables:
                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
   AlmAtt =~                                                             
     Almere1att        1.000                               0.692    0.883
-    Almere2att        0.764    0.101    7.596    0.000    0.528    0.586
-    Almere3att        0.647    0.094    6.851    0.000    0.448    0.641
+    Almere2att        0.764    0.102    7.476    0.000    0.528    0.586
+    Almere3att        0.647    0.105    6.141    0.000    0.448    0.641
 
 Regressions:
                       Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
   mean_valence_post ~                                                      
-    mn_vlnc_pr (c)       0.811    0.036   22.401    0.000    0.811    0.858
+    mn_vlnc_pr (c)       0.811    0.034   23.666    0.000    0.811    0.858
   AlmAtt ~                                                                 
-    mn_vlnc_pr (a)       0.721    0.114    6.320    0.000    1.043    0.489
+    mn_vlnc_pr (a)       0.721    0.113    6.396    0.000    1.043    0.489
   mean_valence_post ~                                                      
-    AlmAtt     (b)       0.068    0.025    2.709    0.007    0.047    0.106
+    AlmAtt     (b)       0.068    0.024    2.779    0.005    0.047    0.106
 
 Variances:
                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
-   .Almere1att        0.135    0.051    2.624    0.009    0.135    0.220
-   .Almere2att        0.534    0.061    8.797    0.000    0.534    0.657
-   .Almere3att        0.287    0.041    6.929    0.000    0.287    0.589
-   .mean_valnc_pst    0.032    0.006    5.880    0.000    0.032    0.165
-   .AlmAtt            0.364    0.072    5.027    0.000    0.761    0.761
+   .Almere1att        0.135    0.052    2.567    0.010    0.135    0.220
+   .Almere2att        0.534    0.060    8.881    0.000    0.534    0.657
+   .Almere3att        0.287    0.043    6.602    0.000    0.287    0.589
+   .mean_valnc_pst    0.032    0.005    6.284    0.000    0.032    0.165
+   .AlmAtt            0.364    0.073    4.991    0.000    0.761    0.761
 
 Defined Parameters:
                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
-    ab                0.049    0.020    2.387    0.017    0.049    0.052
-    total             0.860    0.035   24.784    0.000    0.860    0.909</code></pre>
+    ab                0.049    0.020    2.396    0.017    0.049    0.052
+    total             0.860    0.034   25.375    0.000    0.860    0.909</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a>semPlot<span class="sc">::</span><span class="fu">semPaths</span>(<span class="at">object =</span> fit, <span class="at">what =</span> <span class="st">"std"</span>, <span class="at">edge.label.cex =</span> <span class="fl">0.5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
@@ -1981,6 +1988,87 @@ F-statistic: 9.943 on 8 and 208 DF,  p-value: 1.069e-11</code></pre>
 <span id="cb83-5"><a href="#cb83-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="02_surveyPreperation_files/figure-html/unnamed-chunk-14-9.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="mean-differences-gender" class="level2">
+<h2 class="anchored" data-anchor-id="mean-differences-gender">mean differences gender</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb84"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb84-1"><a href="#cb84-1" aria-hidden="true" tabindex="-1"></a>questionnaire<span class="sc">$</span>RobotXsex <span class="ot">&lt;-</span> <span class="fu">paste0</span>(questionnaire<span class="sc">$</span>choosen_Robot, <span class="st">"_"</span>, questionnaire<span class="sc">$</span>socio_sex)</span>
+<span id="cb84-2"><a href="#cb84-2" aria-hidden="true" tabindex="-1"></a>questionnaire<span class="sc">$</span>AgeGroup <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(<span class="at">test =</span> questionnaire<span class="sc">$</span>socio_age <span class="sc">&gt;=</span> <span class="dv">40</span>, <span class="at">yes =</span> <span class="st">"old"</span>, <span class="at">no =</span> <span class="st">"young"</span>)</span>
+<span id="cb84-3"><a href="#cb84-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb84-4"><a href="#cb84-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb84-5"><a href="#cb84-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ggbetweenstats</span>(</span>
+<span id="cb84-6"><a href="#cb84-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> questionnaire,</span>
+<span id="cb84-7"><a href="#cb84-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> AgeGroup,</span>
+<span id="cb84-8"><a href="#cb84-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> mean_AlmereAnxiety</span>
+<span id="cb84-9"><a href="#cb84-9" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="02_surveyPreperation_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb85"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb85-1"><a href="#cb85-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggbetweenstats</span>(</span>
+<span id="cb85-2"><a href="#cb85-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> questionnaire,</span>
+<span id="cb85-3"><a href="#cb85-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> AgeGroup,</span>
+<span id="cb85-4"><a href="#cb85-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> mean_AlmereAttitude</span>
+<span id="cb85-5"><a href="#cb85-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="02_surveyPreperation_files/figure-html/unnamed-chunk-15-2.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb86"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb86-1"><a href="#cb86-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggbetweenstats</span>(</span>
+<span id="cb86-2"><a href="#cb86-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> questionnaire,</span>
+<span id="cb86-3"><a href="#cb86-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> AgeGroup,</span>
+<span id="cb86-4"><a href="#cb86-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> mean_LiWangAnthropomorphism</span>
+<span id="cb86-5"><a href="#cb86-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="02_surveyPreperation_files/figure-html/unnamed-chunk-15-3.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb87"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb87-1"><a href="#cb87-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggbetweenstats</span>(</span>
+<span id="cb87-2"><a href="#cb87-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> questionnaire,</span>
+<span id="cb87-3"><a href="#cb87-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> AgeGroup,</span>
+<span id="cb87-4"><a href="#cb87-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> mean_LiWangAutonomy</span>
+<span id="cb87-5"><a href="#cb87-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="02_surveyPreperation_files/figure-html/unnamed-chunk-15-4.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb88"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb88-1"><a href="#cb88-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggbetweenstats</span>(</span>
+<span id="cb88-2"><a href="#cb88-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> questionnaire,</span>
+<span id="cb88-3"><a href="#cb88-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> AgeGroup,</span>
+<span id="cb88-4"><a href="#cb88-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> mean_GAToRSpp</span>
+<span id="cb88-5"><a href="#cb88-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="02_surveyPreperation_files/figure-html/unnamed-chunk-15-5.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb89"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb89-1"><a href="#cb89-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggbetweenstats</span>(</span>
+<span id="cb89-2"><a href="#cb89-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> questionnaire,</span>
+<span id="cb89-3"><a href="#cb89-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> socio_sex,</span>
+<span id="cb89-4"><a href="#cb89-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> mean_GAToRSpn</span>
+<span id="cb89-5"><a href="#cb89-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="02_surveyPreperation_files/figure-html/unnamed-chunk-15-6.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb90"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb90-1"><a href="#cb90-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggbetweenstats</span>(</span>
+<span id="cb90-2"><a href="#cb90-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> questionnaire,</span>
+<span id="cb90-3"><a href="#cb90-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> AgeGroup,</span>
+<span id="cb90-4"><a href="#cb90-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> mean_GAToRSsp</span>
+<span id="cb90-5"><a href="#cb90-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="02_surveyPreperation_files/figure-html/unnamed-chunk-15-7.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb91"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb91-1"><a href="#cb91-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggbetweenstats</span>(</span>
+<span id="cb91-2"><a href="#cb91-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> questionnaire,</span>
+<span id="cb91-3"><a href="#cb91-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> AgeGroup,</span>
+<span id="cb91-4"><a href="#cb91-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> mean_GAToRSsp</span>
+<span id="cb91-5"><a href="#cb91-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="02_surveyPreperation_files/figure-html/unnamed-chunk-15-8.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb92"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb92-1"><a href="#cb92-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggbetweenstats</span>(</span>
+<span id="cb92-2"><a href="#cb92-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> questionnaire,</span>
+<span id="cb92-3"><a href="#cb92-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> socio_sex,</span>
+<span id="cb92-4"><a href="#cb92-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> mean_GAToRSsn</span>
+<span id="cb92-5"><a href="#cb92-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="02_surveyPreperation_files/figure-html/unnamed-chunk-15-9.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 </section>

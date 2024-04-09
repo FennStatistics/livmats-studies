@@ -856,7 +856,7 @@ const study = new lab.flow.Sequence({
   ],
   content: [
 
-    LikertAlmere_htmlForm,
+    GAToRS_sequence,
 
 
 
