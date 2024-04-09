@@ -1,10 +1,10 @@
 ---
-title: "Prepare Survey data for S2 main CAM study"
+title: "Data analyses for S2 main CAM study"
 author: "Julius Fenn, Louisa Estadieu"
 format:
   html:
     toc: true
-    toc-depth: 3
+    toc-depth: 4
     html-math-method: katex
 ---
 
@@ -35,13 +35,14 @@ setwd("outputs/01_dataPreperation/final")
 
 ### load questionnaire
 questionnaire <- readRDS(file = "questionnaire_final.rds")
+questionnaireCAMs <- readRDS(file = "questionnaireCAMs_final.rds")
 
 
-networkIndicators_pre <- readRDS(file = "networkIndicators_pre_clean_final.rds")
-networkIndicators_post <- readRDS(file = "networkIndicators_post_clean_final.rds")
+networkIndicators_pre <- readRDS(file = "networkIndicators_pre_final.rds")
+networkIndicators_post <- readRDS(file = "networkIndicators_post_final.rds")
 
 
-CAMfiles_combined <- readRDS(file = "CAMfiles_combined_clean_final.rds")
+CAMfiles_combined <- readRDS(file = "CAMfiles_combined_final.rds")
 
 
 ### load functions
@@ -95,19 +96,19 @@ nameScale <- "Almere - Anxiety"
 nameVariable <- "mean_AlmereAnxiety"
 
 ### number of items
-sum(str_detect(string = colnames(questionnaire), pattern = regEx))
+sum(str_detect(string = colnames(questionnaireCAMs), pattern = regEx))
 
 ### get correlation plot, descriptives, EFA, CFA
 
 ### EFA
-tmp <- CFAstats(dataset = questionnaire, regularExp = regEx, labelLatent = str_remove(string = nameVariable, pattern = "mean_"), 
+tmp <- CFAstats(dataset = questionnaireCAMs, regularExp = regEx, labelLatent = str_remove(string = nameVariable, pattern = "mean_"), 
                 showPlots = TRUE, 
                 computeEFA = TRUE, 
                 computeCFA = TRUE, 
                 computeCFAMplus = FALSE)
 
 ### variable mean
-questionnaire[[nameVariable]]  <- questionnaire %>%
+questionnaireCAMs[[nameVariable]]  <- questionnaireCAMs %>%
   select(matches(regEx)) %>%
   rowMeans(na.rm = TRUE)
 ```
@@ -125,19 +126,19 @@ nameScale <- "Almere - Attitude"
 nameVariable <- "mean_AlmereAttitude"
 
 ### number of items
-sum(str_detect(string = colnames(questionnaire), pattern = regEx))
+sum(str_detect(string = colnames(questionnaireCAMs), pattern = regEx))
 
 ### get correlation plot, descriptives, EFA, CFA
 
 ### EFA
-tmp <- CFAstats(dataset = questionnaire, regularExp = regEx, labelLatent = str_remove(string = nameVariable, pattern = "mean_"), 
+tmp <- CFAstats(dataset = questionnaireCAMs, regularExp = regEx, labelLatent = str_remove(string = nameVariable, pattern = "mean_"), 
                 showPlots = TRUE, 
                 computeEFA = TRUE, 
                 computeCFA = TRUE, 
                 computeCFAMplus = FALSE)
 
 ### variable mean
-questionnaire[[nameVariable]]  <- questionnaire %>%
+questionnaireCAMs[[nameVariable]]  <- questionnaireCAMs %>%
   select(matches(regEx)) %>%
   rowMeans(na.rm = TRUE)
 ```
@@ -156,19 +157,19 @@ nameScale <- "LiWang - Anthropomorphism"
 nameVariable <- "mean_LiWangAnthropomorphism"
 
 ### number of items
-sum(str_detect(string = colnames(questionnaire), pattern = regEx))
+sum(str_detect(string = colnames(questionnaireCAMs), pattern = regEx))
 
 ### get correlation plot, descriptives, EFA, CFA
 
 ### EFA
-tmp <- CFAstats(dataset = questionnaire, regularExp = regEx, labelLatent = str_remove(string = nameVariable, pattern = "mean_"), 
+tmp <- CFAstats(dataset = questionnaireCAMs, regularExp = regEx, labelLatent = str_remove(string = nameVariable, pattern = "mean_"), 
                 showPlots = TRUE, 
                 computeEFA = TRUE, 
                 computeCFA = TRUE, 
                 computeCFAMplus = FALSE)
 
 ### variable mean
-questionnaire[[nameVariable]]  <- questionnaire %>%
+questionnaireCAMs[[nameVariable]]  <- questionnaireCAMs %>%
   select(matches(regEx)) %>%
   rowMeans(na.rm = TRUE)
 ```
@@ -186,19 +187,19 @@ nameScale <- "LiWang - Autonomy"
 nameVariable <- "mean_LiWangAutonomy"
 
 ### number of items
-sum(str_detect(string = colnames(questionnaire), pattern = regEx))
+sum(str_detect(string = colnames(questionnaireCAMs), pattern = regEx))
 
 ### get correlation plot, descriptives, EFA, CFA
 
 ### EFA
-tmp <- CFAstats(dataset = questionnaire, regularExp = regEx, labelLatent = str_remove(string = nameVariable, pattern = "mean_"), 
+tmp <- CFAstats(dataset = questionnaireCAMs, regularExp = regEx, labelLatent = str_remove(string = nameVariable, pattern = "mean_"), 
                 showPlots = TRUE, 
                 computeEFA = TRUE, 
                 computeCFA = TRUE, 
                 computeCFAMplus = FALSE)
 
 ### variable mean
-questionnaire[[nameVariable]]  <- questionnaire %>%
+questionnaireCAMs[[nameVariable]]  <- questionnaireCAMs %>%
   select(matches(regEx)) %>%
   rowMeans(na.rm = TRUE)
 ```
@@ -218,19 +219,19 @@ nameScale <- "GAToRS - PP"
 nameVariable <- "mean_GAToRSpp"
 
 ### number of items
-sum(str_detect(string = colnames(questionnaire), pattern = regEx))
+sum(str_detect(string = colnames(questionnaireCAMs), pattern = regEx))
 
 ### get correlation plot, descriptives, EFA, CFA
 
 ### EFA
-tmp <- CFAstats(dataset = questionnaire, regularExp = regEx, labelLatent = str_remove(string = nameVariable, pattern = "mean_"), 
+tmp <- CFAstats(dataset = questionnaireCAMs, regularExp = regEx, labelLatent = str_remove(string = nameVariable, pattern = "mean_"), 
                 showPlots = TRUE, 
                 computeEFA = TRUE, 
                 computeCFA = TRUE, 
                 computeCFAMplus = FALSE)
 
 ### variable mean
-questionnaire[[nameVariable]]  <- questionnaire %>%
+questionnaireCAMs[[nameVariable]]  <- questionnaireCAMs %>%
   select(matches(regEx)) %>%
   rowMeans(na.rm = TRUE)
 ```
@@ -247,19 +248,19 @@ nameScale <- "GAToRS - pn"
 nameVariable <- "mean_GAToRSpn"
 
 ### number of items
-sum(str_detect(string = colnames(questionnaire), pattern = regEx))
+sum(str_detect(string = colnames(questionnaireCAMs), pattern = regEx))
 
 ### get correlation plot, descriptives, EFA, CFA
 
 ### EFA
-tmp <- CFAstats(dataset = questionnaire, regularExp = regEx, labelLatent = str_remove(string = nameVariable, pattern = "mean_"), 
+tmp <- CFAstats(dataset = questionnaireCAMs, regularExp = regEx, labelLatent = str_remove(string = nameVariable, pattern = "mean_"), 
                 showPlots = TRUE, 
                 computeEFA = TRUE, 
                 computeCFA = TRUE, 
                 computeCFAMplus = FALSE)
 
 ### variable mean
-questionnaire[[nameVariable]]  <- questionnaire %>%
+questionnaireCAMs[[nameVariable]]  <- questionnaireCAMs %>%
   select(matches(regEx)) %>%
   rowMeans(na.rm = TRUE)
 ```
@@ -275,19 +276,19 @@ nameScale <- "GAToRS - sp"
 nameVariable <- "mean_GAToRSsp"
 
 ### number of items
-sum(str_detect(string = colnames(questionnaire), pattern = regEx))
+sum(str_detect(string = colnames(questionnaireCAMs), pattern = regEx))
 
 ### get correlation plot, descriptives, EFA, CFA
 
 ### EFA
-tmp <- CFAstats(dataset = questionnaire, regularExp = regEx, labelLatent = str_remove(string = nameVariable, pattern = "mean_"), 
+tmp <- CFAstats(dataset = questionnaireCAMs, regularExp = regEx, labelLatent = str_remove(string = nameVariable, pattern = "mean_"), 
                 showPlots = TRUE, 
                 computeEFA = TRUE, 
                 computeCFA = TRUE, 
                 computeCFAMplus = FALSE)
 
 ### variable mean
-questionnaire[[nameVariable]]  <- questionnaire %>%
+questionnaireCAMs[[nameVariable]]  <- questionnaireCAMs %>%
   select(matches(regEx)) %>%
   rowMeans(na.rm = TRUE)
 ```
@@ -304,254 +305,562 @@ nameScale <- "GAToRS - sn"
 nameVariable <- "mean_GAToRSsn"
 
 ### number of items
-sum(str_detect(string = colnames(questionnaire), pattern = regEx))
+sum(str_detect(string = colnames(questionnaireCAMs), pattern = regEx))
 
 ### get correlation plot, descriptives, EFA, CFA
 
 ### EFA
-tmp <- CFAstats(dataset = questionnaire, regularExp = regEx, labelLatent = str_remove(string = nameVariable, pattern = "mean_"), 
+tmp <- CFAstats(dataset = questionnaireCAMs, regularExp = regEx, labelLatent = str_remove(string = nameVariable, pattern = "mean_"), 
                 showPlots = TRUE, 
                 computeEFA = TRUE, 
                 computeCFA = TRUE, 
                 computeCFAMplus = FALSE)
 
 ### variable mean
-questionnaire[[nameVariable]]  <- questionnaire %>%
+questionnaireCAMs[[nameVariable]]  <- questionnaireCAMs %>%
   select(matches(regEx)) %>%
   rowMeans(na.rm = TRUE)
 ```
 
+# Draw CAMs and compute network indicators
+
+```{r, message = FALSE}
+### draw CAMs
+CAMdrawn <- draw_CAM(dat_merged = CAMfiles_combined[[3]],
+                     dat_nodes = CAMfiles_combined[[1]],ids_CAMs = "all",
+                     plot_CAM = FALSE,
+                     useCoordinates = TRUE,
+                     relvertexsize = 3,
+                     reledgesize = 1)
+
+### network indicators
+tmp_microIndicator <- c("Rettungsroboter", "sozialer Assistenzroboter", "Vorteile", "Nachteile")
+networkIndicators <- compute_indicatorsCAM(drawn_CAM = CAMdrawn, 
+                                           micro_degree = tmp_microIndicator, 
+                                           micro_valence = tmp_microIndicator, 
+                                           micro_centr_clo = tmp_microIndicator, 
+                                           micro_transitivity = tmp_microIndicator, 
+                                           largestClique = FALSE)
 
 
-
-
-
-
-# analysis
-
-## correlation between survey mean variables
-
-```{r}
-psych::cor.plot(r = cor(questionnaire[, str_detect(string = colnames(questionnaire),
-                                                   pattern = "^mean")], 
-                                                   use = "pairwise.complete.obs"),
-                                                   upper = FALSE, xlas = 2, main = "mean scales")
-```
-
-## correlation between survey mean variables and valence
-
-```{r}
-tmp <- questionnaire
-tmp$mean_valence_pre <- networkIndicators_pre$mean_valence_macro
-tmp$mean_valence_post <- networkIndicators_post$mean_valence_macro
-
-psych::cor.plot(r = cor(tmp[, str_detect(string = colnames(tmp),
-                                                   pattern = "^mean")], 
-                                                   use = "pairwise.complete.obs"),
-                                                   upper = FALSE, xlas = 2, main = "mean scales")
-```
-
-## mediation, moderator analysis
-
-```{r}
-tmp <- questionnaire
-tmp$mean_valence_pre <- networkIndicators_pre$mean_valence_macro
-tmp$mean_valence_post <- networkIndicators_post$mean_valence_macro
-
-
-regEx <- "^Almere.*att$"
-tmp_vars <- str_subset(string = colnames(tmp), pattern = regEx)
-
-tmp_dat_mediation <- tmp[,c(tmp_vars, "mean_valence_pre", "mean_valence_post", "mean_AlmereAttitude")]
-
-colnames(tmp_dat_mediation) <- str_remove(string = colnames(tmp_dat_mediation), pattern = "-")
-
-
-
-### mediation
-model <- '
- AlmAtt =~ Almere1att + Almere2att + Almere3att
-
-
-# direct effect
-mean_valence_post ~ c*mean_valence_pre
-# mediator
-AlmAtt ~ a*mean_valence_pre
-mean_valence_post ~ b*AlmAtt
-
-
-# indirect effect (a*b)
-ab := a*b
-# total effect
-total := c + (a*b)
-'
-
-fit <- sem(model, data = tmp_dat_mediation, estimator = "MLR")
-summary(fit, standardized = TRUE)
-fit_bootstrap <- sem(model, data = tmp_dat_mediation, estimator = "ML", se ="bootstrap")
-summary(fit_bootstrap, standardized = TRUE)
-
-
-
-semPlot::semPaths(object = fit, what = "std", edge.label.cex = 0.5)
-round(fitmeasures(fit,
-                  fit.measures =c("aic", "bic", "logl", "pvalue",
-                                  "rmsea", "rmsea.ci.lower", "rmsea.ci.upper",
-                                  "srmr", "cfi")), digits = 3)
-
-
-
-### moderation
-
-tmp_dat_mediation$interaction <- tmp_dat_mediation$mean_valence_pre * tmp_dat_mediation$mean_AlmereAttitude
-
-
-summary(lm(formula = mean_valence_post ~ mean_valence_pre + mean_AlmereAttitude + interaction, 
-           data = tmp_dat_mediation))
-```
-## regression analysis
-
-```{r}
-tmp <- questionnaire
-tmp$mean_valence_pre <- networkIndicators_pre$mean_valence_macro
-tmp$mean_valence_post <- networkIndicators_post$mean_valence_macro
-
-
-summary(lm(formula = mean_valence_post ~ mean_AlmereAnxiety + mean_AlmereAttitude + mean_LiWangAnthropomorphism + mean_LiWangAutonomy + mean_GAToRSpp + mean_GAToRSpn + mean_GAToRSsp + mean_GAToRSsn, 
-           data = tmp))
-
-
-
-### !!!
-
-ggbetweenstats(
-  data = tmp,
-  x = typeChange,
-  y = mean_valence_post
+### wordlists
+CAMwordlist <- create_wordlist(
+  dat_nodes =  CAMfiles_combined[[1]],
+  dat_merged =  CAMfiles_combined[[3]],
+  useSummarized = TRUE,
+  order = "frequency",
+  splitByValence = FALSE,
+  comments = TRUE,
+  raterSubsetWords = NULL,
+  rater = FALSE
 )
+
+DT::datatable(CAMwordlist, options = list(pageLength = 5)) 
 ```
 
 
+# Descriptive Analyses
 
-## mean differences
+## describe sample
 
 ```{r}
-ggbetweenstats(
-  data = questionnaire,
+psych::describe(questionnaireCAMs[, c("socio_age")])
+
+table(questionnaireCAMs$socio_sex)
+table(questionnaireCAMs$socio_student)
+table(questionnaireCAMs$socio_employment)
+
+## split by robot
+psych::describe(socio_age ~ choosen_Robot, data = questionnaireCAMs)
+table(questionnaireCAMs$socio_sex, questionnaireCAMs$choosen_Robot)
+```
+
+## feedback to the study
+
+Question:  Haben Sie Feedback oder Kritik an der Online-Studie? 
+
+```{r}
+DT::datatable(questionnaireCAMs[,c("PROLIFIC_PID", "feedback_critic")], options = list(pageLength = 5)) 
+```
+
+## technical problems CAMEL
+
+```{r}
+DT::datatable(questionnaireCAMs[,c("PROLIFIC_PID", str_subset(string = colnames(questionnaireCAMs), pattern = "^feedCAM"))], options = list(pageLength = 5)) 
+
+hist(questionnaire$feedCAM_repres)
+summary(questionnaire$feedCAM_repres)
+```
+
+## differences survey means
+
+```{r}
+## split by robot
+psych::describe(mean_AlmereAnxiety + mean_AlmereAttitude + mean_LiWangAnthropomorphism + mean_LiWangAutonomy + mean_GAToRSpp + mean_GAToRSpn + mean_GAToRSsp + mean_GAToRSsn ~ choosen_Robot, data = questionnaireCAMs)
+```
+
+
+# Analyses
+
+## Quantitative bird's eye view
+
+
+### survey scales
+
+Check for mean differences between robots
+
+
+```{r}
+## mean_AlmereAnxiety
+tmp <- aov(formula = mean_AlmereAnxiety ~ choosen_Robot, data = questionnaireCAMs)
+if(summary(tmp)[[1]][["Pr(>F)"]][1] < .05){
+  ggbetweenstats(
+  data = questionnaireCAMs,
   x = choosen_Robot,
   y = mean_AlmereAnxiety
 )
+}
 
-ggbetweenstats(
-  data = questionnaire,
+## mean_AlmereAttitude
+tmp <- aov(formula = mean_AlmereAttitude ~ choosen_Robot, data = questionnaireCAMs)
+if(summary(tmp)[[1]][["Pr(>F)"]][1] < .05){
+  ggbetweenstats(
+  data = questionnaireCAMs,
   x = choosen_Robot,
   y = mean_AlmereAttitude
 )
+}
 
-ggbetweenstats(
-  data = questionnaire,
+## mean_LiWangAnthropomorphism
+tmp <- aov(formula = mean_LiWangAnthropomorphism ~ choosen_Robot, data = questionnaireCAMs)
+if(summary(tmp)[[1]][["Pr(>F)"]][1] < .05){
+  ggbetweenstats(
+  data = questionnaireCAMs,
   x = choosen_Robot,
   y = mean_LiWangAnthropomorphism
 )
+}
 
-ggbetweenstats(
-  data = questionnaire,
+## mean_LiWangAutonomy
+tmp <- aov(formula = mean_LiWangAutonomy ~ choosen_Robot, data = questionnaireCAMs)
+if(summary(tmp)[[1]][["Pr(>F)"]][1] < .05){
+  ggbetweenstats(
+  data = questionnaireCAMs,
   x = choosen_Robot,
   y = mean_LiWangAutonomy
 )
+}
 
-ggbetweenstats(
-  data = questionnaire,
+## mean_GAToRSpp
+tmp <- aov(formula = mean_GAToRSpp ~ choosen_Robot, data = questionnaireCAMs)
+if(summary(tmp)[[1]][["Pr(>F)"]][1] < .05){
+  ggbetweenstats(
+  data = questionnaireCAMs,
   x = choosen_Robot,
   y = mean_GAToRSpp
 )
+}
 
-
-ggbetweenstats(
-  data = questionnaire,
+## mean_GAToRSpn
+tmp <- aov(formula = mean_GAToRSpn ~ choosen_Robot, data = questionnaireCAMs)
+if(summary(tmp)[[1]][["Pr(>F)"]][1] < .05){
+  ggbetweenstats(
+  data = questionnaireCAMs,
   x = choosen_Robot,
   y = mean_GAToRSpn
 )
+}
 
-ggbetweenstats(
-  data = questionnaire,
+## mean_GAToRSsp
+tmp <- aov(formula = mean_GAToRSsp ~ choosen_Robot, data = questionnaireCAMs)
+if(summary(tmp)[[1]][["Pr(>F)"]][1] < .05){
+  ggbetweenstats(
+  data = questionnaireCAMs,
   x = choosen_Robot,
   y = mean_GAToRSsp
 )
+}
 
-ggbetweenstats(
-  data = questionnaire,
-  x = choosen_Robot,
-  y = mean_GAToRSsp
-)
-
-
-ggbetweenstats(
-  data = questionnaire,
+## mean_GAToRSsn
+tmp <- aov(formula = mean_GAToRSsn ~ choosen_Robot, data = questionnaireCAMs)
+if(summary(tmp)[[1]][["Pr(>F)"]][1] < .05){
+  ggbetweenstats(
+  data = questionnaireCAMs,
   x = choosen_Robot,
   y = mean_GAToRSsn
 )
+}
 ```
-## mean differences gender
+
+Check for mean differences of valence between robots
 
 ```{r}
-questionnaire$RobotXsex <- paste0(questionnaire$choosen_Robot, "_", questionnaire$socio_sex)
-questionnaire$AgeGroup <- ifelse(test = questionnaire$socio_age >= 40, yes = "old", no = "young")
-
-
 ggbetweenstats(
-  data = questionnaire,
-  x = AgeGroup,
-  y = mean_AlmereAnxiety
+  data = questionnaireCAMs,
+  x = choosen_Robot,
+  y = mean_valence_macro_pre
 )
 
 ggbetweenstats(
-  data = questionnaire,
-  x = AgeGroup,
-  y = mean_AlmereAttitude
+  data = questionnaireCAMs,
+  x = choosen_Robot,
+  y = mean_valence_macro_post
 )
 
-ggbetweenstats(
-  data = questionnaire,
-  x = AgeGroup,
-  y = mean_LiWangAnthropomorphism
-)
-
-ggbetweenstats(
-  data = questionnaire,
-  x = AgeGroup,
-  y = mean_LiWangAutonomy
-)
-
-ggbetweenstats(
-  data = questionnaire,
-  x = AgeGroup,
-  y = mean_GAToRSpp
-)
-
-
-ggbetweenstats(
-  data = questionnaire,
-  x = socio_sex,
-  y = mean_GAToRSpn
-)
-
-ggbetweenstats(
-  data = questionnaire,
-  x = AgeGroup,
-  y = mean_GAToRSsp
-)
-
-ggbetweenstats(
-  data = questionnaire,
-  x = AgeGroup,
-  y = mean_GAToRSsp
-)
-
-
-ggbetweenstats(
-  data = questionnaire,
-  x = socio_sex,
-  y = mean_GAToRSsn
-)
+plot(questionnaireCAMs$mean_AlmereAttitude, questionnaireCAMs$mean_valence_macro_pre)
+cor(questionnaireCAMs$mean_AlmereAttitude, questionnaireCAMs$mean_valence_macro_pre)
 ```
+
+
+
+### pre, post CAMs
+
+```{r}
+# prepare data
+### add pre post
+networkIndicators_pre$timepoint <- "pre"
+networkIndicators_post$timepoint <- "post"
+
+### long data format
+networkIndicators_long <- rbind(networkIndicators_pre, networkIndicators_post)
+
+
+### add ID
+networkIndicators_long$ID <- c(1:(nrow(networkIndicators_long) / 2), 1:(nrow(networkIndicators_long) / 2))
+
+### reformat variable
+networkIndicators_long$timepoint <- factor(networkIndicators_long$timepoint, 
+                                           levels = c("pre", "post"), 
+                                           ordered = FALSE)
+
+### add type robot
+networkIndicators_long$typeRobot <- ifelse(test = !is.na(networkIndicators_long$valence_micro_Rettungsroboter), yes = "rescue robots", no = "socially assistive robots")
+table(networkIndicators_long$typeRobot)
+table(questionnaireCAMs$choosen_Robot) * 2
+
+
+
+### post - pre difference of robot -> average valence
+# ! all type of changes
+fit1 <- afex::aov_car(mean_valence_macro ~ timepoint*typeRobot + Error(ID / timepoint),
+                      data = networkIndicators_long)
+fit1a <- afex::aov_ez(id = "ID", dv = "mean_valence_macro",
+                      data = networkIndicators_long, between=c("typeRobot"), within=c("timepoint"))
+# partical eta squared
+anova(fit1, es = "pes")
+# generalized eta squared
+fit1a # > identical results
+
+
+dfvalcor <- data_summary(networkIndicators_long, varname="mean_valence_macro",
+                         groupnames=c("timepoint","typeRobot"))
+
+dfvalcor$timepoint <- factor(dfvalcor$timepoint, levels = c("pre", "post"))
+
+p <- ggplot(dfvalcor, aes(x=timepoint, y=mean_valence_macro, fill=typeRobot)) +
+  geom_bar(stat="identity", color="black",
+           position=position_dodge()) +
+  geom_errorbar(aes(ymin=mean_valence_macro-se, ymax=mean_valence_macro+se), width=.2,
+                position=position_dodge(.9)) + ggplot_theme + ylab(label = "average emotional evaluation") + 
+  theme(axis.title.x = element_text(size=20), axis.title.y = element_text(size=20), axis.text.x = element_text(size = 18), axis.text.y = element_text(size = 18), legend.text = element_text(size=16), legend.title = element_text(size=18))
+print(p)
+
+
+
+### post - pre difference of robot -> average valence
+# ! only type of change B, D
+tmp_ids <- questionnaireCAMs$PROLIFIC_PID[questionnaireCAMs$typeChange %in% c("B", "D")]
+
+
+networkIndicators_long_BD <- networkIndicators_long[networkIndicators_long$participantCAM %in% tmp_ids,]
+dim(networkIndicators_long); dim(networkIndicators_long_BD)
+
+
+fit1 <- afex::aov_car(mean_valence_macro ~ timepoint*typeRobot + Error(ID / timepoint),
+                      data = networkIndicators_long_BD)
+fit1a <- afex::aov_ez(id = "ID", dv = "mean_valence_macro",
+                      data = networkIndicators_long_BD, between=c("typeRobot"), within=c("timepoint"))
+# partical eta squared
+anova(fit1, es = "pes")
+# generalized eta squared
+fit1a # > identical results
+
+
+dfvalcor <- data_summary(networkIndicators_long_BD, varname="mean_valence_macro",
+                         groupnames=c("timepoint","typeRobot"))
+
+dfvalcor$timepoint <- factor(dfvalcor$timepoint, levels = c("pre", "post"))
+
+p <- ggplot(dfvalcor, aes(x=timepoint, y=mean_valence_macro, fill=typeRobot)) +
+  geom_bar(stat="identity", color="black",
+           position=position_dodge()) +
+  geom_errorbar(aes(ymin=mean_valence_macro-se, ymax=mean_valence_macro+se), width=.2,
+                position=position_dodge(.9)) + ggplot_theme + ylab(label = "average emotional evaluation") + 
+  theme(axis.title.x = element_text(size=20), axis.title.y = element_text(size=20), axis.text.x = element_text(size = 18), axis.text.y = element_text(size = 18), legend.text = element_text(size=16), legend.title = element_text(size=18))
+print(p)
+
+
+
+
+
+
+### post - pre difference of robot -> number of concepts
+# ! all type of changes
+fit1 <- afex::aov_car(num_nodes_macro ~ timepoint*typeRobot + Error(ID / timepoint),
+                      data = networkIndicators_long)
+fit1a <- afex::aov_ez(id = "ID", dv = "num_nodes_macro",
+                      data = networkIndicators_long, between=c("typeRobot"), within=c("timepoint"))
+# partical eta squared
+anova(fit1, es = "pes")
+# generalized eta squared
+fit1a # > identical results
+
+
+dfvalcor <- data_summary(networkIndicators_long, varname="num_nodes_macro",
+                         groupnames=c("timepoint","typeRobot"))
+
+dfvalcor$timepoint <- factor(dfvalcor$timepoint, levels = c("pre", "post"))
+
+p <- ggplot(dfvalcor, aes(x=timepoint, y=num_nodes_macro, fill=typeRobot)) +
+  geom_bar(stat="identity", color="black",
+           position=position_dodge()) +
+  geom_errorbar(aes(ymin=num_nodes_macro-se, ymax=num_nodes_macro+se), width=.2,
+                position=position_dodge(.9)) + ggplot_theme + ylab(label = "average number of concepts") + 
+  theme(axis.title.x = element_text(size=20), axis.title.y = element_text(size=20), axis.text.x = element_text(size = 18), axis.text.y = element_text(size = 18), legend.text = element_text(size=16), legend.title = element_text(size=18))
+print(p)
+
+
+
+### post - pre difference of robot -> number of concepts
+# ! only type of change B, D
+fit1 <- afex::aov_car(num_nodes_macro ~ timepoint*typeRobot + Error(ID / timepoint),
+                      data = networkIndicators_long_BD)
+fit1a <- afex::aov_ez(id = "ID", dv = "num_nodes_macro",
+                      data = networkIndicators_long_BD, between=c("typeRobot"), within=c("timepoint"))
+# partical eta squared
+anova(fit1, es = "pes")
+# generalized eta squared
+fit1a # > identical results
+
+
+dfvalcor <- data_summary(networkIndicators_long_BD, varname="num_nodes_macro",
+                         groupnames=c("timepoint","typeRobot"))
+
+dfvalcor$timepoint <- factor(dfvalcor$timepoint, levels = c("pre", "post"))
+
+p <- ggplot(dfvalcor, aes(x=timepoint, y=num_nodes_macro, fill=typeRobot)) +
+  geom_bar(stat="identity", color="black",
+           position=position_dodge()) +
+  geom_errorbar(aes(ymin=num_nodes_macro-se, ymax=num_nodes_macro+se), width=.2,
+                position=position_dodge(.9)) + ggplot_theme + ylab(label = "average number of concepts") + 
+  theme(axis.title.x = element_text(size=20), axis.title.y = element_text(size=20), axis.text.x = element_text(size = 18), axis.text.y = element_text(size = 18), legend.text = element_text(size=16), legend.title = element_text(size=18))
+print(p)
+```
+
+
+## Qualitative
+
+### Bird's eye view (agg. CAMs)
+
+#### for both robots
+
+```{r}
+sel_ids <- questionnaireCAMs$PROLIFIC_PID
+
+tmp_nodes <- CAMfiles_combined[[1]]
+
+tmp_nodes$text_summarized <- str_remove(string = tmp_nodes$text_summarized, pattern = "_positive$|_negative$|_neutral$|_ambivalent$")
+tmp_nodes$text_summarized <- str_trim(string = tmp_nodes$text_summarized)
+
+CAMaggregated <- aggregate_CAMs(dat_merged = CAMfiles_combined[[3]], dat_nodes = tmp_nodes,
+                                ids_CAMs = sel_ids)
+```
+
+```{r}
+g = CAMaggregated[[2]]
+g2 = simplify(CAMaggregated[[2]])
+# plot(g2, edge.arrow.size=0.01,
+#      vertex.size=diag(CAMaggregated[[1]]) / max(diag(CAMaggregated[[1]]))*20)
+
+E(g2)$weight = sapply(E(g2), function(e) {
+  length(all_shortest_paths(g, from=ends(g2, e)[1], to=ends(g2, e)[2])$res) } )
+E(g2)$weight = E(g2)$weight / 2
+# E(g2)$weight[E(g2)$weight == 1] <- NA
+
+V(g2)$color[V(g2)$value <= .5 & V(g2)$value >= -.5] <- "yellow"
+
+V(g2)$shape <- NA
+V(g2)$shape <- ifelse(test = V(g2)$color == "yellow", yes = "square", no = "circle")
+
+
+
+### > plot multiple times because of random layout
+for(i in 1:5){
+plot(g2, edge.arrow.size = 0,
+     layout=layout_nicely, vertex.frame.color="black", asp = .5, margin = -0.1,
+     vertex.size=diag(CAMaggregated[[1]]) / max(diag(CAMaggregated[[1]]))*10,
+     vertex.label.cex = .9, 
+     edge.weight=2, edge.width=(E(g2)$weight/10))
+}
+```
+
+
+
+#### for rescue robot
+
+```{r}
+sel_ids <- questionnaireCAMs$PROLIFIC_PID[questionnaireCAMs$choosen_Robot == "Rettungsroboter"]
+
+tmp_nodes <- CAMfiles_combined[[1]]
+
+tmp_nodes$text_summarized <- str_remove(string = tmp_nodes$text_summarized, pattern = "_positive$|_negative$|_neutral$|_ambivalent$")
+tmp_nodes$text_summarized <- str_trim(string = tmp_nodes$text_summarized)
+
+CAMaggregated <- aggregate_CAMs(dat_merged = CAMfiles_combined[[3]], dat_nodes = tmp_nodes,
+                                ids_CAMs = sel_ids)
+```
+
+```{r}
+g = CAMaggregated[[2]]
+g2 = simplify(CAMaggregated[[2]])
+# plot(g2, edge.arrow.size=0.01,
+#      vertex.size=diag(CAMaggregated[[1]]) / max(diag(CAMaggregated[[1]]))*20)
+
+E(g2)$weight = sapply(E(g2), function(e) {
+  length(all_shortest_paths(g, from=ends(g2, e)[1], to=ends(g2, e)[2])$res) } )
+E(g2)$weight = E(g2)$weight / 2
+# E(g2)$weight[E(g2)$weight == 1] <- NA
+
+V(g2)$color[V(g2)$value <= .5 & V(g2)$value >= -.5] <- "yellow"
+
+V(g2)$shape <- NA
+V(g2)$shape <- ifelse(test = V(g2)$color == "yellow", yes = "square", no = "circle")
+
+
+
+### > plot multiple times because of random layout
+for(i in 1:5){
+plot(g2, edge.arrow.size = 0,
+     layout=layout_nicely, vertex.frame.color="black", asp = .5, margin = -0.1,
+     vertex.size=diag(CAMaggregated[[1]]) / max(diag(CAMaggregated[[1]]))*15,
+     vertex.label.cex = .9, 
+     edge.weight=2, edge.width=(E(g2)$weight/10))
+}
+```
+
+
+
+#### for social assistance robot
+
+```{r}
+sel_ids <- questionnaireCAMs$PROLIFIC_PID[questionnaireCAMs$choosen_Robot == "sozialer Assistenzroboter"]
+
+tmp_nodes <- CAMfiles_combined[[1]]
+
+tmp_nodes$text_summarized <- str_remove(string = tmp_nodes$text_summarized, pattern = "_positive$|_negative$|_neutral$|_ambivalent$")
+tmp_nodes$text_summarized <- str_trim(string = tmp_nodes$text_summarized)
+
+CAMaggregated <- aggregate_CAMs(dat_merged = CAMfiles_combined[[3]], dat_nodes = tmp_nodes,
+                                ids_CAMs = sel_ids)
+```
+
+```{r}
+g = CAMaggregated[[2]]
+g2 = simplify(CAMaggregated[[2]])
+# plot(g2, edge.arrow.size=0.01,
+#      vertex.size=diag(CAMaggregated[[1]]) / max(diag(CAMaggregated[[1]]))*20)
+
+E(g2)$weight = sapply(E(g2), function(e) {
+  length(all_shortest_paths(g, from=ends(g2, e)[1], to=ends(g2, e)[2])$res) } )
+E(g2)$weight = E(g2)$weight / 2
+# E(g2)$weight[E(g2)$weight == 1] <- NA
+
+V(g2)$color[V(g2)$value <= .5 & V(g2)$value >= -.5] <- "yellow"
+
+V(g2)$shape <- NA
+V(g2)$shape <- ifelse(test = V(g2)$color == "yellow", yes = "square", no = "circle")
+
+
+
+### > plot multiple times because of random layout
+for(i in 1:5){
+plot(g2, edge.arrow.size = 0,
+     layout=layout_nicely, vertex.frame.color="black", asp = .5, margin = -0.1,
+     vertex.size=diag(CAMaggregated[[1]]) / max(diag(CAMaggregated[[1]]))*15,
+     vertex.label.cex = .9, 
+     edge.weight=2, edge.width=(E(g2)$weight/10))
+}
+```
+
+
+### check for difference
+
+
+```{r}
+#### ! pre / post IDs are equal!
+dat_ids <- questionnaireCAMs[, c("PROLIFIC_PID", "choosen_Robot", "typeChange", "CAMpre", "CAMpost")]
+dat_ids <- dat_ids[dat_ids$typeChange %in% c("B", "D"),]
+
+CAMfiles_combined[[1]][CAMfiles_combined[[1]]$participantCAM %in% dat_ids$PROLIFIC_PID[1],]
+```
+
+
+#### open text answers (adaptive question)
+
+Question: Ihre angepasste Mind-Map hatte eine durchschnittliche emotionale Bewertung von XXX, diese war im Vergleich zu ihrer anfangs gezeichneten Mind-Map (durchschnittliche emotionale Bewertung von XXX) XXX. Bitte erklären Sie, warum Sie diese XXX wahrgenommen haben:
+
+```{r}
+questionnaireCAMs$meanDifferencesCAMs <- round(x = questionnaireCAMs$mean_valence_macro_post - questionnaireCAMs$mean_valence_macro_pre, digits = 2)
+DT::datatable(questionnaireCAMs[,c("meanDifferencesCAMs", "adaptiveQuestion", "feedback_critic")], options = list(pageLength = 5)) 
+
+
+hist(questionnaireCAMs$meanDifferencesCAMs)
+summary(questionnaireCAMs$meanDifferencesCAMs)
+```
+
+
+Only for people who have added new concpets (typ B, D)
+
+```{r}
+tmp <- questionnaireCAMs[questionnaireCAMs$PROLIFIC_PID %in% dat_ids$PROLIFIC_PID, ]
+
+
+DT::datatable(tmp[,c("meanDifferencesCAMs", "adaptiveQuestion", "feedback_critic")], options = list(pageLength = 5)) 
+
+
+hist(tmp$meanDifferencesCAMs)
+summary(tmp$meanDifferencesCAMs)
+```
+
+#### check for words
+
+```{r}
+for(i in 1:nrow(dat_ids)){
+  
+}
+```
+
+
+
+
+## Gender / Age / Trust differences
+
+
+
+
+### Qualitative
+
+
+
+
+### Quantitative
+
+
+
+
+
+
+
+
+
+
