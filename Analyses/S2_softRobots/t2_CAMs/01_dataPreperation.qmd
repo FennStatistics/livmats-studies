@@ -1315,6 +1315,17 @@ CAMfiles_combined[[1]]$text_summarized[CAMfiles_combined[[1]]$participantCAM %in
 ```{r}
 #| label: merge and save all data
 
+
+if(all(unique(CAMfiles_pre[[1]]$participantCAM) == networkIndicators_pre$participantCAM)){
+    print("pre CAM ID can be set")
+  networkIndicators_pre$CAM_ID <- unique(CAMfiles_pre[[1]]$CAM)
+}
+
+if(all(unique(CAMfiles_post[[1]]$participantCAM) == networkIndicators_post$participantCAM)){
+    print("post CAM ID can be set")
+  networkIndicators_post$CAM_ID <- unique(CAMfiles_post[[1]]$CAM)
+}
+
 setwd("outputs/01_dataPreperation/final")
 
 
