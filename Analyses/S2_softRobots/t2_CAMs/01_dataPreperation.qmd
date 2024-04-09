@@ -907,6 +907,10 @@ DT::datatable(dat_newWords, options = list(pageLength = 5))
 ```
 
 
+
+
+
+
 ## combine CAM data and apply protocol CAM-App
 
 Load CAM data
@@ -986,24 +990,14 @@ if(consider_Protocol){
 }
 
 
-### 
-
-for(c in unique(CAMfiles_combined[[1]]$participantCAM)){
-  tmp <- CAMfiles_combined[[1]][CAMfiles_combined[[1]]$participantCAM %in% c,]
-  
-  if(!(any(c("Rettungsroboter", "sozialer Assistenzroboter") %in% tmp$text) & all(c("Vorteile", "Nachteile") %in% tmp$text))){
-    # print(c)
-    # print(tmp$text)
-  }
-}
 
 vec_CAMs <- c(); h = 1
 for(c in unique(CAMfiles_combined[[1]]$CAM)){
   tmp <- CAMfiles_combined[[1]][CAMfiles_combined[[1]]$CAM %in% c,]
   
   if(!(any(c("Rettungsroboter", "sozialer Assistenzroboter") %in% tmp$text) & all(c("Vorteile", "Nachteile") %in% tmp$text))){
-    # print(c)
-    # print(tmp$text)
+    print(c)
+    print(tmp$text)
     vec_CAMs[h] <- c
     h = h + 1
     # plot(CAMdrawn_combined[[c]])
@@ -1011,7 +1005,7 @@ for(c in unique(CAMfiles_combined[[1]]$CAM)){
 }
 
 ## fix manually
-# single pre defined concepts were falsly written
+# single pre defined concepts were falsely written
 CAMfiles_combined[[1]]$text[CAMfiles_combined[[1]]$participantCAM %in% "5debfbcc3a11682f0fae8b29" & CAMfiles_combined[[1]]$text == "Soziale Assistenzroboter"] <- "sozialer Assistenzroboter"
 CAMfiles_combined[[1]]$text_summarized[CAMfiles_combined[[1]]$participantCAM %in% "5debfbcc3a11682f0fae8b29" & CAMfiles_combined[[1]]$text == "sozialer Assistenzroboter"] <- "sozialer Assistenzroboter_positive"
 
@@ -1033,28 +1027,46 @@ CAMfiles_combined[[3]] <- CAMfiles_combined[[3]][!CAMfiles_combined[[3]]$partici
 questionnaire <- questionnaire[!questionnaire$PROLIFIC_PID %in% vec_Pids,]
 
 ###
-# vec_CAMs <- c(); h = 1
 for(c in unique(CAMfiles_combined[[1]]$participantCAM)){
   tmp <- CAMfiles_combined[[1]][CAMfiles_combined[[1]]$participantCAM %in% c,]
   
   if(sum(tmp$text %in% c("Vorteile", "Nachteile")) != 4){
     print(c)
     print(sum(tmp$text %in% c("Vorteile", "Nachteile")))
-    # print(tmp$text)
-    # vec_CAMs[h] <- c
-    h = h + 1
-    # plot(CAMdrawn_combined[[c]])
+    print(tmp$text)
   }
 }
 
 
-# remove CAM "6560e6f734ae18bd18474cc9" -> only draw pre-defined concepts
+# remove person "6560e6f734ae18bd18474cc9" -> only draw pre-defined concepts
 CAMfiles_combined[[1]] <- CAMfiles_combined[[1]][!CAMfiles_combined[[1]]$participantCAM %in% "6560e6f734ae18bd18474cc9",]
 CAMfiles_combined[[2]] <- CAMfiles_combined[[2]][!CAMfiles_combined[[2]]$participantCAM %in% "6560e6f734ae18bd18474cc9",]
 CAMfiles_combined[[3]] <- CAMfiles_combined[[3]][!CAMfiles_combined[[3]]$participantCAM.x %in% "6560e6f734ae18bd18474cc9",]
 
 # remove questionnaires
 questionnaire <- questionnaire[!questionnaire$PROLIFIC_PID %in% "6560e6f734ae18bd18474cc9",]
+
+
+# remove person "65304e8a630196510c79f7df" -> draw multiple times concept "leer"
+for(c in unique(CAMfiles_combined[[1]]$CAM)){
+  tmp <-  CAMfiles_combined[[1]][CAMfiles_combined[[1]]$CAM == c,]
+  
+  if(any(table(tmp$text) >= 3)){
+    print(c)
+    print(sort(table(tmp$text)))
+  }
+}
+
+tmp <-  CAMfiles_combined[[1]][CAMfiles_combined[[1]]$CAM %in% c("503b3517-b003-48e5-b121-f48c9a64ecb6", "39e7d213-1276-4da8-99ea-5a13487874e7"),]
+unique(tmp$participantCAM)
+
+CAMfiles_combined[[1]] <- CAMfiles_combined[[1]][!CAMfiles_combined[[1]]$participantCAM %in% "65304e8a630196510c79f7df",]
+CAMfiles_combined[[2]] <- CAMfiles_combined[[2]][!CAMfiles_combined[[2]]$participantCAM %in% "65304e8a630196510c79f7df",]
+CAMfiles_combined[[3]] <- CAMfiles_combined[[3]][!CAMfiles_combined[[3]]$participantCAM.x %in% "65304e8a630196510c79f7df",]
+
+# remove questionnaires
+questionnaire <- questionnaire[!questionnaire$PROLIFIC_PID %in% "65304e8a630196510c79f7df",]
+
 
 
 ### draw CAMs
@@ -1096,69 +1108,6 @@ DT::datatable(CAMwordlist_combined, options = list(pageLength = 5))
 ```
 
 
-# merge and save all data
-
-
-```{r}
-#| label: merge and save all data
-
-setwd("outputs/01_dataPreperation/final")
-
-### add type of change
-
-
-### remove all previously removed participants
-networkIndicators_pre <-
-  networkIndicators_pre[networkIndicators_pre$participantCAM %in% questionnaire$PROLIFIC_PID,]
-networkIndicators_post <-
-  networkIndicators_post[networkIndicators_post$participantCAM %in% questionnaire$PROLIFIC_PID,]
-
-
-
-if (all(questionnaire$PROLIFIC_PID == networkIndicators_pre$participantCAM) &
-    all(networkIndicators_pre$participantCAM == networkIndicators_post$participantCAM)) {
-  print("all data can be matched")
-  
-  # save questionnaire
-  ## save as .xlsx file
-  xlsx::write.xlsx2(x = questionnaire, file = "questionnaire_final.xlsx")
-  ## save as R object
-  saveRDS(questionnaire, file = "questionnaire_final.rds")
-  
-  # save network indicators pre
-  ## save as .xlsx file
-  xlsx::write.xlsx2(x = networkIndicators_pre, file = "networkIndicators_pre_clean_final.xlsx")
-  ## save as R object
-  saveRDS(networkIndicators_pre, file = "networkIndicators_pre_clean_final.rds")
-  
-  # save network indicators post
-  ## save as .xlsx file
-  xlsx::write.xlsx2(x = networkIndicators_post, file = "networkIndicators_post_clean_final.xlsx")
-  ## save as R object
-  saveRDS(networkIndicators_post, file = "networkIndicators_post_clean_final.rds")
-  
-  # save network indicators combined and clean
-  ## save as .xlsx file
-  xlsx::write.xlsx2(x = networkIndicators_combined, file = "networkIndicators_combined_clean_final.xlsx")
-  ## save as R object
-  saveRDS(networkIndicators_combined, file = "networkIndicators_combined_clean_final.rds")
-  
-  
-  # save CAMfiles pre
-  saveRDS(CAMfiles_pre, file = "CAMfiles_pre_final.rds")
-  
-  
-  # save CAMfiles post
-  saveRDS(CAMfiles_post, file = "CAMfiles_post_final.rds")
-  
-  # save CAMfiles combined and clean
-  saveRDS(CAMfiles_combined, file = "CAMfiles_combined_clean_final.rds")
-  
-  # save wordlist
-  xlsx::write.xlsx2(x = CAMwordlist_combined, file = "CAMwordlist_combined.xlsx")
-}
-```
-
 
 # get wordlists for raters
 
@@ -1174,15 +1123,19 @@ nrow(CAMwordlist_combined) / 7
 
 vec_words <- 1:nrow(CAMwordlist_combined) 
 vec_names <- c("Louisa", "Julius", "Christophe", "Irina", "Michael", "Paul", "Lars")
+
+nrow(CAMwordlist_combined)  / length(vec_names)
+
+
 for(i in 1:7){
   print(length(vec_words))
   if(i == 1){
-    tmp <- sample(x = vec_words, size = 311, replace = FALSE)
+    tmp <- sample(x = vec_words, size = 309, replace = FALSE)
     tmp_out <- CAMwordlist_combined[tmp,]
     write.xlsx2(x = cbind(Superordinate = NA,	Comment = NA, tmp_out), file = paste0("ratings_", vec_names[i], ".xlsx"), row.names = FALSE)
     vec_words <- vec_words[!vec_words %in% tmp]
   }else{
-    tmp <- sample(x = vec_words, size = 307, replace = FALSE)
+    tmp <- sample(x = vec_words, size = 306, replace = FALSE)
     tmp_out <- CAMwordlist_combined[tmp,]
     write.xlsx2(x = cbind(Superordinate = NA,	Comment = NA, tmp_out), file = paste0("ratings_", vec_names[i], ".xlsx"), row.names = FALSE)
     vec_words <- vec_words[!vec_words %in% tmp]
@@ -1194,12 +1147,13 @@ for(i in 1:7){
 ## identify words with high variance in valence
 
 ```{r}
-#| label: overwrite single words
+#| label: identify words with high variance in valence
 
 setwd("data_overwrite")
 dat_overwrite <- xlsx::read.xlsx2(file = "ratings_combined_final.xlsx", sheetIndex = 1)
 dat_overwrite$mean_valence <- as.numeric(dat_overwrite$mean_valence)
 
+tmp_splitWords <- dat_overwrite$splitWords
 # dat_overwrite$Words <- str_trim(string = dat_overwrite$Words, side = "both")
 # table(dat_overwrite$Words)[table(dat_overwrite$Words) >= 2]
 
@@ -1224,25 +1178,41 @@ for(i in 1:nrow(dat_overwrite)){
           sort(tmp), "\n")
       
       dat_overwrite$splitWords[i] <- 1
-
     }
   }
 }
 
+table(dat_overwrite$splitWords)
+
+for(i in 1:length(tmp_splitWords)){
+  if(tmp_splitWords[i] == "2"){
+    dat_overwrite$splitWords[i] <- 1
+  }
+}
+
+table(dat_overwrite$splitWords)
+
+
+xlsx::write.xlsx2(x = dat_overwrite, file = "ratings_combined_final_splitWords.xlsx")
 ```
 
 
 ## overwrite single words
 
 
-
 ```{r}
 #| label: overwrite single words
 
-# i <- 1170
-# tmp_nodes$text_summarized[stringdist::stringdist(a = dat_overwrite$Words[i], tmp_nodes$text_summarized) <= 2]
 
+setwd("data_overwrite")
+dat_overwrite_adjusted <- xlsx::read.xlsx2(file = "ratings_combined_final_splitWords_adjusted.xlsx", sheetIndex = 1)
+
+
+## fix single word
 tmp_nodes$text_summarized[tmp_nodes$text_summarized == "-Soziale Begleitung"] <- "Soziale Begleitung"
+
+
+
 ## overwrite concepts
 for(i in 1:nrow(dat_overwrite)){
   if(!is.na(dat_overwrite$Superordinate[i])){
@@ -1250,19 +1220,36 @@ for(i in 1:nrow(dat_overwrite)){
     
     for(j in 1:nrow(tmp)){
       if(sum(tmp_nodes$id %in% tmp[j,]$id) != 1){
-        print("ERROR")
-        print(i)
+        # print("single CAM removed")
+        # print(i)
         break
       }else{
         # add suffix
+        tmp_superordinate <- str_trim(string = dat_overwrite$Superordinate[i], side = "both")
         if(tmp[j,]$value < 0){
-          tmp[j,]$text_summarized <- paste0(dat_overwrite$Superordinate[i], "_negative")
+          if(dat_overwrite_adjusted$splitWords[i] == "0"){
+            tmp[j,]$text_summarized <- paste0(tmp_superordinate, "_negative")
+          }else{
+            tmp[j,]$text_summarized <- paste0(dat_overwrite_adjusted$rep_neg[i], "_negative")
+          }
         }else if(tmp[j,]$value == 0){
-          tmp[j,]$text_summarized <- paste0(dat_overwrite$Superordinate[i], "_neutral")
+          if(dat_overwrite_adjusted$splitWords[i] == "0"){
+            tmp[j,]$text_summarized <- paste0(tmp_superordinate, "_neutral")
+          }else{
+            tmp[j,]$text_summarized <- paste0(dat_overwrite_adjusted$rep_neut[i], "_neutral")
+          }
         }else if(tmp[j,]$value == 10){
-          tmp[j,]$text_summarized <- paste0(dat_overwrite$Superordinate[i], "_ambivalent")
+          if(dat_overwrite_adjusted$splitWords[i] == "0"){
+            tmp[j,]$text_summarized <- paste0(tmp_superordinate, "_ambivalent")
+          }else{
+            tmp[j,]$text_summarized <- paste0(dat_overwrite_adjusted$rep_amb[i], "_ambivalent")
+          }
         }else{
-          tmp[j,]$text_summarized <- paste0(dat_overwrite$Superordinate[i], "_positive")
+          if(dat_overwrite_adjusted$splitWords[i] == "0"){
+            tmp[j,]$text_summarized <- paste0(tmp_superordinate, "_positive")
+          }else{
+            tmp[j,]$text_summarized <- paste0(dat_overwrite_adjusted$rep_pos[i], "_positive")
+          }
         }
       }   
     }        
@@ -1272,29 +1259,130 @@ for(i in 1:nrow(dat_overwrite)){
 }
 
 
-table(tmp_nodes$text_summarized)
+
+## manually adjust wrongly summarized category
+tmp_nodes$text[tmp_nodes$text_summarized == "ADJUSTME_ambivalent"]
+tmp_nodes$text_summarized[tmp_nodes$text_summarized == "ADJUSTME_ambivalent"] <- "RCA_ambivalent"
+
+tmp_nodes$text[tmp_nodes$text_summarized == "ADJUSTME_neutral"]
+tmp_nodes$text_summarized[tmp_nodes$text_summarized == "ADJUSTME_neutral"] <- "RCN_neutral"
+
+tmp_nodes$text[tmp_nodes$text_summarized == "ADJUSTME_positive"]
+tmp_nodes$text_summarized[tmp_nodes$text_summarized == "ADJUSTME_positive"] <- "TP_positive"
+
+tmp_nodes$text[tmp_nodes$text_summarized == "ADJUSTME_negative"]
+tmp_nodes$text_summarized[tmp_nodes$text_summarized == "ADJUSTME_negative" & str_detect(string = tmp_nodes$text, pattern = "teuer|Teuer|Preis|teurer")] <- "HC_negative"
+
+tmp_nodes$text[tmp_nodes$text_summarized == "ADJUSTME_negative"]
+tmp_nodes$text_summarized[tmp_nodes$text_summarized == "ADJUSTME_negative"] <- "TL_negative"
 
 
-table(tmp_nodes$CAM[tmp_nodes$participantCAM == unique(tmp_nodes$participantCAM)[1]])
-table(tmp_nodes$CAM[tmp_nodes$participantCAM == unique(tmp_nodes$participantCAM)[2]])
-table(tmp_nodes$CAM[tmp_nodes$participantCAM == unique(tmp_nodes$participantCAM)[3]])
-table(tmp_nodes$CAM[tmp_nodes$participantCAM == unique(tmp_nodes$participantCAM)[4]])
-table(tmp_nodes$CAM[tmp_nodes$participantCAM == unique(tmp_nodes$participantCAM)[5]])
-table(tmp_nodes$CAM[tmp_nodes$participantCAM == unique(tmp_nodes$participantCAM)[6]])
 
-CAMfiles_pre[[1]][CAMfiles_pre[[1]]$participantCAM == unique(CAMfiles_pre[[1]]$participantCAM)[6],]
-CAMfiles_post[[1]][CAMfiles_post[[1]]$participantCAM == unique(CAMfiles_post[[1]]$participantCAM)[6],]
-
-
-
-
-table(questionnaire$typeChange)
-questionnaire$PROLIFIC_PID[questionnaire$typeChange == "A"]
-
-table(tmp_nodes$CAM[tmp_nodes$participantCAM == "6480b160d51d051b42f67b3d"])
-table(tmp_nodes$CAM[tmp_nodes$participantCAM == "6480b160d51d051b42f67b3d"])
-
+##############
+table(str_remove(string = tmp_nodes$text_summarized, pattern = "_positive$|_negative$|_neutral$|_ambivalent$"))
 ```
 
 
-## split data sets robots
+Fix if participants wrote one of the predefined concepts (Nachteile, Vorteile):
+
+
+
+```{r}
+### check multiples of Vorteile Nachteile
+CAMfiles_combined[[1]] <- tmp_nodes
+
+
+for(c in unique(CAMfiles_combined[[1]]$participantCAM)){
+  tmp <- CAMfiles_combined[[1]][CAMfiles_combined[[1]]$participantCAM %in% c,]
+
+  if(sum(tmp$text %in% c("Vorteile", "Nachteile")) != 4){
+    print(c)
+    print(sum(tmp$text %in% c("Vorteile", "Nachteile")))
+    
+    for(j in unique(tmp$CAM)){
+      plot(CAMdrawn_combined[[j]])
+    }
+    
+    CAMfiles_combined[[1]]$text_summarized[CAMfiles_combined[[1]]$participantCAM %in% c & !CAMfiles_combined[[1]]$predefinedConcept & str_detect(string = tmp_nodes$text, pattern = "^Nachteile")] <- "RCPN_negative"
+CAMfiles_combined[[1]]$text_summarized[CAMfiles_combined[[1]]$participantCAM %in% c & !CAMfiles_combined[[1]]$predefinedConcept & str_detect(string = tmp_nodes$text, pattern = "^Vorteile")] <- "RCPP_positive"
+  }
+}
+```
+
+# merge and save all data
+
+
+```{r}
+#| label: merge and save all data
+
+setwd("outputs/01_dataPreperation/final")
+
+
+### remove all previously removed participants
+length(unique(CAMfiles_combined[[1]]$participantCAM))
+nrow(networkIndicators_pre)
+nrow(networkIndicators_post)
+nrow(questionnaire)
+
+
+networkIndicators_pre <-
+  networkIndicators_pre[networkIndicators_pre$participantCAM %in% CAMfiles_combined[[1]]$participantCAM,]
+networkIndicators_post <-
+  networkIndicators_post[networkIndicators_post$participantCAM %in% CAMfiles_combined[[1]]$participantCAM,]
+networkIndicators_post <-
+  networkIndicators_post[networkIndicators_post$participantCAM %in% CAMfiles_combined[[1]]$participantCAM,]
+
+### match data
+if (all(questionnaire$PROLIFIC_PID == networkIndicators_pre$participantCAM) &
+    all(networkIndicators_pre$participantCAM == networkIndicators_post$participantCAM) & 
+    all(unique(CAMfiles_combined[[1]]$participantCAM) == networkIndicators_post$participantCAM)) {
+  print("all data can be matched row by row")
+  
+  # save questionnaire
+  questionnaire$CAMpre <- networkIndicators_pre$CAM_ID
+  questionnaire$CAMpost <- networkIndicators_post$CAM_ID
+
+  ## save as .xlsx file
+  xlsx::write.xlsx2(x = questionnaire, file = "questionnaire_final.xlsx")
+  ## save as R object
+  saveRDS(questionnaire, file = "questionnaire_final.rds")
+  
+  
+  # save network indicators pre
+  ## save as .xlsx file
+  xlsx::write.xlsx2(x = networkIndicators_pre, file = "networkIndicators_pre_final.xlsx")
+  ## save as R object
+  saveRDS(networkIndicators_pre, file = "networkIndicators_pre_final.rds")
+  
+  # save network indicators post
+  ## save as .xlsx file
+  xlsx::write.xlsx2(x = networkIndicators_post, file = "networkIndicators_post_final.xlsx")
+  ## save as R object
+  saveRDS(networkIndicators_post, file = "networkIndicators_post_final.rds")
+  
+  
+  # save CAMfiles pre
+  saveRDS(CAMfiles_pre, file = "CAMfiles_pre_final.rds")
+  
+  # save CAMfiles post
+  saveRDS(CAMfiles_post, file = "CAMfiles_post_final.rds")
+  
+  # save CAMfiles combined and clean
+  saveRDS(CAMfiles_combined, file = "CAMfiles_combined_final.rds")
+  
+  
+  # save questionnaire combined with CAMs
+  colnames(networkIndicators_pre) <- paste0(colnames(networkIndicators_pre), "_pre")
+  colnames(networkIndicators_post) <- paste0(colnames(networkIndicators_post), "_post")
+
+  questionnaireCAMs <- cbind(questionnaire, networkIndicators_pre, networkIndicators_post)
+
+  ## save as .xlsx file
+  xlsx::write.xlsx2(x = questionnaireCAMs, file = "questionnaireCAMs_final.xlsx")
+  ## save as R object
+  saveRDS(questionnaireCAMs, file = "questionnaireCAMs_final.rds")
+}
+```
+
+
+
